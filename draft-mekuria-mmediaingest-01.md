@@ -1,10 +1,9 @@
 
 
-
-#          DASH-IF: Live Media and Metadata Ingest Protocol
+#          DASH-IF: Live Ingest of Media and Metadata 
              
 
-##Abstract
+##  Abstract
 
    This draft presents a best industry practice for 
    ingesting encoded live media to media processing entities. 
@@ -17,7 +16,7 @@
    Details on carriage of metadata markers, timed text, 
    subtitles and encryption specific metadata are also included.
   
-##Status of This Memo
+##  Status of This Memo
 
    This Internet-Draft is submitted in full conformance 
    with the provisions of BCP 78 and BCP 79.
@@ -36,20 +35,7 @@
 
 
    
-   
-   
-   
-   
-   
-   
-   
-   
-   Mekuria & Zhang          Expires January 15 2019        [Page1]
-   
-
-
-
-##Copyright Notice
+## Copyright Notice
 
    Copyright (c) 2018 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
@@ -65,7 +51,7 @@
    without warranty as described in the Simplified BSD License
 
    
-##Table of Contents
+## Table of Contents
 
    1.  Introduction
    2.  Conventions and Terminology
@@ -361,7 +347,7 @@
    the two different profiles. 
    </p>
    
-##2.  Conventions and Terminology
+## 2.  Conventions and Terminology
 
    The following terminology is used in the rest of this document.
    
@@ -477,7 +463,7 @@
    
   This fragmentedMP4 stream is used in both profiles.
 
-##3.  Media Ingest Workflows and Use Cases
+## 3.  Media Ingest Workflows and Use Cases
 
   In this section we highlight some of the target use cases
   and example workflows for the media ingest. 
@@ -612,7 +598,7 @@
   ============      
 
 
-##4. General Ingest Protocol Behavior 
+## 4. General Ingest Protocol Behavior 
 
   The media ingest follows the following 
   general requirements for both target profiles.
@@ -785,13 +771,13 @@ Diagram 11: fmp4 ingest flow
 ||===============================================================||
 
 
-##6. Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
+## 6. Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
 
 This section describes the protocol behavior specific to 
 profile 1: fragmented MPEG-4 ingest. Operation of this 
 profile MUST also adhere to general requirements in secion 4.
 
-###6.1. General Protocol Requirements
+### 6.1. General Protocol Requirements
 
    1. The live encoder or ingest source SHOULD start
       by sending an HTTP POST request with an empty "body"
@@ -828,7 +814,7 @@ profile MUST also adhere to general requirements in secion 4.
    8. The live ingest source MAY use a separate relative path 
       in the POST_URL for ingest of each different track
       
-###6.2. Requirements for formatting Media Tracks
+### 6.2. Requirements for formatting Media Tracks
    
    1. The trackFragmentDecodeTime box "tfdt" box
       MUST be present for each segment posted.
@@ -862,7 +848,7 @@ profile MUST also adhere to general requirements in secion 4.
      and the "tfhd" box specifying the track id.
    
 
-###6.3  Requirements for Timed Text Captions and Subtitle streams
+### 6.3  Requirements for Timed Text Captions and Subtitle streams
 
 The media ingest follows the following requirements for ingesting 
 a track with timed text, captions and/or subtitle streams.
@@ -900,7 +886,7 @@ a track with timed text, captions and/or subtitle streams.
        Caption data is embedded in SEI messages in video track; 
       'ccea'
   
-###6.4 Requirements for Timed Metadata
+### 6.4 Requirements for Timed Metadata
 
   This section discusses the specific formatting requirements 
   for ingest of timed metadata related to events and markers for 
@@ -1006,7 +992,7 @@ message_data            | splice info section including CRC
      XML metadata can for example be coded as base64 as
      common for [SCTE-35] metadata messages
  
-###6.5 Requirements for Media Processing Entity Failover
+### 6.5 Requirements for Media Processing Entity Failover
 
   Given the nature of live streaming, good failover support is 
   critical for ensuring the availability of the service. 
@@ -1071,7 +1057,7 @@ message_data            | splice info section including CRC
        it SHOULD resend "ftyp" and "moov" boxes 
 
 
-###6.6 Requirements for Live Media Source Failover
+### 6.6 Requirements for Live Media Source Failover
  
   Live encoder or media ingest source failover is the second type
   of failover scenario that needs to be addressed for end-to-end 
@@ -1109,7 +1095,7 @@ message_data            | splice info section including CRC
         than to introduce discontinuities in the media timeline.
 
 
-##7. Profile 2: DASH Ingest General Considerations
+## 7. Profile 2: DASH Ingest General Considerations
     
    Profile 2 is designed to ingest media into entities that only 
    provide pass through functionality. In this case the media 
@@ -1186,12 +1172,12 @@ message_data            | splice info section including CRC
 ||        ||                                     ||              ||
 ||===============================================================|| 
 
-##8.  profile 2: DASH and HLS Ingest Protocol Behavior
+## 8.  profile 2: DASH and HLS Ingest Protocol Behavior
 
 Operation of this profile MUST also adhere 
 to general requirements in section 4.
 
-###8.1  General Protocol Requirements  
+### 8.1  General Protocol Requirements  
 
   1. Before sending the segments 
       based on fragmentedMP4Stream the live encoder/source
@@ -1238,12 +1224,9 @@ to general requirements in section 4.
     2. Media specific information SHOULD be signalled in the manifest
     3. Formatting described in manifest and media track MUST
        correspond consistently
-       
-    Mekuria & Zhang          Expires January 152019          [Page25]
+      
 
-
-
-###8.3  Requirements for Timed Text Captions and Subtitle stream
+### 8.3  Requirements for Timed Text Captions and Subtitle stream
 
     1. Timed Text, caption and subtitle stream tracks  MUST 
        be formatted conforming to the same requirements as in 6.3  
@@ -1252,7 +1235,7 @@ to general requirements in section 4.
     3. Formatting described in manifest and 
        media track MUST correspond consistently
        
-###8.4  Requirements for Timed Metadata
+### 8.4  Requirements for Timed Metadata
     
      1. Timed Metadata tracks MAY be formatted conforming
       to the same requirements as in 8.4 
@@ -1267,14 +1250,14 @@ to general requirements in section 4.
      2. In addition the live encoder source SHOULD resend the manifest
         before sending any of the other segments 
     
-###8.6  Requirements for Live Media Source Failover
+### 8.6  Requirements for Live Media Source Failover
 
      1. Requirements for failover are similar as stated in 6.5 
      2. In addition the live encoder source SHOULD 
      resend the manifest before sending any 
      of the other segments 
   
-##9.  Security Considerations
+## 9.  Security Considerations
 
 
    Security consideration are extremely important 
@@ -1290,11 +1273,11 @@ to general requirements in section 4.
    once they have been investigated further based
    on review of this draft. 
   
-##10.  IANA Considerations
+## 10.  IANA Considerations
    
   This memo includes no request to IANA.
 
-##11.  Contributors
+## 11.  Contributors
 
 Will Law Akamai 
 James Gruessing BBC R&D
@@ -1311,10 +1294,10 @@ Matt Poole ITV
 Alex Giladi Comcast
                 
 
-##12.  References
+## 12.  References
    
 
-###12.1.  Normative References
+### 12.1.  Normative References
 
     [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -1380,7 +1363,7 @@ Alex Giladi Comcast
    [RFC7617] J Reschke "The 'Basic' HTTP Authentication Scheme"
              IETF RFC 7617 September 2015
              
-###12.2.  Informative References
+### 12.2.  Informative References
 
     [RFC2626]  R. Fielding et al 
              "Hypertext Transfer Protocol HTTP/1.1", 
@@ -1395,7 +1378,7 @@ Alex Giladi Comcast
 
     Mekuria & Zhang          Expires January 15   2019       [Page28]
 
-###12.3.  URL References
+### 12.3.  URL References
 
     [fmp4git]    Unified Streaming github fmp4 ingest, 
                 "https://github.com/unifiedstreaming/fmp4-ingest".
