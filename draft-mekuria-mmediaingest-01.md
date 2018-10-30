@@ -53,9 +53,9 @@
    9.  Security Considerations
    10. IANA Considerations
    11. Contributors
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+   12. References \
+     12.1.  Normative References \
+     12.2.  Informative References\
      12.3.  URL References
    Author's Address
    
