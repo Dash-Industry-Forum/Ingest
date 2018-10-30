@@ -1,14 +1,8 @@
-Rufael Mekuria\
-                                            Unified Streaming\
-Internet Engineering Task Force             Sam Geqiang Zhang\
-Internet-Draft                              Microsoft\
-Expires: January 15, 2019                
 
-Intended status: Best Current Practice      July 15  2018\
-          Live Media and Metadata Ingest Protocol\
-             draft-mekuria-mmediaingest-01.txt
+          # Live Media and Metadata Ingest Protocol\
+             
 
-Abstract
+## Abstract
 
    This Internet draft presents a best industry practice for\
    ingesting encoded live media to media processing entities.\
@@ -21,26 +15,7 @@ Abstract
    Details on carriage of metadata markers, timed text,\
    subtitles and encryption specific metadata are also included.
 
-Status of This Memo
-
-   This Internet-Draft is submitted in full conformance\
-   with the provisions of BCP 78 and BCP 79.
-
-   Internet-Drafts are working documents of the Internet\
-   Engineering Task Force (IETF).  Note that other groups\
-   may also distribute working documents as Internet-Drafts.\
-   The list of current Internet-\
-   Drafts is at http://datatracker.ietf.org/drafts/current/.
-
-   Internet-Drafts are draft documents valid for a maximum\
-   of six months and may be updated, replaced, or obsoleted\
-   by other documents at any time.  It is inappropriate to\
-   use Internet-Drafts as reference material or to cite\
-   them other than as "work in progress."
-
-   Mekuria & Zhang          Expires January 15 2019        [Page1]
-
-Copyright Notice
+## Copyright Notice
 
    Copyright (c) 2018 IETF Trust and the persons identified as the\
    document authors.  All rights reserved.
@@ -54,7 +29,7 @@ Copyright Notice
    document must include Simplified BSD License text as described\
    in Section 4.e of the Trust Legal Provisions and are provided\
    without warranty as described in the Simplified BSD License\
-Table of Contents
+## Table of Contents
 
    1.  Introduction\
    2.  Conventions and Terminology\
@@ -84,10 +59,8 @@ Table of Contents
      12.2.  Informative References\
      12.3.  URL References\
    Author's Address
-
-Mekuria & Zhang        Expires January 15 2019                [Page2]
-
-1\.  Introduction
+   
+## 1\.  Introduction
 
    This document describes a best practice for ingesting\
    encoded media content from a live source such as a\
@@ -137,8 +110,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    are often found in broadcast streams and other\
    metadata like ID3 tags [ID3v2].
 
-  Mekuria & Zhang         Expires January 15 2019             [Page3]
-
    Fourth, for live media handling the timeline\
    of the presentation consistently is important.\
    This includes correct sampling of media, avoiding\
@@ -183,7 +154,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    This is workflow type will be adressed\
    in the first profile.
 
-     Mekuria & Zhang         Expires January 15 2019         [Page4]
 
    In the second workflow, the encoded media is ingested\
    into an entity that does none or very minimal inspection\
@@ -207,19 +177,11 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    in profile 2.
 
    Diagram 1: Example with media ingest in profile 1\
-   ============       ==============      ==============\
-   || live   || ingest||  Active  || HLS  || Content  ||  HLS\
-   || media  ||====>>>||processing||===>>>|| Delivery ||==>>>Client\
-   || source ||       || entity   || DASH || Network  ||  DASH\
-   ============       ==============      ==============
+
 
    Diagram 2: Example with media ingest in profile 2
 
-   ============       ==============\
-   || live   || ingest|| Content  ||\
-   || media  ||====>>>||Delivery  ||==>>>> Client\
-   || source ||       || Network  ||\
-   ============       ==============
+
 
    Diagram 1 shows the workflow with a live media ingest from a\
    live media source towards an active media processing entity.\
@@ -237,8 +199,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    connects live encoders to\
    the Microsoft Smooth Streaming server and to\
    the Microsoft Azure cloud.
-
-        Mekuria & Zhang         Expires January 15 2019      [Page5]
 
    This protocol has shown\
    to be robust, flexible and easy to implement in live\
@@ -295,7 +255,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    The HTTP POST provides a push based\
    method for delivery for pusing the\
    live content when available.\
-   Mekuria & Zhang         Expires January 15 2019            [Page6]
 
    The binary media format for conveying\
    the media is based on fragmented MPEG-4 as\
@@ -326,7 +285,7 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    presented. Sections 4-8 will detail the protocol and\
    the two different profiles.
 
-2\.  Conventions and Terminology
+## 2\.  Conventions and Terminology
 
    The following terminology is used in the rest of this document.
 
@@ -336,8 +295,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
    [RFC2119].
 
    ISOBMFF: the ISO Base Media File Format specified in [ISOBMFF].
-
-<Mekuria>          Expires January 15 2019            [Page7]
 
    Live Ingest Stream:\
             the stream of media produced by the live source\
@@ -393,7 +350,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
         in the base media file format [ISOBMFF] used\
         to signal the decode time of the media\
         fragment signalled in the moof box.\
-<Mekuria>          Expires January 15 2019           [Page8]\
    mdhd:\
          The media header box "mdhd" as defined in [ISOBMFF],\
          this box contains information about the media such\
@@ -442,9 +398,7 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
 
   This fragmentedMP4 stream is used in both profiles.
 
-   Mekuria & Zhang          Expires January 15    2019  [Page9]
-
-3\.  Media Ingest Workflows and Use Cases
+## 3\.  Media Ingest Workflows and Use Cases
 
   In this section we highlight some of the target use cases\
   and example workflows for the media ingest.\
@@ -472,21 +426,11 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
 
    Diagram 3:\
   Streaming workflow with fragmented MPEG-4 ingest in profile 1\
-  ============       ==============      ==============\
-  || live   ||ingest ||  Media   || HLS  || Content  ||  HLS\
-  || media  ||====>>>||processing||===>>>|| Delivery ||==>>> Client\
-  || source || fmp4  || entity   || DASH || Network  ||  DASH\
-  ============       ==============      ==============
+
 
   Diagram 4:\
   Streaming workflow with DASH ingest in profile 2\
-  ============ingest ==============\
-  || live   || DASH  || Content  ||\
-  || media  ||====>>>||Delivery  ||==>>>> Client\
-  || source ||       || Network  ||\
-  ============       ==============
 
-     Mekuria & Zhang          Expires January 15 2019       [Page10]
 
   Practice has shown that the ingest schemes\
   can be quite different for the two configurations\
@@ -524,8 +468,6 @@ Mekuria & Zhang        Expires January 15 2019                [Page2]
   on many of the use case specific requirements, circumstances\
   and the available technologies.
 
-Mekuria & Zhang          Expires January 15      2019    [Page11]
-
   In Diagram 6 we highlight another aspect taken into\
   consideration for large scale systems with many users.\
   Often one would like to run multiple encoders,\
@@ -561,26 +503,8 @@ Mekuria & Zhang          Expires January 15      2019    [Page11]
   Diagram 6:\
   workflow with redundant sources and media processing entities
 
-  ============ fmp4  ==============\
-  || live   || stream||  Media   ||\
-  || media  ||====>>>||Processing|| \\\
-  || source ||   //  ||  Entity  ||  \\\
-  ============  //   ==============   \\  ============\
-  || live   || //                      \\ || load   ||\
-  || media  ||// redundant stream       >>||balancer|| ==>>> Client\
-  || source ||\\ stream                // =============\
-  ============ \\     =============   //\
-  || live   ||  \\   || Media     || //\
-  ||ingest  ||====>>>||Processing ||//\
-  || source ||   //  || Entity    ||\
-  ============  //   ===============\
-  || live   || //\
-  ||ingest  ||// redundant stream\
-  || source ||\
-  ============\
-  Mekuria & Zhang          Expires January 15    2019       [Page11]
 
-4\. General Ingest Protocol Behavior
+## 4\. General Ingest Protocol Behavior
 
   The media ingest follows the following\
   general requirements for both target profiles.\
@@ -621,7 +545,7 @@ Mekuria & Zhang          Expires January 15      2019    [Page11]
       publishing point at the media processing entity and\
       MAY use a relative path for different streams and segments.
 
-5\. Profile 1: Fragmented MPEG-4 Ingest General Considerations
+## 5\. Profile 1: Fragmented MPEG-4 Ingest General Considerations
 
 The first profile assumes ingest to an active media processing entity,\
 from one or more live ingest sources, ingesting one or more\
@@ -635,24 +559,7 @@ fragmented MPEG-4 ingest is illustrated in Diagram 7.\
   Mekuria & Zhang          Expires January 15    2019       [Page13]
 
 Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources\
-============ fmp4  ==============\
-|| live   || video ||          ||\
-|| ingest ||====>>>||          ||\
-|| source ||       ||          ||\
-============       ||          ||\
-|| live   || fmp4  ||          ||\
-|| ingest ||====>>>||  Active  ||      ==============\
-|| source || audio ||   Media  || HLS  || Content  ||  HLS\
-============       || procesing||===>>>|| Delivery ||==>>> Client\
-|| live   || fmp4  ||  entity  || DASH || Network  ||  DASH\
-||ingest  ||====>>>||          ||       =============\
-|| source || text  ||          ||\
-============       ||          ||\
-|| live   || fmp4  ||          ||\
-||ingest  || meta  ||          ||\
-|| source ||  data ||          ||\
-||        ||====>>>||          ||\
-============       ==============
+
 
 In diagrams 8-10 we detail some of the concepts and structures.\
 Diagram 8 shows the data format structure of fragmented\
@@ -669,9 +576,7 @@ as a segment, the combination of ftyp and moof can be referred\
 to as an init segment or a CMAF header.
 
 Diagram 8: fragmented mp4 stream:\
-=========================================================\
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=\
-=========================================================
+
 
 In diagram 9 we illustrate the synchronisation model, that\
 is in many ways similar, but simplified, from the synchronisation\
@@ -685,8 +590,6 @@ while they are in a separeted fragmented mp4 stream\
 send over a separate connection, possibly from a different\
 live ingest source.
 
-Mekuria & Zhang          Expires January 15     2019        [Page14]
-
 In diagram 10 another advantage of this synchronisation model\
 is illustrated, the concept of late binding. In the case\
 of late binding a new stream becomes available. By using\
@@ -697,21 +600,10 @@ practical use cases when broadcasting television\
 content with different types of metadata tracks.
 
 Diagram 9: fmp4 stream synchronisation:\
-=========================================================\
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=\
-=========================================================\
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=\
-=========================================================\
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=\
-=========================================================
+
 
 Diagram 10: fmp4 late binding:\
-===================================================\
-||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=\
-===================================================\
-                         ==========================\
-                         ||ftyp||moov||styp||moof||\
-                         =========================
+
 
 Diagram 11 shows the flow of the media ingest. It starts with a\
 DNS resolution (if needed) and an authentication step (Authy,\
@@ -728,38 +620,14 @@ empty mfra box to close the connection.
 Mekuria & Zhang          Expires January 15 2019          [Page15]
 
 Diagram 11: fmp4 ingest flow\
-||===============================================================||\
-||=====================            ============================  ||\
-||| live ingest source |            |  Media processing entity | ||\
-||=====================            ============================  ||\
-||        || <<------  DNS Resolve    -------->> ||              ||\
-||        || <<------  Authenticate   -------->> ||              ||\
-||        || <<------POST fmp4stream  -------->> ||              ||\
-||=============== empty POST to test connection  ================||\
-||        || <<------ 404 Bad Request -----------||              ||\
-||        || <<------ 202 OK --------------------||              ||\
-||        || <<------ 403 Forbidden -------------||              ||\
-||        || <<------ 404 Bad Request            ||              ||\
-||        || <<------ 400 Forbidden -------------||              ||\
-||        ||         Unsupported Media Type      ||              ||\
-||        || <<------ 415 Forbidden -------------||              ||\
-||================== Moov + ftyp Sending  =======================||\
-||============= fragmented MP4 Sending ==========================||\
-||        || <<------ 404 Bad Request -----------||              ||\
-||============= mfra box Sending (close) ========================||\
-||        || <<------ 200 OK --------------------||              ||\
-||=====================            ============================  ||\
-||| live ingest source |            |  Media processing entity | ||\
-||=====================            ============================  ||\
-||        ||                                     ||              ||\
-||===============================================================||\
-6\. Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
+
+## 6\. Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
 
 This section describes the protocol behavior specific to\
 profile 1: fragmented MPEG-4 ingest. Operation of this\
 profile MUST also adhere to general requirements in secion 4.
 
-6.1. General Protocol Requirements
+### 6.1. General Protocol Requirements
 
    1. The live encoder or ingest source SHOULD start\
       by sending an HTTP POST request with an empty "body"\
@@ -798,7 +666,7 @@ profile MUST also adhere to general requirements in secion 4.
    8. The live ingest source MAY use a separate relative path\
       in the POST_URL for ingest of each different track
 
-6.2. Requirements for formatting Media Tracks
+### 6.2. Requirements for formatting Media Tracks
 
    1. The trackFragmentDecodeTime box "tfdt" box\
       MUST be present for each segment posted.\
@@ -833,7 +701,7 @@ profile MUST also adhere to general requirements in secion 4.
 
    Mekuria & Zhang          Expires January 15 2019 [Page17]
 
-6.3  Requirements for Timed Text Captions and Subtitle streams
+### 6.3  Requirements for Timed Text Captions and Subtitle streams
 
 The media ingest follows the following requirements for ingesting\
 a track with timed text, captions and/or subtitle streams.
@@ -871,7 +739,7 @@ a track with timed text, captions and/or subtitle streams.
        Caption data is embedded in SEI messages in video track;\
       'ccea'
 
-6.4 Requirements for Timed Metadata
+### 6.4 Requirements for Timed Metadata
 
   This section discusses the specific formatting requirements\
   for ingest of timed metadata related to events and markers for\
@@ -941,7 +809,6 @@ message_data            | splice info section including CRC\
   4. The timescale of the metadata should match the value\
      specified in the media header box "mdhd" of the\
      metadata track.\
-    Mekuria & Zhang          Expires January 15 2019        [Page19]
 
   5. The Arrival time is signalled in the "tfdt" box\
      of the track fragment  as the basemediadecode\
@@ -977,7 +844,7 @@ message_data            | splice info section including CRC\
      XML metadata can for example be coded as base64 as\
      common for [SCTE-35] metadata messages
 
-6.5 Requirements for Media Processing Entity Failover
+## 6.5 Requirements for Media Processing Entity Failover
 
   Given the nature of live streaming, good failover support is\
   critical for ensuring the availability of the service.\
@@ -1044,7 +911,7 @@ message_data            | splice info section including CRC\
 
      Mekuria & Zhang          Expires January 15 2019      [Page21]
 
-6.6 Requirements for Live Media Source Failover
+## 6.6 Requirements for Live Media Source Failover
 
   Live encoder or media ingest source failover is the second type\
   of failover scenario that needs to be addressed for end-to-end\
@@ -1083,7 +950,7 @@ message_data            | splice info section including CRC\
 
      Mekuria & Zhang          Expires January 15 2019        [Page22]
 
-7\. Profile 2: DASH Ingest General Considerations
+## 7\. Profile 2: DASH Ingest General Considerations
 
    Profile 2 is designed to ingest media into entities that only\
    provide pass through functionality. In this case the media\
@@ -1117,58 +984,14 @@ message_data            | splice info section including CRC\
    uses the same fragmented MPEG-4 layer based on [ISOBMFF]\
    and [CMAF].
 
-     Mekuria & Zhang          Expires January 15 2019        [Page23]
-
    Diagram 12\
-||===============================================================||\
-||=====================            ============================  ||\
-||| live media source |            |  Media processing entity |  ||\
-||=====================            ============================  ||\
-||        ||                                     ||              ||\
-||===============Initial Manifest Sending========================||\
-||        ||                                     ||              ||\
-||        ||-- POST /prefix/media.mpd  -------->>||              ||\
-||        ||          Succes                     ||              ||\
-||        || <<------ 200 OK --------------------||              ||\
-||        ||      Permission denied              ||              ||\
-||        || <<------ 403 Forbidden -------------||              ||\
-||        ||             Bad Request             ||              ||\
-||        || <<------ 400 Forbidden -------------||              ||\
-||        ||         Unsupported Media Type      ||              ||\
-||        || <<-- 412 Unfulfilled Condition -----||              ||\
-||        ||         Unsupported Media Type      ||              ||\
-||        || <<------ 415 Unsupported Media -----||              ||\
-||        ||                                     ||              ||\
-||==================== Segment Sending ==========================||\
-||        ||-- POST /prefix/chunk.cmaf  ------->>||              ||\
-||        ||          Succes/Accepted            ||              ||\
-||        || <<------ 200 OK --------------------||              ||\
-||        ||          Succes/Accepted            ||              ||\
-||        || <<------ 202 OK --------------------||              ||\
-||        ||      Premission Denied              ||              ||\
-||        || <<------ 403 Forbidden -------------||              ||\
-||        ||             Bad Request             ||              ||\
-||        || <<------ 400 Forbidden -------------||              ||\
-||        ||         Unsupported Media Type      ||              ||\
-||        || <<------ 415 Forbidden -------------||              ||\
-||        ||         Unsupported Media Type      ||              ||\
-||        || <<-- 412 Unfulfilled Condition -----||              ||\
-||        ||                                     ||              ||\
-||        ||                                     ||              ||\
-||=====================            ============================  ||\
-||| live media source |            |  Media processing entity |  ||\
-||=====================            ============================  ||\
-||        ||                                     ||              ||\
-||===============================================================||
 
-    Mekuria & Zhang          Expires January 15 2019      [Page24]
-
-8\.  profile 2: DASH and HLS Ingest Protocol Behavior
+## 8\.  profile 2: DASH and HLS Ingest Protocol Behavior
 
 Operation of this profile MUST also adhere\
 to general requirements in section 4.
 
-8.1  General Protocol Requirements 
+### 8.1  General Protocol Requirements 
 
   1. Before sending the segments\
       based on fragmentedMP4Stream the live encoder/source\
@@ -1208,7 +1031,7 @@ to general requirements in section 4.
         individual POST requests as defined in [RFC2626]  enabling\
     re-use of the TCP connection for multiple POST requests.
 
-8.2  Requirements for Formatting Media Tracks
+### 8.2  Requirements for Formatting Media Tracks
 
     1. Media data tracks and segments MUST be formatted and delivered\
        conforming  to the same requirements as stated in 6.2\
@@ -1218,7 +1041,7 @@ to general requirements in section 4.
 
     Mekuria & Zhang          Expires January 152019          [Page25]
 
-8.3  Requirements for Timed Text Captions and Subtitle stream
+### 8.3  Requirements for Timed Text Captions and Subtitle stream
 
     1. Timed Text, caption and subtitle stream tracks  MUST\
        be formatted conforming to the same requirements as in 6.3\
@@ -1227,7 +1050,7 @@ to general requirements in section 4.
     3. Formatting described in manifest and\
        media track MUST correspond consistently
 
-8.4  Requirements for Timed Metadata
+### 8.4  Requirements for Timed Metadata
 
      1. Timed Metadata tracks MAY be formatted conforming\
       to the same requirements as in 8.4\
@@ -1237,19 +1060,19 @@ to general requirements in section 4.
      3. DASH event messages SHOULD also\
        be signalled in the Manifest
 
-8.4  Requirements for Media Processing Entity Failover\
+### 8.4  Requirements for Media Processing Entity Failover\
      1. Requirements for failover are similar as stated in 6.4\
      2. In addition the live encoder source SHOULD resend the manifest\
         before sending any of the other segments
 
-8.5  Requirements for Live Media Source Failover
+### 8.5  Requirements for Live Media Source Failover
 
      1. Requirements for failover are similar as stated in 6.5\
      2. In addition the live encoder source SHOULD\
      resend the manifest before sending any\
      of the other segments
 
-9\.  Security Considerations\
+## 9\.  Security Considerations\
    Security consideration are extremely important\
    for media ingest. Retrieving media from a illicit\
    source can cause inappropriate content\
@@ -1263,13 +1086,13 @@ to general requirements in section 4.
    once they have been investigated further based\
    on review of this draft.
 
-10\.  IANA Considerations
+## 10\.  IANA Considerations
 
   This memo includes no request to IANA.
 
       Mekuria & Zhang          Expires January 15 2019   [Page26]
 
-11\.  Contributors
+## 11\.  Contributors
 
 Will Law Akamai\
 James Gruessing BBC R&D\
@@ -1285,9 +1108,9 @@ Dirk Griffioen Unified Streaming\
 Matt Poole ITV\
 Alex Giladi Comcast
 
-12\.  References
+## 12\.  References
 
-12.1.  Normative References
+### 12.1.  Normative References
 
     [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate\
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -1344,17 +1167,16 @@ Alex Giladi Comcast
               ISO base media file format
 
     [ISO639-2] ISO 639-2  "Codes for the Representation of Names\
-              of Languages -- Part 2 ISO 639-2:1998"
-
-   [DVB-DASH] ETSI Digital Video Broadcasting\
+              of Languages -- Part 2 ISO 639-2:1998
+             
+    [DVB-DASH] ETSI Digital Video Broadcasting\
                "MPEG-DASH Profile for Transport of ISOBMFF\
                Based DVB Services over IP Based Networks"\
                ETSI TS 103 285
-
-   [RFC7617] J Reschke "The 'Basic' HTTP Authentication Scheme"\
+     [RFC7617] J Reschke "The 'Basic' HTTP Authentication Scheme"\
              IETF RFC 7617 September 2015
 
-12.2.  Informative References
+## 12.2.  Informative References
 
     [RFC2626]  R. Fielding et al\
              "Hypertext Transfer Protocol HTTP/1.1",\
@@ -1367,7 +1189,7 @@ Alex Giladi Comcast
     (last acessed)\
     Mekuria & Zhang          Expires January 15   2019       [Page28]
 
-12.3.  URL References
+## 12.3.  URL References
 
     [fmp4git]    Unified Streaming github fmp4 ingest,\
                 "https://github.com/unifiedstreaming/fmp4-ingest".
@@ -1384,7 +1206,7 @@ Alex Giladi Comcast
     [MS-SSTR]   Smooth streaming protocol\
               https://msdn.microsoft.com/en-us/library/ff469518.aspx\
                 last updated March 16 2018 (last acessed June 11 2018)\
-Author's Address
+## Author's Address
 
    Rufael Mekuria (editor)\
    Unified Streaming\
