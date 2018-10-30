@@ -1,5 +1,4 @@
-
-          # Live Media and Metadata Ingest Protocol\
+# Live Media and Metadata Ingest Protocol\
              
 
 ## Abstract
