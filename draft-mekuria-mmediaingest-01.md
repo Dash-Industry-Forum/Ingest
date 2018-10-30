@@ -6,7 +6,7 @@
    This Internet draft presents a best industry practice for\
    ingesting encoded live media to media processing entities.\
    Two profiles of the media ingest are defined covering the most\
-   common use cases. The first profile facilates active media\
+   common use cases. The first profile supports active media\
    processing and is based on the fragmented MPEG-4 format.\
    The second profile enables efficient ingest of media streaming\
    presentations based on established streaming protocols\
