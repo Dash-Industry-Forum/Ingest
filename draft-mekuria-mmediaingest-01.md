@@ -52,35 +52,35 @@
 
    
 ## Table of Contents
-
-   1.  Introduction
-   2.  Conventions and Terminology
-   3.  Media Ingest Workflows and Use Cases
-   4.  General Media Ingest Protocol Behavior 
-   5.  Profile 1: Fragmented MPEG-4 Ingest General Considerations
-   6.  Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
-       6.1 General Protocol Requirements
-       6.2 Requirements for Formatting Media Tracks
-       6.3 Requirements for Timed Text Captions and Subtitle Streams
-       6.4 Requirements for Timed Metadata
-       6.5 Requirements for Media Processing Entity Failover
-       6.6 Requirements for Live Media Source Failover
-   7.  Profile 2: DASH and HLS Ingest General Considerations
-   8.  Profile 2: DASH and HLS Ingest Protocol Behavior
-       8.1 General Protocol requirements
-       8.2 Requirements for Formatting Media Tracks
-       8.3 Requirements for Timed Text, Caption and Subtitle Streams
-       8.4 Requirements for Timed Metadata
-       8.5 Requirements for Media Processing Entity Failover
-       8.6 Requirements for Live Media Source Failover
-   9.  Security Considerations
-   10. IANA Considerations
-   11. Contributors
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
-     12.3.  URL References
-   Author's Address
+'''
+   1. [Introduction]
+   2. [Conventions and Terminology]
+   3. [Media Ingest Workflows and Use Cases]
+   4. [General Media Ingest Protocol Behavior] 
+   5. [Profile 1: Fragmented MPEG-4 Ingest General Considerations]
+   6. [Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior]
+       6.1 [General Protocol Requirements]
+       6.2 [Requirements for Formatting Media Tracks]
+       6.3 [Requirements for Timed Text Captions and Subtitle Streams]
+       6.4 [Requirements for Timed Metadata]
+       6.5 [Requirements for Media Processing Entity Failover]
+       6.6 [Requirements for Live Media Source Failover]
+   7.  [Profile 2: DASH and HLS Ingest General Considerations]
+   8.  [Profile 2: DASH and HLS Ingest Protocol Behavior]
+       8.1 [General Protocol requirements]
+       8.2 [Requirements for Formatting Media Tracks]
+       8.3 [Requirements for Timed Text, Caption and Subtitle Streams]
+       8.4 [Requirements for Timed Metadata]
+       8.5 [Requirements for Media Processing Entity Failover]
+       8.6 [Requirements for Live Media Source Failover]
+   9.  [Security Considerations]
+   10. [IANA Considerations]
+   11. [Contributors]
+   12. [References]
+     12.1.  [Normative References]
+     12.2.  [Informative References]
+     12.3. [ URL References]
+   [Author's Address]
  
  
  
