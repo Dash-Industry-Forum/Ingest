@@ -645,63 +645,63 @@ profile MUST also adhere to general requirements in secion 4.
       ingest source to quickly detect whether the\
       live ingest publishing point is valid,\
       and if there are any authentication\
-       or other conditions required.\
+       or other conditions required.
    2. The live encoder or ingest source MUST initiate\
       a media ingest connection by POSTING the\
-      header boxes "ftyp" and "moov" after step 1\
+      header boxes "ftyp" and "moov" after step 1
    3. The encoder or ingest source SHOULD use chunked transfer\
       encoding option of the HTTP POST command [RFC2626]\
       as it might be difficult to predict the entire content length\
       of the segment. This can also be used for example to support\
-      use cases that require low latency.\
+      use cases that require low latency.
    4. If the HTTP POST request terminates or times out with a TCP\
       error prior to the end of the stream, the encoder MUST issue\
       a new connection, and follow the\
       preceding requirements. Additionally, the encoder MAY resend\
-      the previous segment that was already sent again.\
+      the previous segment that was already sent again.
    5. The live encoder or ingest source MUST handle\
       any error or failed authentication responses\
       received from the media processing, by issueing\
       a new connection and following the preceding\
-      requirements inlcluding retransmitting the ftyp and moov boxes.\
+      requirements inlcluding retransmitting the ftyp and moov boxes.
    6. In case the live stream event is over the live media\
       source or ingest source should signal\
       the stop by transmitting an empty "mfra" box\
-      towards the publishing point/processing entity.\
+      towards the publishing point/processing entity.
    7. The live ingest source SHOULD use a separate TCP\
-      connection for ingest of each different track\
+      connection for ingest of each different track
    8. The live ingest source MAY use a separate relative path\
       in the POST_URL for ingest of each different track
 
 ### 6.2. Requirements for formatting Media Tracks
 
    1. The trackFragmentDecodeTime box "tfdt" box\
-      MUST be present for each segment posted.\
+      MUST be present for each segment posted.
    2. The ISOBMFF media fragment duration SHOULD be constant,\
       the duration MAY fluctuate to compensate\
       for non-integer frame rates. By choosing an appropriate\
       timescale (a multiple of the frame rate is recommended)\
-      this issue SHOULD be avoided.\
+      this issue SHOULD be avoided.
    3. The MPEG-4 fragment durations SHOULD be between\
-      approximately 1 and 6 seconds.\
+      approximately 1 and 6 seconds.
    4. The fragment decode timestamps "tfdt" of fragments in the\
       fragmentedMP4stream and the indexes base_media_decode_ time\
       SHOULD arrive in increasing order for each of the different\
-      tracks/streams that are ingested.\
+      tracks/streams that are ingested.
    5. The segments formatted as fragmented MP4 stream SHOULD use\
       a timescale for video streams based on the framerate\
       and 44.1 KHz or 48 KHz for audio streams\
       or any another timescale that enables integer\
       increments of the decode times of\
-      fragments signalled in the "tfdt" box based on this scale.\
+      fragments signalled in the "tfdt" box based on this scale.
    6. The language of the stream SHOULD be signalled in the\
       "mdhd" box or "elng" boxes in the\
-      init segment and/or moof headers ("mdhd").\
+      init segment and/or moof headers ("mdhd").
    7. Encryption specific information SHOULD be signalled\
-      in the "pssh","schm" and "sinf" boxes following [ISOBMFF][CENC]\
+      in the "pssh","schm" and "sinf" boxes following [ISOBMFF][CENC]
    8. Segments posted towards the media procesing entity SHOULD\
       contain the bitrate "btrt" box specifying the target\
-      bitrate of the segments\
+      bitrate of the segments
    9. Segments  posted towards the media procesing entity SHOULD\
      contain the "tfdt" box specifying  the fragments decode time\
      and the "tfhd" box specifying the track id.
@@ -734,11 +734,11 @@ a track with timed text, captions and/or subtitle streams.
       containing timed text, images, captions and sub-titles\
       MAY use signalling using CMAF profiles based on [CMAF]
    8a. WebVTT   Specified in 11.2 ISO/IEC 14496-30\
-        [MPEG-4-30] 'cwvt'\
+        [MPEG-4-30] 'cwvt'
    8b.TTML IMSC1 Text  Specified in 11.3.3 [MPEG-4-30]\
-       IMSC1 Text Profile   'im1t'\
+       IMSC1 Text Profile   'im1t'
    8c.TTML IMSC1 Image Specified in 11.3.4 [MPEG-4-30]\
-       IMSC1 Image Profile  'im1i'\
+       IMSC1 Image Profile  'im1i'
    8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [MPEG-4-30]\
        Caption data is embedded in SEI messages in video track;\
       'ccea'
@@ -771,25 +771,26 @@ a track with timed text, captions and/or subtitle streams.
   </p>
 Table 1 Example of DASH emsg schemes  URI
 
-Scheme URI               | Reference\
--------------------------|------------------\
-urn:mpeg:dash:event:2012 | [DASH], 5.10.4\
-urn:dvb:iptv:cpm:2014    | [DVB-DASH], 9.1.2.1\
-urn:scte:scte35:2013:bin | [SCTE-35] 14-3 (2015), 7.3.2\
-www.nielsen.com:id3:v1   | Nielsen ID3 in MPEG-DASH
++ Scheme URI               | Reference\
++ -------------------------|------------------\
++ urn:mpeg:dash:event:2012 | [DASH], 5.10.4\
++ urn:dvb:iptv:cpm:2014    | [DVB-DASH], 9.1.2.1\
++ urn:scte:scte35:2013:bin | [SCTE-35] 14-3 (2015), 7.3.2\
++ www.nielsen.com:id3:v1   | Nielsen ID3 in MPEG-DASH
 
-Table 2 example of a SCTE-35 marker embedded in a DASH emsg\
-Tag                     |          Value\
-------------------------|-----------------------------\
-scheme_uri_id           | "urn:scte:scte35:2013:bin"\
-Value                   | the value of the SCTE 35 PID\
-Timescale               | positive number\
-presentation_time_delta | non-negative number expressing splice time\
-                        | relative  to tfdt\
-event_duration          | duration of event\
-                        | "0xFFFFFFFF" indicates unknown duration\
-Id                      | unique identifier for message\
-message_data            | splice info section including CRC\
++ Table 2 example of a SCTE-35 marker embedded in a DASH emsg\
++ Tag                     |          Value\
++ ------------------------|-----------------------------\
++ scheme_uri_id           | "urn:scte:scte35:2013:bin"\
++ Value                   | the value of the SCTE 35 PID\
++ Timescale               | positive number\
++ presentation_time_delta | non-negative number expressing splice time\
++                        | relative  to tfdt\
++ event_duration          | duration of event\
++                        | "0xFFFFFFFF" indicates unknown duration\
++ Id                      | unique identifier for message\
++ message_data            | splice info section including CRC\
+
   The following steps are recommended for timed metadata\
   ingest related to events, tags, ad markers and\
   program information:
