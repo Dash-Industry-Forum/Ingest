@@ -440,12 +440,11 @@
   In this case, still fragmented MPEG-4 segments can be used,
   but the ingest works slightly different.
 
-   Diagram 3:\
-  Streaming workflow with fragmented MPEG-4 ingest in profile 1\
+  Diagram 3:
+  Streaming workflow with fragmented MPEG-4 ingest in profile 1
 
-
-  Diagram 4:\
-  Streaming workflow with DASH ingest in profile 2\
+  Diagram 4:
+  Streaming workflow with DASH ingest in profile 2
   </p>
    <p>
   Practice has shown that the ingest schemes
@@ -520,22 +519,22 @@
   general requirements for both target profiles.\
    1. The live encoder or ingest source communicates to\
       the publishing point/processing entity using the HTTP\
-      POST method as defined in the HTTP protocol [RFC2626]\
+      POST method as defined in the HTTP protocol [RFC2626]
    2. The media ingest source SHOULD use HTTP over TLS [RFC2818]\
-      to connect to the media processing entity\
+      to connect to the media processing entity
    3. The live encoder/media source SHOULD repeatedly resolve\
       the Hostname to adapt to changes in the IP to Hostname mapping\
       such as for example by using the dynamic naming system\
-      DNS [RFC1035] or any other system that is in place.\
+      DNS [RFC1035] or any other system that is in place.
    4. The Live encoder media source MUST update the IP to hostname\
       resolution respecting the TTL (time to live) from DNS\
       query responses, this will enable better resillience\
       to changes of the IP address in large scale deployments\
       where the IP adress of the publishing point media\
-      processing nodes may change frequenty.\
+      processing nodes may change frequenty.
    5. In case HTTPS[RFC2818] protocol is used,\
        basic authentication HTTP AUTH [RFC7617]\
-       or better methods like TLS client certificates SHOULD be used\
+       or better methods like TLS client certificates SHOULD be used
    6. As compatibility profile for the TLS encryption\
       we recommend the ingest SHOULD use the mozzilla\
       intermediate compatibility profile which is supported\
@@ -550,22 +549,22 @@
       For this reason, the HTTP POST for sparse\
       data such as sparse tracks SHOULD be short-lived,\
       terminating as soon as\
-      the sparse fragment is sent.\
+      the sparse fragment is sent.
    8. The POST request uses a POST_URL to the basepath of the\
       publishing point at the media processing entity and\
       MAY use a relative path for different streams and segments.
 
 ## 5\. Profile 1: Fragmented MPEG-4 Ingest General Considerations
 <p>
-The first profile assumes ingest to an active media processing entity,\
-from one or more live ingest sources, ingesting one or more\
-types of media streams. This advances over the ingest\
-part of the smooth ingest protocol [MS-SSTR] by using\
-standardized media container formats based on [ISOBMFF][CMAF].\
-In addition this allows extension to codecs like [HEVC] and\
-timed metadata ingest of subtitle and timed text streams.\
-The workflow ingesting multiple media ingest streams with\
-fragmented MPEG-4 ingest is illustrated in Diagram 7.\
+The first profile assumes ingest to an active media processing entity,
+from one or more live ingest sources, ingesting one or more
+types of media streams. This advances over the ingest
+part of the smooth ingest protocol [MS-SSTR] by using
+standardized media container formats based on [ISOBMFF][CMAF].
+In addition this allows extension to codecs like [HEVC] and
+timed metadata ingest of subtitle and timed text streams.
+The workflow ingesting multiple media ingest streams with
+fragmented MPEG-4 ingest is illustrated in Diagram 7.
 </p>
 
 Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources\
@@ -715,22 +714,22 @@ a track with timed text, captions and/or subtitle streams.
    1. The track will be a sparse track signalled by a null media\
       header "nmhd" containing the timed text, images, captions\
       corresponding to the recommendation of storing tracks\
-      in fragmented MPEG-4 [CMAF]\
+      in fragmented MPEG-4 [CMAF]
    2. Based on this recommendation the trackhandler "hdlr" shall\
       be set to "text" for WebVTT and "subt" for TTML following\
-      [MPEG-4-30]\
+      [MPEG-4-30]
    3. In case TTML is used the track must use the XMLSampleEntry\
-      to signal sample description of the sub-title stream [MPEG-4-30]\
+      to signal sample description of the sub-title stream [MPEG-4-30]
    4. In case WebVTT is used the track must use the WVTTSampleEntry\
-      to signal sample description of the text stream [MPEG-4-30]\
+      to signal sample description of the text stream [MPEG-4-30]
    5. These boxes SHOULD signal the mime type and specifics as\
-      described in [CMAF] sections 11.3 ,11.4 and 11.5\
+      described in [CMAF] sections 11.3 ,11.4 and 11.5
    6. The boxes described in 2-5 must be present in the init\
-      segment (ftyp + moov) for the given track\
+      segment (ftyp + moov) for the given track
    7. subtitles in CTA-608 and CTA-708 format SHOULD be conveyed\
       following the recommendation section 11.5 in [CMAF] via\
       Supplemental Enhancement Information SEI messages\
-      in the video track [CMAF]\
+      in the video track [CMAF]
    8. The "ftyp" box in the init segment for the track\
       containing timed text, images, captions and sub-titles\
       MAY use signalling using CMAF profiles based on [CMAF]
@@ -745,30 +744,31 @@ a track with timed text, captions and/or subtitle streams.
       'ccea'
 
 ### 6.4 Requirements for Timed Metadata
-
-  This section discusses the specific formatting requirements\
-  for ingest of timed metadata related to events and markers for\
-  ad insertion or other timed metadata  An example of\
-  these are opportunities  for dynamic live ad insertion\
-  signalled by SCTE-35 markers. This type of  event signalling\
-  is different from regular audio/video information\
-  because of its sparse nature. In this case,\
-  the signalling data usually does not\
-  happen continuously, and the intervals can\
-  be hard to predict. Examples of timed metadata are ID3 tags\
-  [ID3v2], SCTE-35 markers [SCTE-35] and DASH emsg\
-  messages defined in section 5.10.3.3 of [DASH]. For example,\
-  DASH Event messages contain a schemeIdUri that defines\
-  the payload of the message.\
-
-  Table 1 provides some\
-  example schemes in DASH event messages and Table 2\
-  illustrates an example of a SCTE-35 marker stored\
-  in a DASH emsg.  The presented approach allows ingest of\
-  timed metadata from different sources,\
-  possibly on different locations by embedding them in\
+   <p>
+  This section discusses the specific formatting requirements
+  for ingest of timed metadata related to events and markers for
+  ad insertion or other timed metadata  An example of
+  these are opportunities  for dynamic live ad insertion
+  signalled by SCTE-35 markers. This type of  event signalling
+  is different from regular audio/video information
+  because of its sparse nature. In this case,
+  the signalling data usually does not
+  happen continuously, and the intervals can
+  be hard to predict. Examples of timed metadata are ID3 tags
+  [ID3v2], SCTE-35 markers [SCTE-35] and DASH emsg
+  messages defined in section 5.10.3.3 of [DASH]. For example,
+  DASH Event messages contain a schemeIdUri that defines
+  the payload of the message.
+   </p>
+   <p>
+  Table 1 provides some
+  example schemes in DASH event messages and Table 2
+  illustrates an example of a SCTE-35 marker stored
+  in a DASH emsg.  The presented approach allows ingest of
+  timed metadata from different sources,
+  possibly on different locations by embedding them in
   sparse metadata tracks.
-
+  </p>
 Table 1 Example of DASH emsg schemes  URI
 
 Scheme URI               | Reference\
@@ -797,10 +797,10 @@ message_data            | splice info section including CRC\
   1. Create the metadata stream as a\
      fragmentedMP4stream that conveys the metadata\
      , the media handler (hdlr) is "meta",\
-     the track handler box is a null media header box "nmhd".\
+     the track handler box is a null media header box "nmhd".
   2. The metadata stream applies to the media streams\
      in the presentation ingested to active publishing\
-     point at the media processing entity\
+     point at the media processing entity
   3. The URIMetaSampleEntry entry contains, in a URIbox,\
      the URI following the URI syntax in [RFC3986]\
      defining the form  of the metadata\
@@ -809,10 +809,10 @@ message_data            | splice info section including CRC\
      could contain for ID3 tags  [ID3v2]\
      the URL  http://www.id3.org or\
      or urn:scte:scte35:2013a:bin\
-     for scte 35 markers [SCTE-35]\
+     for scte 35 markers [SCTE-35]
   4. The timescale of the metadata should match the value\
      specified in the media header box "mdhd" of the\
-     metadata track.\
+     metadata track.
   5. The Arrival time is signalled in the "tfdt" box\
      of the track fragment  as the basemediadecode\
      time, this time is often different\
@@ -820,14 +820,14 @@ message_data            | splice info section including CRC\
      when a message is applied. The duration of\
      a metadata fragment can be set to zero,\
      letting it be determined by the\
-     time (tfdt) of a next metadata segment received.\
+     time (tfdt) of a next metadata segment received.
   6. All Timed Metadata samples SHOULD\
      be sync samples [ISOBMFF],\
      defining the entire set of\
      metadata for the time interval\
      they cover. Hence, the sync\
      sample table box SHOULD\
-     not be present in the metadata stream.\
+     not be present in the metadata stream.
   7. The metadata segment becomes available to the\
      publishing  point/ media processing entity\
      when the corresponding track fragment\
@@ -840,7 +840,7 @@ message_data            | splice info section including CRC\
      publishing point/processing entity sees "video"\
     (assuming the parent track name is "video")\
     fragment timestamp 1000 or beyond, it can retrieve the\
-    sparse fragment from the binary payload.\
+    sparse fragment from the binary payload.
   8. The payload of sparse track fragments is conveyed\
      in the mdat box as sample information. This enables\
      muxing of the metadata tracks. For example\
@@ -949,38 +949,39 @@ message_data            | splice info section including CRC\
         than to introduce discontinuities in the media timeline.
 
 ## 7\. Profile 2: DASH Ingest General Considerations
-
-   Profile 2 is designed to ingest media into entities that only\
-   provide pass through functionality. In this case the media\
-   ingest source also provides the manifest based on MPEG DASH[DASH]\
-   or HTTP Live Streaming [RFC8216].
-
-   The key idea here is to reuse the fragmented MPEG-4 ingest to\
-   enable simulataneous ingest of DASH and HLS based on the\
-   fragmented MPEG-4 files using commonalities as\
-   described in [CMAF] which is a format based on fragmented\
+    <p>
+   Profile 2 is designed to ingest media into entities that only
+   provide pass through functionality. In this case the media
+   ingest source also provides the manifest based on MPEG DASH[DASH]
+   or HTTP Live Streaming [RFC8216]. </p>
+   <p>
+   The key idea here is to reuse the fragmented MPEG-4 ingest to
+   enable simulataneous ingest of DASH and HLS based on the
+   fragmented MPEG-4 files using commonalities as
+   described in [CMAF] which is a format based on fragmented
    MPEG-4 that can be used in both DASH and HLS presentations.
-
-   The flow of operation in profile 2 is shown in Diagram 12. In this\
-   case the live ingest source (media source) sends a manifest first.\
-   Based on this manifest the media processing entity can setup\
-   reception paths for the ingest url\
+  </p>
+    <p>
+   The flow of operation in profile 2 is shown in Diagram 12. In this
+   case the live ingest source (media source) sends a manifest first.
+   Based on this manifest the media processing entity can setup
+   reception paths for the ingest url
    http://hostname/presentationpath
-
-   In the next step segments are send in individual post requests\
-   using URLS corresponding to relative\
-   paths and segment names in the manifest.\
+   In the next step segments are send in individual post requests
+   using URLS corresponding to relative
+   paths and segment names in the manifest.
    e.g. http://hostname/presentationpath/relative_path/segment1.cmf
-
-   This profile re-uses as much functionality as possible from\
-   profile  1 as the manifest can be seen\
-   as a complementary addition to the\
-   fragmented MPEG-4 stream. A difference lies in the way\
-   the connection is setup and the way data is transmitted,\
-   which can use relative URL paths for the segments based on the\
-   paths in the manifest. For the rest, it largely\
-   uses the same fragmented MPEG-4 layer based on [ISOBMFF]\
-   and [CMAF].
+  </p>
+  <p>
+   This profile re-uses as much functionality as possible from
+   profile  1 as the manifest can be seen
+   as a complementary addition to the
+   fragmented MPEG-4 stream. A difference lies in the way
+   the connection is setup and the way data is transmitted,
+   which can use relative URL paths for the segments based on the
+   paths in the manifest. For the rest, it largely
+   uses the same fragmented MPEG-4 layer based on [ISOBMFF]
+   and [CMAF]. </p>
 
    Diagram 12\
 
@@ -994,14 +995,14 @@ to general requirements in section 4.
   1. Before sending the segments\
       based on fragmentedMP4Stream the live encoder/source\
       MUST send a manifest [DASH]\
-      with the following the limitations/constraints.\
+      with the following the limitations/constraints.
    1a. Only relative URL paths to be used for each segment\
    1b. Only unique paths are used for each new presentation\
    1c. In case the manifest contains these relative paths,\
       these paths SHOULD be used in combination with the\
       POST_URL to POST each of the different segments from\
       the live encoder or ingest source\
-      to the processing entity.\
+      to the processing entity.
   2. The live encoder or ingest source MAY send\
      updated versions of the manifest,\
      this manifest cannot override current\
