@@ -14,7 +14,7 @@ https://github.com/RufaelDev/Ingest/blob/master/README.md
 
 # additional information 
 This work was carried out for 1 year before the migration to DASH-IF, pease see   
-https://github.com/unifiedstreaming/fmp4-ingest
+https://github.com/unifiedstreaming/fmp4-ingest  
 for the discussions and resolved issues and notes of the different discussion  
 and for the published ietf draft (to be deprecated)    
 https://tools.ietf.org/html/draft-mekuria-mmediaingest-01  
