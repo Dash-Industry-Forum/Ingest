@@ -794,7 +794,7 @@ a track with timed text, captions and/or subtitle streams.
   sparse metadata tracks.  
   
 Table 1 Example of DASH emsg schemes  URI
-| Scheme URI         | Reference                            | 
+| Scheme URI                 | Reference                    | 
 | --------------------------:|:----------------------------:| 
 | urn:mpeg:dash:event:2012   | [DASH], 5.10.4               | 
 | urn:dvb:iptv:cpm:2014      | [DVB-DASH], 9.1.2.1          | 
