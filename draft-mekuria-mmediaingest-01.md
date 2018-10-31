@@ -3,7 +3,7 @@
 
 ## Abstract
 
-   This Internet draft presents a best industry practice for  
+   This draft presents a best industry practice for  
    ingesting encoded live media to media processing entities.  
    Two profiles of the media ingest are defined covering the most  
    common use cases. The first profile supports active media  
@@ -16,18 +16,13 @@
 
 ## Copyright Notice
 
-   Copyright (c) 2018 IETF Trust and the persons identified as the  
-   document authors.  All rights reserved.  
-
-   This document is subject to BCP 78 and the IETF Trust's Legal  
-   Provisions Relating to IETF Documents  
-   (http://trustee.ietf.org/license-info) in effect on the date of  
-   publication of this document.  Please review these documents  
+Please review these documents  
    carefully, as they describe your rights and restrictions with  
    respect to this document.  Code Components extracted from this  
    document must include Simplified BSD License text as described  
    in Section 4.e of the Trust Legal Provisions and are provided  
    without warranty as described in the Simplified BSD License  
+
 ## Table of Contents
 
    1.  Introduction
@@ -60,7 +55,7 @@
    Author's Address
    
 ## 1  .  Introduction
-
+ 
    This document describes a best practice for ingesting  
    encoded media content from a live source such as a  
    live video encoder towards distributed media  
@@ -76,32 +71,35 @@
    This challenge comes from the fact that  
    there are multiple levels of interoperability  
    that need to be adressed and achieved.  
+
    <br>
-   <br>
+ 
    For example, the network protocol for transmission  
    of data and the setup of the connectivity are important.  
    This includes schemes for establishing the ingest  
    connection, handling disconnections and failures,  
    procedures for repeatedly sending and receving  
-   the data, and timely resolution of hostnames
+   the data, and timely resolution of hostnames  
+   
    <br>
-   <br>
+
    A second level of interoperability lies  
    in the media container and coded media formats.  
    The Moving Picture Experts Group defined several media  
-   container formats such as [ISOBMFF] and MPEG-2 Transport
+   container formats such as [ISOBMFF] and MPEG-2 Transport  
    Stream which are widely adopted and well supported.  
    However, these are general purpose formats,  
    targetting several different application areas.  
-   To do so they provide many different profiles and options.
+   To do so they provide many different profiles and options.  
    Detailed operability is often achieved through  
    other application standards such as those for  
    the broadcast or storage. In addition, the codec  
    and profile used, e.g. [HEVC] is an important  
    interoperability point that itself also  
-   has different profiles and options.
+   has different profiles and   standardized tech.
+   
    <br>
-   <br>
+
    A third level, is the way metadata is  
    inserted in streams which can be a source  
    of interoperability issues, especially for live  
@@ -111,15 +109,17 @@
    of such metadata include [SCTE-35] markers which  
    are often found in broadcast streams and other  
    metadata like ID3 tags [ID3v2].
+  
    <br>
-   <br>
+
    Fourth, for live media handling the timeline  
    of the presentation consistently is important.  
    This includes correct sampling of media, avoiding  
    timeline discontinuities and  synchronizing  
    timestamps attached by different live sources.
+   
    <br>
-   <br>
+
    Fifth, in streaming workflows it is important  
    to have support for failovers of both the live sources  
    and the media processing entities. This is important  
@@ -130,19 +130,21 @@
    the multile live sources and media processing to  
    work together in a redundant workflow where  
    some of the components might fail. 
+   
    <br>
-   <br>
+
    This document provides an industry best  
    practice approach for establishing these  
    interoperability points for live media ingest.  
-   The approaches are based on known standardized
+   The approaches are based on known standardized  
    technologies and have been tested and deployed  
    in several streaming large scale streaming  
    deployments. Two key workflows have been  
    identified for which two different media  
-   ingest profiles will be detailed.
+   ingest profiles will be detailed.  
+   
    <br>
-   <br>
+
    In first workflow, encoded media is ingested  
    downstream for further processing of the media.  
    Examples of such media processing could be any  
@@ -151,16 +153,17 @@
    Other operations could include watermarking,  
    content insertion and generating streaming manifests  
    based on [DASH] or HLS[RFC8216]. What is typical  
-   of these operations is that they actively inspect,
+   of these operations is that they actively inspect,  
    or modify the media content and may  
    generate new derived media content.  
    In this workflow it is is important  
-   to convey mediadata and metadata that
+   to convey mediadata and metadata that  
    assists such active media processing operations.  
    This is workflow type will be adressed  
    in the first profile.
+
    <br>
-   <br>
+
    In the second workflow, the encoded media is ingested   
    into an entity that does none or very minimal inspection  
    or modification of the media content. The main aim  
@@ -173,102 +176,102 @@
    not be aware of media specific aspects. In fact, streaming  
    protocols like MPEG DASH and HTTP Live Streaming have been  
    developed with re-use of such a media agnostic  
-   Content Delivery Networks in mind. For ingesting
+   Content Delivery Networks in mind. For ingesting  
    encoded media into a content delivery network it  
    is important to have the media presentation in a form  
    that is very close or matching to the format  
    that the clients need to playback the presentation,  
    as changing or complementing the media presentation  
    will be difficult. This second workflow is addressed  
-   in profile 2.
+   in profile 2.  
    
-   Diagram 1: Example with media ingest in profile 1
+   Diagram 1: Example with media ingest in profile 1  
 
-
-   Diagram 2: Example with media ingest in profile 2
-
-
+   Diagram 2: Example with media ingest in profile 2  
   
-   Diagram 1 shows the workflow with a live media ingest from a  
-   live media source towards an active media processing entity.  
+   Diagram 1 shows the workflow with a live media ingest from a    
+   live media source towards an active media processing entity.   
    In the example in diagram 1 the media processing entity  
    prepares the final media presentation for the client  
-   that is delivered by the Content Delivery Network to a client.  
+   that is delivered by the Content Delivery Network to a client.    
 
    Diagram 2 shows the example in workflow 2 were content  
    is ingested directly into a Content Delivery Network.  
-   The content delivery network enables the delivery to the client.  
+   The content delivery network enables the delivery to the client.    
   
    <br>
-   <br>
-   An example of a media ingest protocol  
-   is the ingest part of Microsoft Smooth  
-   Streaming protocol [MS-SSTR]. This protocol  
-   connects live encoders to the Microsoft Smooth  
-   Streaming server and to the Microsoft Azure cloud.  
 
-   This protocol has shown to be robust, flexible and  
-   easy to implement in live encoders. In addition it  
-   provided features for high availability and  
-   server side redundancy.  
+   An example of a media ingest protocol   
+   is the ingest part of Microsoft Smooth   
+   Streaming protocol [MS-SSTR]. This protocol   
+   connects live encoders to the Microsoft Smooth   
+   Streaming server and to the Microsoft Azure cloud.   
+   This protocol has shown to be robust, flexible and   
+   easy to implement in live encoders. In addition it   
+   provided features for high availability and   
+   server side redundancy.   
    
    <br>
+
+   The first profile relating to workflow 1   
+   advances over the smooth ingest procotol   
+   including lessons learned over the last   
+   ten years after the initial deployment of    
+   smooth streaming in 2009 and several advances   
+   on signalling of information   
+   such as timed metadata markers for content insertion.   
+   In addition, it incorporates the latest media formats   
+   and protocols, making it ready for current and   
+   next generation media codecs such as [HEVC]   
+   and protocols like MPEG DASH [DASH].   
+   
+  <br>
+
+   A second profile is included for ingest of media   
+   streaming presentations to entities were    
+   the media is not altered actively, and further   
+   media processing perhaps restricted to the manifests.   
+   A key idea of this part of the specification is to re-use   
+   the similarities of MPEG DASH [DASH] and HLS[RFC8216] protocols   
+   to enable a simultaneous ingest of media   
+   presentations of these two formats using   
+   common media segments such as based on [ISOBMFF]   
+   and [CMAF] formats. In addition, in this   
+   approach naming is important to enable direct   
+   processing and storage of the presentation.   
+
+  <br>
+
+   Based on our experience we present   
+   these two as separate profiles to   
+   handle the two workflows.   
+   We made this decision as it will   
+   reduce a lot of overhead in the   
+   information that needs to be signalled   
+   compared to having both profiles   
+   combined into one, as was the case   
+   in a prior version of this draft.   
+
+  <br>
+
+   We further motivate this best practice presented   
+   in this document supporting using   
+   HTTP [RFC2626]  and [ISOBMFF] a bit more.   
+   We believe that Smooth streaming [MS-SSTR]   
+   and HLS [RFC8216] have shown that HTTP usage   
+   can survive the Internet ecosystem for   
+   media delivery. In addition, HTTP based   
+   ingest fits well with current HTTP   
+   based streaming protocols including [DASH].   
+   In addition, there is good support for HTTP   
+   middleboxes and HTTP routing available   
+   making it easier to debug and trace errors.   
+   The HTTP POST provides a push based   
+   method for delivery for pusing the   
+   live content when available.  
+
    <br>
-   The first profile relating to workflow 1  
-   advances over the smooth ingest procotol  
-   including lessons learned over the last  
-   ten years after the initial deployment of  
-   smooth streaming in 2009 and several advances  
-   on signalling of information  
-   such as timed metadata markers for content insertion.  
-   In addition, it incorporates the latest media formats  
-   and protocols, making it ready for current and  
-   next generation media codecs such as [HEVC]  
-   and protocols like MPEG DASH [DASH].  
-  <br>
-  <br>
-   A second profile is included for ingest of media  
-   streaming presentations to entities were  
-   the media is not altered actively, and further  
-   media processing perhaps restricted to the manifests.  
-   A key idea of this part of the specification is to re-use  
-   the similarities of MPEG DASH [DASH] and HLS[RFC8216] protocols  
-   to enable a simultaneous ingest of media  
-   presentations of these two formats using  
-   common media segments such as based on [ISOBMFF]  
-   and [CMAF] formats. In addition, in this  
-   approach naming is important to enable direct  
-   processing and storage of the presentation.  
-  <br>
-  <br>
-   Based on our experience we present  
-   these two as separate profiles to  
-   handle the two workflows.  
-   We made this decision as it will  
-   reduce a lot of overhead in the  
-   information that needs to be signalled  
-   compared to having both profiles  
-   combined into one, as was the case  
-   in a prior version of this draft.  
-  <br>
-  <br>
-   We further motivate this best practice presented  
-   in this document supporting using  
-   HTTP [RFC2626]  and [ISOBMFF] a bit more.  
-   We believe that Smooth streaming [MS-SSTR]  
-   and HLS [RFC8216] have shown that HTTP usage  
-   can survive the Internet ecosystem for  
-   media delivery. In addition, HTTP based  
-   ingest fits well with current HTTP  
-   based streaming protocols including [DASH].  
-   In addition, there is good support for HTTP  
-   middleboxes and HTTP routing available  
-   making it easier to debug and trace errors.  
-   The HTTP POST provides a push based  
-   method for delivery for pusing the  
-   live content when available.
-   <br>
-   <br>
+
    The binary media format for conveying  
    the media is based on fragmented MPEG-4 as  
    specified in [ISOBMFF] [CMAF]. A key benefit of this  
@@ -283,35 +286,37 @@
    and that the industry is already heading  
    in this direction following recent specifications  
    like [CMAF] and HLS[RFC8216].
+
    <br>
-   <br>
+
    Regarding the transports protocol, in future versions,  
    alternative transport protocols could be considered  
    advancing over HTTP. We believe the proposed media format  
    will provide the same benefits with other transports  
    protocols. Our view is that for current and near future  
    deployments using [RFC2626]  is still a good approach.  
+
   <br>
-  <br>
-   The document is structured as follows, in section 2  
-   we present the conventions and terminology used throughout  
-   this document. In section 3 we present use cases and  
-   workflows related to media ingest and the two profiles  
-   presented. Sections 4-8 will detail the protocol and  
-   the two different profiles.  
-   <br>
+
+   The document is structured as follows, in section 2   
+   we present the conventions and terminology used throughout   
+   this document. In section 3 we present use cases and   
+   workflows related to media ingest and the two profiles   
+   presented. Sections 4-8 will detail the protocol and   
+   the two different profiles.   
+
    <br>
 
 ## 2  .  Conventions and Terminology
 
-   The following terminology is used in the rest of this document.
+   The following terminology is used in the rest of this document.  
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",  
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this  
-   document are to be interpreted as described in BCP 14, RFC 2119  
-   [RFC2119].
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",    
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this    
+   document are to be interpreted as described in BCP 14, RFC 2119   
+   [RFC2119].  
 
-   ISOBMFF: the ISO Base Media File Format specified in [ISOBMFF].
+   ISOBMFF: the ISO Base Media File Format specified in [ISOBMFF].  
 
    **Live Ingest Stream**:  
             the stream of media produced by the live source  
@@ -432,8 +437,9 @@
   processing entity can generate the media presentation  
   for streaming to clients or other derived media  
   presentations as needed by a client.  
+  
   <br>
-  <br>
+ 
   Diagram 4 shows an alternative example with ingest  
   to a content delivery network, or perhaps another  
   passive media entity such as a storage. In this case  
@@ -447,8 +453,9 @@
 
   Diagram 4:
   Streaming workflow with DASH ingest in profile 2
+  
   <br>
-  <br>
+
   Practice has shown that the ingest schemes  
   can be quite different for the two configurations  
   , and that combining them into a single protocol  
@@ -459,9 +466,10 @@
   and resetting the connection. Therefore,  
   the two procedures for media ingest in  
   such two common workflows are presented  
-  as separate profiles in the next two sections.
+  as separate profiles in the next two sections.  
+  
   <br>
-  <br>
+ 
   In Diagram 5 we highlight some of the key  
   differences for practical consideration between  
   the profiles. In profile 1 the encoder can be  
@@ -470,9 +478,10 @@
   delivery such as encryption or generating the streaming  
   manifests. In addition the distribution of functionalities  
   can make it easier to scale a deployment with many  
-  live media sources and media processing entities.
+  live media sources and media processing entities.  
+  
   <br>
-  <br>
+ 
   In some cases, an encoder has sufficient  
   capabilities to prepare the final presentation for the  
   client, in that case content can be ingested directly  
@@ -486,8 +495,9 @@
   profiles. The best choice for a specific platform depends  
   on many of the use case specific requirements, circumstances  
   and the available technologies.  
+  
   <br>
-  <br>
+
   In Diagram 6 we highlight another aspect taken into  
   consideration for large scale systems with many users.  
   Often one would like to run multiple encoders,  
@@ -507,13 +517,14 @@
   and seamlesslessly without causing service interruption.  
   In both profiles we detail how this failover and redundancy  
   support can be achieved.  
+  
   <br>
-  <br>
+ 
   Diagram 5: Differences profile 1 and profile 2 for use cases  
 
 
   Diagram 6:  
-  workflow with redundant sources and media processing entities
+  workflow with redundant sources and media processing entities  
 
 
 ## 4  . General Ingest Protocol Behavior
@@ -569,27 +580,27 @@ In addition this allows extension to codecs like [HEVC] and
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
 fragmented MPEG-4 ingest is illustrated in Diagram 7.
-<br>
+
 <br>
 
 Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources  
 
 <br>
-<br>
-In diagrams 8-10 we detail some of the concepts and structures.  
-Diagram 8 shows the data format structure of fragmented  
-MPEG-4 [ISOBMFF] and [CMAF]. In this format media meta data  
-(playback time, sample duration) and sample data (encoded samples)  
-are interleaved. the moof box as specified in [ISOBMFF] is used  
-to signal the information to playback and decode the samples  
-followed in the mdat box.  
-The ftyp and moov box contain the track specific information  
-and can be seen as a header of the stream, sometimes referred  
-as a [CMAF] header. The styp box can be used to signal the  
-type of segment. The combination of styp moof mdat can be referred  
-as a segment, the combination of ftyp and moof can be referred  
-to as an init segment or a CMAF header.
-<br>
+
+In diagrams 8-10 we detail some of the concepts and structures.   
+Diagram 8 shows the data format structure of fragmented   
+MPEG-4 [ISOBMFF] and [CMAF]. In this format media meta data   
+(playback time, sample duration) and sample data (encoded samples)   
+are interleaved. the moof box as specified in [ISOBMFF] is used   
+to signal the information to playback and decode the samples   
+followed in the mdat box.   
+The ftyp and moov box contain the track specific information   
+and can be seen as a header of the stream, sometimes referred   
+as a [CMAF] header. The styp box can be used to signal the   
+type of segment. The combination of styp moof mdat can be referred   
+as a segment, the combination of ftyp and moof can be referred   
+to as an init segment or a CMAF header.  
+
 <br>
 
 Diagram 8: fragmented mp4 stream:  
@@ -607,45 +618,46 @@ send over a separate connection, possibly from a different
 live ingest source.
 
 <br>
+
+In diagram 10 another advantage of this synchronisation model   
+is illustrated, the concept of late binding. In the case   
+of late binding a new stream becomes available. By using   
+the segment boundaries and a common timeline it can   
+be received by the media processing entity and embedded   
+in the presentation. Late binding is useful for many   
+practical use cases when broadcasting television   
+content with different types of metadata tracks.  
+
 <br>
-In diagram 10 another advantage of this synchronisation model  
-is illustrated, the concept of late binding. In the case  
-of late binding a new stream becomes available. By using  
-the segment boundaries and a common timeline it can  
-be received by the media processing entity and embedded  
-in the presentation. Late binding is useful for many  
-practical use cases when broadcasting television  
-content with different types of metadata tracks.
-<br>
-<br>
+
 Diagram 9: fmp4 stream synchronisation:  
 
 
 Diagram 10: fmp4 late binding:  
 
 <br>
-<br>
-Diagram 11 shows the flow of the media ingest. It starts with a  
-DNS resolution (if needed) and an authentication step (Authy,  
-TLS certificate) to establish a secure TCP connection.  
-In some private datacenter deployments where nodes  
-are not reachable from outside, a non authenticated connection  
-MAY also be used. The ingest source then issues an empty POST  
-to test that the media processing entity is listening. It then  
-start sending the moov + ftyp box (the init segment), followed  
-by the rest of the segments in the fragmented MPEG-4 stream. In  
-the end of the session, for tear down the source can send an  
-empty mfra box to close the connection.  
 
-Diagram 11: fmp4 ingest flow  
+Diagram 11 shows the flow of the media ingest. It starts with a   
+DNS resolution (if needed) and an authentication step (Authy,   
+TLS certificate) to establish a secure TCP connection.   
+In some private datacenter deployments where nodes   
+are not reachable from outside, a non authenticated connection   
+MAY also be used. The ingest source then issues an empty POST   
+to test that the media processing entity is listening. It then   
+start sending the moov + ftyp box (the init segment), followed   
+by the rest of the segments in the fragmented MPEG-4 stream. In   
+the end of the session, for tear down the source can send an   
+empty mfra box to close the connection.   
+
+Diagram 11: fmp4 ingest flow   
 </p>
 
 ## 6  . Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
 
 This section describes the protocol behavior specific to  
 profile 1: fragmented MPEG-4 ingest. Operation of this  
-profile MUST also adhere to general requirements in secion 4.
-<br>
+profile MUST also adhere to general requirements in secion 4.  
+
 <br>
 
 ### 6.1. General Protocol Requirements
@@ -770,15 +782,16 @@ a track with timed text, captions and/or subtitle streams.
   messages defined in section 5.10.3.3 of [DASH]. For example,  
   DASH Event messages contain a schemeIdUri that defines  
   the payload of the message.  
+
   <br>
-  <br>
-  Table 1 provides some
-  example schemes in DASH event messages and Table 2
-  illustrates an example of a SCTE-35 marker stored
-  in a DASH emsg.  The presented approach allows ingest of
-  timed metadata from different sources,
-  possibly on different locations by embedding them in
-  sparse metadata tracks.
+
+  Table 1 provides some  
+  example schemes in DASH event messages and Table 2  
+  illustrates an example of a SCTE-35 marker stored  
+  in a DASH emsg.  The presented approach allows ingest of  
+  timed metadata from different sources,  
+  possibly on different locations by embedding them in  
+  sparse metadata tracks.  
   
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI         | Reference                            | 
@@ -798,10 +811,10 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 | presentation_time_delta | non-negative number, splice time    |
 |                         | relative  to tfdt                   |
 | event_duration          | duration of event  "0xFFFFFFFF"     |
-|                         |  indicates unknown duration          |
-| Id                      | unique identifier for message        |
-| message_data            | splice info section including CRC    |
-<br>
+|                         |  indicates unknown duration         |
+| Id                      | unique identifier for message       |
+| message_data            | splice info section including CRC   |
+
 <br>
 
   The following steps are recommended for timed metadata  
@@ -871,8 +884,9 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
   logic from the live encoder side, highly reliable live streaming  
   setups can be build. In this section, we discuss requirements  
   for failover scenarios. 
+
   <br>
-  <br>
+
   The following steps are required for a live encoder or media  
   ingest source to deal with a failing media processing entity.  
 
@@ -968,15 +982,17 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    provide pass through functionality. In this case the media  
    ingest source also provides the manifest based on MPEG DASH[DASH]  
    or HTTP Live Streaming [RFC8216].   
-    <br>
-    <br>
+
+<br>
+
    The key idea here is to reuse the fragmented MPEG-4 ingest to  
    enable simulataneous ingest of DASH and HLS based on the  
    fragmented MPEG-4 files using commonalities as  
    described in [CMAF] which is a format based on fragmented  
    MPEG-4 that can be used in both DASH and HLS presentations.  
-   <br>
-   <br>
+
+<br>
+
    The flow of operation in profile 2 is shown in Diagram 12. In this  
    case the live ingest source (media source) sends a manifest first.  
    Based on this manifest the media processing entity can setup  
@@ -986,8 +1002,9 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    using URLS corresponding to relative  
    paths and segment names in the manifest.  
    e.g. http://hostname/presentationpath/relative_path/segment1.cmf  
-   <br>
-   <br>
+
+<br>
+
    This profile re-uses as much functionality as possible from  
    profile  1 as the manifest can be seen  
    as a complementary addition to the  
@@ -1110,7 +1127,7 @@ John Deutscher Microsoft
 Patrick Gendron Harmonic Inc.  
 Nikos Kyriopoulos MediaExcel  
 Rufael Mekuria Unified Streaming  
-Sam Geqiang Microsoft  
+Sam Geqiang Zhang Microsoft  
 Arjen Wagenaar Unified Streaming  
 Dirk Griffioen Unified Streaming  
 Matt Poole ITV  
