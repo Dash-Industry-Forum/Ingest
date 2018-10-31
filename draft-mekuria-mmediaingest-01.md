@@ -185,9 +185,7 @@ Please review these documents
    will be difficult. This second workflow is addressed  
    in profile 2.  
    
-   Diagram 1: Example with media ingest in profile 1  
-
-   Diagram 2: Example with media ingest in profile 2  
+   ![](Images/Diagram1and2.png) 
   
    Diagram 1 shows the workflow with a live media ingest from a    
    live media source towards an active media processing entity.   
@@ -448,11 +446,7 @@ Please review these documents
   In this case, still fragmented MPEG-4 segments can be used,  
   but the ingest works slightly different.  
 
-  Diagram 3:
-  Streaming workflow with fragmented MPEG-4 ingest in profile 1
-
-  Diagram 4:
-  Streaming workflow with DASH ingest in profile 2
+  ![](Images/Diagram3andDiagram4.png)
   
   <br>
 
@@ -520,11 +514,7 @@ Please review these documents
   
   <br>
  
-  Diagram 5: Differences profile 1 and profile 2 for use cases  
-
-
-  Diagram 6:  
-  workflow with redundant sources and media processing entities  
+  ![](Images/Diagram5and6.png) 
 
 
 ## 4  . General Ingest Protocol Behavior
@@ -583,7 +573,7 @@ fragmented MPEG-4 ingest is illustrated in Diagram 7.
 
 <br>
 
-Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources  
+ ![](Images/Diagram7.png) 
 
 <br>
 
@@ -603,7 +593,7 @@ to as an init segment or a CMAF header.
 
 <br>
 
-Diagram 8: fragmented mp4 stream:  
+![](Images/Diagram8.png) 
 
 In diagram 9 we illustrate the synchronisation model, that  
 is in many ways similar, but simplified, from the synchronisation  
@@ -630,10 +620,7 @@ content with different types of metadata tracks.
 
 <br>
 
-Diagram 9: fmp4 stream synchronisation:  
-
-
-Diagram 10: fmp4 late binding:  
+![](Images/Diagram9andDiagram10.png) 
 
 <br>
 
@@ -649,8 +636,8 @@ by the rest of the segments in the fragmented MPEG-4 stream. In
 the end of the session, for tear down the source can send an   
 empty mfra box to close the connection.   
 
-Diagram 11: fmp4 ingest flow   
-</p>
+![](Images/Diagram11.png)  
+
 
 ## 6  . Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
 
@@ -1015,7 +1002,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    uses the same fragmented MPEG-4 layer based on [ISOBMFF]  
    and [CMAF]. 
 
-   Diagram 12  
+  ![](Images/Diagram12.png)   
 
 ## 8  .  profile 2: DASH and HLS Ingest Protocol Behavior
 
