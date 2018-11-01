@@ -14,7 +14,7 @@
    Details on carriage of metadata markers, timed text,  
    subtitles and encryption specific metadata are also included.  
 
-## Copyright Notice ## {#CopyRights}
+## Copyright Notice and Disclaimer ## {#CopyRights}
 
 Please review these documents  
    carefully, as they describe your rights and restrictions with  
@@ -22,6 +22,34 @@ Please review these documents
    document must include Simplified BSD License text as described  
    in Section 4.e of the Trust Legal Provisions and are provided  
    without warranty as described in the Simplified BSD License  
+
+This is a document made available by DASH-IF. The technology 
+embodied in this document may involve the use of intellectual
+property rights, including patents and patent applications owned 
+or controlled by any of the authors or developers of this document. 
+No patent license, either implied or express, is granted to you by 
+this document. DASH-IF has made no search or investigation for such 
+rights and DASH-IF disclaims any duty to do so. The rights and obligations
+ which apply to DASH-IF documents, as such rights and obligations are set 
+ forth and defined in the DASH-IF Bylaws and IPR Policy including, 
+ but not limited to, patent and other intellectual property license 
+ rights and obligations. A copy of the DASH-IF Bylaws and IPR Policy 
+ can be obtained at http://dashif.org/.
+
+The material contained herein is provided on an AS IS basis and to the   
+maximum extent permitted by applicable law, this material is provided   
+AS IS, and the authors and developers of this material and DASH-IF   
+hereby disclaim all other warranties and conditions, either express, 
+implied or statutory, including, but not limited to, any (if any) implied  
+warranties, duties or conditions of merchantability, 
+of fitness for a particular purpose, of accuracy or completeness of responses, 
+of workmanlike effort, and of lack of negligence.
+In addition, this document may include references to documents and/or   
+technologies controlled by third parties. 
+Those third party documents and technologies may be subject to third party   
+rules and licensing terms. No intellectual property license, either implied or express,
+to any third party material is granted to you by this document or DASH-IF.   
+DASH-IF makes no any warranty whatsoever for such third party material.
 
 ## Table of Contents  ## {#TableContents}
 
@@ -195,6 +223,7 @@ Please review these documents
    in profile 2.  
    
   <pre>
+
    Diagram 1: Example with media ingest in profile 1
 
    ============       ==============      ==============
@@ -206,6 +235,7 @@ Please review these documents
    </pre>
 
    <pre>
+
    Diagram 2: Example with media ingest in profile 2
  
    ============       ==============      
@@ -213,6 +243,7 @@ Please review these documents
    || media  ||====>>>||Delivery  ||==>>>> Client
    || source ||       || Network  ||  
    ============       ============== 
+
   </pre>
 
    Diagram 1 shows the workflow with a live media ingest from a    
@@ -659,7 +690,7 @@ The first profile assumes ingest to an active media processing entity,
 from one or more live ingest sources, ingesting one or more  
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by using  
-standardized media container formats based on [=ISOBMFF=][=CMAF=].  
+standardized media container formats based on [=ISOBMFF=] [=CMAF=].  
 In addition this allows extension to codecs like [=HEVC=] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
@@ -956,19 +987,21 @@ a track with timed text, captions and/or subtitle streams.
   Example messages include e-msg [=DASH=], [=DVB-DASH=], [=SCTE-35=] , [=id3v2=] 
 
 <pre>
+
 Table 1 Example of DASH emsg schemes  URI
-| Scheme URI         | Reference                            | 
-| --------------------------:|:----------------------------:| 
+| Scheme URI                 | Reference                      | 
+| --------------------------:|:------------------------------:| 
 | urn:mpeg:dash:event:2012   | [=DASH=], 5.10.4               | 
 | urn:dvb:iptv:cpm:2014      | [=DVB-DASH=], 9.1.2.1          | 
 |  urn:scte:scte35:2013:bin  | [=SCTE-35=] 14-3 (2015), 7.3.2 |  
-| www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH     |
+| www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
 
 
 
 <pre>
+
 Table 2 example of a SCTE-35 marker embedded in a DASH emsg  
 | Tag                     |          Value                      |
 |------------------------:|:-----------------------------------:|
@@ -981,6 +1014,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 |                         |  indicates unknown duration         |
 | Id                      | unique identifier for message       |
 | message_data            | splice info section including CRC   |
+
 </pre>
 
   The following steps are recommended for timed metadata  
@@ -1303,6 +1337,7 @@ to general requirements in section 5.
         of the other segments
 
 # Security Considerations ## {#security}
+
    Security consideration are extremely important  
    for media ingest. Retrieving media from a illicit  
    source can cause inappropriate content  
@@ -1444,6 +1479,7 @@ Alex Giladi Comcast
     <dfn dfn>MS-SSTR</dfn>   Smooth streaming protocol  
               https://msdn.microsoft.com/en-us/library/ff469518.aspx
                 last updated March 16 2018 (last acessed June 11 2018)
+
 # Author's Address # {#Authors}
 
    Rufael Mekuria (editor)  
@@ -1469,7 +1505,7 @@ Shortname: ingest
 URL: https://dashif.org/guidelines/
 Issue Tracking: GitHub https://github.com/Dash-Industry-Forum/Ingest/issues
 Repository: https://github.com/Dash-Industry-Forum/Ingest GitHub
-Editor: Rufael Mekuria
+Editor: DASH IOP Ingest TF 
 
 Default Highlight: text
 <!-- Enabling line numbers breaks code blocks in PDF! (2018-10-02) -->
