@@ -1,7 +1,7 @@
 ﻿# Guidelines for Implementation: DASH-IF Ingest # {#IngestSpec}
              
 
-## Abstract # {#Abstract}
+## Abstract ## {#Abstract}
 
    This draft presents a best industry practice for  
    ingesting encoded live media to media processing entities.  
@@ -14,7 +14,7 @@
    Details on carriage of metadata markers, timed text,  
    subtitles and encryption specific metadata are also included.  
 
-## Copyright Notice # {#CopyRights}
+## Copyright Notice ## {#CopyRights}
 
 Please review these documents  
    carefully, as they describe your rights and restrictions with  
@@ -23,7 +23,7 @@ Please review these documents
    in Section 4.e of the Trust Legal Provisions and are provided  
    without warranty as described in the Simplified BSD License  
 
-## Table of Contents  # {#TableContents}
+## Table of Contents  ## {#TableContents}
 
    2.  Introduction
    3.  Conventions and Terminology
@@ -810,14 +810,14 @@ Diagram 11: fmp4 ingest flow
 ||===============================================================||
 </pre>
 
-# Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior # {#profile_1}
+# Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior ## {#profile_1}
 
 This section describes the protocol behavior specific to  
 profile 1: fragmented MPEG-4 ingest. Operation of this  
 profile MUST also adhere to general requirements in secion 4.  
 
 
-## General Protocol Requirements # {#general_Protocol_Requirements_p1}
+## General Protocol Requirements ## {#general_Protocol_Requirements_p1}
 
      1. The live encoder or ingest source SHOULD start
         by sending an HTTP POST request with an empty "body"
@@ -854,7 +854,7 @@ profile MUST also adhere to general requirements in secion 4.
      8. The live ingest source MAY use a separate relative path
         in the POST_URL for ingest of each different track
 
-## Requirements for formatting Media Tracks # {#Requirements_for_formatting_Media_Tracks}
+## Requirements for formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
      1. The trackFragmentDecodeTime box "tfdt" box
         MUST be present for each segment posted.
@@ -887,7 +887,7 @@ profile MUST also adhere to general requirements in secion 4.
         contain the "tfdt" box specifying  the fragments decode time
         and the "tfhd" box specifying the track id.
 
-## Requirements for Timed Text Captions and Subtitle streams # {#_timed_text_and_subtitle_streams}
+## Requirements for Timed Text Captions and Subtitle streams ## {#_timed_text_and_subtitle_streams}
 
 The media ingest follows the following requirements for ingesting
 a track with timed text, captions and/or subtitle streams.
@@ -927,7 +927,7 @@ a track with timed text, captions and/or subtitle streams.
            8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [=MPEG-4-30=]
              Caption data is embedded in SEI messages in video track ccea
 
-## Requirements for Timed Metadata # {#timed_metadata}
+## Requirements for Timed Metadata ## {#timed_metadata}
    
   This section discusses the specific formatting requirements  
   for ingest of timed metadata related to events and markers for  
@@ -1038,7 +1038,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         XML metadata can for example be coded as base64 as
         common for [=SCTE-35=] metadata messages
 
-##  Requirements for Media Processing Entity Failover # {#failover}
+##  Requirements for Media Processing Entity Failover ## {#failover}
 
   Given the nature of live streaming, good failover support is  
   critical for ensuring the availability of the service.  
@@ -1101,7 +1101,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
      11. In case a media source receives an HTTP 412 response,
          it SHOULD resend "ftyp" and "moov" boxes
  
-## Requirements for Live Media Source Failover # {#failover_source}
+## Requirements for Live Media Source Failover ## {#failover_source}
  
   Live encoder or media ingest source failover is the second type  
   of failover scenario that needs to be addressed for end-to-end  
@@ -1218,12 +1218,12 @@ Diagram 12
 ||===============================================================|| 
   </pre>
 
-#  profile 2: DASH Ingest Protocol Behavior # {#Dash_ingest_behavior}
+# profile 2: DASH Ingest Protocol Behavior # {#Dash_ingest_behavior}
 
 Operation of this profile MUST also adhere  
 to general requirements in section 5.
 
-##  General Protocol Requirements   # {#Dash_ingest_behavior_reqs}
+##  General Protocol Requirements   ## {#Dash_ingest_behavior_reqs}
 
     1. Before sending the segments
         based on fragmentedMP4Stream the live encoder/source
@@ -1261,7 +1261,7 @@ to general requirements in section 5.
         individual POST requests as defined in [=RFC2626=]  enabling
         re-use of the TCP connection for multiple POST requests.
 
-## Requirements for Formatting Media Tracks # {#Dash_ingest_behavior_media_track}
+## Requirements for Formatting Media Tracks ## {#Dash_ingest_behavior_media_track}
 
      1. Media data tracks and segments MUST be formatted and delivered
         conforming  to the same requirements as stated in 6.2
@@ -1269,7 +1269,7 @@ to general requirements in section 5.
      3. Formatting described in manifest and media track MUST
         correspond consistently
 
-## Requirements for Timed Text Captions and Subtitle stream # {#Dash_ingest_behavior_text_track}
+## Requirements for Timed Text Captions and Subtitle stream ## {#Dash_ingest_behavior_text_track}
 
      1. Timed Text, caption and subtitle stream tracks  MUST
         be formatted conforming to the same requirements as in 6.3
@@ -1278,7 +1278,7 @@ to general requirements in section 5.
      3. Formatting described in manifest and
         media track MUST correspond consistently
 
-## Requirements for Timed Metadata # {#Dash_ingest_behavior_meta_track}
+## Requirements for Timed Metadata ## {#Dash_ingest_behavior_meta_track}
 
      1. Timed Metadata tracks MAY be formatted conforming
         to the same requirements as in 8.4
@@ -1288,19 +1288,19 @@ to general requirements in section 5.
      3. DASH event messages SHOULD also
         be signalled in the Manifest
 
-## Requirements for Media Processing Entity Failover # {#Dash_ingest_behavior_fail_track}
+## Requirements for Media Processing Entity Failover ## {#Dash_ingest_behavior_fail_track}
      1. Requirements for failover are similar as stated in 6.4  
      2. In addition the live encoder source SHOULD resend the manifest  
         before sending any of the other segments
 
-## Requirements for Live Media Source Failover # {#Dash_ingest_behavior_fail_source_track}
+## Requirements for Live Media Source Failover ## {#Dash_ingest_behavior_fail_source_track}
 
      1. Requirements for failover are similar as stated in 6.5  
      2. In addition the live encoder source SHOULD  
         resend the manifest before sending any  
         of the other segments
 
-# Security Considerations # {#security}
+# Security Considerations ## {#security}
    Security consideration are extremely important  
    for media ingest. Retrieving media from a illicit  
    source can cause inappropriate content  
@@ -1348,7 +1348,7 @@ Alex Giladi Comcast
 
 #  References # {#references}
 
-## Normative References # {#references_norm}
+## Normative References ## {#references_norm}
 
     <dfn dfn>RFC2119</dfn>  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -1413,7 +1413,7 @@ Alex Giladi Comcast
     <dfn dfn>RFC7617</dfn> J Reschke "The Basic HTTP Authentication Scheme"
              IETF RFC 7617 September 2015
 
-## Informative References # {#references_inf}
+## Informative References ## {#references_inf}
 
     <dfn dfn>RFC2626</dfn>  R. Fielding et al
              "Hypertext Transfer Protocol HTTP/1.1",
@@ -1425,7 +1425,7 @@ Alex Giladi Comcast
     <dfn dfn>RFC8216</dfn>  R. Pantos, W. May "HTTP Live Streaming", August 2018
     (last acessed)  
 
-## URL References # {# references_url}
+## URL References ## {# references_url}
 
     <dfn dfn>fmp4git</dfn>    Unified Streaming github fmp4 ingest,
                 "https://github.com/unifiedstreaming/fmp4-ingest".
