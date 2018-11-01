@@ -1407,7 +1407,7 @@ Alex Giladi Comcast
                Based DVB Services over IP Based Networks"
                ETSI TS 103 285
 
-    <dfn dfn>RFC7617</dfn> J Reschke "The 'Basic' HTTP Authentication Scheme"
+    <dfn dfn>RFC7617</dfn> J Reschke "The Basic HTTP Authentication Scheme"
              IETF RFC 7617 September 2015
 
 ## Informative References
