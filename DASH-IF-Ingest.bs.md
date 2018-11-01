@@ -1,4 +1,4 @@
-# Live Media and Metadata Ingest Protocol
+# Guidelines for Implementation: DASH-IF Ingest
              
 
 ## Abstract
@@ -185,8 +185,26 @@ Please review these documents
    will be difficult. This second workflow is addressed  
    in profile 2.  
    
-   ![](Images/Diagram1and2.png) 
-  
+   <pre>
+
+   Diagram 1: Example with media ingest in profile 1
+
+   ============       ==============      ==============
+   || live   || ingest||  Active  || HLS  || Content  ||  HLS
+   || media  ||====>>>||processing||===>>>|| Delivery ||==>>>Client
+   || source ||       || entity   || DASH || Network  ||  DASH
+   ============       ==============      ==============
+   
+   Diagram 2: Example with media ingest in profile 2
+ 
+   ============       ==============      
+   || live   || ingest|| Content  ||   
+   || media  ||====>>>||Delivery  ||==>>>> Client
+   || source ||       || Network  ||  
+   ============       ============== 
+
+   </pre>
+
    Diagram 1 shows the workflow with a live media ingest from a    
    live media source towards an active media processing entity.   
    In the example in diagram 1 the media processing entity  
@@ -445,8 +463,6 @@ Please review these documents
   manifests for the media presentation.  
   In this case, still fragmented MPEG-4 segments can be used,  
   but the ingest works slightly different.  
-
-  ![](Images/Diagram3andDiagram4.png)
   
   <br>
 
@@ -463,7 +479,26 @@ Please review these documents
   as separate profiles in the next two sections.  
   
   <br>
- 
+   <pre>
+
+  Diagram 3: Streaming workflow with fragmented MPEG-4 ingest in profile 1
+
+  ============       ==============      ==============
+  || live   ||ingest ||  Media   || HLS  || Content  ||  HLS
+  || media  ||====>>>||processing||===>>>|| Delivery ||==>>> Client
+  || source || fmp4  || entity   || DASH || Network  ||  DASH
+  ============       ==============      ==============
+
+  Diagram 4:
+  Streaming workflow with DASH ingest in profile 2
+  ============ingest ==============      
+  || live   || DASH  || Content  ||   
+  || media  ||====>>>||Delivery  ||==>>>> Client
+  || source ||       || Network  ||  
+  ============       ==============   
+
+  </pre>
+  
   In Diagram 5 we highlight some of the key  
   differences for practical consideration between  
   the profiles. In profile 1 the encoder can be  
@@ -491,6 +526,43 @@ Please review these documents
   and the available technologies.  
   
   <br>
+  
+  <pre>
+
+    Diagram 5: Differences profile 1 and profile 2 for use cases
+  ============================================================
+  |Profile   | Encoder/Live source  | Media processing       |
+  |----------|----------------------|------------------------|
+  |Profile 1 |limited overview      |DRM,transcode, watermark|
+  |          | simple encoder       |man. create,   packaging|
+  |          | multiple sources     |content stitch, timed   |
+  |Profile 2 |Global overview       | cache, store, deliver  |
+  |          |encoder targets client|                        |
+  |          |only duplicate sources| manifest manipulation  |
+  ============================================================
+   
+  Diagram 6:
+  workflow with redundant sources and media processing entities
+  
+  ============ fmp4  ==============     
+  || live   || stream||  Media   || 
+  || media  ||====>>>||Processing|| \\
+  || source ||   //  ||  Entity  ||  \\ 
+  ============  //   ==============   \\  ============        
+  || live   || //                      \\ || load   || 
+  || media  ||// redundant stream       >>||balancer|| ==>>> Client
+  || source ||\\ stream                // =============
+  ============ \\     =============   // 
+  || live   ||  \\   || Media     || //     
+  ||ingest  ||====>>>||Processing ||//        
+  || source ||   //  || Entity    ||
+  ============  //   ===============
+  || live   || //     
+  ||ingest  ||// redundant stream       
+  || source ||       
+  ============    
+
+  </pre>
 
   In Diagram 6 we highlight another aspect taken into  
   consideration for large scale systems with many users.  
@@ -514,8 +586,7 @@ Please review these documents
   
   <br>
  
-  ![](Images/Diagram5and6.png) 
-
+  
 
 ## 4  . General Ingest Protocol Behavior
 
@@ -573,7 +644,30 @@ fragmented MPEG-4 ingest is illustrated in Diagram 7.
 
 <br>
 
- ![](Images/Diagram7.png) 
+ <pre>
+
+ Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources
+
+============ fmp4  ==============     
+|| live   || video ||          || 
+|| ingest ||====>>>||          ||
+|| source ||       ||          || 
+============       ||          ||      
+|| live   || fmp4  ||          ||
+|| ingest ||====>>>||  Active  ||      ==============
+|| source || audio ||   Media  || HLS  || Content  ||  HLS
+============       || procesing||===>>>|| Delivery ||==>>> Client
+|| live   || fmp4  ||  entity  || DASH || Network  ||  DASH
+||ingest  ||====>>>||          ||       =============
+|| source || text  ||          ||
+============       ||          ||
+|| live   || fmp4  ||          || 
+||ingest  || meta  ||          ||
+|| source ||  data ||          ||
+||        ||====>>>||          ||
+============       ==============
+
+ </pre>
 
 <br>
 
@@ -593,7 +687,15 @@ to as an init segment or a CMAF header.
 
 <br>
 
-![](Images/Diagram8.png) 
+<pre>
+
+Diagram 8: fragmented mp4 stream: 
+
+=========================================================
+||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
+=========================================================
+
+</pre>
 
 In diagram 9 we illustrate the synchronisation model, that  
 is in many ways similar, but simplified, from the synchronisation  
@@ -620,7 +722,28 @@ content with different types of metadata tracks.
 
 <br>
 
-![](Images/Diagram9andDiagram10.png) 
+<pre>
+
+Diagram 9: fmp4 stream synchronisation:
+
+=========================================================
+||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
+=========================================================
+||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
+=========================================================
+||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
+=========================================================
+
+Diagram 10: fmp4 late binding: 
+
+===================================================
+||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=
+===================================================
+                         ==========================
+                         ||ftyp||moov||styp||moof||
+                         =========================
+
+</pre>
 
 <br>
 
@@ -636,8 +759,34 @@ by the rest of the segments in the fragmented MPEG-4 stream. In
 the end of the session, for tear down the source can send an   
 empty mfra box to close the connection.   
 
-![](Images/Diagram11.png)  
-
+<pre>
+Diagram 11: fmp4 ingest flow
+||===============================================================||
+||=====================            ============================  ||
+||| live ingest source |            |  Media processing entity | ||
+||=====================            ============================  ||
+||        || <<------  DNS Resolve    -------->> ||              ||
+||        || <<------  Authenticate   -------->> ||              ||
+||        || <<------POST fmp4stream  -------->> ||              ||
+||=============== empty POST to test connection  ================||
+||        || <<------ 404 Bad Request -----------||              ||
+||        || <<------ 202 OK --------------------||              ||
+||        || <<------ 403 Forbidden -------------||              ||
+||        || <<------ 404 Bad Request            ||              ||
+||        || <<------ 400 Forbidden -------------||              ||
+||        ||         Unsupported Media Type      ||              ||
+||        || <<------ 415 Forbidden -------------||              ||
+||================== Moov + ftyp Sending  =======================||
+||============= fragmented MP4 Sending ==========================||
+||        || <<------ 404 Bad Request -----------||              ||
+||============= mfra box Sending (close) ========================||
+||        || <<------ 200 OK --------------------||              ||
+||=====================            ============================  ||
+||| live ingest source |            |  Media processing entity | ||
+||=====================            ============================  ||
+||        ||                                     ||              ||
+||===============================================================||
+</pre>
 
 ## 6  . Profile 1: Fragmented MPEG-4 Ingest Protocol Behavior
 
@@ -779,7 +928,8 @@ a track with timed text, captions and/or subtitle streams.
   timed metadata from different sources,  
   possibly on different locations by embedding them in  
   sparse metadata tracks.  
-  
+
+<pre>
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI         | Reference                            | 
 | --------------------------:|:----------------------------:| 
@@ -801,7 +951,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 |                         |  indicates unknown duration         |
 | Id                      | unique identifier for message       |
 | message_data            | splice info section including CRC   |
-
+</pre>
 <br>
 
   The following steps are recommended for timed metadata  
@@ -1002,7 +1152,49 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    uses the same fragmented MPEG-4 layer based on [ISOBMFF]  
    and [CMAF]. 
 
-  ![](Images/Diagram12.png)   
+  <pre>
+Diagram 12
+||===============================================================|| 
+||=====================            ============================  || 
+||| live media source |            |  Media processing entity |  ||
+||=====================            ============================  ||
+||        ||                                     ||              ||
+||===============Initial Manifest Sending========================||
+||        ||                                     ||              ||
+||        ||-- POST /prefix/media.mpd  -------->>||              ||
+||        ||          Succes                     ||              ||
+||        || <<------ 200 OK --------------------||              ||
+||        ||      Permission denied              ||              ||
+||        || <<------ 403 Forbidden -------------||              ||
+||        ||             Bad Request             ||              ||
+||        || <<------ 400 Forbidden -------------||              ||
+||        ||         Unsupported Media Type      ||              ||
+||        || <<-- 412 Unfulfilled Condition -----||              ||
+||        ||         Unsupported Media Type      ||              ||
+||        || <<------ 415 Unsupported Media -----||              ||
+||        ||                                     ||              ||
+||==================== Segment Sending ==========================|| 
+||        ||-- POST /prefix/chunk.cmaf  ------->>||              ||
+||        ||          Succes/Accepted            ||              ||
+||        || <<------ 200 OK --------------------||              ||
+||        ||          Succes/Accepted            ||              ||
+||        || <<------ 202 OK --------------------||              ||
+||        ||      Premission Denied              ||              ||
+||        || <<------ 403 Forbidden -------------||              ||
+||        ||             Bad Request             ||              ||
+||        || <<------ 400 Forbidden -------------||              ||
+||        ||         Unsupported Media Type      ||              ||
+||        || <<------ 415 Forbidden -------------||              ||
+||        ||         Unsupported Media Type      ||              ||
+||        || <<-- 412 Unfulfilled Condition -----||              ||
+||        ||                                     ||              ||
+||        ||                                     ||              ||
+||=====================            ============================  || 
+||| live media source |            |  Media processing entity |  ||
+||=====================            ============================  ||
+||        ||                                     ||              ||
+||===============================================================|| 
+  </pre>
 
 ## 8  .  profile 2: DASH and HLS Ingest Protocol Behavior
 
