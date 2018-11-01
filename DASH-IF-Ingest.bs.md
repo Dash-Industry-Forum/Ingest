@@ -1,4 +1,4 @@
-﻿# Guidelines for Implementation: DASH-IF Ingest # {#IngestSpec}
+# Guidelines for Implementation: DASH-IF Ingest # {#IngestSpec}
              
 
 ## Abstract ## {#Abstract}
@@ -458,7 +458,7 @@ Please review these documents
 
   This fragmentedMP4 stream is used in both profiles.
 
-#  Media Ingest Workflows and Use Cases # {#workflow and use cases}
+# Media Ingest Workflows and Use Cases # {#workflow_and_use_cases}
  
   In this section we highlight some of the target use cases  
   and example workflows for the media ingest.  
@@ -653,7 +653,7 @@ Please review these documents
         publishing point at the media processing entity and
         MAY use a relative path for different streams and segments.
 
-# Profile 1: Fragmented MPEG-4 Ingest General Considerations # {#Fragmented MPEG-4 Ingest General Considerations}
+# Profile 1: Fragmented MPEG-4 Ingest General Considerations # {#profile_1_general}
 
 The first profile assumes ingest to an active media processing entity,  
 from one or more live ingest sources, ingesting one or more  
@@ -887,7 +887,7 @@ profile MUST also adhere to general requirements in secion 4.
         contain the "tfdt" box specifying  the fragments decode time
         and the "tfhd" box specifying the track id.
 
-## Requirements for Timed Text Captions and Subtitle streams ## {#_timed_text_and_subtitle_streams}
+## Requirements for Timed Text Captions and Subtitle streams ## {#timed_text_and_subtitle_streams}
 
 The media ingest follows the following requirements for ingesting
 a track with timed text, captions and/or subtitle streams.
@@ -952,6 +952,8 @@ a track with timed text, captions and/or subtitle streams.
   timed metadata from different sources,  
   possibly on different locations by embedding them in  
   sparse metadata tracks.  
+[
+  Example messages include e-msg [=DASH=], [=DVB-DASH=], [=SCTE-35=] , [=id3v2=] 
 
 <pre>
 Table 1 Example of DASH emsg schemes  URI
@@ -1425,7 +1427,7 @@ Alex Giladi Comcast
     <dfn dfn>RFC8216</dfn>  R. Pantos, W. May "HTTP Live Streaming", August 2018
     (last acessed)  
 
-## URL References ## {# references_url}
+## URL References ## {#references_url}
 
     <dfn dfn>fmp4git</dfn>    Unified Streaming github fmp4 ingest,
                 "https://github.com/unifiedstreaming/fmp4-ingest".
