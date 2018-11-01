@@ -1144,7 +1144,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 
    The key idea here is to reuse the fragmented MPEG-4 ingest to  
-   enable simulataneous ingest of DASH [=DASH=] and HLS [RFC8216] based on the  
+   enable simulataneous ingest of DASH [=DASH=] and HLS [=RFC8216=] based on the  
    fragmented MPEG-4 files using commonalities as  
    described in [=CMAF=] which is a format based on fragmented  
    MPEG-4 that can be used in both DASH and HLS presentations.  
