@@ -661,7 +661,8 @@ standardized media container formats based on [=ISOBMFF=][=CMAF=].
 In addition this allows extension to codecs like [=HEVC=] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
-fragmented MPEG-4 ingest is illustrated in Diagram 7.
+fragmented MPEG-4 ingest is illustrated in Diagram 7. Discussions
+on the early development have been documented [=fmp4git=].
 
 
  <pre>
@@ -950,13 +951,15 @@ a track with timed text, captions and/or subtitle streams.
   possibly on different locations by embedding them in  
   sparse metadata tracks.  
 
+ Example messages include [=DVB-DASH=] , [=SCTE-35=] and [=ID3v2=].
+ 
 <pre>
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI         | Reference                            | 
 | --------------------------:|:----------------------------:| 
-| urn:mpeg:dash:event:2012   | [=DASH=], 5.10.4               | 
-| urn:dvb:iptv:cpm:2014      | [=DVB-DASH=], 9.1.2.1          | 
-|  urn:scte:scte35:2013:bin  | [=SCTE-35=] 14-3 (2015), 7.3.2 |  
+| urn:mpeg:dash:event:2012   | [DASH], 5.10.4               | 
+| urn:dvb:iptv:cpm:2014      | [DVB-DASH], 9.1.2.1          | 
+| urn:scte:scte35:2013:bin  | [SCTE-35] 14-3 (2015), 7.3.2 |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH     |
 
 </pre>
