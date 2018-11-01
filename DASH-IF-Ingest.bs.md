@@ -960,56 +960,56 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
      1. Create the metadata stream as a
         fragmentedMP4stream that conveys the metadata
-       , the media handler (hdlr) is "meta",
-       the track handler box is a null media header box "nmhd".
+        , the media handler (hdlr) is "meta",
+        the track handler box is a null media header box "nmhd".
      2. The metadata stream applies to the media streams
-       in the presentation ingested to active publishing
-       point at the media processing entity
+        in the presentation ingested to active publishing
+        point at the media processing entity
      3. The URIMetaSampleEntry entry contains, in a URIbox,
-       the URI following the URI syntax in [RFC3986]
-       defining the form  of the metadata
-      (see the ISO Base media file format
-       specification [ISOBMFF]). For example, the URIBox
-       could contain for ID3 tags  [ID3v2]
-       the URL  http://www.id3.org or
-       or urn:scte:scte35:2013a:bin
+        the URI following the URI syntax in [RFC3986]
+        defining the form  of the metadata
+        (see the ISO Base media file format
+         specification [ISOBMFF]). For example, the URIBox
+         could contain for ID3 tags  [ID3v2]
+         the URL  http://www.id3.org or
+         or urn:scte:scte35:2013a:bin
        for scte 35 markers [SCTE-35]
      4. The timescale of the metadata should match the value
-       specified in the media header box "mdhd" of the
-       metadata track.
+        specified in the media header box "mdhd" of the
+        metadata track.
      5. The Arrival time is signalled in the "tfdt" box
-       of the track fragment  as the basemediadecode
-       time, this time is often different
-       from the media presentation time, which is occurs
-       when a message is applied. The duration of
-       a metadata fragment can be set to zero,
-       letting it be determined by the
-       time (tfdt) of a next metadata segment received.
+        of the track fragment  as the basemediadecode
+        time, this time is often different
+        from the media presentation time, which is occurs
+        when a message is applied. The duration of
+        a metadata fragment can be set to zero,
+        letting it be determined by the
+        time (tfdt) of a next metadata segment received.
      6. All Timed Metadata samples SHOULD
-       be sync samples [ISOBMFF],
-       defining the entire set of
-       metadata for the time interval
-       they cover. Hence, the sync
-       sample table box SHOULD
-       not be present in the metadata stream.
+        be sync samples [ISOBMFF],
+        defining the entire set of
+        metadata for the time interval
+        they cover. Hence, the sync
+        sample table box SHOULD
+        not be present in the metadata stream.
      7. The metadata segment becomes available to the
-       publishing  point/ media processing entity
-       when the corresponding track fragment
-       from the media that has an equal
-       or larger timestamp compared to
-       the arrival time signalled
-       in the tfdt basemediadecodetime.
-       For example, if the sparse fragment
-       has a timestamp of t=1000, it is expected that after the
-       publishing point/processing entity sees "video"
-       (assuming the parent track name is "video")
-       fragment timestamp 1000 or beyond, it can retrieve the
-       sparse fragment from the binary payload.
+        publishing  point/ media processing entity
+        when the corresponding track fragment
+        from the media that has an equal
+        or larger timestamp compared to
+        the arrival time signalled
+        in the tfdt basemediadecodetime.
+        For example, if the sparse fragment
+        has a timestamp of t=1000, it is expected that after the
+        publishing point/processing entity sees "video"
+        (assuming the parent track name is "video")
+        fragment timestamp 1000 or beyond, it can retrieve the
+        sparse fragment from the binary payload.
      8. The payload of sparse track fragments is conveyed
-       in the mdat box as sample information. This enables
-       muxing of the metadata tracks. For example
-       XML metadata can for example be coded as base64 as
-       common for [SCTE-35] metadata messages
+        in the mdat box as sample information. This enables
+        muxing of the metadata tracks. For example
+        XML metadata can for example be coded as base64 as
+        common for [SCTE-35] metadata messages
 
 ## 6.5 Requirements for Media Processing Entity Failover
 
@@ -1028,54 +1028,54 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
   ingest source to deal with a failing media processing entity.  
 
      1.    Use a 10-second timeout for establishing the
-       TCP connection.
-       If an attempt to establish the connection takes longer
-       than 10 seconds, abort the operation and try again.
+        TCP connection.
+        If an attempt to establish the connection takes longer
+        than 10 seconds, abort the operation and try again.
      2.    Use a short timeout for sending the HTTP requests.
-       If the target segment duration is N seconds, use a send
-       timeout between N and 2 N seconds; for example, if
-       the segment duration is 6 seconds,
-       use a timeout of 6 to 12 seconds.
-       If a timeout occurs, reset the connection,
-       open a new connection,
-       and resume stream ingest on the new connection.
-       This is needed to avoid latency introduced
-       by failing connectivity in the workflow.
+        If the target segment duration is N seconds, use a send
+        timeout between N and 2 N seconds; for example, if
+        the segment duration is 6 seconds,
+        use a timeout of 6 to 12 seconds.
+        If a timeout occurs, reset the connection,
+        open a new connection,
+        and resume stream ingest on the new connection.
+        This is needed to avoid latency introduced
+        by failing connectivity in the workflow.
      3. Resend track segments for which a
-       connection was terminated early
+        connection was terminated early
      4.    We recommend that the encoder or ingest source
-       does NOT limit the number of retries to establish a
-       connection or resume streaming after a TCP error occurs.
+        does NOT limit the number of retries to establish a
+        connection or resume streaming after a TCP error occurs.
      5.    After a TCP error:
-       a. The current connection MUST be closed,
-        and a new connection MUST be created
-        for a new HTTP POST request.
-       b. The new HTTP POST URL MUST be the same
-        as the initial POST URL for the
-        segment to be ingested.
-       c. The new HTTP POST MUST include stream
-        headers ("ftyp", and "moov" boxes)
-        identical to the stream headers in the
-        initial POST request for fragmented media ingest.
+        a. The current connection MUST be closed,
+          and a new connection MUST be created
+          for a new HTTP POST request.
+        b. The new HTTP POST URL MUST be the same
+          as the initial POST URL for the
+          segment to be ingested.
+        c. The new HTTP POST MUST include stream
+          headers ("ftyp", and "moov" boxes)
+          identical to the stream headers in the
+          initial POST request for fragmented media ingest.
      6.  In case the media processing entity cannot process the
-        POST request due to authentication or permission
-        problems then it SHOULD return a permission denied HTTP 403
+          POST request due to authentication or permission
+          problems then it SHOULD return a permission denied HTTP 403
      7.  In case the media processing entity can process the request
-        it SHOULD return an HTTP 200 OK or 202 Accepted
+          it SHOULD return an HTTP 200 OK or 202 Accepted
      8.  In case the media processing entity can process
-        the manifest or segment in the POST request body but finds
-        the media type cannot be supported it SHOULD return an HTTP 415
-        unsupported media type
+         the manifest or segment in the POST request body but finds
+         the media type cannot be supported it SHOULD return an HTTP 415
+         unsupported media type
      9. In case an unknown error happened during
-        the processing of the HTTP
-        POST request a HTTP 404 Bad request SHOULD be returned
+         the processing of the HTTP
+         POST request a HTTP 404 Bad request SHOULD be returned
      10. In case the media processing entity cannot
-        proces a segment posted
-        due to missing or incorrect init segment, an HTTP 412
-        unfulfilled condition SHOULD be returned
+         proces a segment posted
+         due to missing or incorrect init segment, an HTTP 412
+         unfulfilled condition SHOULD be returned
      11. In case a media source receives an HTTP 412 response,
         it SHOULD resend "ftyp" and "moov" boxes
-
+ 
 ## 6.6 Requirements for Live Media Source Failover
  
   Live encoder or media ingest source failover is the second type  
@@ -1261,10 +1261,10 @@ to general requirements in section 4.
      1. Timed Metadata tracks MAY be formatted conforming
         to the same requirements as in 8.4
      2. In addition, the emsg box containing the metadata
-       SHOULD also be signalled in inband in the media
-       track as recommended in [CMAF]
+        SHOULD also be signalled in inband in the media
+        track as recommended in [CMAF]
      3. DASH event messages SHOULD also
-       be signalled in the Manifest
+        be signalled in the Manifest
 
 ### 8.4  Requirements for Media Processing Entity Failover
      1. Requirements for failover are similar as stated in 6.4  
@@ -1275,8 +1275,8 @@ to general requirements in section 4.
 
      1. Requirements for failover are similar as stated in 6.5  
      2. In addition the live encoder source SHOULD  
-       resend the manifest before sending any  
-       of the other segments
+        resend the manifest before sending any  
+        of the other segments
 
 ## 9  .  Security Considerations
    Security consideration are extremely important  
