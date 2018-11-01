@@ -1348,9 +1348,9 @@ Matt Poole ITV
 
 Alex Giladi Comcast
 
-#  References # {#references}
+#  References # {#references_custom}
 
-## Normative References ## {#references_norm}
+## Normative References ## {#references-norm}
 
     <dfn dfn>RFC2119</dfn>  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -1415,7 +1415,7 @@ Alex Giladi Comcast
     <dfn dfn>RFC7617</dfn> J Reschke "The Basic HTTP Authentication Scheme"
              IETF RFC 7617 September 2015
 
-## Informative References ## {#references_inf}
+## Informative References ## {#references-inf}
 
     <dfn dfn>RFC2626</dfn>  R. Fielding et al
              "Hypertext Transfer Protocol HTTP/1.1",
@@ -1427,7 +1427,7 @@ Alex Giladi Comcast
     <dfn dfn>RFC8216</dfn>  R. Pantos, W. May "HTTP Live Streaming", August 2018
     (last acessed)  
 
-## URL References ## {#references_url}
+## URL References ## {#references-url}
 
     <dfn dfn>fmp4git</dfn>    Unified Streaming github fmp4 ingest,
                 "https://github.com/unifiedstreaming/fmp4-ingest".
