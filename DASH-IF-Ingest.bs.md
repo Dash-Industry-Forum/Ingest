@@ -1347,7 +1347,7 @@ Alex Giladi Comcast
 
 ## Normative References
 
-    <dfn dfn>RFC2119</dfn> [[!rfc2119]] Bradner, S., "Key words for use in RFCs to Indicate
+    <dfn dfn>RFC2119</dfn>  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
     <dfn dfn>DASH</dfn>  MPEG ISO/IEC JTC1/SC29 WG11, "ISO/IEC 23009-1:2014:
@@ -1369,14 +1369,14 @@ Alex Giladi Comcast
               -- Part 2: High efficiency video coding",
               ISO/IEC 23008-2:2015, 2015.
 
-    <dfn dfn>RFC793</dfn> [[!rfc793]] J Postel IETF DARPA, "TRANSMISSION CONTROL PROTOCOL,"
+    <dfn dfn>RFC793</dfn> J Postel IETF DARPA, "TRANSMISSION CONTROL PROTOCOL,"
                IETF RFC 793, 1981.
 
-    <dfn dfn>RFC3986</dfn> [[!rfc3986]] R. Fielding, L. Masinter, T. Berners Lee,
+    <dfn dfn>RFC3986</dfn> R. Fielding, L. Masinter, T. Berners Lee,
               "Uniform Resource Identifiers (URI): Generic Syntax,"
                IETF RFC 3986, 2004.
 
-    <dfn dfn>RFC1035</dfn> [[!rfc1035]]  P. Mockapetris,  
+    <dfn dfn>RFC1035</dfn>  P. Mockapetris,  
               "DOMAIN NAMES - IMPLEMENTATION AND SPECIFICATION"  
               IETF RFC 1035, 1987.
 
@@ -1385,7 +1385,7 @@ Alex Giladi Comcast
              format (CMAF) for segmented media,"
              MPEG, ISO/IEC International standard
 
-    <dfn dfn>RFC5234</dfn> [[!rfc5234]] D. Crocker "Augmented BNF for Syntax Specifications:
+    <dfn dfn>RFC5234</dfn>  D. Crocker "Augmented BNF for Syntax Specifications:
               ABNF"  IETF RFC 5234 2008
 
     <dfn dfn>CENC</dfn>  MPEG ISO/IEC JTC1 SC29 WG11 "Information technology --
@@ -1412,14 +1412,14 @@ Alex Giladi Comcast
 
 ## Informative References
 
-    <dfn dfn>RFC2626</dfn> [[!rfc2626]]  R. Fielding et al
+    <dfn dfn>RFC2626</dfn>  R. Fielding et al
              "Hypertext Transfer Protocol HTTP/1.1",
              RFC 2626 June 1999
 
-    <dfn dfn>RFC2818</dfn> [[!rfc2818]]  E. Rescorla RFC 2818 HTTP over TLS
+    <dfn dfn>RFC2818</dfn>   E. Rescorla RFC 2818 HTTP over TLS
              IETF RFC 2818 May 2000
 
-    <dfn dfn>RFC8216</dfn> [[!rfc8216]]  R. Pantos, W. May "HTTP Live Streaming", August 2018
+    <dfn dfn>RFC8216</dfn>  R. Pantos, W. May "HTTP Live Streaming", August 2018
     (last acessed)  
 
 ## URL References
