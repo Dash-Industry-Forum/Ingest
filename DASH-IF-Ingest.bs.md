@@ -595,40 +595,40 @@ Please review these documents
 
 
      1. The live encoder or ingest source communicates to
-      the publishing point/processing entity using the HTTP
-      POST method as defined in the HTTP protocol [RFC2626]
+        the publishing point/processing entity using the HTTP
+        POST method as defined in the HTTP protocol [RFC2626]
      2. The media ingest source SHOULD use HTTP over TLS [RFC2818]
-      to connect to the media processing entity
+        to connect to the media processing entity
      3. The live encoder/media source SHOULD repeatedly resolve
-      the Hostname to adapt to changes in the IP to Hostname mapping
-      such as for example by using the dynamic naming system
-      DNS [RFC1035] or any other system that is in place.
+        the Hostname to adapt to changes in the IP to Hostname mapping
+        such as for example by using the dynamic naming system
+        DNS [RFC1035] or any other system that is in place.
      4. The Live encoder media source MUST update the IP to hostname
-      resolution respecting the TTL (time to live) from DNS
-      query responses, this will enable better resillience
-      to changes of the IP address in large scale deployments
-      where the IP adress of the publishing point media
-      processing nodes may change frequenty.
+        resolution respecting the TTL (time to live) from DNS
+        query responses, this will enable better resillience
+        to changes of the IP address in large scale deployments
+        where the IP adress of the publishing point media
+        processing nodes may change frequenty.
      5. In case HTTPS[RFC2818] protocol is used,
-       basic authentication HTTP AUTH [RFC7617]
-       or better methods like TLS client certificates SHOULD be used
+        basic authentication HTTP AUTH [RFC7617]
+        or better methods like TLS client certificates SHOULD be used
      6. As compatibility profile for the TLS encryption
-      we recommend the ingest SHOULD use the mozzilla
-      intermediate compatibility profile which is supported
-      in many available implementations [MozillaTLS].
+        we recommend the ingest SHOULD use the mozzilla
+        intermediate compatibility profile which is supported
+        in many available implementations [MozillaTLS].
      7. The encoder or ingest source SHOULD terminate
-      the HTTP POST request if data is not being sent
-      at a rate commensurate with the MP4 segment duration.
-      An HTTP POST request that does not send data can
-      prevent publishing points or media processing entities
-      from quickly disconnecting from the live encoder or
-      media ingest source in the event of a service update.
-      For this reason, the HTTP POST for sparse
-      data such as sparse tracks SHOULD be short-lived,
-      terminating as soon as the sparse fragment is sent.
+        the HTTP POST request if data is not being sent
+        at a rate commensurate with the MP4 segment duration.
+        An HTTP POST request that does not send data can
+        prevent publishing points or media processing entities
+        from quickly disconnecting from the live encoder or
+        media ingest source in the event of a service update.
+        For this reason, the HTTP POST for sparse
+        data such as sparse tracks SHOULD be short-lived,
+        terminating as soon as the sparse fragment is sent.
      8. The POST request uses a POST_URL to the basepath of the
-      publishing point at the media processing entity and
-      MAY use a relative path for different streams and segments.
+        publishing point at the media processing entity and
+        MAY use a relative path for different streams and segments.
 
 ## 5  . Profile 1: Fragmented MPEG-4 Ingest General Considerations
 
@@ -799,72 +799,72 @@ profile MUST also adhere to general requirements in secion 4.
 ### 6.1. General Protocol Requirements
 
      1. The live encoder or ingest source SHOULD start
-      by sending an HTTP POST request with an empty "body"
-      (zero content length) by using the POSTURL
-      This can help the live encoder or media
-      ingest source to quickly detect whether the
-      live ingest publishing point is valid,
-      and if there are any authentication
-       or other conditions required.
+        by sending an HTTP POST request with an empty "body"
+        (zero content length) by using the POSTURL
+        This can help the live encoder or media
+        ingest source to quickly detect whether the
+        live ingest publishing point is valid,
+        and if there are any authentication
+        or other conditions required.
      2. The live encoder or ingest source MUST initiate
-      a media ingest connection by POSTING the
-      header boxes "ftyp" and "moov" after step 1
+        a media ingest connection by POSTING the
+        header boxes "ftyp" and "moov" after step 1
      3. The encoder or ingest source SHOULD use chunked transfer
-      encoding option of the HTTP POST command [RFC2626]
-      as it might be difficult to predict the entire content length
-      of the segment. This can also be used for example to support
-      use cases that require low latency.
+        encoding option of the HTTP POST command [RFC2626]
+        as it might be difficult to predict the entire content length
+        of the segment. This can also be used for example to support
+        use cases that require low latency.
      4. If the HTTP POST request terminates or times out with a TCP
-      error prior to the end of the stream, the encoder MUST issue
-      a new connection, and follow the
-      preceding requirements. Additionally, the encoder MAY resend
-      the previous segment that was already sent again.
+        error prior to the end of the stream, the encoder MUST issue
+        a new connection, and follow the
+        preceding requirements. Additionally, the encoder MAY resend
+        the previous segment that was already sent again.
      5. The live encoder or ingest source MUST handle
-      any error or failed authentication responses
-      received from the media processing, by issueing
-      a new connection and following the preceding
-      requirements inlcluding retransmitting the ftyp and moov boxes.
+        any error or failed authentication responses
+        received from the media processing, by issueing
+        a new connection and following the preceding
+        requirements inlcluding retransmitting the ftyp and moov boxes.
      6. In case the live stream event is over the live media
-      source or ingest source should signal
-      the stop by transmitting an empty "mfra" box
-      towards the publishing point/processing entity.
+        source or ingest source should signal
+        the stop by transmitting an empty "mfra" box
+        towards the publishing point/processing entity.
      7. The live ingest source SHOULD use a separate TCP
-      connection for ingest of each different track
+        connection for ingest of each different track
      8. The live ingest source MAY use a separate relative path
-      in the POST_URL for ingest of each different track
+        in the POST_URL for ingest of each different track
 
 ### 6.2. Requirements for formatting Media Tracks
 
      1. The trackFragmentDecodeTime box "tfdt" box
-      MUST be present for each segment posted.
+        MUST be present for each segment posted.
      2. The ISOBMFF media fragment duration SHOULD be constant,
-      the duration MAY fluctuate to compensate
-      for non-integer frame rates. By choosing an appropriate
-      timescale (a multiple of the frame rate is recommended)
-      this issue SHOULD be avoided.
+        the duration MAY fluctuate to compensate
+        for non-integer frame rates. By choosing an appropriate
+        timescale (a multiple of the frame rate is recommended)
+        this issue SHOULD be avoided.
      3. The MPEG-4 fragment durations SHOULD be between
-      approximately 1 and 6 seconds.
+        approximately 1 and 6 seconds.
      4. The fragment decode timestamps "tfdt" of fragments in the
-      fragmentedMP4stream and the indexes base_media_decode_ time
-      SHOULD arrive in increasing order for each of the different
-      tracks/streams that are ingested.
+        fragmentedMP4stream and the indexes base_media_decode_ time
+        SHOULD arrive in increasing order for each of the different
+        tracks/streams that are ingested.
      5. The segments formatted as fragmented MP4 stream SHOULD use
-      a timescale for video streams based on the framerate
-      and 44.1 KHz or 48 KHz for audio streams
-      or any another timescale that enables integer
-      increments of the decode times of
-       fragments signalled in the "tfdt" box based on this scale.
+        a timescale for video streams based on the framerate
+        and 44.1 KHz or 48 KHz for audio streams
+        or any another timescale that enables integer
+        increments of the decode times of
+        fragments signalled in the "tfdt" box based on this scale.
      6. The language of the stream SHOULD be signalled in the
-      "mdhd" box or "elng" boxes in the
-      init segment and/or moof headers ("mdhd").
+        "mdhd" box or "elng" boxes in the
+        init segment and/or moof headers ("mdhd").
      7. Encryption specific information SHOULD be signalled
-      in the "pssh","schm" and "sinf" boxes following [ISOBMFF][CENC]
+        in the "pssh","schm" and "sinf" boxes following [ISOBMFF][CENC]
      8. Segments posted towards the media procesing entity SHOULD
-      contain the bitrate "btrt" box specifying the target
-      bitrate of the segments
+        contain the bitrate "btrt" box specifying the target
+        bitrate of the segments
      9. Segments  posted towards the media procesing entity SHOULD
-     contain the "tfdt" box specifying  the fragments decode time
-     and the "tfhd" box specifying the track id.
+        contain the "tfdt" box specifying  the fragments decode time
+        and the "tfhd" box specifying the track id.
 
 ### 6.3  Requirements for Timed Text Captions and Subtitle streams
 
@@ -872,35 +872,35 @@ The media ingest follows the following requirements for ingesting
 a track with timed text, captions and/or subtitle streams.
 
      1. The track will be a sparse track signalled by a null media
-      header "nmhd" containing the timed text, images, captions
-      corresponding to the recommendation of storing tracks
-      in fragmented MPEG-4 [CMAF]
+        header "nmhd" containing the timed text, images, captions
+        corresponding to the recommendation of storing tracks
+        in fragmented MPEG-4 [CMAF]
      2. Based on this recommendation the trackhandler "hdlr" shall
-      be set to "text" for WebVTT and "subt" for TTML following
-      [MPEG-4-30]
+        be set to "text" for WebVTT and "subt" for TTML following
+        [MPEG-4-30]
      3. In case TTML is used the track must use the XMLSampleEntry
-      to signal sample description of the sub-title stream [MPEG-4-30]
+        to signal sample description of the sub-title stream [MPEG-4-30]
      4. In case WebVTT is used the track must use the WVTTSampleEntry
-      to signal sample description of the text stream [MPEG-4-30]
+        to signal sample description of the text stream [MPEG-4-30]
      5. These boxes SHOULD signal the mime type and specifics as
-      described in [CMAF] sections 11.3 ,11.4 and 11.5
+        described in [CMAF] sections 11.3 ,11.4 and 11.5
      6. The boxes described in 2-5 must be present in the init
-      segment (ftyp + moov) for the given track
+        segment (ftyp + moov) for the given track
      7. subtitles in CTA-608 and CTA-708 format SHOULD be conveyed
-      following the recommendation section 11.5 in [CMAF] via
-      Supplemental Enhancement Information SEI messages
-      in the video track [CMAF]
+        following the recommendation section 11.5 in [CMAF] via
+        Supplemental Enhancement Information SEI messages
+        in the video track [CMAF]
      8. The "ftyp" box in the init segment for the track
-      containing timed text, images, captions and sub-titles
-      MAY use signalling using CMAF profiles based on [CMAF]
-      8a. WebVTT   Specified in 11.2 ISO/IEC 14496-30
+        containing timed text, images, captions and sub-titles
+        MAY use signalling using CMAF profiles based on [CMAF]
+        8a. WebVTT   Specified in 11.2 ISO/IEC 14496-30
         [MPEG-4-30] 'cwvt'
-      8b.TTML IMSC1 Text  Specified in 11.3.3 [MPEG-4-30]
-       IMSC1 Text Profile   'im1t'
-      8c.TTML IMSC1 Image Specified in 11.3.4 [MPEG-4-30]
-       IMSC1 Image Profile  'im1i'
-      8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [MPEG-4-30]
-       Caption data is embedded in SEI messages in video track 'ccea'
+        8b.TTML IMSC1 Text  Specified in 11.3.3 [MPEG-4-30]
+        IMSC1 Text Profile   'im1t'
+        8c.TTML IMSC1 Image Specified in 11.3.4 [MPEG-4-30]
+        IMSC1 Image Profile  'im1i'
+        8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [MPEG-4-30]
+        Caption data is embedded in SEI messages in video track 'ccea'
 
 ### 6.4 Requirements for Timed Metadata
    
@@ -1204,36 +1204,36 @@ to general requirements in section 4.
 ### 8.1  General Protocol Requirements 
 
     1. Before sending the segments
-      based on fragmentedMP4Stream the live encoder/source
-      MUST send a manifest [DASH]  
-      with the following the limitations/constraints.
-     1a. Only relative URL paths to be used for each segment
-     1b. Only unique paths are used for each new presentation
-     1c. In case the manifest contains these relative paths,
-      these paths SHOULD be used in combination with the
-      POST_URL to POST each of the different segments from
-      the live encoder or ingest source
-      to the processing entity.
+       based on fragmentedMP4Stream the live encoder/source
+       MUST send a manifest [DASH]  
+       with the following the limitations/constraints.
+       1a. Only relative URL paths to be used for each segment
+       1b. Only unique paths are used for each new presentation
+       1c. In case the manifest contains these relative paths,
+       these paths SHOULD be used in combination with the
+       POST_URL to POST each of the different segments from
+       the live encoder or ingest source
+       to the processing entity.
      2. The live encoder or ingest source MAY send
-     updated versions of the manifest,
-     this manifest cannot override current
-     settings and relative paths or break currently running and
-     incoming POST requests. The updated manifest can only be
-     slightly different from the one that was send previously,
-     e.g. introduce new segments available or event messages.
-     The updated manifest SHOULD be send using a PUT request
-     instead of a POST request.
+       updated versions of the manifest,
+       this manifest cannot override current
+       settings and relative paths or break currently running and
+       incoming POST requests. The updated manifest can only be
+       slightly different from the one that was send previously,
+       e.g. introduce new segments available or event messages.
+       The updated manifest SHOULD be send using a PUT request
+       instead of a POST request.
      3. Following media segment requests
-     POST_URLs SHOULD be corresponding to the segments listed
+       POST_URLs SHOULD be corresponding to the segments listed
        in the manifest as POST_URL + relative URLs.
      4. The encoder or ingest source SHOULD use
-     individual HTTP POST commands [RFC2626]
-     for uploading media segments when available.
+       individual HTTP POST commands [RFC2626]
+       for uploading media segments when available.
      5. In case fixed length POST Commands are used, the live source
-      entity MUST resend the segment to be posted decribed
-      in the manifest entirely in case of responses HTTP 400, 404
-      412 or 415 together with the init segment consisting
-      of "moov" and "ftyp" boxes.
+       entity MUST resend the segment to be posted decribed
+       in the manifest entirely in case of responses HTTP 400, 404
+       412 or 415 together with the init segment consisting
+       of "moov" and "ftyp" boxes.
 
      6. A persistent connection SHOULD be used for the different
         individual POST requests as defined in [RFC2626]  enabling
@@ -1259,10 +1259,10 @@ to general requirements in section 4.
 ### 8.4  Requirements for Timed Metadata
 
      1. Timed Metadata tracks MAY be formatted conforming
-      to the same requirements as in 8.4
+        to the same requirements as in 8.4
      2. In addition, the emsg box containing the metadata
-     SHOULD also be signalled in inband in the media
-     track as recommended in [CMAF]
+       SHOULD also be signalled in inband in the media
+       track as recommended in [CMAF]
      3. DASH event messages SHOULD also
        be signalled in the Manifest
 
@@ -1275,8 +1275,8 @@ to general requirements in section 4.
 
      1. Requirements for failover are similar as stated in 6.5  
      2. In addition the live encoder source SHOULD  
-     resend the manifest before sending any  
-     of the other segments
+       resend the manifest before sending any  
+       of the other segments
 
 ## 9  .  Security Considerations
    Security consideration are extremely important  
