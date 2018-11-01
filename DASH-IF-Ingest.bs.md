@@ -913,16 +913,16 @@ a track with timed text, captions and/or subtitle streams.
         MAY use signalling using CMAF profiles based on [=CMAF=]
            
            8a. WebVTT   Specified in 11.2 ISO/IEC 14496-30
-             [=MPEG-4-30=] 'cwvt'
+             [=MPEG-4-30=] **cwvt*
            
            8b.TTML IMSC1 Text  Specified in 11.3.3 [=MPEG-4-30=]
-             IMSC1 Text Profile   'im1t'
+             IMSC1 Text Profile   *im1t*
            
            8c.TTML IMSC1 Image Specified in 11.3.4 [=MPEG-4-30=]
-             IMSC1 Image Profile  'im1i'
+             IMSC1 Image Profile  *im1i*
            
            8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [=MPEG-4-30=]
-             Caption data is embedded in SEI messages in video track 'ccea'
+             Caption data is embedded in SEI messages in video track ccea
 
 ## Requirements for Timed Metadata
    
@@ -1399,7 +1399,7 @@ Alex Giladi Comcast
               Timed text and other visual overlays in
               ISO base media file format
 
-    <dfn dfn>ISO639-2 ISO 639-2</dfn>  "Codes for the Representation of Names
+    <dfn dfn>ISO639-2</dfn>  "Codes for the Representation of Names
               of Languages -- Part 2 ISO 639-2:1998
              
     <dfn dfn>DVB-DASH</dfn> ETSI Digital Video Broadcasting
