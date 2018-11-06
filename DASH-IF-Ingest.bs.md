@@ -364,7 +364,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         ISOBMFF  base media file format [[!ISOBMFF]] that describes  
         the metadata of a fragment of media.  
 
-   <dfn dfn> **mdat:**  
+   <dfn dfn> **mdat:**  </dfn>
         the media data container "mdat" box contained in  
         an ISOBMFF [[!ISOBMFF]], this box contains the  
         compressed media samples  
