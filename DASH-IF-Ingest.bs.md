@@ -272,7 +272,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    making it easier to debug and trace errors.   
    The HTTP POST provides a push based   
    method for delivery for pusing the   
-   live content when available. 
+   live content when available.  
+
 
    The binary media format for conveying  
    the media is based on fragmented MPEG-4 as  
@@ -295,7 +296,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    advancing over HTTP. We believe the proposed media format  
    will provide the same benefits with other transports  
    protocols. Our view is that for current and near future  
-   deployments using [=RFC2626=]  is still a good approach.  
+   deployments using [[!RFC2626]]  is still a good approach.  
 
    The document is structured as follows, in section 3   
    we present the conventions and terminology used throughout   
@@ -316,7 +317,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    ISOBMFF: the ISO Base Media File Format specified in [[!ISOBMFF]].  
 
-   <dfn dfn>**Live Ingest Stream**</dfn>:
+   <dfn dfn>**Ingest Stream**</dfn>:
             the stream of media produced by the live source  
             transmitted to the media processing entity.  
 
@@ -326,72 +327,68 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             encoding and producing a high quality live stream,  
             can serve as media ingest source  
 
-   <dfn dfn>**Media (Ingest) source**</dfn>:  
+   <dfn dfn>**Media Ingest Source**</dfn>:  
             a media source ingesting media content  
             , typically a live encoder but not restricted  
-            to this,the media ingest source could by any  
-            type of media ingest source such as a stored  
+            to this,the [=Media Ingest Source=] could by any  
+            type of Media Ingest Source such as a stored  
             file that is send in partial chunks.  
 
    <dfn dfn>**Live Ingest Source**</dfn>:
-            Media Ingest source producing live content  
+            [=Media Ingest source=] producing live content  
 
-   <dfn dfn>**Publishing point:** </dfn>:
+   <dfn dfn>**Publishing point** </dfn>:
               entity used to publish the media content,  
-              consumes/receives the incoming media ingest stream  
+              consumes/receives the incoming media [=ingest stream=]  
 
-   <dfn dfn>**Media processing entity:**</dfn>:
+   <dfn dfn>**Media processing entity**</dfn>:
             entity used to process the media content,  
-            receives/consumes a media ingest stream.  
+            receives/consumes a media [=ingest stream].  
 
-   <dfn dfn>**Media processing function:**</dfn>:
-               Media processing entity  
-
-   <dfn dfn>**Connection:**</dfn>:
+   <dfn dfn>**Connection**</dfn>:
               a connection setup between two hosts, typically the  
               media ingest source and media processing entity.  
 
-   <dfn dfn>**ftyp:**</dfn>:
+   <dfn dfn>**ftyp**</dfn>:
         the filetype and compatibility "ftyp" box as described  
         in the ISOBMFF [[!ISOBMFF]] that describes the "brand"  
 
-   <dfn dfn>**moov:**</dfn>:
+   <dfn dfn>**moov**</dfn>:
         the container box for all metadata "moov" described in the  
         ISOBMFF base media file format [[!ISOBMFF]] 
 
-   <dfn dfn>**moof:**</dfn>:
+   <dfn dfn>**moof**</dfn>:
         the movie fragment "moof" box as described in the  
         ISOBMFF  base media file format [[!ISOBMFF]] that describes  
         the metadata of a fragment of media.  
 
-   <dfn dfn> **mdat:**  </dfn>
+   <dfn dfn> **mdat**  </dfn>:
         the media data container "mdat" box contained in  
         an ISOBMFF [[!ISOBMFF]], this box contains the  
-        compressed media samples  
+        compressed media samples   
 
-   <dfn dfn>**kind:**</dfn>:
-        the track kind box defined in the ISOBMFF [[!ISOBMFF]]  
-        to label a track with its usage  
-
-   <dfn dfn>**mfra:**</dfn>:
+   <dfn dfn>**mfra**</dfn>:
         the movie fragment random access "mfra" box defined in  
         the ISOBMFF [[!ISOBMFF]] to signal random access samples  
         (these are samples that require no prior  
         or other samples for decoding) [[!ISOBMFF]].  
 
-   <dfn dfn> **tfdt:** </dfn>:
+   <dfn dfn> **tfdt** </dfn>:
         the TrackFragmentBaseMediaDecodeTimeBox box "tfdt"  
         in the base media file format [[!ISOBMFF]] used  
         to signal the decode time of the media  
-        fragment signalled in the moof box.  
+        fragment signalled in the [=moof=] box.  
 
-   <dfn dfn> **mdhd:**  </dfn>:
+   <dfn dfn> **basedmediadecodetime** </dfn>:
+        decode time of first sample as signalled in the [=tdft=] box
+         
+   <dfn dfn> **mdhd**  </dfn>:
          The media header box "mdhd" as defined in [[!ISOBMFF]],  
          this box contains information about the media such  
          as timescale, duration, language using ISO 639-2/T [[iso-639-2]] codes  
          [[!ISOBMFF]] 
 
-   <dfn dfn> *pssh**  </dfn>:
+   <dfn dfn> **pssh**  </dfn>:
          The protection specific system header "pssh" box defined  
          in [[MPEGCENC]] that can be used to signal the content protection  
          information according to the MPEG Common Encryption [[MPEGCENC]] 
@@ -405,7 +402,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
          can override the language information  
 
    <dfn dfn> **nmhd** </dfn>:  
-         The null media header Box "nmhd" as defined in [=ISOBMFF=]  
+         The null media header Box "nmhd" as defined in [[!ISOBMFF]]  
          to signal a track for which no specific  
          media header is defined, often used for metadata tracks  
 
@@ -419,7 +416,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
         stream of [[ISOBMFF]] fragments  
-        (moof and mdat), a more precise definition will follow  
+        ([=moof=] and [=mdat=]), a more precise definition will follow  
         later in this section.  
 
    <dfn dfn> **POST_URL**  </dfn>:
@@ -429,23 +426,20 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn> **TCP**  </dfn>:
        Transmission Control Protocol (TCP) as defined in [[!RFC793]]  
 
-   <dfn dfn> **URI_SAFE_IDENTIFIER**  /dfn>:
-       identifier/string formatted according to [[!RFC3986]]
-
-   A  fragmentedMP4stream can be defined  
+   A  [=fragmentedMP4stream=] can be defined  
    using the IETF RFC 5234 ANB [[!RFC5234]] as follows.
 
    **fragmentedMP4stream** =
    
    headerboxes fragments:
 
-   headerboxes = ftyp moov  
+   headerboxes = [=ftyp=] [=moov=]  
    
    fragments = X fragment  
 
-   fragment = Moof Mdat
+   fragment = [=Moof=] [=Mdat=]
 
-  This fragmentedMP4 stream is used in both profiles.
+  This [=fragmentedMP4=] stream is used in both profiles.
 
 # Media Ingest Workflows and Use Cases # {#workflow_and_use_cases}
  
@@ -481,7 +475,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   duplicate information in the manifest or  
   ISOBMFF moov box, and increased  
   signalling overhead for starting, closing  
-  and resetting the connection. Therefore,  
+  and resetting the [=connection=]. Therefore,  
   the two procedures for media ingest in  
   such two common workflows are presented  
   as separate profiles in the next two sections.  
@@ -585,7 +579,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   can be balanced over multiple processing nodes.  
   This approach is common when serving web pages,  
   and this architecture also applies to video  
-  streaming platforms that also use HTTP. In Diagram  
+  streaming platforms that also use [=HTTP=]. In Diagram  
    6 it is highlighted how one or more multiple live encoders can  
   be sending data to one or more processing entities. In  
   such a workflow it is important to handle the case  
@@ -607,7 +601,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
 
      1. The live encoder or ingest source communicates to
-        the publishing point/processing entity using the HTTP
+        the [=publishing point=] /processing entity using the HTTP
         POST method as defined in the HTTP protocol [[!RFC2626]]
      2. The media ingest source SHOULD use HTTP over TLS [[!RFC2818]]
         to connect to the media processing entity
@@ -629,7 +623,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         intermediate compatibility profile which is supported
         in many available implementations [=MozillaTLS=].
      7. The encoder or ingest source SHOULD terminate
-        the HTTP POST request if data is not being sent
+        the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 segment duration.
         An HTTP POST request that does not send data can
         prevent publishing points or media processing entities
@@ -686,14 +680,14 @@ In diagrams 8-10 we detail some of the concepts and structures.
 Diagram 8 shows the data format structure of fragmented   
 MPEG-4 [[!ISOBMFF]] and [[MPEGCMAF]]. In this format media meta data   
 (playback time, sample duration) and sample data (encoded samples)   
-are interleaved. the moof box as specified in [[!ISOBMFF]] is used   
+are interleaved. the [=moof=] box as specified in [[!ISOBMFF]] is used   
 to signal the information to playback and decode the samples   
 followed in the mdat box.   
-The ftyp and moov box contain the track specific information   
+The [=ftyp=] and moov box contain the track specific information   
 and can be seen as a header of the stream, sometimes referred   
 as a [[MPEGCMAF]] header. The styp box can be used to signal the   
-type of segment. The combination of styp moof mdat can be referred   
-as a segment, the combination of ftyp and moof can be referred   
+type of segment. The combination of styp [=moof=] [=mdat=] can be referred   
+as a segment, the combination of [=ftyp=] and [=moof=] can be referred   
 to as an init segment or a CMAF header.  
 
 <pre>
@@ -760,15 +754,15 @@ Diagram 10: fmp4 late binding:
 
 Diagram 11 shows the flow of the media ingest. It starts with a   
 DNS resolution (if needed) and an authentication step (Authy,   
-TLS certificate) to establish a secure TCP connection.   
+TLS certificate) to establish a secure [=TCP=] connection.   
 In some private datacenter deployments where nodes   
 are not reachable from outside, a non authenticated connection   
 MAY also be used. The ingest source then issues an empty POST   
 to test that the media processing entity is listening. It then   
-start sending the moov + ftyp box (the init segment), followed   
+start sending the [=moov=] + [=ftyp=] box (the init segment), followed   
 by the rest of the segments in the fragmented MPEG-4 stream. In   
 the end of the session, for tear down the source can send an   
-empty mfra box to close the connection.   
+empty [=mfra=] box to close the connection.   
 
 <pre>
 Diagram 11: fmp4 ingest flow
@@ -834,9 +828,9 @@ profile MUST also adhere to general requirements in secion 4.
         received from the media processing, by issueing
         a new connection and following the preceding
         requirements inlcluding retransmitting the ftyp and moov boxes.
-     6. In case the live stream event is over the live media
+     6. In case the [=live stream event=] is over the live media
         source or ingest source should signal
-        the stop by transmitting an empty "mfra" box
+        the stop by transmitting an empty [=mfra] box
         towards the publishing point/processing entity.
      7. The live ingest source SHOULD use a separate TCP
         connection for ingest of each different track
@@ -845,7 +839,7 @@ profile MUST also adhere to general requirements in secion 4.
 
 ## Requirements for formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
-     1. The trackFragmentDecodeTime box "tfdt" box
+     1. The trackFragmentDecodeTime box [=tfdt=] box
         MUST be present for each segment posted.
      2. The ISOBMFF media fragment duration SHOULD be constant,
         the duration MAY fluctuate to compensate
@@ -854,8 +848,8 @@ profile MUST also adhere to general requirements in secion 4.
         this issue SHOULD be avoided.
      3. The MPEG-4 fragment durations SHOULD be between
         approximately 1 and 6 seconds.
-     4. The fragment decode timestamps "tfdt" of fragments in the
-        fragmentedMP4stream and the indexes base_media_decode_ time
+     4. The fragment decode timestamps [=basedmediadecodetime=] of fragments in the
+        [=fragmentedMP4stream=] and the indexes base_media_decode_ time
         SHOULD arrive in increasing order for each of the different
         tracks/streams that are ingested.
      5. The segments formatted as fragmented MP4 stream SHOULD use
@@ -865,10 +859,10 @@ profile MUST also adhere to general requirements in secion 4.
         increments of the decode times of
         fragments signalled in the "tfdt" box based on this scale.
      6. The language of the stream SHOULD be signalled in the
-        "mdhd" box or "elng" boxes in the
-        init segment and/or moof headers ("mdhd").
+        [=mdhd=] box or [=elng=] boxes in the
+        init segment and/or [=moof=] headers ([=mdhd=]).
      7. Encryption specific information SHOULD be signalled
-        in the "pssh","schm" and "sinf" boxes following [[!ISOBMFF]] [[MPEGCENC]]
+        in the [=pssh=],"schm" and [=sinf=] boxes following [[!ISOBMFF]] [[MPEGCENC]]
      8. Segments posted towards the media procesing entity SHOULD
         contain the bitrate "btrt" box specifying the target
         bitrate of the segments
@@ -882,27 +876,27 @@ The media ingest follows the following requirements for ingesting
 a track with timed text, captions and/or subtitle streams.
 
      1. The track will be a sparse track signalled by a null media
-        header "nmhd" containing the timed text, images, captions
+        header [=nmhd=] containing the timed text, images, captions
         corresponding to the recommendation of storing tracks
         in fragmented MPEG-4 [[MPEGCMAF]]
      2. Based on this recommendation the trackhandler "hdlr" shall
         be set to "text" for WebVTT and "subt" for TTML following
         [[!MPEG4-30]]
      3. In case TTML is used the track must use the XMLSampleEntry
-        to signal sample description of the sub-title stream [=MPEG-4-30=]
+        to signal sample description of the sub-title stream [[!MPEG4-30]]
      4. In case WebVTT is used the track must use the WVTTSampleEntry
-        to signal sample description of the text stream [=MPEG-4-30=]
+        to signal sample description of the text stream [[!MPEG4-30]
      5. These boxes SHOULD signal the mime type and specifics as
         described in [[MPEGCMAF]] sections 11.3 ,11.4 and 11.5
      6. The boxes described in 2-5 must be present in the init
-        segment (ftyp + moov) for the given track
+        segment ([=ftyp=] + [=moov=]) for the given track
      7. subtitles in CTA-608 and CTA-708 format SHOULD be conveyed
-        following the recommendation section 11.5 in [=CMAF=] via
+        following the recommendation section 11.5 in [[!MPEGCMAF]] via
         Supplemental Enhancement Information SEI messages
-        in the video track [=CMAF=]
-     8. The "ftyp" box in the init segment for the track
+        in the video track [[!MPEGCMAF]]
+     8. The [=ftyp=] box in the init segment for the track
         containing timed text, images, captions and sub-titles
-        MAY use signalling using CMAF profiles based on [=CMAF=]
+        MAY use signalling using CMAF profiles based on [[!MPEGCMAF]]
            
            8a. WebVTT   Specified in 11.2 ISO/IEC 14496-30
              [[!MPEG4-30]] *cwvt*
@@ -949,9 +943,9 @@ a track with timed text, captions and/or subtitle streams.
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI                 | Reference                      | 
 | --------------------------:|:------------------------------:| 
-| urn:mpeg:dash:event:2012   | [=DASH=], 5.10.4               | 
-| urn:dvb:iptv:cpm:2014      | [=DVB-DASH=], 9.1.2.1          | 
-|  urn:scte:scte35:2013:bin  | [=SCTE-35=] 14-3 (2015), 7.3.2 |  
+| urn:mpeg:dash:event:2012   | [DASH], 5.10.4               | 
+| urn:dvb:iptv:cpm:2014      | [DVB-DASH], 9.1.2.1          | 
+|  urn:scte:scte35:2013:bin  | [SCTE35] 14-3 (2015), 7.3.2 |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
@@ -982,7 +976,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
      1. Create the metadata stream as a
         fragmentedMP4stream that conveys the metadata
         , the media handler (hdlr) is "meta",
-        the track handler box is a null media header box "nmhd".
+        the track handler box is a null media header box [=nmhd=].
      2. The metadata stream applies to the media streams
         in the presentation ingested to active publishing
         point at the media processing entity
@@ -990,7 +984,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         the URI following the URI syntax in [[!RFC3986]]
         defining the form  of the metadata
         (see the ISO Base media file format
-         specification [=ISOBMFF=]). For example, the URIBox
+         specification [[!ISOBMFF]). For example, the URIBox
          could contain for ID3 tags  [[ID3v2]]
          the URL  http://www.id3.org or
          or urn:scte:scte35:2013a:bin
@@ -1073,7 +1067,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
           as the initial POST URL for the
           segment to be ingested.
         c. The new HTTP POST MUST include stream
-          headers ("ftyp", and "moov" boxes)
+          headers ([=ftyp=], and [=moov=] boxes)
           identical to the stream headers in the
           initial POST request for fragmented media ingest.
      6.  In case the media processing entity cannot process the
@@ -1093,7 +1087,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
          due to missing or incorrect init segment, an HTTP 412
          unfulfilled condition SHOULD be returned
      11. In case a media source receives an HTTP 412 response,
-         it SHOULD resend "ftyp" and "moov" boxes
+         it SHOULD resend [=ftyp=] and [=moov=] boxes
  
 ## Requirements for Live Media Source Failover ## {#failover_source}
  
@@ -1109,7 +1103,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         the same URL for HTTP POST requests as the failed instance.
     3.    The new encoder or media ingest source POST request
         MUST include the same header boxes moov
-        and ftyp as the failed instance
+        and [=ftyp=] as the failed instance
     4.    The new encoder or media ingest source
         MUST be properly synced with all other running encoders
         for the same live presentation to generate synced audio/video  
@@ -1221,13 +1215,13 @@ to general requirements in section 5.
 
     1. Before sending the segments
         based on fragmentedMP4Stream the live encoder/source
-        MUST send a manifest [=DASH=]  
+        MUST send a manifest [[!MPEGDASH]]  
         with the following the limitations/constraints.
         1a. Only relative URL paths to be used for each segment
         1b. Only unique paths are used for each new presentation
         1c. In case the manifest contains these relative paths,
         these paths SHOULD be used in combination with the
-        POST_URL to POST each of the different segments from
+        [=POST_URL=] to HTTP POST each of the different segments from
         the live encoder or ingest source
         to the processing entity.
      2. The live encoder or ingest source MAY send
@@ -1240,7 +1234,7 @@ to general requirements in section 5.
         The updated manifest SHOULD be send using a PUT request
         instead of a POST request.
      3. Following media segment requests
-        POST_URLs SHOULD be corresponding to the segments listed
+        [=POST_URL=]s SHOULD be corresponding to the segments listed
         in the manifest as POST_URL + relative URLs.
      4. The encoder or ingest source SHOULD use
         individual HTTP POST commands [[RFC2626]]
