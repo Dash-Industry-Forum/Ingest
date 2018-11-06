@@ -238,7 +238,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    the media is not altered actively, and further   
    media processing perhaps restricted to the manifests.   
    A key idea of this part of the specification is to re-use   
-   the similarities of MPEG DASH [[DASH]] and HLS [[RFC8216]] protocols   
+   the similarities of MPEG DASH [[!MPEGDASH]] and HLS [[RFC8216]] protocols   
    to enable a simultaneous ingest of media   
    presentations of these two formats using   
    common media segments such as based on [[ISOBMFF]]   
@@ -272,8 +272,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    making it easier to debug and trace errors.   
    The HTTP POST provides a push based   
    method for delivery for pusing the   
-   live content when available.  
-
+   live content when available. 
 
    The binary media format for conveying  
    the media is based on fragmented MPEG-4 as  
