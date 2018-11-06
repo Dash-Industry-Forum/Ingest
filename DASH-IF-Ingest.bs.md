@@ -943,9 +943,9 @@ a track with timed text, captions and/or subtitle streams.
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI                 | Reference                      | 
 | --------------------------:|:------------------------------:| 
-| urn:mpeg:dash:event:2012   | [DASH], 5.10.4               | 
-| urn:dvb:iptv:cpm:2014      | [DVB-DASH], 9.1.2.1          | 
-|  urn:scte:scte35:2013:bin  | [SCTE35] 14-3 (2015), 7.3.2 |  
+| urn:mpeg:dash:event:2012   | DASH, 5.10.4               | 
+| urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1          | 
+|  urn:scte:scte35:2013:bin  | SCTE35] 14-3 (2015), 7.3.2 |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
