@@ -380,7 +380,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         fragment signalled in the [=moof=] box.  
 
    <dfn dfn> **basedmediadecodetime** </dfn>:
-        decode time of first sample as signalled in the [=tdft=] box
+        decode time of first sample as signalled in the [=tfdt=] box
          
    <dfn dfn> **mdhd**  </dfn>:
          The media header box "mdhd" as defined in [[!ISOBMFF]],  
@@ -439,7 +439,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    fragment = [=Moof=] [=Mdat=]
 
-  This [=fragmentedMP4=] stream is used in both profiles.
+  This [=fragmentedMP4stream=] is used in both profiles.
 
 # Media Ingest Workflows and Use Cases # {#workflow_and_use_cases}
  
@@ -639,7 +639,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # Profile 1: Fragmented MPEG-4 Ingest General Considerations # {#profile_1_general}
 
 The first profile assumes ingest to an active media processing entity,  
-from one or more live ingest sources, ingesting one or more  
+from one or more [=live ingest source=] s, ingesting one or more  
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by using  
 standardized media container formats based on [[!ISOBMFF]] [[MPEGCMAF]].  
@@ -710,14 +710,14 @@ switching can be achieved. By using a common timeline
 different streams can be synchronized at the receiver,  
 while they are in a separeted fragmented mp4 stream  
 send over a separate connection, possibly from a different  
-live ingest source.
+[=live ingest source=].
 
 
 In diagram 10 another advantage of this synchronisation model   
 is illustrated, the concept of late binding. In the case   
 of late binding a new stream becomes available. By using   
 the segment boundaries and a common timeline it can   
-be received by the media processing entity and embedded   
+be received by the [=media processing entity=] and embedded   
 in the presentation. Late binding is useful for many   
 practical use cases when broadcasting television   
 content with different types of metadata tracks.  
@@ -758,7 +758,7 @@ TLS certificate) to establish a secure [=TCP=] connection.
 In some private datacenter deployments where nodes   
 are not reachable from outside, a non authenticated connection   
 MAY also be used. The ingest source then issues an empty POST   
-to test that the media processing entity is listening. It then   
+to test that the [=media processing entity=] is listening. It then   
 start sending the [=moov=] + [=ftyp=] box (the init segment), followed   
 by the rest of the segments in the fragmented MPEG-4 stream. In   
 the end of the session, for tear down the source can send an   
@@ -832,9 +832,9 @@ profile MUST also adhere to general requirements in secion 4.
         source or ingest source should signal
         the stop by transmitting an empty [=mfra] box
         towards the publishing point/processing entity.
-     7. The live ingest source SHOULD use a separate TCP
+     7. The [=live ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
-     8. The live ingest source MAY use a separate relative path
+     8. The [=live ingest source=] MAY use a separate relative path
         in the POST_URL for ingest of each different track
 
 ## Requirements for formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
@@ -943,9 +943,9 @@ a track with timed text, captions and/or subtitle streams.
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI                 | Reference                      | 
 | --------------------------:|:------------------------------:| 
-| urn:mpeg:dash:event:2012   | MPEGDASH, 5.10.4               | 
-| urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1              | 
-|  urn:scte:scte35:2013:bin  | SCTE35 14-3 (2015), 7.3.2      |  
+| urn:mpeg:dash:event:2012   | [DASH], 5.10.4               | 
+| urn:dvb:iptv:cpm:2014      | [DVB-DASH], 9.1.2.1          | 
+|  urn:scte:scte35:2013:bin  | [SCTE35] 14-3 (2015), 7.3.2 |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
@@ -1142,7 +1142,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 
    The flow of operation in profile 2 is shown in Diagram 12. In this  
-   case the live ingest source (media source) sends a manifest first.  
+   case the [=live ingest source=] (media source) sends a manifest first.  
    Based on this manifest the media processing entity can setup  
    reception paths for the ingest url  
    http://hostname/presentationpath  
@@ -1346,10 +1346,6 @@ Alex Giladi Comcast
                 https://wiki.mozilla.org/Security/Server_Side_TLS
                 #Intermediate_compatibility_.28default.29
                 (last acessed 30th of March 2018)
-
-    <dfn dfn>ID3v2</dfn>      M. Nilsson  "ID3 Tag version 2.4.0 Main structure"
-                http://id3.org/id3v2.4.0-structure
-                November 2000 (last acessed 2nd of May 2018)
 
     <dfn dfn>MS-SSTR</dfn>   Smooth streaming protocol  
               https://msdn.microsoft.com/en-us/library/ff469518.aspx
