@@ -28,3 +28,7 @@ for more information on the specification: https://github.com/unifiedstreaming/f
 # note 
 A more sophisticated closed source tool is available from Unified Streaming, this tool is mainly to support the specification 
 work.
+
+# warning 
+
+This is a work in progress and not a final version, use with care! 
