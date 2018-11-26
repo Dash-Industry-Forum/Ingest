@@ -15,6 +15,12 @@ dependency on libCURL, tested on windows 10 using unified origin
 - tested with unified origin
 - multiple tracks can be uploaded only by multiple processes running the ingest tool (improvement todo)
 
+# additional tools 
+
+- fmp4dump dump the content of a fragmented mp4 to stdout, mainly the metadata and signalling data (not the samples itself)
+- fmp4sparse convert a CMAF with emsg to a sparse track file (TODO add support for other input formats)
+- fmp4init  get the init segment of a fragmented mp4 file (the moov and ftyp boxes)
+
 # features to be added
 - HTTP over TLS 
 - HTTP AUTH 
