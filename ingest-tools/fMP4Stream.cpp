@@ -225,6 +225,8 @@ void tfdt::parse(char* ptr)
 
 };
 
+
+
 uint64_t trun::size()
 {
 	uint64_t l_size = full_box::size() + 4;
@@ -516,6 +518,16 @@ void emsg::parse(char * ptr, unsigned int data_size)
 
 	//if (message_data[0] == 0xFC) {}
 	//	cout << "program splice table detected " << endl;
+}
+
+void emsg::write_emsg_as_mpd_event(ostream *ostr, uint64_t base_time)
+{
+	*ostr << "<Event" << endl \
+		<< "presentationTime=" << '"' << (this->m_version ? m_presentation_time : base_time + m_presentation_time_delta) << '"' << endl \
+		<< "duration=" << '"' << m_event_duration << '"' << endl \
+		<< "id=" << '"' << m_id << "'" << '>' << endl \
+		<< base64_encode(this->m_message_data.data(), this->m_message_data.size()) << endl
+		<< "</Event>" << endl;
 }
 
 //
@@ -1231,6 +1243,42 @@ int ingest_stream::write_to_sparse_emsg_file(string &out_file, uint32_t track_id
 		cout << "error" << endl;
 	return 0;
 };
+
+// 
+void ingest_stream::write_to_dash_event_stream(string &out_file)
+{
+	ofstream ot(out_file);
+
+
+	if (ot.good()) {
+
+		uint32_t time_scale = m_init_fragment.get_time_scale();
+		string scheme_id_uri = "";
+
+		if (m_media_fragment.size() > 0)
+			scheme_id_uri = m_media_fragment[0].m_emsg.m_scheme_id_uri;
+
+		ot << "<EventStream " << endl
+			<< "schemeIdUri=" << '"' << scheme_id_uri << '"' << endl
+			<< "timescale=" << '"' << time_scale << '"' << ">" << endl;
+
+		// write each of the event messages as moof mdat combinations in sparse track 
+		for (auto it = this->m_media_fragment.begin(); it != this->m_media_fragment.end(); ++it)
+		{
+			//it->print();
+			if (it->m_emsg.m_scheme_id_uri.size())
+			{
+				
+				//cout << " writing emsg fragment " << endl;
+				it->m_emsg.write_emsg_as_mpd_event(&ot, it->m_tfdt.m_basemediadecodetime);
+
+			}
+		}
+
+		ot << "</EventStream> " << endl;
+	}
+	ot.close();
+}
 
 //! dump the contents of the sparse track to screen
 void ingest_stream::print()
