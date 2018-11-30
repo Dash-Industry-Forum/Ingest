@@ -622,7 +622,8 @@ uint32_t emsg::write(ostream *ostr)
 }
 
 //! write an emsg message as a sparse fragment with advertisement time timestamp announce second before the application time
-void emsg::write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp, uint32_t track_id = 1, uint32_t announce = 4 /* announce n seconds in advance*/)
+void emsg::write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp_tdft, uint32_t track_id = 1,
+	uint64_t next_tdft=0 /* announce n seconds in advance*/)
 {
 	if (m_scheme_id_uri.size())
 	{
@@ -654,9 +655,8 @@ void emsg::write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp, uint32
 		// --- init tfdt
 		tfdt l_tfdt = {};
 		l_tfdt.m_version = 1;
-		l_tfdt.m_basemediadecodetime = timestamp;
+		l_tfdt.m_basemediadecodetime = timestamp_tdft;
 		uint64_t l_tfdt_size = l_tfdt.size(); // size should be 12 + 8 = 20
-		
 
 		// --- init trun
 		trun l_trun = {};
@@ -672,11 +672,15 @@ void emsg::write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp, uint32
 		//-- init sentry in trun write 3 samples
 		l_trun.m_sentry.resize(3);
 		l_trun.m_sentry[0].m_sample_size = 0;
-		l_trun.m_sentry[0].m_sample_duration = announce;   // announce in advance via basemediadecodetime (4 seconds in advance)
+		l_trun.m_sentry[0].m_sample_duration = this->m_presentation_time_delta;   // announce in advance via basemediadecodetime (4 seconds in advance)
 		l_trun.m_sentry[1].m_sample_size = (uint32_t)size();
-		l_trun.m_sentry[1].m_sample_duration = 1;       // duration is 1 
+		l_trun.m_sentry[1].m_sample_duration = this->m_event_duration;       // duration is 1 
 		l_trun.m_sentry[2].m_sample_size = 0;
-		l_trun.m_sentry[2].m_sample_duration = 0;
+		// calculate the gap that needs to be filled up to the next tdft
+		int32_t gap_duration = (int32_t) (next_tdft - timestamp_tdft - m_event_duration - m_presentation_time_delta);
+		cout << "gap_dur" << gap_duration << endl;
+		cout << "next_tdft" << next_tdft << endl;
+		l_trun.m_sentry[2].m_sample_duration = next_tdft ? (gap_duration > 0 ? gap_duration :  0) : 0; // if unknown set the gap duration to zero
 
 
 		//--- initialize the box sizes
@@ -1230,11 +1234,17 @@ int ingest_stream::write_to_sparse_emsg_file(string &out_file, uint32_t track_id
 			if (it->m_emsg.m_scheme_id_uri.size())
 			{
 
+				uint64_t next_tdft = 0;
+				//find the next tdft 
+				if ( (it + 1) != this->m_media_fragment.end())
+					next_tdft = (it+1)->m_tfdt.m_basemediadecodetime;
 				//cout << " writing emsg fragment " << endl;
-				it->m_emsg.write_emsg_as_fmp4_fragment(&ot, it->m_tfdt.m_basemediadecodetime, track_id, announce);
+				it->m_emsg.write_emsg_as_fmp4_fragment(&ot, it->m_tfdt.m_basemediadecodetime, track_id, next_tdft);
 
 			}
 		}
+
+		ot.write((char *)empty_mfra, 8);
 
 		ot.close();
 		cout << "*** wrote sparse track file: " <<  out_file << "  ***" << std::endl;
