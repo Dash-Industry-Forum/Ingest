@@ -52,10 +52,6 @@ int main(int argc, char *argv[])
 
 		if (argc > 4) {
 			l_announce = stoi(argv[4]);
-			cout << "advertisement time is: " << l_announce << " seconds in advance" << endl;
-		}
-		if (argc > 5) {
-			l_announce = stoi(argv[4]);
 			urn = string(argv[5]);
 		    cout << " urn scheme for meta data: " << urn  << endl;
 		}
@@ -73,7 +69,8 @@ int main(int argc, char *argv[])
 	}
 	else 
 	{ 
-		cout << "usage: fmp4meta infile outfile [track_id=1] [announce=8]" << endl;
+		cout << "simple program to convert a cmaf file containing emsg to a sparse track" << endl;
+		cout << "usage: fmp4meta infile outfile [track_id=1] [urn=myscheme::emsg]" << endl;
 	}
 		
 	return 0;

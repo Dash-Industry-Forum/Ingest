@@ -232,7 +232,7 @@ namespace fMP4Stream {
 		virtual void parse(char * ptr, unsigned int data_size);
 		virtual void print();
 		uint32_t write(ostream *ostr);
-		void write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp, uint32_t track_id, uint32_t announce);
+		void write_emsg_as_fmp4_fragment(ostream *ostr, uint64_t timestamp, uint32_t track_id, uint64_t next_tdft);
 		void write_emsg_as_mpd_event(ostream *ostr, uint64_t base_time);
 	};	
 
