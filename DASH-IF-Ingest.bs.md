@@ -92,7 +92,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    the broadcast or storage. In addition, the codec  
    and profile used, e.g. [[!MPEGHEVC]] is an important  
    interoperability point that itself also  
-   has different profiles and   standardized tech.
+   has different profiles.
    
 
    A third level, is the way metadata is  
@@ -142,7 +142,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    encrypting or transcoding the stream.  
    Other operations could include watermarking,  
    content insertion and generating streaming manifests  
-   based on [[!MPEGDASH]] or HLS  [[RFC8216]]. What is typical  
+   based on [[!MPEGDASH]] or HLS  [[!RFC8216]]. What is typical  
    of these operations is that they actively inspect,  
    or modify the media content and may  
    generate new derived media content.  
@@ -218,7 +218,6 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    easy to implement in live encoders. In addition it   
    provided features for high availability and   
    server side redundancy.   
-  
 
    The first profile relating to workflow 1   
    advances over the smooth ingest procotol   
@@ -229,7 +228,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    such as timed metadata markers for content insertion.   
    In addition, it incorporates the latest media formats   
    and protocols, making it ready for current and   
-   next generation media codecs such as [[MPEGHEVC]]   
+   next generation media codecs such as [[!MPEGHEVC]]   
    and protocols like MPEG DASH [[!MPEGDASH]].   
    
 
@@ -238,10 +237,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    the media is not altered actively, and further   
    media processing perhaps restricted to the manifests.   
    A key idea of this part of the specification is to re-use   
-   the similarities of MPEG DASH [[!MPEGDASH]] and HLS [[RFC8216]] protocols   
+   the similarities of MPEG DASH [[!MPEGDASH]] and HLS [[!RFC8216]] protocols   
    to enable a simultaneous ingest of media   
    presentations of these two formats using   
-   common media segments such as based on [[ISOBMFF]]   
+   common media segments such as based on [[!ISOBMFF]]   
    and [[MPEGCMAF]] formats. In addition, in this   
    approach naming is important to enable direct   
    processing and storage of the presentation.   
@@ -260,13 +259,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    We further motivate this best practice presented   
    in this document supporting using   
-   HTTP [[!RFC2626]]  and [[ISOBMFF]] a bit more.   
+   HTTP [[!RFC2626]]  and [[!ISOBMFF]] a bit more.   
    We believe that Smooth streaming [=MS-SSTR=]   
    and HLS [[RFC8216]] have shown that HTTP usage   
    can survive the Internet ecosystem for   
    media delivery. In addition, HTTP based   
    ingest fits well with current HTTP   
-   based streaming protocols including [[MPEGDASH]].   
+   based streaming protocols including [[!MPEGDASH]].   
    In addition, there is good support for HTTP   
    middleboxes and HTTP routing available   
    making it easier to debug and trace errors.   
@@ -385,13 +384,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn> **mdhd**  </dfn>:
          The media header box "mdhd" as defined in [[!ISOBMFF]],  
          this box contains information about the media such  
-         as timescale, duration, language using ISO 639-2/T [[iso-639-2]] codes  
+         as timescale, duration, language using ISO 639-2/T [[!iso-639-2]] codes  
          [[!ISOBMFF]] 
 
    <dfn dfn> **pssh**  </dfn>:
          The protection specific system header "pssh" box defined  
-         in [[MPEGCENC]] that can be used to signal the content protection  
-         information according to the MPEG Common Encryption [[MPEGCENC]] 
+         in [[!MPEGCENC]] that can be used to signal the content protection  
+         information according to the MPEG Common Encryption [[!MPEGCENC]] 
 
    <dfn dfn> **sinf**  </dfn>:
          Protection scheme information box "sinf" defined in  
@@ -415,7 +414,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         sending data from a source to a destination [[!RFC2626]  
 
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
-        stream of [[ISOBMFF]] fragments  
+        stream of [[!ISOBMFF]] fragments  
         ([=moof=] and [=mdat=]), a more precise definition will follow  
         later in this section.  
 
@@ -596,7 +595,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
 # General Ingest Protocol Behavior # {#general}
 
-  he media ingest follows the following  
+  The media ingest follows the following  
   general requirements for both target profiles.  
 
 
@@ -639,11 +638,11 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # Profile 1: Fragmented MPEG-4 Ingest General Considerations # {#profile_1_general}
 
 The first profile assumes ingest to an active media processing entity,  
-from one or more [=live ingest source=] s, ingesting one or more  
+from one or more [=live ingest source=], ingesting one or more  
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by using  
-standardized media container formats based on [[!ISOBMFF]] [[MPEGCMAF]].  
-In addition this allows extension to codecs like [[MPEGHEVC]] and  
+standardized media container formats based on [[!ISOBMFF]] [[!MPEGCMAF]].  
+In addition this allows extension to codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
 fragmented MPEG-4 ingest is illustrated in Diagram 7. Discussions
@@ -678,14 +677,14 @@ on the early development have been documented [=fmp4git=].
 
 In diagrams 8-10 we detail some of the concepts and structures.   
 Diagram 8 shows the data format structure of fragmented   
-MPEG-4 [[!ISOBMFF]] and [[MPEGCMAF]]. In this format media meta data   
+MPEG-4 [[!ISOBMFF]] and [[!MPEGCMAF]]. In this format media meta data   
 (playback time, sample duration) and sample data (encoded samples)   
 are interleaved. the [=moof=] box as specified in [[!ISOBMFF]] is used   
 to signal the information to playback and decode the samples   
 followed in the mdat box.   
 The [=ftyp=] and moov box contain the track specific information   
 and can be seen as a header of the stream, sometimes referred   
-as a [[MPEGCMAF]] header. The styp box can be used to signal the   
+as a [[!MPEGCMAF]] header. The styp box can be used to signal the   
 type of segment. The combination of styp [=moof=] [=mdat=] can be referred   
 as a segment, the combination of [=ftyp=] and [=moof=] can be referred   
 to as an init segment or a CMAF header.  
@@ -848,7 +847,7 @@ profile MUST also adhere to general requirements in secion 4.
         this issue SHOULD be avoided.
      3. The MPEG-4 fragment durations SHOULD be between
         approximately 1 and 6 seconds.
-     4. The fragment decode timestamps [=basedmediadecodetime=] of fragments in the
+     4. The fragment decode timestamps [=basemediadecodetime=] of fragments in the
         [=fragmentedMP4stream=] and the indexes base_media_decode_ time
         SHOULD arrive in increasing order for each of the different
         tracks/streams that are ingested.
@@ -878,7 +877,8 @@ a track with timed text, captions and/or subtitle streams.
      1. The track will be a sparse track signalled by a null media
         header [=nmhd=] containing the timed text, images, captions
         corresponding to the recommendation of storing tracks
-        in fragmented MPEG-4 [[MPEGCMAF]]
+        in fragmented MPEG-4 [[!MPEGCMAF]], or a sthd for an ISOBMFF
+        subtitle track
      2. Based on this recommendation the trackhandler "hdlr" shall
         be set to "text" for WebVTT and "subt" for TTML following
         [[!MPEG4-30]]
@@ -887,7 +887,7 @@ a track with timed text, captions and/or subtitle streams.
      4. In case WebVTT is used the track must use the WVTTSampleEntry
         to signal sample description of the text stream [[!MPEG4-30]
      5. These boxes SHOULD signal the mime type and specifics as
-        described in [[MPEGCMAF]] sections 11.3 ,11.4 and 11.5
+        described in [[!MPEGCMAF]] sections 11.3 ,11.4 and 11.5
      6. The boxes described in 2-5 must be present in the init
         segment ([=ftyp=] + [=moov=]) for the given track
      7. subtitles in CTA-608 and CTA-708 format SHOULD be conveyed
@@ -922,7 +922,7 @@ a track with timed text, captions and/or subtitle streams.
   the signalling data usually does not  
   happen continuously, and the intervals can  
   be hard to predict. Examples of timed metadata are ID3 tags  
-  [[ID3v2]], SCTE-35 markers [[SCTE35]] and DASH emsg  
+  [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASH emsg  
   messages defined in section 5.10.3.3 of [[!MPEGDASH]]. For example,  
   DASH Event messages contain a schemeIdUri that defines  
   the payload of the message.  
@@ -943,9 +943,9 @@ a track with timed text, captions and/or subtitle streams.
 Table 1 Example of DASH emsg schemes  URI
 | Scheme URI                 | Reference                      | 
 | --------------------------:|:------------------------------:| 
-| urn:mpeg:dash:event:2012   | DASH, 5.10.4               | 
-| urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1          | 
-|  urn:scte:scte35:2013:bin  | SCTE35] 14-3 (2015), 7.3.2 |  
+| urn:mpeg:dash:event:2012   | DASH, 5.10.4                   | 
+| urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1              | 
+|  urn:scte:scte35:2013:bin  | SCTE35] 14-3 (2015), 7.3.2     |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
@@ -997,17 +997,20 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         time, this time is often different
         from the media presentation time, which is occurs
         when a message is applied. The duration of
-        a metadata fragment can be set to zero,
+        a metadata fragment samples can be set to zero,
         letting it be determined by the
         time (tfdt) of a next metadata segment received.
-     6. All Timed Metadata samples SHOULD
+     6. The application time can be signalled as 
+        a difference to the arrival time by having an 
+        empty sample with duration delta 
+     7. All Timed Metadata samples SHOULD
         be sync samples [[ISOBMFF]],
         defining the entire set of
         metadata for the time interval
         they cover. Hence, the sync
         sample table box SHOULD
         not be present in the metadata stream.
-     7. The metadata segment becomes available to the
+     8. The metadata segment becomes available to the
         publishing  point/ media processing entity
         when the corresponding track fragment
         from the media that has an equal
@@ -1020,11 +1023,11 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         (assuming the parent track name is "video")
         fragment timestamp 1000 or beyond, it can retrieve the
         sparse fragment from the binary payload.
-     8. The payload of sparse track fragments is conveyed
+     9. The payload of sparse track fragments is conveyed
         in the mdat box as sample information. This enables
         muxing of the metadata tracks. For example
         XML metadata can for example be coded as base64 as
-        common for [[SCTE35]] metadata messages
+        common for [[!SCTE35]] metadata messages
 
 ##  Requirements for Media Processing Entity Failover ## {#failover}
 
@@ -1109,7 +1112,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         for the same live presentation to generate synced audio/video  
         samples with aligned fragment boundaries.
         This implies that UTC timestamps
-        for fragments in the "tdft" match between decoders,
+        for fragments in the "tfdt" match between decoders,
         and encoders start running at
         an appropriate segment boundaries.
      5.    The new stream MUST be semantically equivalent
@@ -1131,11 +1134,11 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    Profile 2 is designed to ingest media into entities that only  
    provide pass through functionality. In this case the media  
    ingest source also provides the manifest based on MPEG DASH [[!MPEGDASH]]  
-   or HTTP Live Streaming [[RFC8216]].   
+   or HTTP Live Streaming [[!RFC8216]].   
 
 
    The key idea here is to reuse the fragmented MPEG-4 ingest to  
-   enable simulataneous ingest of DASH [[!MPEGDASH]] and HLS [[RFC8216]] based on the  
+   enable simulataneous ingest of DASH [[!MPEGDASH]] and HLS [[!RFC8216]] based on the  
    fragmented MPEG-4 files using commonalities as  
    described in [[!MPEGCMAF]] which is a format based on fragmented  
    MPEG-4 that can be used in both DASH and HLS presentations.  
@@ -1159,8 +1162,8 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    the connection is setup and the way data is transmitted,  
    which can use relative URL paths for the segments based on the  
    paths in the manifest. For the rest, it largely  
-   uses the same fragmented MPEG-4 layer based on [[ISOBMFF]]  
-   and [[MPEGCMAF]]. 
+   uses the same fragmented MPEG-4 layer based on [[!ISOBMFF]]  
+   and [[!MPEGCMAF]]. 
 
   <pre>
 Diagram 12
@@ -1272,7 +1275,7 @@ to general requirements in section 5.
         to the same requirements as in 8.4
      2. In addition, the emsg box containing the metadata
         SHOULD also be signalled in inband in the media
-        track as recommended in [[MPEGCMAF]]
+        track as recommended in [[!MPEGCMAF]]
      3. DASH event messages SHOULD also
         be signalled in the Manifest
 
