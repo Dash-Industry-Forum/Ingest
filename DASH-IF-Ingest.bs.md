@@ -329,14 +329,12 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             the total live stream for the ingest.  
             (Live) encoder: entity performing live  
             encoding and producing a high quality live stream,  
-            can serve as media ingest source  
+            can serve as ingest source  
 
-   <dfn dfn>**Ingest Source**</dfn>:  
+   <dfn dfn>**Ingest source**</dfn>:  
             a media source ingesting media content  
             , typically a live encoder but not restricted  
-            to this,the [=Media Ingest Source=] could by any  
-            type of Media Ingest Source such as a stored  
-            file that is send in partial chunks.  
+            to this. 
 
    <dfn dfn>**Publishing point** </dfn>:
               entity used to publish the media content,  
@@ -398,14 +396,17 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              to signal a track for which no specific  
              media header is defined, often used for metadata tracks  
 
-   <dfn dfn> **HTTP** </dfn>:  
-             Hyper Text Transfer Protocol,  
-             version 1.1 as specified by [[!RFC2626]]  
-
    <dfn dfn> **HTTP POST** </dfn>:  
              Command used in the Hyper Text Transfer Protocol for  
              sending data from a source to a destination [[!RFC2626]  
 
+   <dfn dfn> **media fragment** </dfn>
+             media fragment, combination of moof and mdat in 
+             ISOBMFF structure
+   
+   <dfn dfn> **cmaf header** </dfn>
+             CMAF header defined in [[!MPEGCMAF]]
+             
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
              A  [=fragmentedMP4stream=] can be defined  
              using the IETF RFC 5234 ANB [[!RFC5234]] as follows.
@@ -413,7 +414,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              headerboxes fragments:
              headerboxes = [=ftyp=] [=moov=]  
              fragments = X fragment  
-            fragment = [=Moof=] [=Mdat=]
+             fragment = [=Moof=] [=Mdat=]
 
    <dfn dfn> **POST_URL**  </dfn>:
              Target URL of a POST command in the HTTP protocol  
@@ -693,7 +694,7 @@ switching can be achieved. By using a common timeline
 different streams can be synchronized at the receiver,  
 while they are in a separated fragmented mp4 stream  
 send over a separate connection, possibly from a different  
-[=inngest source=]. for more information on the synchronisation
+[=Ingest source=]. for more information on the synchronisation
 model we refer to section 6 of [[!MPEGCMAF]].
 
 
@@ -701,7 +702,8 @@ In diagram 10 another advantage of this synchronisation model
 is illustrated, the concept of late binding. In the case   
 of late binding a new stream becomes available. By using   
 the segment boundaries and a common timeline it can   
-be received by the [=media processing entity=] and embedded   
+be received by the [
+processing entity=] and embedded   
 in the presentation. Late binding is useful for many   
 practical use cases when broadcasting television   
 content with different types of media and 
@@ -820,9 +822,9 @@ profile MUST also adhere to general requirements in secion 4.
         ingest source should signal
         the stop by transmitting an empty [=mfra] box
         towards the publishing point/processing entity.
-     7. The [=live ingest source=] SHOULD use a separate TCP
+     7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
-     8. The [=live ingest source=] MAY use a separate relative path
+     8. The [=Ingest source=] MAY use a separate relative path
         in the POST_URL for ingest of each different track by 
         appending a relative path to the POST_URL
      9. The fragment decode timestamps [=basemediadecodetime=] of fragments in the
@@ -1296,7 +1298,7 @@ to general requirements in section 5.
      1. timed metadata is signalled using the higher level representation (DASH/HLS)
 
 ## Requirements for Media Processing Entity Failover ## {#Dash_ingest_behavior_fail_track}
-     1. To be defined, including response codes by the origin
+     1. To be defined, including response codes
 
 ## Requirements for Live Media Source Failover ## {#Dash_ingest_behavior_fail_source_track}
 
