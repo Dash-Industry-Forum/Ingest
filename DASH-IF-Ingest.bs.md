@@ -872,6 +872,14 @@ profile MUST also adhere to general requirements in secion 4.
         [[!MPEGCMAF]] which is a moof mdat structure that may  
         not be an IDR or switching point and is not targetted 
         as an independently adressable media fragment
+     9. For video tracks, profiles like avc1 and hvc1 MAY be used 
+        that signal the sequence parameter set in the CMAF Header 
+        in the sample entry. In this case parameters do not change
+        dynamically during the live event and are signalled 
+        in the moviebox.
+     10. Alternatively videotracks MAY use profiles like avc3 or 
+         hev1 that signal the parameter sets (PPS, SPS, VPS) in 
+         band in the media samples in the mdat box.
 
 Note: [[!MPEGCMAF]] has the notion of a segment, a fragment and a chunk. 
 A fragment can be composed of one or more chunks, while a segment can be 
