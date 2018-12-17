@@ -403,9 +403,6 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn> **media fragment** </dfn>
              media fragment, combination of moof and mdat in 
              ISOBMFF structure
-   
-   <dfn dfn> **cmaf header** </dfn>
-             CMAF header defined in [[!MPEGCMAF]]
              
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
              A  [=fragmentedMP4stream=] can be defined  
@@ -1166,7 +1163,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 
    The flow of operation in profile 2 is shown in Diagram 12. In this  
-   case the [=live ingest source=] (media source) sends a manifest first.  
+   case the [=Ingest source=] (media source) sends a manifest first.  
    Based on this manifest the media processing entity can setup  
    reception paths for the ingest url  
    http://hostname/presentationpath  
