@@ -1383,7 +1383,8 @@ Alex Giladi Comcast
 <pre class="metadata">
 Revision: 1.0
 
-Title: Guidelines for Implementation: DASH-IF Ingest
+Title: 
+
 Status: LD
 Shortname: ingest
 URL: https://dashif.org/guidelines/
