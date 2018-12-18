@@ -329,14 +329,12 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             the total live stream for the ingest.  
             (Live) encoder: entity performing live  
             encoding and producing a high quality live stream,  
-            can serve as media ingest source  
+            can serve as ingest source  
 
-   <dfn dfn>**Ingest Source**</dfn>:  
+   <dfn dfn>**Ingest source**</dfn>:  
             a media source ingesting media content  
             , typically a live encoder but not restricted  
-            to this,the [=Media Ingest Source=] could by any  
-            type of Media Ingest Source such as a stored  
-            file that is send in partial chunks.  
+            to this. 
 
    <dfn dfn>**Publishing point** </dfn>:
               entity used to publish the media content,  
@@ -398,14 +396,14 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              to signal a track for which no specific  
              media header is defined, often used for metadata tracks  
 
-   <dfn dfn> **HTTP** </dfn>:  
-             Hyper Text Transfer Protocol,  
-             version 1.1 as specified by [[!RFC2626]]  
-
    <dfn dfn> **HTTP POST** </dfn>:  
              Command used in the Hyper Text Transfer Protocol for  
              sending data from a source to a destination [[!RFC2626]  
 
+   <dfn dfn> **media fragment** </dfn>
+             media fragment, combination of moof and mdat in 
+             ISOBMFF structure
+             
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
              A  [=fragmentedMP4stream=] can be defined  
              using the IETF RFC 5234 ANB [[!RFC5234]] as follows.
@@ -413,7 +411,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              headerboxes fragments:
              headerboxes = [=ftyp=] [=moov=]  
              fragments = X fragment  
-            fragment = [=Moof=] [=Mdat=]
+             fragment = [=Moof=] [=Mdat=]
 
    <dfn dfn> **POST_URL**  </dfn>:
              Target URL of a POST command in the HTTP protocol  
@@ -693,7 +691,7 @@ switching can be achieved. By using a common timeline
 different streams can be synchronized at the receiver,  
 while they are in a separated fragmented mp4 stream  
 send over a separate connection, possibly from a different  
-[=inngest source=]. for more information on the synchronisation
+[=Ingest source=]. for more information on the synchronisation
 model we refer to section 6 of [[!MPEGCMAF]].
 
 
@@ -701,7 +699,8 @@ In diagram 10 another advantage of this synchronisation model
 is illustrated, the concept of late binding. In the case   
 of late binding a new stream becomes available. By using   
 the segment boundaries and a common timeline it can   
-be received by the [=media processing entity=] and embedded   
+be received by the [
+processing entity=] and embedded   
 in the presentation. Late binding is useful for many   
 practical use cases when broadcasting television   
 content with different types of media and 
@@ -820,9 +819,9 @@ profile MUST also adhere to general requirements in secion 4.
         ingest source should signal
         the stop by transmitting an empty [=mfra] box
         towards the publishing point/processing entity.
-     7. The [=live ingest source=] SHOULD use a separate TCP
+     7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
-     8. The [=live ingest source=] MAY use a separate relative path
+     8. The [=Ingest source=] MAY use a separate relative path
         in the POST_URL for ingest of each different track by 
         appending a relative path to the POST_URL
      9. The fragment decode timestamps [=basemediadecodetime=] of fragments in the
@@ -872,6 +871,14 @@ profile MUST also adhere to general requirements in secion 4.
         [[!MPEGCMAF]] which is a moof mdat structure that may  
         not be an IDR or switching point and is not targetted 
         as an independently adressable media fragment
+     9. For video tracks, profiles like avc1 and hvc1 MAY be used 
+        that signal the sequence parameter set in the CMAF Header 
+        in the sample entry. In this case parameters do not change
+        dynamically during the live event and are signalled 
+        in the moviebox.
+     10. Alternatively videotracks MAY use profiles like avc3 or 
+         hev1 that signal the parameter sets (PPS, SPS, VPS) in 
+         band in the media samples in the mdat box.
 
 Note: [[!MPEGCMAF]] has the notion of a segment, a fragment and a chunk. 
 A fragment can be composed of one or more chunks, while a segment can be 
@@ -1156,7 +1163,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 
    The flow of operation in profile 2 is shown in Diagram 12. In this  
-   case the [=live ingest source=] (media source) sends a manifest first.  
+   case the [=Ingest source=] (media source) sends a manifest first.  
    Based on this manifest the media processing entity can setup  
    reception paths for the ingest url  
    http://hostname/presentationpath  
@@ -1288,7 +1295,7 @@ to general requirements in section 5.
      1. timed metadata is signalled using the higher level representation (DASH/HLS)
 
 ## Requirements for Media Processing Entity Failover ## {#Dash_ingest_behavior_fail_track}
-     1. To be defined, including response codes by the origin
+     1. To be defined, including response codes
 
 ## Requirements for Live Media Source Failover ## {#Dash_ingest_behavior_fail_source_track}
 
