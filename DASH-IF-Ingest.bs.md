@@ -1,4 +1,4 @@
-# Specification: Live Media and Metadata Ingest # {#IngestSpec}
+# Specification: Live Media Ingest # {#IngestSpec}
              
 
 ## Abstract ## {#Abstract}
