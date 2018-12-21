@@ -420,7 +420,12 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn> **TCP**  </dfn>:
             Transmission Control Protocol (TCP) as defined in [[!RFC793]]  
 
-  
+   <dfn dfn> Arrival Time </dfn>: 
+             The time a metadata event is seen by the application for 
+             the first time, e.g. announcement/avail 
+             
+   <dfn dfn> Application time </dfn>: 
+              The time a metadata event is applied to a stream 
 
 # Media Ingest Workflows # {#workflow_and_use_cases}
  
@@ -581,7 +586,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   general requirements for both target profiles.  
 
 
-     1. The live encoder or ingest source communicates to
+     1. The ingest source communicates to
         the [=publishing point=] /processing entity using the HTTP
         POST method as defined in the HTTP protocol [[!RFC7235]]
      2. The media ingest source SHOULD use HTTP over TLS [[!RFC2818]]
@@ -603,13 +608,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         we recommend the ingest SHOULD use the mozzilla
         intermediate compatibility profile which is supported
         in many available implementations [=MozillaTLS=].
-     7. The encoder or ingest source SHOULD terminate
+     7. The  ingest source SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 segment duration.
         An HTTP POST request that does not send data can
         prevent publishing points or media processing entities
-        from quickly disconnecting from the live encoder or
-        media ingest source in the event of a service update.
+        from quickly disconnecting from the ingest source 
+        in the event of a service update.
         For this reason, the HTTP POST for sparse
         data such as sparse tracks SHOULD be short-lived,
         terminating as soon as the sparse fragment is sent.
@@ -753,7 +758,7 @@ box to close the connection.
 Diagram 11: fmp4 ingest flow
 ||===============================================================||
 ||=====================            ============================  ||
-||| live ingest source |            |  Media processing entity | ||
+|||     ingest source |            |  Media processing entity | ||
 ||=====================            ============================  ||
 ||        || <<------  DNS Resolve    -------->> ||              ||
 ||        || <<------  Authenticate   -------->> ||              ||
@@ -788,15 +793,15 @@ profile MUST also adhere to general requirements in secion 4.
 
 ## General Protocol Requirements ## {#general_Protocol_Requirements_p1}
 
-     1. The live encoder or ingest source SHOULD start
+     1. The ingest source SHOULD start
         by sending an HTTP POST request with the 
         init segment by using the POSTURL
-        This can help the live encoder or media
-        ingest source to quickly detect whether the
+        This can help the ingest source 
+        to quickly detect whether the
         live ingest publishing point is valid,
         and if there are any authentication
         or other conditions required.
-     2. The live encoder or ingest source MUST initiate
+     2. The ingest source MUST initiate
         a media ingest connection by POSTING the
         CMAF header boxes "ftyp" and "moov" after step 1
      3. The encoder or ingest source SHOULD use chunked transfer
@@ -809,7 +814,7 @@ profile MUST also adhere to general requirements in secion 4.
         a new connection, and follow the
         preceding requirements. Additionally, the encoder MAY resend
         the previous segment that was already sent again.
-     5. The live encoder or ingest source MUST handle
+     5. The ingest source MUST handle
         any error or failed authentication responses
         received from the media processing, by issueing
         a new connection and following the preceding
@@ -1016,7 +1021,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
      4. The timescale of the metadata should match the value
         specified in the media header box "mdhd" of the
         metadata track.
-     5. The Arrival time is signalled in the "tfdt" box
+     5. The [=Arrival time=] is signalled in the "tfdt" box
         of the track fragment  as the basemediadecode
         time, this time when the metadata will be received 
      6. The application time can be signalled as 
@@ -1121,11 +1126,11 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
     1.    A ingest source instance SHOULD be instantiated 
           to continue streaming
     2.    The ingest source MUST use
-        the same URL for HTTP POST requests as the failed instance.
-    3.    The new encoder or media ingest source POST request
+           the same URL for HTTP POST requests as the failed instance.
+    3.    The new  ingest source POST request
           MUST include the same cmaf header box moov
           and [=ftyp=] as the failed instance
-    4.    The new encoder or media ingest source
+    4.    The ingest source
           MUST be properly synced with all other running encoders
           for the same live presentation to generate synced audio/video  
           samples with aligned fragment boundaries.
@@ -1136,7 +1141,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
      5.   The new stream MUST be semantically equivalent
            with the previous stream, and interchangeable
            at the header and media fragment levels.
-     6.   The new encoder or media ingest source SHOULD
+     6.   The new instance of ingest source SHOULD
           try to minimize data loss. The basemediadecodetime tdft
           of media fragments SHOULD increase from the point where
           the encoder last stopped. The basemediadecodetime in the
@@ -1234,7 +1239,7 @@ to general requirements in section 5.
 
 ##  General Protocol Requirements   ## {#Dash_ingest_behavior_reqs}
 
-    1.  Ingest source
+    1.  The Ingest source
         MUST send a manifest [[!MPEGDASH]]  
         with the following the limitations/constraints.
         1a. Only relative URL paths to be used for each segment
@@ -1242,9 +1247,8 @@ to general requirements in section 5.
         1c. In case the manifest contains these relative paths,
         these paths SHOULD be used in combination with the
         [=POST_URL=] to HTTP POST each of the different segments from
-        the live encoder or ingest source
-        to the processing entity.
-     2. The live encoder or ingest source MAY send
+        the ingest source to the processing entity.
+     2. The ingest source MAY send
         updated versions of the manifest,
         this manifest cannot override current
         settings and relative paths or break currently running and
@@ -1256,11 +1260,11 @@ to general requirements in section 5.
      3. Following media segment requests
         [=POST_URL=]s SHOULD be corresponding to the segments listed
         in the manifest as POST_URL + relative URLs.
-     4. The encoder or ingest source SHOULD use
+     4. The ingest source SHOULD use
         individual HTTP POST commands [[RFC2626]]
         for uploading media segments when available.
-     5. In case fixed length POST Commands are used, the live source
-        entity MUST resend the segment to be posted decribed
+     5. In case fixed length POST Commands are used, the ingest source
+        MUST resend the segment to be posted decribed
         in the manifest entirely in case of responses HTTP 400, 404
         412 or 415 together with the init segment consisting
         of "moov" and "ftyp" boxes
