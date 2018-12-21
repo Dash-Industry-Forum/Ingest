@@ -212,8 +212,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    An example of a media ingest protocol   
    is the ingest part of Microsoft Smooth   
    Streaming protocol [=MS-SSTR=]. This protocol   
-   connects live encoders to the Microsoft Smooth   
-   Streaming server and to the Microsoft Azure cloud.   
+   connects live encoders/ingest sources
+   to the Microsoft Smooth Streaming server 
+   and to the Microsoft Azure cloud.   
    This protocol has shown to be robust, flexible and   
    easy to implement in live encoders. In addition it   
    provided features for high availability and   
@@ -566,9 +567,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   This approach is common when serving web pages,  
   and this architecture also applies to video  
   streaming platforms that also use [[!RFC7235]]]. In Diagram  
-   6 it is highlighted how one or more multiple live encoders can  
-  be sending data to one or more processing entities. In  
-  such a workflow it is important to handle the case  
+   6 it is highlighted how one or more multiple live encoders
+  /ingest sources can be sending data to one or more processing entities. 
+  In  such a workflow it is important to handle the case  
   when one source or media processing entity fails over.  
   We call this support for failover. It is an important  
   consideration in practical video streaming systems that  
@@ -1117,7 +1118,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
  
 ## Requirements for Live Media Source Failover ## {#failover_source}
  
-  Live encoder or media ingest source failover is the second type  
+  Live encoder/ingest source failover is the second type  
   of failover scenario that needs to be addressed for end-to-end  
   live streaming delivery. In this scenario, the error condition  
   occurs on the encoder side. The following expectations apply  
