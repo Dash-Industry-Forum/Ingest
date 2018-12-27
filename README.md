@@ -4,6 +4,8 @@ See [Document Authoring Kit](https://dashif.org/DocumentAuthoring/) for details 
 
 # Links to automated build outputs
 
+![Build status of master branch](https://dev.azure.com/dashif/Automation/_apis/build/status/Ingest?branchName=master)
+
 Most recent output from the **master** branch:
 
 * [HTML document](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html)
