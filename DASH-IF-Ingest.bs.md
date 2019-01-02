@@ -150,7 +150,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    encrypting or transcoding the stream.  
    Other operations could include watermarking,  
    content insertion and generating streaming manifests  
-   based on [[!MPEGDASH]] or HLS  [[!8216]]. What is typical  
+   based on [[!MPEGDASH]] or HLS  [[!RFC8216]]. What is typical  
    of these operations is that they actively inspect,  
    or modify the media content and may  
    generate new derived media content.  
