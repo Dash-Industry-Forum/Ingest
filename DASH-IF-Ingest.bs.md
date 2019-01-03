@@ -157,7 +157,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    In this workflow it is important  
    to convey mediadata and metadata that  
    assists such active media processing operations.  
-   This workflow type is adressed  
+   This workflow type is addressed  
    in the first profile fmp4 (CMAF) ingest.
 
 
@@ -180,7 +180,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    that is very close or matching to the format  
    that the clients need to playback the presentation,  
    as changing or complementing the media presentation  
-   will be difficult. This second workflow is addressed  
+   will be difficult. This second workflow is supported  
    in profile 2 DASH and HLS ingest.  
    
   <pre>
@@ -239,7 +239,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    and protocols, making it ready for current and   
    next generation media codecs such as [[!MPEGHEVC]]   
    and protocols like MPEG DASH [[!MPEGDASH]].
-   In addition, to address the sub profiling 
+   In addition, to support the sub profiling 
    of exising media containers CMAF [[!MPEGCMAF]]
    is referenced.   
    
@@ -630,7 +630,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         resolution respecting the TTL (time to live) from DNS
         query responses, this will enable better resillience
         to changes of the IP address in large scale deployments
-        where the IP adress of the  media
+        where the IP address of the  media
         processing entities may change frequenty.
      5. In case HTTPS  [[!RFC2818]] protocol is used,
         basic authentication HTTP AUTH [[!RFC7617]]
@@ -884,7 +884,7 @@ profile MUST also adhere to general requirements in secion 4.
          in the btrt box in the sampleentry of the CMAF header
      13. The name of a track MAY be signalled by appending /Streams(stream_name) to the POST_URL 
 
-## Requirements for formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
+## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
      1. Media tracks SHALL be formatted using boxes 
         according to section 7 of [[!MPEGCMAF]] except 
@@ -917,7 +917,7 @@ profile MUST also adhere to general requirements in secion 4.
      8. The media track MAY use the notion of a CMAF chunk 
         [[!MPEGCMAF]] which is a moof mdat structure that may  
         not be an IDR or switching point and is not targetted 
-        as an independently adressable media fragment
+        as an independently addressable media fragment
      9. For video tracks, profiles like avc1 and hvc1 MAY be used 
         that signal the sequence parameter set in the CMAF Header 
         in the sample entry. In this case parameters do not change
@@ -1177,7 +1177,7 @@ source sends an inband emsg box the receiver SHOULD ignore them
 ## Requirements for Live Media Source Failover ## {#failover_source}
  
   Live encoder/ingest source failover is the second type  
-  of failover scenario that needs to be addressed for end-to-end  
+  of failover scenario that needs to be supported for end-to-end  
   live streaming delivery. In this scenario, the error condition  
   occurs on the encoder side. The following expectations apply  
   to the live ingestion endpoint when encoder failover happens:  
