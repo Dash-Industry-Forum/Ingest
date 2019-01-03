@@ -82,7 +82,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    A second level of interoperability lies  
    in the media container and coded media formats.  
    The Moving Picture Experts Group defined several media  
-   container formats such as [[!ISOBMFF]] and [!MPEG2TS]] 
+   container formats such as [[!ISOBMFF]] and [[!MPEG2TS]] 
    which are widely adopted and well supported.  
    However, these are general purpose formats,  
    targetting several different application areas.  
@@ -91,7 +91,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    other application standards such as those for  
    the broadcast or storage. For media ingest
    in live streaming, this document provides some 
-   guidance on how to use [[!ISOBMFF].  
+   guidance on how to use [[!ISOBMFF]].  
    In addition, the codec  and profile used, 
    e.g. [[!MPEGHEVC]] is an important  
    interoperability point that itself also  
@@ -887,7 +887,7 @@ profile MUST also adhere to general requirements in secion 4.
 ## Requirements for formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
      1. Media tracks SHALL be formatted using boxes 
-        according to section 7 of [!MPEGCMAF]] except 
+        according to section 7 of [[!MPEGCMAF]] except 
         for section 7.4. which dictates boxes that are 
         not compliant to [[!ISOBMFF]]
      2. The trackFragmentDecodeTime box [=tfdt=] box
