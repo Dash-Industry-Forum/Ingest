@@ -1190,6 +1190,31 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 # Profile 2: DASH and HLS Ingest General Considerations # {#dash_ingest}
   
+   Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the encoder prepares all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
+   
+ ## General requirements
+   ### Industry Compliance
+   1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
+   
+   ### HTTP connections
+   1. Manifests and segments MUST be uploaded via individual HTTP PUT or POST operations.
+   2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
+   2. Persistent connections SHOULD be used.
+   4. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
+   
+   ### Unique segment naming
+   1. All non-manifest objects (video segments, audio segments, init segments and caption segments) must carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
+   2. Objects uploaded with the same path are assumed to be a substitutes for one another. 
+   3. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix must be able to be extracted via a REGEX operation. 
+   
+   ## HLS specific requirements
+   
+   ### Manifest naming
+   1. The parent and child manifests MUST use a .m3u8 file extension and MUST carry a MIME type of "
+   
+   
+   ## DASH specific requirements
+   
    Profile 2 is designed to ingest media into entities that only  
    provide pass through functionality. In this case the media  
    ingest source also provides the manifest based on MPEG DASH [[!MPEGDASH]]  
