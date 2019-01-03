@@ -1,0 +1,25 @@
+release jan 3
+#9 document title updated 
+#12 track sync: references CMAF, half timescale accuracy
+#13 naming of profiles: CMAF ingest, DASH/HLS ingest
+#17 removed cenc encryption for profile 1 
+#21 added note on handling of inband events
+#22 added a method to name tracks by adding an extension to POST_URL
+#23 same as 17 
+#26 added extra text
+#27 added extra text
+#28 text on closing of the ingest added (both media and HTTP/TCP)
+#18 #15 en #14 adressed
+
+f2f
+referenced cmaf in the timed text subtitle section
+HTTP 1.1. TLS 1.2 added 
+RFC references checked
+added text to support language changes by resending init segment 
+sequence numbering added 
+arrival/application time defined
+text on timeout on reconnect removed
+acknowledgement section
+several text rephrase based on feedback
+
+TODO: some more work on profile 2 can be added to in next revision
