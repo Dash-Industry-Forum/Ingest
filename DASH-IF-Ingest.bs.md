@@ -997,7 +997,9 @@ the notion of 9 adding a bitrate box.
            8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [[!MPEG4-30]]
              Caption data is embedded in SEI messages in video track ccea
     9.    The btrt SHOULD be used to signal the average and 
-          maximum bitrate in the sample entry box
+          maximum bitrate in the sample entry box, this is 
+          most relevant for bitmap or xml based timed text subtitles
+          that may consume significant bandwidths 
     10.   In case the language of track changes a new init fragment
           with updated [=mdhd=] and/or [=elng=] SHOULD be send from the 
           ingest source to the media processing entity. 
