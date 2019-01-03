@@ -3,14 +3,15 @@
 
 ## Abstract ## {#Abstract}
 
-   This draft presents a specification for media Ingest from 
-   a live source.  Two profiles are defined.
-   The first profile is based on the fragmented 
-   MPEG-4 (fmp4) format. The second profile 
+   This draft presents a specification for media ingest from 
+   a live ingest source to a processing entity.  
+   Two profiles are defined. The first profile CMAF ingest 
+   is based on the fragmented MPEG-4 (fmp4) format. The second profile 
    supports ingest of a media streaming presentation based 
-   on MPEG DASH or HLS using a common media format. 
-   Details on carriage of metadata markers, timed text,  
-   subtitles and encryption specific metadata are also included.  
+   on MPEG DASH or HLS using a common media format.
+   Details on ingest of metadata markers, timed text,  
+   subtitles and encryption specific metadata are also included
+   in the specification.  
 
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
@@ -52,14 +53,16 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
 # Introduction # {#Introduction}
  
-   This document describes a specification for ingesting  
+   This document presents a specification for ingesting  
    encoded media content from an ingest source such as a  
    live video encoder, towards distributed media 
-   processing entities. 
-   Examples of such media processing 
-   entities include media packagers, 
-   [=Publishing point=]s, streaming origins and 
-   content delivery networks.  
+   processing entities. Examples of such media processing 
+   entities include media packagers, streaming origins and 
+   content delivery networks. The structure
+   setup by these media processing entities 
+   for ingest is sometimes referred to as a 
+   [=Publishing point=] that is used to receive
+   the contents of a live stream event.  
    The combination of ingest sources and
    distributed media processing entities  
    is common in practical video streaming deployments.  
@@ -158,7 +161,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    to convey mediadata and metadata that  
    assists such active media processing operations.  
    This workflow type is addressed  
-   in the first profile fmp4 (CMAF) ingest.
+   in the first profile CMAF ingest.
 
 
    In the second workflow in profile 2, 
@@ -269,7 +272,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    in a prior version of this draft.
 
    We further motivate the specification  
-   in this document supporting using   
+   in this document supporting    
    HTTP 1.1 [[!RFC7235]]  and [[!ISOBMFF]] a bit more.   
    We believe that Smooth streaming [=MS-SSTR=]   
    and HLS [[!RFC8216]] have shown that HTTP usage   
@@ -308,7 +311,15 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    We believe the proposed media format  
    will provide the same benefits with other transports  
    protocols. Our view is that for current and near future  
-   deployments using [[!RFC7235]]  is still a good approach.  
+   deployments using [[!RFC7235]]  is still a good approach.
+
+   The main goal of this specification is to define the interoperability
+   point between live sources (ingest sources) and media processing 
+   entities that typically reside in the cloud or the network. 
+   This specification does not impose any new constraints
+   or requirements for live streaming to media clients on 
+   end-user devices that consume streams using any 
+   defined streaming protocol, with a preference for [!MPEGDASH]   
 
    The document is structured as follows, in section 3   
    we present the conventions and terminology used throughout   
@@ -330,7 +341,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    ISOBMFF: the ISO Base Media File Format specified in [[!ISOBMFF]].  
    
    <dfn dfn>**fmp4 Ingest**</dfn>:
-          profile for ingesting fmp4 and/or CMAF content (defined in profile 1)
+          profile 1 for ingesting fmp4 and/or CMAF content (defined in profile 1)
 
    <dfn dfn>**CMAF Ingest**</dfn>:
           profile for ingesting  CMAF content (defined in profile 1)
@@ -357,8 +368,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             to this. 
 
    <dfn dfn>**Publishing point** </dfn>:
-              entity used to publish the media content,  
-              consumes/receives the incoming media [=ingest stream=]  
+              entry point used to receive the media content,  
+              consumes/receives the incoming media [=ingest stream=]
+              at the media processing entity  
 
    <dfn dfn>**Media processing entity**</dfn>:
             entity used to process the media content,  
@@ -455,7 +467,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   with [=fmp4 Ingest=] or [=CMAF Ingest=] in a streaming workflow. 
   The live media  is ingested into the media processing 
   entity that performs  operations like on-the-fly encryption, 
-  content stitching  packaging and possibly other operations 
+  content stitching,  packaging and possibly other operations 
   before  delivery of the final media presentation to the client.  
   This type of distributed media processing offloads  
   many functionalities from the ingest source.  
@@ -489,7 +501,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   signalling overhead for starting, closing  
   and resetting the [=connection=]. Therefore,  
   the two procedures for media ingest in  
-  such two common workflows are presented  
+  these two common workflows are presented  
   as separate profiles in the next two sections.  
   
 
@@ -519,7 +531,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   
   In Diagram 5 we highlight some of the key  
   differences for practical consideration between  
-  the profiles. In profile 1 the ingest source can be  
+  the profiles. In profile 1 (CMAF ingest) the ingest source can be  
   simple as the media processing entity can  
   do many of the operations related to the  
   delivery such as encryption or generating the streaming  
@@ -619,11 +631,11 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
      1. The ingest source communicates 
         using the HTTP POST method as defined in 
-        the HTTP protocol [[!RFC7235]]
+        the HTTP protocol, version 1.1 [[!RFC7235]]
      2. The media ingest source SHOULD 
         use HTTP over TLS, TLS version 1.2 or higher [[!RFC2818]]
      3. The ingest source SHOULD repeatedly resolve
-        the Hostname to adapt to changes in the IP to Hostname mapping
+        the hostname to adapt to changes in the IP to Hostname mapping
         such as for example by using the dynamic naming system
         DNS [[!RFC1035]] or any other system that is in place.
      4. The ingest source MUST update the IP to hostname
@@ -664,7 +676,7 @@ from one or more [=ingest source=], ingesting one or more
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
 standardized media container formats 
-and boxes based on [[!ISOBMFF]] [[!MPEGCMAF]].  
+and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].  
 In addition this allows extension to codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
@@ -723,7 +735,7 @@ Diagram 8: fragmented mp4 stream:
 </pre>
 
 Diagram 9 illustrates the synchronisation model, that  
-is based on the synchronisation model propose in [[!MPEGCMAF]]. 
+is based on the synchronisation model proposed in [[!MPEGCMAF]]. 
 Different bit-rate tracks and/or media streams are conveyed 
 in separate fragmented mp4 streams. By having the boundaries 
 to the fragments time alligned for tracks comprising the 
@@ -732,7 +744,7 @@ switching can be achieved. By using a common timeline
 different streams can be synchronized at the receiver,  
 while they are in a separated fragmented mp4 stream  
 send over a separate connection, possibly from a different  
-[=Ingest source=]. for more information on the synchronisation
+[=Ingest source=]. For more information on the synchronisation
 model we refer to section 6 of [[!MPEGCMAF]]. For synchronization
 of tracks coming from different encoders, sample time accuracy
 is required. i.e. the same samples need to be mapped to the 
@@ -772,7 +784,7 @@ Diagram 10: fmp4 late binding:
 ===================================================
 ||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=
 ===================================================
-===================================================
+===================================================  << ==  different available track
 ||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=
 ===================================================                   
 
@@ -786,11 +798,13 @@ In some private datacenter deployments where nodes
 are not reachable from outside, a non authenticated connection   
 MAY also be used. The ingest source then issues a POST   
 to test that the [=media processing entity=] is listening. This 
-POST contains the [=moov=] + [=ftyp=] box (the init fragment).
-In case this is succesfull this is followed by the rest of 
-the fragments in the fragmented MPEG-4 stream. In the end of 
+POST contains the [=moov=] + [=ftyp=] box (the init fragment)
+or cmaf header. In case this is succesfull this is followed by the rest of 
+the fragments in the fragmented MPEG-4 stream. At the end of 
 the session, for tear down the source can send an empty [=mfra=] 
-box to close the connection.   
+box to close the connection. This is then followed with a zero length
+chunk, allowing the receiver to send a response, the encoder can 
+follow up by closing the TCP connection using a FIN command.
 
 <pre>
 Diagram 11: fmp4 ingest flow
@@ -836,12 +850,12 @@ profile MUST also adhere to general requirements in secion 4.
         init fragment by using the POSTURL
         This can help the ingest source 
         to quickly detect whether the
-        live ingest publishing point is valid,
+        publishing point is valid,
         and if there are any authentication
         or other conditions required.
      2. The ingest source MUST initiate
         a media ingest connection by POSTING the
-        CMAF header boxes "ftyp" and "moov" after step 1
+        CMAF header or boxes "ftyp" and "moov" after step 1
      3. The encoder or ingest source SHOULD use chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
         as it might be difficult to predict the entire content length
@@ -857,7 +871,7 @@ profile MUST also adhere to general requirements in secion 4.
         received from the media processing entity, by issueing
         a new connection and following the preceding
         requirements including retransmitting 
-        the ftyp and moov boxes of the CMAF track header.
+        the ftyp and moov boxes or the CMAF track header.
      6. In case the [=live stream event=] is over the 
         ingest source should signal
         the stop by transmitting an empty [=mfra=] box
@@ -882,7 +896,6 @@ profile MUST also adhere to general requirements in secion 4.
          Streams(stream_name) to the POST_URL 
      12. The average and maximum bitrate of each track SHOULD be signalled 
          in the btrt box in the sampleentry of the CMAF header
-     13. The name of a track MAY be signalled by appending /Streams(stream_name) to the POST_URL 
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
@@ -929,13 +942,14 @@ profile MUST also adhere to general requirements in secion 4.
      11. In case the language of track changes a new init fragment
           with update [=mdhd=] and or [=elng=] SHOULD be send. 
 
-Note: [[!MPEGCMAF]] has the notion of a fragment, a fragment and a chunk. 
-A fragment can be composed of one or more chunks, while a fragment can be 
+Note: [[!MPEGCMAF]] has the notion of a segment, a fragment and a chunk. 
+A fragment can be composed of one or more chunks, while a segment can be 
 composed of one or more fragments. The [=media fragment=] defined here 
 is independent of this notion and can be a chunk, a fragment containing 
-a single chunk or a fragment containing a single fragment containing 
+a single chunk or a segment containing a single fragment containing 
 a single chunk. Alternatively additional signalling may be defined for the 
-fragment, fragment chunk structure in next version. 
+segment, fragment, chunk structure in next version. In this text we use
+[=media fragment=] to denote the structure combination moof mdat.
  
 ## Requirements for Timed Text Captions and Subtitle Streams ## {#timed_text_and_subtitle_streams}
 
@@ -986,7 +1000,7 @@ the notion of 9 adding a bitrate box.
           maximum bitrate in the sample entry box
     10.   In case the language of track changes a new init fragment
           with updated [=mdhd=] and/or [=elng=] SHOULD be send from the 
-          ingest source to the processing entity. 
+          ingest source to the media processing entity. 
 
 ## Requirements for Timed Metadata ## {#timed_metadata}
    
@@ -1007,15 +1021,18 @@ the notion of 9 adding a bitrate box.
 
   Table 1 provides some example urn schemes 
   Table 2 illustrates an example of a SCTE-35 marker stored  
-  in a DASH emsg.  The presented approach allows ingest of  
+  in a DASH emsg.  
+  The presented approach allows ingest of  
   timed metadata from different sources,  
   possibly on different locations by embedding them in  
-  sparse metadata tracks.  
+  sparse metadata tracks. In this approach metadata 
+  is not interleaved with the media as for example
+  the case in emsg boxes in [!MPEGCMAF]  
 
-  Example messages include e-msg as used in 
-  [[!MPEGDASH]], [[DVB-DASH]], alternatively 
+  Example metadata messages include e-msg as used in 
+  [[!MPEGDASH]], [[DVB-DASH]], or alternatively 
   [[SCTE35]] or [[ID3v2]] messages could be
-  conveyed in a sparse track. 
+  conveyed in a sparse metadata track. 
 
 <pre>
 
@@ -1078,7 +1095,8 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         a difference to the arrival time by an 
         empty sample with duration delta 
      7. The duration of the sample signalled in the 
-        trun box SHOULD correspond to the duration of 
+        trun box conaining the metadata
+        SHOULD correspond to the duration of 
         the metadata if the metadata is valid 
         for a duration of time
      8. Empty samples, and fragments with empty samples 
@@ -1120,7 +1138,7 @@ a separate track is used instead to convey such information.
 Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media 
 and metadata by interleaving them. In case the ingest 
-source sends an inband emsg box the receiver SHOULD ignore them
+source sends an inband emsg box the receiver SHOULD ignore it.
 
 ##  Requirements for Media Processing Entity Failover ## {#failover}
 
@@ -1139,7 +1157,7 @@ source sends an inband emsg box the receiver SHOULD ignore them
      1. Use a timeout for establishing the
         TCP connection. If an attempt to establish 
         the connection takes longer abort the operation and try again.
-     2. Resend track fragments for which a
+     2. Resend media fragments for which a
         connection was terminated early
      3. We recommend that the encoder or ingest source
         does NOT limit the number of retries to establish a
@@ -1182,7 +1200,7 @@ source sends an inband emsg box the receiver SHOULD ignore them
   occurs on the encoder side. The following expectations apply  
   to the live ingestion endpoint when encoder failover happens:  
   
-    1.    A ingest source instance SHOULD be instantiated 
+    1.    An ingest source instance SHOULD be instantiated 
           to continue the ingest
     2.    The ingest source MUST use
            the same URL for HTTP POST requests as the failed instance.
@@ -1219,7 +1237,7 @@ source sends an inband emsg box the receiver SHOULD ignore them
    or HTTP Live Streaming [[!RFC8216]].   
 
 
-   The key idea here is to reuse the fragmented MPEG-4 ingest to  
+   The key idea here is to reuse the fragmented MPEG-4 format to  
    enable simulatneous ingest of DASH [[!MPEGDASH]] and HLS [[!RFC8216]] based on the  
    fragmented MPEG-4 files using commonalities as  
    described in [[!MPEGCMAF]] which is a format based on fragmented  
@@ -1237,7 +1255,7 @@ source sends an inband emsg box the receiver SHOULD ignore them
    e.g. http://hostname/presentationpath/relative_path/fragment1.cmf  
 
 
-   This profile re-uses as much functionality as possible from  
+   This profile re-uses some functionality as possible from  
    profile  1 as the manifest can be seen  
    as a complementary addition to the  
    fragmented MPEG-4 stream. A difference lies in the way  
@@ -1245,7 +1263,8 @@ source sends an inband emsg box the receiver SHOULD ignore them
    which can use relative URL paths for the fragments based on the  
    paths in the manifest. For the rest, it largely  
    uses the same fragmented MPEG-4 layer based on [[!ISOBMFF]]  
-   and [[!MPEGCMAF]]. 
+   and [[!MPEGCMAF]]. However, it uses short running posts
+   and naming of the segmens and using relative url paths is important.
 
   <pre>
 Diagram 12
