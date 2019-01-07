@@ -629,14 +629,15 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   general requirements for both target profiles.  
 
 
-     1. The ingest source communicates 
+     1. The ingest source SHALL communicate 
         using the HTTP POST method as defined in 
         the HTTP protocol, version 1.1 [[!RFC7235]]
-     2. The media ingest source SHOULD 
-        use HTTP over TLS, TLS version 1.2 or higher [[!RFC2818]]
+     2. The ingest source SHOULD 
+        use HTTP over TLS, if TLS is used it SHALL be 
+        TLS version 1.2 or higher [[!RFC2818]]
      3. The ingest source SHOULD repeatedly resolve
         the hostname to adapt to changes in the IP to Hostname mapping
-        such as for example by using the dynamic naming system
+        such as for example by using the domain naming system
         DNS [[!RFC1035]] or any other system that is in place.
      4. The ingest source MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
@@ -648,23 +649,23 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         basic authentication HTTP AUTH [[!RFC7617]]
         or better methods like TLS client certificates MUST be used.
      6. The use of mutual authentication SHOULD be supported.
-        Client certificates SHOULD chain to a trusted CA. 
-        The use of Self Signed MUST be supported.
+        Client certificates SHALL chain to a trusted CA -todo reference-
+        , or be self assigned. 
      7. As compatibility profile for the TLS encryption
-        we recommend the ingest SHOULD use the mozzilla
-        intermediate compatibility profile which is supported
-        in many available implementations [=MozillaTLS=].
-     8. The  ingest source SHOULD terminate
+        the ingest source SHOULD use the mozzilla
+        intermediate compatibility profile [=MozillaTLS=].
+     8. In case of an authentication error ..... 
+     9. The  ingest source SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
         prevent media processing entities
         from quickly disconnecting from the ingest source 
         in the event of a service update.
-        For this reason, the HTTP POST for sparse
-        data such as sparse tracks SHOULD be short-lived,
+     10. the HTTP POST for sparse
+        data SHOULD be short-lived,
         terminating as soon as the sparse fragment is sent.
-     9. The POST request uses a POST_URL to the basepath of the
+     11. The POST request uses a POST_URL to the basepath of the
         publishing point at the media processing entity and
         MAY use an additional relative path when posting
         different streams and fragments.
@@ -845,45 +846,46 @@ profile MUST also adhere to general requirements in secion 4.
 
 ## General Protocol Requirements ## {#general_Protocol_Requirements_p1}
 
-     1. The ingest source SHOULD start
+     1. The ingest source SHALL start
         by sending an HTTP POST request with the 
-        init fragment by using the POSTURL
+        init fragment "ftyp" and "moov" 
+        by using the POSTURL
         This can help the ingest source 
         to quickly detect whether the
         publishing point is valid,
         and if there are any authentication
         or other conditions required.
-     2. The ingest source MUST initiate
-        a media ingest connection by POSTING the
-        CMAF header or boxes "ftyp" and "moov" after step 1
-     3. The encoder or ingest source SHOULD use chunked transfer
+     #2. The ingest source MUST initiate
+     #   a media ingest connection by POSTING the
+     #   CMAF header or boxes  after step 1
+     3. The ingest source SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
-        as it might be difficult to predict the entire content length
-        of the fragment. This can also be used for example to support
-        use cases that require low latency.
+        when the content length is unknown at the start of transmission
+        or to support use cases that require low latency
      4. If the HTTP POST request terminates or times out with a TCP
-        error prior to the end of the stream, the encoder MUST issue
+        error prior to the end of the stream, the ingest source MUST establish
         a new connection, and follow the
-        preceding requirements. Additionally, the encoder MAY resend
-        the previous fragment that was already sent again.
+        preceding requirements. Additionally, the ingest source MAY resend
+        the fragment in which the timeout or TCP error occured.
      5. The ingest source MUST handle
-        any error or failed authentication responses
-        received from the media processing entity, by issueing
+        any error responses
+        received from the media processing entity, by establishing
         a new connection and following the preceding
         requirements including retransmitting 
         the ftyp and moov boxes or the CMAF track header.
      6. In case the [=live stream event=] is over the 
-        ingest source should signal
+        ingest source SHALL signal
         the stop by transmitting an empty [=mfra=] box
         towards the media processing entity.
         After that it SHALL send an empty HTTP chunk, 
         Wait for the HTTP response and finally 
-        close the TCP session with FIN when this response is received
+        close the TCP session with FIN 
+        when this response is received
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
      8. The [=Ingest source=] MAY use a separate relative path
         in the POST_URL for ingest of each different track by 
-        appending a relative path to the POST_URL
+        appending it to the POST_URL
      9. The fragment decode timestamps [=basemediadecodetime=] of fragments in the
         [=fragmentedMP4stream=] and the indexes base_media_decode_ time
         SHOULD arrive in increasing order for each of the different
