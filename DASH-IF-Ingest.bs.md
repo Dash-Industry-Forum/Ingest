@@ -886,18 +886,24 @@ profile MUST also adhere to general requirements in secion 4.
      8. The [=Ingest source=] MAY use a separate relative path
         in the POST_URL for ingest of each different track by 
         appending it to the POST_URL
-     9. The fragment decode timestamps [=basemediadecodetime=] of fragments in the
-        [=fragmentedMP4stream=] and the indexes base_media_decode_ time
-        SHOULD arrive in increasing order for each of the different
+     9. The fragment decode timestamps 
+        [=basemediadecodetime=] 
+        in tdft of fragments in the
+        [=fragmentedMP4stream=]
+        SHOULD arrive in increasing order 
+        for each of the different
         tracks/streams that are ingested.
-     10. The fragment sequence numbers of fragments in the
+     10. The fragment sequence numbers 
+        seq_num of fragments in the
         [=fragmentedMP4stream=] signalled in the tfhd
         SHOULD arrive in increasing order for each of the different
         tracks/streams that are ingested.
      11. Stream names MAY be signalled by adding the relative path 
-         Streams(stream_name) to the POST_URL 
-     12. The average and maximum bitrate of each track SHOULD be signalled 
-         in the btrt box in the sampleentry of the CMAF header
+         Stream(stream_name) to the POST_URL 
+     12. The average and maximum bitrate of each 
+         track SHOULD be signalled 
+         in the btrt box in the sample 
+         entry of the CMAF header or init fragment
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
@@ -911,10 +917,10 @@ profile MUST also adhere to general requirements in secion 4.
         the duration MAY fluctuate to compensate
         for non-integer frame rates. By choosing an appropriate
         timescale (a multiple of the frame rate is recommended)
-        this issue SHOULD be avoided.
+        this issue should be avoided.
      4. The fragment durations SHOULD be between
         approximately 1 and 6 seconds.
-     5. The fragments formatted as fragmented MP4 stream SHOULD use
+     5. The fragmented MP4 stream SHOULD use
         a timescale for video streams based on the framerate
         and 44.1 KHz or 48 KHz for audio streams
         or any another timescale that enables integer
@@ -924,8 +930,9 @@ profile MUST also adhere to general requirements in secion 4.
         could be considered.
      6. The language of the stream SHOULD be signalled in the
         [=mdhd=] box or [=elng=] boxes in the
-        init fragment and/or [=moof=] headers ([=mdhd=]).
-     7. fragments posted towards the media procesing entity SHOULD
+        init fragment, cmaf header
+        and/or [=moof=] headers ([=mdhd=]).
+     7. Fragments posted towards the media procesing entity SHOULD
         contain the bitrate "btrt" box specifying the target
         average and maximum bitrate of the fragments 
         in the sample entry container in the init fragment/CMAF header
@@ -940,7 +947,7 @@ profile MUST also adhere to general requirements in secion 4.
         in the moviebox.
      10. Alternatively videotracks MAY use profiles like avc3 or 
          hev1 that signal the parameter sets (PPS, SPS, VPS) in 
-         band in the media samples in the mdat box.
+          in the media samples in the mdat box.
      11. In case the language of track changes a new init fragment
           with update [=mdhd=] and or [=elng=] SHOULD be send. 
 
@@ -963,12 +970,12 @@ here for convenience to the reader. Note the text in [[!MPEGCMAF]]
 references prevails the text below when different except for 
 the notion of 9 adding a bitrate box. 
 
-     1. The track will be a sparse track signalled by a null media
+     1. The track SHUOLD be a sparse track signalled by a null media
         header [=nmhd=] containing the timed text, images, captions
         corresponding to the recommendation of storing tracks
         in fragmented MPEG-4 [[!MPEGCMAF]], or a sthd for an ISOBMFF
         subtitle track (e.g. TTML)
-     2. Based on this recommendation the trackhandler "hdlr" shall
+     2. Based on this recommendation the trackhandler "hdlr" SHALL
         be set to "text" for WebVTT and "subt" for TTML following
         [[!MPEG4-30]]
      3. In case TTML is used the track must use the XMLSampleEntry
@@ -1073,33 +1080,35 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
   ingest related to events, tags, ad markers and  
   program information:
 
-     1. Create the metadata stream as a
-        fragmentedMP4stream that conveys the metadata
-        , the media handler (hdlr) is "meta",
+     1. Metadata SHALL be conveyed in a fragmented mp4 stream, where
+        the media handler (hdlr) is "meta",
         the track handler box is a null media header box [=nmhd=].
      2. The metadata stream applies to the media streams
-        in the presentation ingested to active publishing
-        point at the media processing entity
-     3. The URIMetaSampleEntry entry contains, in a URIbox,
-        the URI following the URI syntax in [[!RFC3986]]
-        defining the form  of the metadata
+        ingested to a [=publishing point=] entry at the media 
+        processing entity
+     3. The URIMetaSampleEntry entry SHALL contain, 
+        in a URIbox, the URI following the URI syntax in 
+        [[!RFC3986]] defining the form  of the metadata
         (see the ISO Base media file format
          specification [[!ISOBMFF]). For example, the URIBox
          could contain for ID3 tags  [[ID3v2]]
          the URL  http://www.id3.org or
          or urn:scte:scte35:2013a:bin
          for scte 35 markers [[!SCTE35]]}
-     4. The timescale of the metadata should match the value
+     4. The timescale of the metadata SHOULD match the value
         specified in the media header box "mdhd" of the
         metadata track.
      5. The [=Arrival time=] is signalled in the "tfdt" box
         of the track fragment  as the basemediadecode
-        time, this time when the metadata will be received 
+        time, this is the time when the metadata will be
+        first detected.
      6. The [=Application time=] can be signalled as 
         a difference to the arrival time by an 
-        empty sample with duration delta 
+        empty sample with duration delta, the application
+        time is the time when the metadata or event is 
+        applied.
      7. The duration of the sample signalled in the 
-        trun box conaining the metadata
+        trun box containing the metadata
         SHOULD correspond to the duration of 
         the metadata if the metadata is valid 
         for a duration of time
@@ -1112,9 +1121,9 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         metadata for the time interval
         they cover. Hence, the sync
         sample table box SHOULD
-        not be present in the metadata stream.
+        not be present.
      10. The metadata fragment becomes available to the
-        publishing  point/media processing entity
+        media processing entity
         when the corresponding track fragment
         from the media that has an equal
         or larger timestamp compared to
@@ -1128,9 +1137,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         sparse fragment from the binary payload.
      11. The payload is conveyed in the mdat box as 
         sample information. This enables
-        muxing of the metadata tracks. For example
-        XML metadata can for example be coded as base64 as
-        common for [[!SCTE35]] metadata messages
+        muxing of the metadata tracks. 
      12. In some cases, the duration of the metadata may not 
         be known, in this case the sample duration could 
         be set to zero and updated later when the timestamp 
@@ -1158,13 +1165,13 @@ source sends an inband emsg box the receiver SHOULD ignore it.
   The following steps are required for an ingest source
    to deal with a failing media processing entity.  
 
-     1. Use a timeout for establishing the
+     1. The ingest source MUST use a timeout for establishing the
         TCP connection. If an attempt to establish 
         the connection takes longer abort the operation and try again.
-     2. Resend media fragments for which a
+     2. The ingest soruce MUST resend media fragments for which a
         connection was terminated early
-     3. We recommend that the encoder or ingest source
-        does NOT limit the number of retries to establish a
+     3. The ingest source SHOULD
+        NOT limit the number of retries to establish a
         connection or resume streaming after a TCP error occurs.
      4. After a TCP error:
         a. The current connection MUST be closed,
@@ -1175,8 +1182,7 @@ source sends an inband emsg box the receiver SHOULD ignore it.
           fragment to be ingested.
         c. The new HTTP POST MUST include stream
           headers ([=ftyp=], and [=moov=] boxes)
-          identical to the stream headers in the
-          initial POST request for fragmented media ingest.
+          identical to the stream headers.
      5.  In case the media processing entity cannot process the
           POST request due to authentication or permission
           problems then it SHOULD return a permission denied HTTP 403
@@ -1188,13 +1194,14 @@ source sends an inband emsg box the receiver SHOULD ignore it.
          unsupported media type
      8. In case an unknown error happened during
          the processing of the HTTP
-         POST request a HTTP 404 Bad request SHOULD be returned
+         POST request an HTTP 404 Bad request SHOULD be returned
+         by the media processing entity
      9. In case the media processing entity cannot
-         proces a fragment posted
+         process a fragment posted
          due to missing or incorrect init fragment, an HTTP 412
          unfulfilled condition SHOULD be returned
-     10. In case a media source receives an HTTP 412 response,
-         it SHOULD resend [=ftyp=] and [=moov=] boxes
+     10. In case a ingest source receives an HTTP 412 response,
+         it SHALL resend [=ftyp=] and [=moov=] boxes
  
 ## Requirements for Live Media Source Failover ## {#failover_source}
  
@@ -1204,7 +1211,7 @@ source sends an inband emsg box the receiver SHOULD ignore it.
   occurs on the encoder side. The following expectations apply  
   to the live ingestion endpoint when encoder failover happens:  
   
-    1.    An ingest source instance SHOULD be instantiated 
+    1.    A new ingest source instance SHOULD be instantiated 
           to continue the ingest
     2.    The ingest source MUST use
            the same URL for HTTP POST requests as the failed instance.
@@ -1212,7 +1219,7 @@ source sends an inband emsg box the receiver SHOULD ignore it.
           MUST include the same cmaf header or init fragment box moov
           and [=ftyp=] as the failed instance
     4.    The ingest source
-          MUST be properly synced with all other running encoders
+          MUST be properly synced with all other running ingest sources
           for the same live presentation to generate synced audio/video  
           samples with aligned fragment boundaries.
           This implies that UTC timestamps
