@@ -855,9 +855,9 @@ profile MUST also adhere to general requirements in secion 4.
         publishing point is valid,
         and if there are any authentication
         or other conditions required.
-     #2. The ingest source MUST initiate
-     #   a media ingest connection by POSTING the
-     #   CMAF header or boxes  after step 1
+     2. The ingest source MUST initiate
+        a media ingest connection by POSTING the
+        CMAF header or boxes  after step 1
      3. The ingest source SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
         when the content length is unknown at the start of transmission
