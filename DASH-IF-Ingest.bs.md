@@ -1195,21 +1195,28 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
  ## General requirements
    ### Industry Compliance
    1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
+   2. Both the Publishing and Receiving Entities MUST follow the generic requirements outlined in {#general}. 
+   3. The Publishing Entity MUST support the use of fully qualified domain names to identify the receiving entity, in addition to an IPv4 or IPv6 address. (this should probably be a higher level generic requirement)
+   4. Both the Publishing and Receiving Entities MUST support IPv4 and IPv6 transport. (this should probably be a higher level generic requirement)
    
    ### HTTP connections
-   1. Manifests and segments MUST be uploaded via individual HTTP PUT or POST operations.
+   1. Manifests and segments MUST be uploaded via individual HTTP PUT or POST operations using fully defined paths (no relative pathing).
    2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
-   2. Persistent connections SHOULD be used.
-   4. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
-   5. For low latency applications, in which the start of the segment is uploaded prior to the segment being complete, HTTP 1.1 Chunked transfer encoding SHOULD be used.
+   3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support
+   3.1. deleting an empty folder
+   3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders
+   4. Persistent TCP connections SHOULD be used.
+   5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
+   6. For low latency applications, in which the start of the segment is uploaded prior to the segment being complete, HTTP 1.1 Chunked transfer encoding SHOULD be used.
    
    ### Unique segment and manifest naming
    1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
-   2. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streamign session in to the manifest path. 
-   2. Objects uploaded with the same path as a prior object will replace the prior object. 
-   3. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix MUST be able to be extracted via a consistent REGEX operation. 
-   4. Initialization segments MUST be identified through either using the .init file extension OR having the string "init" in their file name. All other manifests and segments which are not initialization segments MUST NOT include the string "init" in their file name.
-   5. All objects being ingested must carry a file extensions and MIME-type. The following file extensions and mime-types are the ONLY permissible combinations to be used when ingesting content:
+   2. All objects MUST be contained within a root path assigned to that stream.
+   3. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streaming session in to the manifest path. 
+   4. Objects uploaded with the same path as a prior object will replace the prior object. 
+   5. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix MUST be able to be extracted via a consistent REGEX operation. 
+   6. Initialization segments MUST be identified through either using the .init file extension OR having the string "init" in their file name. All other manifests and segments which are not initialization segments MUST NOT include the string "init" in their file name.
+   7. All objects being ingested must carry a file extensions and MIME-type. The following file extensions and mime-types are the ONLY permissible combinations to be used when ingesting content:
    
     | File extension| Mime-type|
     | --- | --- |
@@ -1225,9 +1232,11 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
     |.m4s | video/iso.segment |
     |.init | video/mp4 |
     |.header | video/mp4 |
+    |.key | ??? |
    
    ### DNS lookups
    1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
+   2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, to the receiving entity.
    
    ### Publisher identification
    1. The publisher MUST include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all posts.
@@ -1235,8 +1244,8 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    ### Common Failure behaviors
    The following items define the behavior of a publisher when encountering certain conditions. 
    1. When the publisher receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the feceiving origin, it MUST
-       1. Manifest-like objects: re-resolve DNS on each retry and retry indefinitely.
-       2. Non-manifest objects: re-resolve DNS on each retry and continue uploading until n seconds, where n is the segment duration. After it reaches the segment duration value, drop the current data and continue with the next segment data. To maintain continuity of the DVR time-line, continue to upload the missing segment as a lower priority. 
+       1. Manifest-like objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
+       2. Non-manifest objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading until n seconds, where n is the segment duration. After it reaches the segment duration value, drop the current data and continue with the next segment data. To maintain continuity of the DVR time-line, SHOULD continue to upload the missing segment as a lower priority. Once a segment is successfully uploaded with n, update the stream manifest with an discontinuity marker appropriate for the protocol format at hand.
    2. HTTP 403 or 400 errors
         2.1 For all objects (manifest and non-manifest), do not retry. The publisher MUST stop publishing and display or log a fatal error condition.
 
@@ -1246,22 +1255,34 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    
    ### File extensions and mime-types
    1. The parent and child playlists MUST use a .m3u8 file extension.
+   2. The keyfile, if required, MUST use a .key file extension, if statically served.
    2. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
    3. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
    
    ### Upload order
    1. In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, encoders MUST upload all required files for a specific bitrate and segment before proceeding to the next segment. For example, for a bitrate that has segments and a playlist that updates every segment and key files, encoders should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. The encoder should only move to the next segment after the previous segment has been successfully uploaded or after the segment duration time has elapsed. The order of operation should be:
-       1.1 Upload media segment
-       1.2 Optionally, upload key file.
+       1.1 Upload media segment,
+       1.2 Optionally upload key file, if required,
        1.3 Upload .m3u8.
-If there is a problem with either Steps 1 or 3, retry them. Do not proceed to Step 3 until Step 1 succeeds.
+If there is a problem with any of the Steps, retry them. Do not proceed to Step 3 until Step 1 succeeds or times out as described in common failure behaviors above. Failed uploads MUST result in a stream manifest Discontinuity per [[!RFC8216]].
    
+   ### encryption
+   1. The publisher MAY choose to encrypt the media segments and publish the corresponding keyfile to the receiving entity.
+
+   ### Relative paths
+   1. Relative URL paths SHOULD be used to address each segment.
    
+   ### Resiliency
+   1. When sending media segments to multiple receivers, the publisher MUST send identical media segements and names
+   2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
+   3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
+
    ## DASH specific requirements
    
    ### File extensions and mime-types
    1. The manifests MUST use a ".mpd" file extension.
    2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
+   <kcj> Is there a specific DASH profile that should be used (e.g., use segment names vs. timeline? )
    
    ### Relative paths
    1. Relative URL paths MUST be used to address each segment.
