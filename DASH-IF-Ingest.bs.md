@@ -1190,7 +1190,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
 
 # Profile 2: DASH and HLS Ingest General Considerations # {#dash_ingest}
   
-   Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the encoder prepares all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
+   Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the publisher encodes all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
    
  ## General requirements
    ### Industry Compliance
@@ -1201,170 +1201,72 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
    2. Persistent connections SHOULD be used.
    4. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
+   5. For low latency applications, in which the start of the segment is uploaded prior to the segment being complete, HTTP 1.1 Chunked transfer encoding SHOULD be used.
    
-   ### Unique segment naming
-   1. All non-manifest objects (video segments, audio segments, init segments and caption segments) must carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
-   2. Objects uploaded with the same path are assumed to be a substitutes for one another. 
-   3. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix must be able to be extracted via a REGEX operation. 
+   ### Unique segment and manifest naming
+   1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
+   2. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streamign session in to the manifest path. 
+   2. Objects uploaded with the same path as a prior object will replace the prior object. 
+   3. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix MUST be able to be extracted via a consistent REGEX operation. 
+   4. Initialization segments MUST be identified through either using the .init file extension OR having the string "init" in their file name. All other manifests and segments which are not initialization segments MUST NOT include the string "init" in their file name.
+   5. All objects being ingested must carry a file extensions and MIME-type. The following file extensions and mime-types are the ONLY permissible combinations to be used when ingesting content:
+   
+    | File extension| Mime-type|
+    | --- | --- |
+    | .m3u8| application/x-mpegURL or vnd.apple.mpegURL |
+    | .mpd | video/MP2T |
+    | .ts | video/MP2T |
+    |.cmfv | video/mp4 |
+    |.cmfa | audio/mp4 |
+    |.cmft | application/mp4 |
+    |.m4v | video/mp4 |
+    |.mp4 | video/mp4 or application/mp4 |
+    |.m4a | audio/mp4 |
+    |.m4s | video/iso.segment |
+    |.init | video/mp4 |
+    |.header | video/mp4 |
+   
+   ### DNS lookups
+   1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
+   
+   ### Publisher identification
+   1. The publisher MUST include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all posts.
+   
+   ### Common Failure behaviors
+   The following items define the behavior of a publisher when encountering certain conditions. 
+   1. When the publisher receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the feceiving origin, it MUST
+       1. Manifest-like objects: re-resolve DNS on each retry and retry indefinitely.
+       2. Non-manifest objects: re-resolve DNS on each retry and continue uploading until n seconds, where n is the segment duration. After it reaches the segment duration value, drop the current data and continue with the next segment data. To maintain continuity of the DVR time-line, continue to upload the missing segment as a lower priority. 
+   2. HTTP 403 or 400 errors
+        2.1 For all objects (manifest and non-manifest), do not retry. The publisher MUST stop publishing and display or log a fatal error condition.
+
+
    
    ## HLS specific requirements
    
-   ### Manifest naming
-   1. The parent and child manifests MUST use a .m3u8 file extension and MUST carry a MIME type of "
+   ### File extensions and mime-types
+   1. The parent and child playlists MUST use a .m3u8 file extension.
+   2. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
+   3. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
+   
+   ### Upload order
+   1. In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, encoders MUST upload all required files for a specific bitrate and segment before proceeding to the next segment. For example, for a bitrate that has segments and a playlist that updates every segment and key files, encoders should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. The encoder should only move to the next segment after the previous segment has been successfully uploaded or after the segment duration time has elapsed. The order of operation should be:
+       1.1 Upload media segment
+       1.2 Optionally, upload key file.
+       1.3 Upload .m3u8.
+If there is a problem with either Steps 1 or 3, retry them. Do not proceed to Step 3 until Step 1 succeeds.
    
    
    ## DASH specific requirements
    
-   Profile 2 is designed to ingest media into entities that only  
-   provide pass through functionality. In this case the media  
-   ingest source also provides the manifest based on MPEG DASH [[!MPEGDASH]]  
-   or HTTP Live Streaming [[!RFC8216]].   
+   ### File extensions and mime-types
+   1. The manifests MUST use a ".mpd" file extension.
+   2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
+   
+   ### Relative paths
+   1. Relative URL paths MUST be used to address each segment.
+   
 
-
-   The key idea here is to reuse the fragmented MPEG-4 ingest to  
-   enable simulatneous ingest of DASH [[!MPEGDASH]] and HLS [[!RFC8216]] based on the  
-   fragmented MPEG-4 files using commonalities as  
-   described in [[!MPEGCMAF]] which is a format based on fragmented  
-   MPEG-4 that can be used in both DASH and HLS presentations.  
-
-
-   The flow of operation in profile 2 is shown in Diagram 12. In this  
-   case the [=Ingest source=] (media source) sends a manifest first.  
-   Based on this manifest the media processing entity can setup  
-   reception paths for the ingest url  
-   http://hostname/presentationpath  
-   In the next step fragments are send in individual post requests  
-   using URLS corresponding to relative  
-   paths and fragment names in the manifest.  
-   e.g. http://hostname/presentationpath/relative_path/fragment1.cmf  
-
-
-   This profile re-uses as much functionality as possible from  
-   profile  1 as the manifest can be seen  
-   as a complementary addition to the  
-   fragmented MPEG-4 stream. A difference lies in the way  
-   the connection is setup and the way data is transmitted,  
-   which can use relative URL paths for the fragments based on the  
-   paths in the manifest. For the rest, it largely  
-   uses the same fragmented MPEG-4 layer based on [[!ISOBMFF]]  
-   and [[!MPEGCMAF]]. 
-
-  <pre>
-Diagram 12
-||===============================================================|| 
-||=====================            ============================  || 
-||| live media source |            |  Media processing entity |  ||
-||=====================            ============================  ||
-||        ||                                     ||              ||
-||===============Initial Manifest Sending========================||
-||        ||                                     ||              ||
-||        ||-- POST /prefix/media.mpd  -------->>||              ||
-||        ||          Succes                     ||              ||
-||        || <<------ 200 OK --------------------||              ||
-||        ||      Permission denied              ||              ||
-||        || <<------ 403 Forbidden -------------||              ||
-||        ||             Bad Request             ||              ||
-||        || <<------ 400 Forbidden -------------||              ||
-||        ||         Unsupported Media Type      ||              ||
-||        || <<-- 412 Unfulfilled Condition -----||              ||
-||        ||         Unsupported Media Type      ||              ||
-||        || <<------ 415 Unsupported Media -----||              ||
-||        ||                                     ||              ||
-||==================== fragment Sending ==========================|| 
-||        ||-- POST /prefix/chunk.cmaf  ------->>||              ||
-||        ||          Succes/Accepted            ||              ||
-||        || <<------ 200 OK --------------------||              ||
-||        ||          Succes/Accepted            ||              ||
-||        || <<------ 202 OK --------------------||              ||
-||        ||      Premission Denied              ||              ||
-||        || <<------ 403 Forbidden -------------||              ||
-||        ||             Bad Request             ||              ||
-||        || <<------ 400 Forbidden -------------||              ||
-||        ||         Unsupported Media Type      ||              ||
-||        || <<------ 415 Forbidden -------------||              ||
-||        ||         Unsupported Media Type      ||              ||
-||        || <<-- 412 Unfulfilled Condition -----||              ||
-||        ||                                     ||              ||
-||        ||                                     ||              ||
-||=====================            ============================  || 
-||| live media source |            |  Media processing entity |  ||
-||=====================            ============================  ||
-||        ||                                     ||              ||
-||===============================================================|| 
-  </pre>
-
-# profile 2: DASH Ingest Protocol Behavior # {#Dash_ingest_behavior}
-
-Operation of this profile MUST also adhere  
-to general requirements in section 5.
-
-##  General Protocol Requirements   ## {#Dash_ingest_behavior_reqs}
-
-    1.  The Ingest source
-        MUST send a manifest [[!MPEGDASH]]  
-        with the following limitations/constraints.
-        1a. Only relative URL paths to be used for each fragment
-        1b. Only unique paths are used for each new presentation
-        1c. In case the manifest contains these relative paths,
-        these paths SHOULD be used in combination with the
-        [=POST_URL=] to HTTP POST each of the different fragments from
-        the ingest source to the processing entity.
-     2. The ingest source MAY send
-        updated versions of the manifest,
-        this manifest cannot override current
-        settings and relative paths or break currently running and
-        incoming POST requests. The updated manifest can only be
-        slightly different from the one that was send previously,
-        e.g. introduce new fragments available or event messages.
-        The updated manifest SHOULD be send using a PUT request
-        instead of a POST request.
-     3. Following media fragment requests
-        [=POST_URL=]s SHOULD be corresponding to the fragments listed
-        in the manifest as POST_URL + relative URLs.
-     4. The ingest source SHOULD use
-        individual HTTP POST commands [[RFC2616]]
-        for uploading media fragments when available.
-     5. In case fixed length POST Commands are used, the ingest source
-        MUST resend the fragment to be posted decribed
-        in the manifest entirely in case of responses HTTP 400, 404
-        412 or 415 together with the init fragment consisting
-        of "moov" and "ftyp" boxes
-     6. A persistent connection SHOULD be used for the different
-        individual POST requests as defined in [[RFC2616]] enabling
-        re-use of the TCP connection for multiple POST requests.
-     7. Each of the fragments posted corresponds to a unique 
-        name+directory+timestamp 
-     8. When the content length is known short formed POST SHOULD 
-        be used instead of a chunked transfer 
-
-## Requirements for Formatting Media Tracks ## {#Dash_ingest_behavior_media_track}
-
-     1. Media data tracks will be uploaded by individual fragments, that 
-        use file extensions (.cmfv, .cfma etc.) to signal the type of content 
-        in the fragment
-     2. Media specific information SHOULD be signalled in the manifest
-     3. Formatting described in manifest and media track MUST
-        correspond consistently
-
-## Requirements for Timed Text Captions and Subtitle stream ## {#Dash_ingest_behavior_text_track}
-
-     1. Timed Text, caption and subtitle stream tracks  MUST
-        be formatted conforming to the same requirements as in 6.3
-     2. Timed Text captions and subtitle specific information
-        SHOULD also be signalled in the manifest
-     3. Formatting described in manifest and
-        media track MUST correspond consistently
-
-## Requirements for Timed Metadata ## {#Dash_ingest_behavior_meta_track}
-
-     1. timed metadata is signalled using the higher level representation (DASH/HLS)
-
-## Requirements for Media Processing Entity Failover ## {#Dash_ingest_behavior_fail_track}
-     1. To be defined, including response codes
-
-## Requirements for Live Media Source Failover ## {#Dash_ingest_behavior_fail_source_track}
-
-     1. To be defined
 
 # Security Considerations # {#security}
 
