@@ -652,8 +652,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         processing entities may change frequenty.
      5. In case HTTPS  [[!RFC2818]] protocol is used,
         basic authentication HTTP AUTH [[!RFC7617]]
-        or better methods like TLS client certificates MUST be used.
-     6. The use of mutual authentication SHOULD be supported.
+        or TLS client certificates MUST be supported.
+     6. Mutual authentication SHALL be supported.
         Client certificates SHALL chain to a trusted CA
         , or be self assigned. 
      7. As compatibility profile for the TLS encryption
@@ -890,8 +890,8 @@ profile MUST also adhere to general requirements in section 4.
         the stop by transmitting an empty [=mfra=] box
         towards the media processing entity.
         After that it SHALL send an empty HTTP chunk, 
-        Wait for the HTTP response and finally 
-        close the TCP session with FIN 
+        Wait for the HTTP response before closing 
+        TCP session [!RFC2616] 
         when this response is received
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
@@ -909,9 +909,14 @@ profile MUST also adhere to general requirements in section 4.
         seq_num of fragments in the
         [=fragmentedMP4stream=] signalled in the tfhd
         SHOULD arrive in increasing order for each of the different
-        tracks/streams that are ingested.
+        tracks/streams that are ingested. Using both 
+        timestamp in basemediadecodetime and seq_num 
+        based indexing will help the media processing 
+        entities identify discontinuities in the ingest stream.
      11. Stream names MAY be signalled by adding the relative path 
-         Stream(stream_name) to the POST_URL 
+         Stream(stream_name) to the POST_URL, this can be 
+         useful for identification when multiple
+         ingest sources send the same redundant stream to a receiver
      12. The average and maximum bitrate of each 
          track SHOULD be signalled 
          in the btrt box in the sample 
@@ -1156,14 +1161,16 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
         be known, in this case the sample duration could 
         be set to zero and updated later when the timestamp 
         of the next metadata fragment is received.
+     13. The ingest source SHALL not embed inband event message 
+         boxes emsg in the ingest stream
         
 Note: [[!MPEGCMAF]] has the notion of an inband emsg box to convey
 metadata and event messages. In the current specification 
 a separate track is used instead to convey such information. 
 Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media 
-and metadata by interleaving them. In case the ingest 
-source sends an inband emsg box the receiver SHOULD ignore it.
+and metadata by interleaving them. The ingest source shall not 
+send inband emsg box and the receiver SHALL ignore it.
 
 ##  Requirements for Media Processing Entity Failover ## {#failover}
 
