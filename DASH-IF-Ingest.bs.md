@@ -1202,6 +1202,8 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    4. Both the publishing and receiving entities MUST support IPv4 and IPv6 transport.
    5. The publishing and receiving entities MUST support HTTP over TLS. If TLS is used it SHALL be TLS version 1.2 or higher [[!RFC2818]].  The publishing entity SHOULD use HTTP over TLS to communicate with the receiving entity. 
    6. The publishing entity MUST have the capability of specifying the publishing path (which will be used to publish the content) as well as the delivery path (which clients will use to retrieve the content). 
+   7. In case HTTPS  [[!RFC2818]] protocol is used, basic authentication HTTP AUTH [[!RFC7617]] or TLS client certificates MUST be supported.
+   8. Mutual authentication MUST be supported. Client certificates SHOULD chain to a trusted CA.
    
    ### HTTP connections
    1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
