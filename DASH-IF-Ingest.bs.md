@@ -1192,22 +1192,26 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
   
    Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the publisher encodes all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
    
+   Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section {{#General}} do not apply to Profile 2. 
+   
  ## General requirements
    ### Industry Compliance
    1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
-   2. Both the Publishing and Receiving Entities MUST follow the generic requirements outlined in {#general}. 
-   3. The Publishing Entity MUST support the use of fully qualified domain names to identify the receiving entity, in addition to an IPv4 or IPv6 address. (this should probably be a higher level generic requirement)
-   4. Both the Publishing and Receiving Entities MUST support IPv4 and IPv6 transport. (this should probably be a higher level generic requirement)
+   2. The publishing and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
+   3. The publishing entity MUST support the use of fully qualified domain names to identify the receiving entity.
+   4. Both the publishing and receiving entities MUST support IPv4 and IPv6 transport.
+   5. The publishing and receiving entities MUST support HTTP over TLS. If TLS is used it SHALL be TLS version 1.2 or higher [[!RFC2818]].  The publishing entity SHOULD use HTTP over TLS to communicate with the receiving entity. 
+   6. The publishing entity MUST have the capability of specifying the publishing path (which will be used to publish the content) as well as the delivery path (which clients will use to retrieve the content). 
    
    ### HTTP connections
-   1. Manifests and segments MUST be uploaded via individual HTTP PUT or POST operations using fully defined paths (no relative pathing).
+   1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
    2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
-   3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support
-   3.1. deleting an empty folder
-   3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders
+   3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:
+   3.1. deleting an empty folder.
+   3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
    4. Persistent TCP connections SHOULD be used.
    5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
-   6. For low latency applications, in which the start of the segment is uploaded prior to the segment being complete, HTTP 1.1 Chunked transfer encoding SHOULD be used.
+   6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
    
    ### Unique segment and manifest naming
    1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
@@ -1237,6 +1241,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
    ### DNS lookups
    1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
    2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, to the receiving entity.
+   3. For services in which ingest servers are dynamically alloacted based upon DNS resolution, it is recommended that short TTL values are chosen in order to allow publishers to fail over to new ingest servers if warranted under a failure scenario. 
    
    ### Publisher identification
    1. The publisher MUST include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all posts.
@@ -1266,14 +1271,14 @@ Table 2 example of a SCTE-35 marker embedded in a DASH emsg
        1.3 Upload .m3u8.
 If there is a problem with any of the Steps, retry them. Do not proceed to Step 3 until Step 1 succeeds or times out as described in common failure behaviors above. Failed uploads MUST result in a stream manifest Discontinuity per [[!RFC8216]].
    
-   ### encryption
+   ### Encryption
    1. The publisher MAY choose to encrypt the media segments and publish the corresponding keyfile to the receiving entity.
 
    ### Relative paths
    1. Relative URL paths SHOULD be used to address each segment.
    
    ### Resiliency
-   1. When sending media segments to multiple receivers, the publisher MUST send identical media segements and names
+   1. When sending media segments to multiple receivers, the publisher MUST send identical media segments and names
    2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
    3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
 
@@ -1281,9 +1286,8 @@ If there is a problem with any of the Steps, retry them. Do not proceed to Step 
    
    ### File extensions and mime-types
    1. The manifests MUST use a ".mpd" file extension.
-   2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
-   <kcj> Is there a specific DASH profile that should be used (e.g., use segment names vs. timeline? )
-   
+   2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{??}} appropriate for the mime-type of the content they are carrying. 
+
    ### Relative paths
    1. Relative URL paths MUST be used to address each segment.
    
