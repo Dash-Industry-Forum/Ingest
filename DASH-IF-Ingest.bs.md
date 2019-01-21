@@ -1265,10 +1265,10 @@ send inband emsg box and the receiver SHALL ignore it.
   
    Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the publisher encodes all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
    
-   Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section {{#General}} do not apply to Profile 2. 
+   Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section #general do not apply to Profile 2. 
    
- ## General requirements ## {# DASH_General}
-   ### Industry Compliance ## {# Industry_compliance}
+ ## General requirements ## {#DASH_General}
+   ### Industry Compliance ## {#Industry_compliance}
        1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
        2. The publishing and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
        3. The publishing entity MUST support the use of fully qualified domain names to identify the receiving entity.
@@ -1311,7 +1311,7 @@ send inband emsg box and the receiver SHALL ignore it.
     |.m4s | video/iso.segment |
     |.init | video/mp4 |
     |.header | video/mp4 |
-    |.key | ??? |
+    |.key | to be defined |
    
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
      1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
@@ -1334,13 +1334,13 @@ send inband emsg box and the receiver SHALL ignore it.
    
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
    
-   ### File extensions and mime-types  ###{#HLS_Ingest_specific_requirements}
+   ### File extensions and mime-types  ###{#HLS_file_extensions_and_mime_types}
      1. The parent and child playlists MUST use a .m3u8 file extension.
      2. The keyfile, if required, MUST use a .key file extension, if statically served.
      3. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
      4. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
    
-   ### Upload order ###{# Upload order}
+   ### Upload order ###{#Upload_order}
    
 In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, encoders MUST upload all required files for a specific bitrate and segment before proceeding to the next segment. For example, for a bitrate that has segments and a playlist that updates every segment and key files, encoders should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. The encoder should only move to the next segment after the previous segment has been successfully uploaded or after the segment duration time has elapsed. The order of operation should be:
        1.1 Upload media segment,
@@ -1348,13 +1348,13 @@ In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, encoders
        1.3 Upload .m3u8.
 If there is a problem with any of the Steps, retry them. Do not proceed to Step 3 until Step 1 succeeds or times out as described in common failure behaviors above. Failed uploads MUST result in a stream manifest Discontinuity per [[!RFC8216]].
    
-   ### Encryption ###{ #HLS_Ingest_Encryption}
+   ### Encryption ###{#HLS_Ingest_Encryption}
       1. The publisher MAY choose to encrypt the media segments and publish the corresponding keyfile to the receiving entity.
 
    ### Relative paths  ###{#HLS_Ingest_relative_paths}
      1. Relative URL paths SHOULD be used to address each segment.
    
-   ### Resiliency ###{ #HLS_Ingest_Resiliency}
+   ### Resiliency ###{#HLS_Ingest_Resiliency}
       1. When sending media segments to multiple receivers, the publisher MUST send identical media segments and names
       2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
       3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
@@ -1382,11 +1382,11 @@ If there is a problem with any of the Steps, retry them. Do not proceed to Step 
    once they have been investigated further based  
    on review of this draft.
 
-# IANA Considerations # {# iana}
+# IANA Considerations # {#iana}
 
   This memo includes no request to IANA.
 
-#  Acknowledgements # {# contrib}
+#  Acknowledgements # {#contrib}
 
 We thank some of the contributors for contribution to draft or discussions
 
