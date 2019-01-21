@@ -1296,7 +1296,7 @@ send inband emsg box and the receiver SHALL ignore it.
      5. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix MUST be able to be extracted via a consistent REGEX operation. 
      6. Initialization segments MUST be identified through either using the .init file extension OR having the string "init" in their file name. All other manifests and segments which are not initialization segments MUST NOT include the string "init" in their file name.
      7. All objects being ingested must carry a file extensions and MIME-type. The following file extensions and mime-types are the ONLY permissible combinations to be used when ingesting content:
-   
+   <pre>
     | File extension| Mime-type|
     | --- | --- |
     | .m3u8| application/x-mpegURL or vnd.apple.mpegURL |
@@ -1312,7 +1312,7 @@ send inband emsg box and the receiver SHALL ignore it.
     |.init | video/mp4 |
     |.header | video/mp4 |
     |.key | to be defined |
-   
+   </pre>
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
      1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
      2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, to the receiving entity.
