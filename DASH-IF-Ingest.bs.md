@@ -673,7 +673,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
      10. The HTTP POST for sparse
         data SHOULD be short-lived,
         terminating as soon as the sparse fragment is sent.
-     11. The POST request uses a POST_URL to the basepath of the
+     11. The POST request uses a [=POST_URL=] to the basepath of the
         publishing point at the media processing entity and
         MAY use an additional relative path when posting
         different streams and fragments, for example, 
@@ -896,8 +896,8 @@ profile MUST also adhere to general requirements in section 4.
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
      8. The [=Ingest source=] MAY use a separate relative path
-        in the POST_URL for ingest of each different track by 
-        appending it to the POST_URL
+        in the [=POST_URL=] for ingest of each different track by 
+        appending it to the [=POST_URL=]
      9. The fragment decode timestamps 
         [=basemediadecodetime=] 
         in tdft of fragments in the
@@ -914,7 +914,7 @@ profile MUST also adhere to general requirements in section 4.
         based indexing will help the media processing 
         entities identify discontinuities in the ingest stream.
      11. Stream names MAY be signalled by adding the relative path 
-         Stream(stream_name) to the POST_URL, this can be 
+         Stream(stream_name) to the [=POST_URL=], this can be 
          useful for identification when multiple
          ingest sources send the same redundant stream to a receiver
      12. The average and maximum bitrate of each 
