@@ -1282,11 +1282,11 @@ send inband emsg box and the receiver SHALL ignore it.
        1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
        2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
        3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:
-       3.1. deleting an empty folder.
-       3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
+           3.1. deleting an empty folder.
+           3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
        4. Persistent TCP connections SHOULD be used.
        5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
-   6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
+       6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
    
    ### Unique segment and manifest naming
      1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
@@ -1355,18 +1355,18 @@ If there is a problem with any of the Steps, retry them. Do not proceed to Step 
      1. Relative URL paths SHOULD be used to address each segment.
    
    ### Resiliency
-     1. When sending media segments to multiple receivers, the publisher MUST send identical media segments and names
-     2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
-     3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
+      1. When sending media segments to multiple receivers, the publisher MUST send identical media segments and names
+      2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
+      3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
 
    ## DASH specific requirements
    
    ### File extensions and mime-types
-     1. The manifests MUST use a ".mpd" file extension.
-     2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{??}} appropriate for the mime-type of the content they are carrying. 
+      1. The manifests MUST use a ".mpd" file extension.
+      2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{??}} appropriate for the mime-type of the content they are carrying. 
 
    ### Relative paths
-     1. Relative URL paths MUST be used to address each segment.
+      1. Relative URL paths MUST be used to address each segment.
 
 # Security Considerations # {#security}
 
