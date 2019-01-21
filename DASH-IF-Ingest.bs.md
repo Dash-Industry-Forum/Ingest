@@ -849,7 +849,7 @@ Diagram 11: fmp4 ingest flow
 ||===============================================================||
 </pre>
 
-# Profile 1:  CMAF Ingest Protocol Behavior ## {#profile_1}
+# Profile 1:  CMAF Ingest Protocol Behavior # {#profile_1}
 
 This section describes the protocol behavior specific to  
 profile 1: Fragmented MPEG-4 / CMAF ingest. Operation of this  
@@ -1267,8 +1267,8 @@ send inband emsg box and the receiver SHALL ignore it.
    
    Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section {{#General}} do not apply to Profile 2. 
    
- ## General requirements ## {#DASH_General}
-   ### Industry Compliance ## {#Industry compliance}
+ ## General requirements ## {# DASH_General}
+   ### Industry Compliance ## {# Industry_compliance}
        1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
        2. The publishing and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
        3. The publishing entity MUST support the use of fully qualified domain names to identify the receiving entity.
@@ -1278,7 +1278,7 @@ send inband emsg box and the receiver SHALL ignore it.
        7. In case HTTPS  [[!RFC2818]] protocol is used, basic authentication HTTP AUTH [[!RFC7617]] or TLS client certificates MUST be supported.
        8. Mutual authentication MUST be supported. Client certificates SHOULD chain to a trusted CA.
    
-   ### HTTP connections ## {# DASH Ingest HTTP}
+   ### HTTP connections ## {#DASH_Ingest_HTTP}
        1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
        2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
        3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:
@@ -1288,7 +1288,7 @@ send inband emsg box and the receiver SHALL ignore it.
        5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
        6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
    
-   ### Unique segment and manifest naming ## {# DASH Ingest naming }
+   ### Unique segment and manifest naming ## {#DASH_Ingest_naming }
      1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
      2. All objects MUST be contained within a root path assigned to that stream.
      3. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streaming session in to the manifest path. 
@@ -1313,15 +1313,15 @@ send inband emsg box and the receiver SHALL ignore it.
     |.header | video/mp4 |
     |.key | ??? |
    
-   ### DNS lookups ###{# DASH Ingest DNS Lookups}
+   ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
      1. The publishing entity MUST perform a fresh DNS lookup of the receiving origin hostname prior to publishing any manifest or segment at the start of a new streaming session
      2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, to the receiving entity.
      3. For services in which ingest servers are dynamically alloacted based upon DNS resolution, it is recommended that short TTL values are chosen in order to allow publishers to fail over to new ingest servers if warranted under a failure scenario. 
    
-   ### Publisher identification ###{# DASH ingest publisher identification}
+   ### Publisher identification ###{#DASH_Ingest_Publisher_Identification}
      1. The publisher MUST include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all posts.
    
-   ### Common Failure behaviors ###{# DASH Ingest Common Failure Behaviors}
+   ### Common Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
    The following items define the behavior of a publisher when encountering certain conditions. 
            
        1. When the publisher receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the feceiving origin, it MUST
@@ -1332,9 +1332,9 @@ send inband emsg box and the receiver SHALL ignore it.
        4. HTTP 403 or 400 errors
         2.1 For all objects (manifest and non-manifest), do not retry. The publisher MUST stop publishing and display or log a fatal error condition.
    
-   ## HLS specific requirements ##{# HLS Ingest specific requirements}
+   ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
    
-   ### File extensions and mime-types  ###{# HLS Ingest specific requirements}
+   ### File extensions and mime-types  ###{#HLS_Ingest_specific_requirements}
      1. The parent and child playlists MUST use a .m3u8 file extension.
      2. The keyfile, if required, MUST use a .key file extension, if statically served.
      3. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
@@ -1348,24 +1348,24 @@ In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, encoders
        1.3 Upload .m3u8.
 If there is a problem with any of the Steps, retry them. Do not proceed to Step 3 until Step 1 succeeds or times out as described in common failure behaviors above. Failed uploads MUST result in a stream manifest Discontinuity per [[!RFC8216]].
    
-   ### Encryption ###{#HLS Ingest Encryption}
+   ### Encryption ###{ #HLS_Ingest_Encryption}
       1. The publisher MAY choose to encrypt the media segments and publish the corresponding keyfile to the receiving entity.
 
-   ### Relative paths  ###{#HLS Ingest relative paths}
+   ### Relative paths  ###{#HLS_Ingest_relative_paths}
      1. Relative URL paths SHOULD be used to address each segment.
    
-   ### Resiliency ###{#HLS Ingest Resiliency}
+   ### Resiliency ###{ #HLS_Ingest_Resiliency}
       1. When sending media segments to multiple receivers, the publisher MUST send identical media segments and names
       2. To allow resumption of failed sessions and to avoid reuse of previously cached content, publisher MUST NOT restart segment names or use previously used segment names. 
       3. When multiple publishers are used, they MUST use consistent segment names including when reconnecting due to any application or transport error. A common approach is to use epoch time/segment duration as the segment name.
 
-   ## DASH specific requirements
+   ## DASH specific requirements ## {#DASH_requirements}
    
-   ### File extensions and mime-types ###{# DASH mime types and extensions}
+   ### File extensions and mime-types ###{#DASH_mime_types_and extensions}
       1. The manifests MUST use a ".mpd" file extension.
       2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{??}} appropriate for the mime-type of the content they are carrying. 
 
-   ### Relative paths ###{# DASH Relative paths and extensions}
+   ### Relative paths ###{#DASH_Relative_paths_and_extensions}
       1. Relative URL paths MUST be used to address each segment.
 
 # Security Considerations # {#security}
@@ -1382,11 +1382,11 @@ If there is a problem with any of the Steps, retry them. Do not proceed to Step 
    once they have been investigated further based  
    on review of this draft.
 
-# IANA Considerations # {#iana}
+# IANA Considerations # {# iana}
 
   This memo includes no request to IANA.
 
-#  Acknowledgements # {#contrib}
+#  Acknowledgements # {# contrib}
 
 We thank some of the contributors for contribution to draft or discussions
 
