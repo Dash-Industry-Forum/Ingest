@@ -1288,7 +1288,7 @@ send inband emsg box and the receiver SHALL ignore it.
        5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
        6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
    
-   ### Unique segment and manifest naming ## {#DASH_Ingest_naming }
+   ### Unique segment and manifest naming ## {#DASH_Ingest_naming}
      1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
      2. All objects MUST be contained within a root path assigned to that stream.
      3. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streaming session in to the manifest path. 
@@ -1361,9 +1361,9 @@ If there is a problem with any of the Steps, retry them. Do not proceed to Step 
 
    ## DASH specific requirements ## {#DASH_requirements}
    
-   ### File extensions and mime-types ###{#DASH_mime_types_and extensions}
+   ### File extensions and mime-types ###{#DASH_mime_types_and_extensions}
       1. The manifests MUST use a ".mpd" file extension.
-      2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{??}} appropriate for the mime-type of the content they are carrying. 
+      2. Media segments MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in XX appropriate for the mime-type of the content they are carrying. 
 
    ### Relative paths ###{#DASH_Relative_paths_and_extensions}
       1. Relative URL paths MUST be used to address each segment.
