@@ -14,7 +14,7 @@ Most recent output from the **master** branch:
 
 https://github.com/RufaelDev/Ingest/blob/master/README.md 
 
-# additional information 
+# Additional information 
 for the history of this project see:
 https://github.com/unifiedstreaming/fmp4-ingest  
 for the discussions and resolved issues and notes of the different discussion  
