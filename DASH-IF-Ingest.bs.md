@@ -1267,8 +1267,8 @@ send inband emsg box and the receiver SHALL ignore it.
    
    Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section #general do not apply to Profile 2. 
    
- ## General requirements ## {#DASH_General}
-   ### Industry Compliance ## {#Industry_compliance}
+ ## General requirements ##{#DASH_General}
+   ### Industry Compliance ###{#Industry_compliance}
        1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
        2. The publishing and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
        3. The publishing entity MUST support the use of fully qualified domain names to identify the receiving entity.
@@ -1278,7 +1278,7 @@ send inband emsg box and the receiver SHALL ignore it.
        7. In case HTTPS  [[!RFC2818]] protocol is used, basic authentication HTTP AUTH [[!RFC7617]] or TLS client certificates MUST be supported.
        8. Mutual authentication MUST be supported. Client certificates SHOULD chain to a trusted CA.
    
-   ### HTTP connections ## {#DASH_Ingest_HTTP}
+   ### HTTP connections ### {#DASH_Ingest_HTTP}
        1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
        2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
        3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:
@@ -1288,7 +1288,7 @@ send inband emsg box and the receiver SHALL ignore it.
        5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
        6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
    
-   ### Unique segment and manifest naming ## {#DASH_Ingest_naming}
+   ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
      1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
      2. All objects MUST be contained within a root path assigned to that stream.
      3. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streaming session in to the manifest path. 
