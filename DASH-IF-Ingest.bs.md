@@ -380,25 +380,28 @@ DASH-IF makes no any warranty whatsoever for such third party material.
               media ingest source and media processing entity.  
 
    <dfn dfn>**ftyp**</dfn>:
-             the filetype and compatibility "ftyp" box as described  
+             the filetype and compatibility FileType "ftyp" box as described  
              in the ISOBMFF [[!ISOBMFF]] that describes the "brand"  
 
    <dfn dfn>**moov**</dfn>:
-             the container box for all metadata "moov" described in the  
+             the container box for all metadata MovieBox "moov" described in the  
              ISOBMFF base media file format [[!ISOBMFF]] 
-
+   
+   <dfn dfn>**switching set**</dfn>: 
+             group of tracks corresponding to a switching set defined in
+             [[!MPEGCMAF]] or an adaptationset in [[!MPEGDASH]]
+   
    <dfn dfn>**moof**</dfn>:
-             the movie fragment "moof" box as described in the  
+             the MovieFragmentBox "moof" box as described in the  
              ISOBMFF  base media file format [[!ISOBMFF]] that describes  
              the metadata of a fragment of media.  
 
    <dfn dfn> **mdat**  </dfn>:
-             the media data container "mdat" box contained in  
-             an ISOBMFF [[!ISOBMFF]], this box contains the  
-            compressed media samples   
+             the media data box "mdat" box defined in
+             ISOBMFF [[!ISOBMFF]].
 
    <dfn dfn>**mfra**</dfn>:
-            the movie fragment random access "mfra" box defined in  
+            the movie fragment random access box "mfra" box defined in  
             the ISOBMFF [[!ISOBMFF]] to signal random access samples  
             (these are samples that require no prior  
             or other samples for decoding) [[!ISOBMFF]].  
@@ -413,17 +416,17 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             decode time of first sample as signalled in the [=tfdt=] box
          
    <dfn dfn> **mdhd**  </dfn>:
-             The media header box "mdhd" as defined in [[!ISOBMFF]],  
+             The MediaHeaderBox "mdhd" as defined in [[!ISOBMFF]],  
              this box contains information about the media such  
              as timescale, duration, language using ISO 639-2/T [[!iso-639-2]] codes  
              [[!ISOBMFF]] 
 
    <dfn dfn> **elng** </dfn>:  
-             extended language box "elng" defined in [[!ISOBMFF]] that  
+             extended language tag box "elng" defined in [[!ISOBMFF]] that  
              can override the language information  
 
    <dfn dfn> **nmhd** </dfn>:  
-             The null media header Box "nmhd" as defined in [[!ISOBMFF]]  
+             The nullMediaHeaderBox "nmhd" as defined in [[!ISOBMFF]]  
              to signal a track for which no specific  
              media header is defined, often used for metadata tracks  
 
@@ -433,7 +436,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    <dfn dfn> **media fragment** </dfn>
             Media fragment, combination of moof and mdat in 
-             ISOBMFF structure
+             ISOBMFF structure (MovieFragmentBox and mediaDataBox)
              
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
              A  [=fragmentedMP4stream=] can be defined  
@@ -675,9 +678,11 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         terminating as soon as the sparse fragment is sent.
      11. The POST request uses a [=POST_URL=] to the basepath of the
         publishing point at the media processing entity and
-        MAY use an additional relative path when posting
+        SHOULD use an additional relative path when posting
         different streams and fragments, for example, 
         to signal the stream or fragment name.
+
+         
 
 # Profile 1: CMAF Ingest General Considerations # {#profile_1_general}
 
@@ -921,7 +926,11 @@ profile MUST also adhere to general requirements in section 4.
          track SHOULD be signalled 
          in the btrt box in the sample 
          entry of the CMAF header or init fragment
-
+     12. In case a track is part of a [=switching set=], all 
+         properties section 6.4 of [[!MPEGCMAF]] MUST be satisfied,
+         enabling the receiver to group the tracks in respective 
+         switching sets
+         
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
      1. Media tracks SHALL be formatted using boxes 
