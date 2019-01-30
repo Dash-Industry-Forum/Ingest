@@ -1274,32 +1274,32 @@ send inband emsg box and the receiver SHALL ignore it.
   
    Profile 2 is designed to ingest pre-segmented and packaged media in to entities that provide either pass-through functionality or limited processing of the content. In this mode, the publisher encodes all the content intended for consumption by a client, packages it in to media segments, produces manifests and playlists to describe the content and sends all media via HTTP to the receiving entity. 
    
-   Profile 2 exists independently of Profile 1. The requirements below encapsuloate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section #general do not apply to Profile 2. 
+   Profile 2 exists independently of Profile 1. The requirements below encapsulate all needed functionality to support Profile 2. The requirements listed for Profile 1 in section #general do not apply to Profile 2. 
    
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
-       1. The packaging formats MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].   
-       2. The publishing and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
-       3. The publishing entity MUST support the use of fully qualified domain names to identify the receiving entity.
-       4. Both the publishing and receiving entities MUST support IPv4 and IPv6 transport.
-       5. The publishing and receiving entities MUST support HTTP over TLS. If TLS is used it SHALL be TLS version 1.2 or higher [[!    RFC2818]].  The publishing entity SHOULD use HTTP over TLS to communicate with the receiving entity. 
-       6. The publishing entity MUST have the capability of specifying the publishing path (which will be used to publish the content) as well as the delivery path (which clients will use to retrieve the content). 
-       7. In case HTTPS  [[!RFC2818]] protocol is used, basic authentication HTTP AUTH [[!RFC7617]] or TLS client certificates MUST be supported.
-       8. Mutual authentication MUST be supported. Client certificates SHOULD chain to a trusted CA.
+       1. The manifest and segments MUST correspond to either MPEG DASH [[!MPEGDASH]] or HTTP Live Streaming [[!RFC8216]].  note: define segment in dfn 
+       2. The ingest source and receiving entities MUST support HTTP 1.1 [[!RFC7235]].
+       3. The ingest source MUST support the use of fully qualified domain names to identify the receiving entity.
+       4. Both the ingest source and receiving entity MUST support IPv4 and IPv6 transport.
+       5. The ingest source and receiving entity MUST support HTTP over TLS. If TLS is used it SHALL be TLS version 1.2 or higher [[!    RFC2818]].  The publishing entity SHOULD use HTTP over TLS to communicate with the receiving entity. 
+       6. The publishing entity MUST have the capability of specifying the publishing path (which will be used to publish the content) as well as the delivery path (which clients will use to retrieve the content). comment: move to a section on
+       7. In case HTTPS  [[!RFC2818]] protocol is used, basic authentication HTTP AUTH [[!RFC7617]] or TLS client certificates MUST be supported. comment already defined
+       8. Mutual authentication MUST be supported. Client certificates SHOULD chain to a trusted CA. comment: already defined
    
    ### HTTP connections ### {#DASH_Ingest_HTTP}
        1. Manifests and segments MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations.
-       2. This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
-       3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:
+          This specification does not imply any functional differentation between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
+       3. Segments, Caption Files, etc. that fall outside the manifest SHOULD be removed by the publisher via an HTTP DELETE operation. A DELETE request should support:    Comment move to best practice, what does outside the manifest mean
            3.1. deleting an empty folder.
            3.2. deleting the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
        4. Persistent TCP connections SHOULD be used.
-       5. Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
-       6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used.
+       5. Multiple Parallel connections SHOULD be used to upload content that is being concurrently generated, for example, segments from different bitrates. 
+       6. If the content length of an object is not known at the start of the upload, for example with low latency chunked encoding, then HTTP 1.1 Chunked transfer encoding MUST be used. comment: also exists in profile
    
    ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
-     1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all previously uploaded content as well as the current session. 
-     2. All objects MUST be contained within a root path assigned to that stream.
+     1. All non-manifest objects (video segments, audio segments, init segments and caption segments) MUST carry unique path names. This uniqueness applies across all uploaded content in previous sessions, as well as the current session. 
+     2. All objects MUST be contained within a root path assigned to that stream. comment: define stream, root path, use of stream
      3. Manifest-like objects (such as m3u8 playlists and mpd manifests) MUST carry paths which are unique to each streaming session. One suggested method of achieving this is to introduce the timestamp of the start of the streaming session in to the manifest path. 
      4. Objects uploaded with the same path as a prior object will replace the prior object. 
      5. Segment file names MUST end with a number which is monotonically increasing. This numeric suffix MUST be able to be extracted via a consistent REGEX operation. 
