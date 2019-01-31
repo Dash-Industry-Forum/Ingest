@@ -1390,7 +1390,7 @@ send inband emsg box and the receiver SHALL ignore it.
        The following items define the behavior of an ingest source when encountering certain conditions. 
            
       1.  When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, 
-	   TCP send/receive timeout or 5xx response when attempting to POST content to the receiving origin, it MUST
+	  TCP send/receive timeout or 5xx response when attempting to POST content to the receiving origin, it MUST
             a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
             b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue 
 		    uploading for n seconds, where n is the segment duration. 
