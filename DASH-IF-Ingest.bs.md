@@ -52,7 +52,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
  
    This document presents the specification Live Media Ingest.
    Live media ingest happens between an ingest source such as a  
-   live video encoder and distributed media 
+   live video encoder [=(Live) Encoder=] and distributed media 
    processing entities that receive the ingest. 
    Examples of such media processing 
    entities include media packagers, streaming origins and 
@@ -337,28 +337,29 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    ISOBMFF: the ISO Base Media File Format specified in [[!ISOBMFF]].  
    
-      
    <dfn dfn>**Fmp4 Ingest**</dfn>:
-          profile 1 defined in this specification for ingesting fmp4 and/or CMAF content 
+          Ingest mode defined in this specification for ingesting fmp4 and/or CMAF content 
 
    <dfn dfn>**CMAF Ingest**</dfn>:
-          profile 1 defined in this specification for ingesting  CMAF content
+          Ingest mode defined in this specification for ingesting  CMAF content
 
    <dfn dfn>**DASH Ingest**</dfn>:
-          profile defined in this specification for ingesting MPEG DASH content directly.
+          Ingest mode defined in this specification for ingesting MPEG DASH content directly.
    
    <dfn dfn>**HLS Ingest**</dfn>:
-          profile defined for ingesting HLS content directly
+          Ingest mode defined for ingesting HLS content directly
 
    <dfn dfn>**Ingest Stream**</dfn>:
-          the stream of media produced by the live source  
+          The stream of media produced by the live source  
             transmitted to the media processing entity.  
 
    <dfn dfn>**Live Stream Event**</dfn>:  
-           the total live stream for the ingest.  
-            (Live) encoder: entity performing live  
-            encoding and producing a high quality live stream,  
-            can serve as ingest source  
+           the total live stream for the ingest. 
+	   
+   <dfn dfn> **(Live) encoder:** </dfn> 
+           entity performing live  
+           encoding and production of a high quality live stream,  
+           can serve as ingest source  
 
    <dfn dfn>**Ingest source**</dfn>:  
             a media source ingesting media content  
@@ -371,69 +372,70 @@ DASH-IF makes no any warranty whatsoever for such third party material.
               at the media processing entity  
    
    <dfn dfn> **Manifest objects** </dfn>
-       objects ingested that represent streaming manifest 
+           objects ingested that represent streaming manifest 
 	   e.g. .mpd in MPEG DASH, .m3u8 in HLS
    
    <dfn dfn> **Media objects** </dfn>
-       objects ingested that representing media, and or 
-	   timed text
-	   
-	<dfn dfn> **Objects** </dfn>
-       objects ingested by the ingest source such as 
-	   manifest objects and media objects
+           objects ingested that representing media, and or 
+	   timed text, or other non manifest objects
+	  
+   <dfn dfn> **Objects** </dfn>
+           objects ingested by the ingest source such as 
+	   manifest objects and media objects 
+	   (media segments, subtitle segments)
    
    <dfn dfn> **Streaming presentation </dfn>
-       manifest objects and media objects composing 
+           manifest objects and media objects composing 
 	   a Streaming presentation based on a streaming protocol
 	   
    <dfn dfn>**Media processing entity**</dfn>:
             Entity used to process the media content,  
             receives/consumes a media [=ingest stream].  
 
-	<dfn dfn>**Receiving entity**</dfn>:
-            entity used to process the media content,  
-            receives/consumes a media [=ingest stream].
-			May only provide a pass through functionality.
+   <dfn dfn>**Receiving entity**</dfn>:
+          Entity used to process the media content,  
+          receives/consumes a media [=ingest stream].
+	  May only provide a pass through functionality.
    
    <dfn dfn>**Connection**</dfn>:
-              a connection setup between two hosts, typically the  
-              media ingest source and media processing entity.  
+          A connection setup between two hosts, typically the  
+          media ingest source and media processing entity.  
 
    <dfn dfn>**ftyp**</dfn>:
-             the filetype and compatibility FileTypeBox "ftyp" box as described  
-             in the ISOBMFF [[!ISOBMFF]]
+          the filetype and compatibility FileTypeBox "ftyp" box as described  
+          in the ISOBMFF [[!ISOBMFF]]
 
    <dfn dfn>**moov**</dfn>:
-             the container box for all metadata MovieBox "moov" described in the  
-             ISOBMFF base media file format [[!ISOBMFF]] 
+           The container box for all metadata MovieBox "moov" described in the  
+           ISOBMFF base media file format [[!ISOBMFF]] 
    
    <dfn dfn>**switching set**</dfn>: 
-             group of tracks corresponding to a switching set defined in
-             [[!MPEGCMAF]] or an adaptationset in [[!MPEGDASH]]
+           Group of tracks corresponding to a switching set defined in
+           [[!MPEGCMAF]] or an adaptationset in [[!MPEGDASH]]
    
    <dfn dfn>**moof**</dfn>:
-             the MovieFragmentBox "moof" box as described in the  
-             ISOBMFF  base media file format [[!ISOBMFF]] that describes  
-             the metadata of a fragment.  
+           The MovieFragmentBox "moof" box as described in the  
+           ISOBMFF  base media file format [[!ISOBMFF]] that describes  
+           the metadata of a fragment.  
 
    <dfn dfn> **mdat**  </dfn>:
-             the mediaDataBox "mdat" box defined in
-             ISOBMFF [[!ISOBMFF]].
+           The mediaDataBox "mdat" box defined in
+           ISOBMFF [[!ISOBMFF]].
 
    <dfn dfn>**mfra**</dfn>:
-            the movieFragmentRandomAccessBox "mfra" box defined in  
+            The movieFragmentRandomAccessBox "mfra" box defined in  
             the ISOBMFF [[!ISOBMFF]] to signal random access samples  
             (these are samples that require no prior  
             or other samples for decoding) [[!ISOBMFF]].  
 
    <dfn dfn> **tfdt** </dfn>:
-            the TrackFragmentBaseMediaDecodeTimeBox box "tfdt"  
+            The TrackFragmentBaseMediaDecodeTimeBox box "tfdt"  
             in the base media file format [[!ISOBMFF]] used  
             to signal the decode time of the media  
             fragment signalled in the [=moof=] box.  
 
    <dfn dfn> **basemediadecodetime** </dfn>:
-            decode time of first sample as signalled in the [=tfdt=] box
+            Decode time of first sample as signalled in the [=tfdt=] box
          
    <dfn dfn> **mdhd**  </dfn>:
              The MediaHeaderBox "mdhd" as defined in [[!ISOBMFF]],  
@@ -442,7 +444,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              [[!ISOBMFF]] 
 
    <dfn dfn> **elng** </dfn>:  
-             extended language tag box "elng" defined in [[!ISOBMFF]] that  
+             Extended language tag box "elng" defined in [[!ISOBMFF]] that  
              can override the language information  
 
    <dfn dfn> **nmhd** </dfn>:  
@@ -455,7 +457,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              sending data from a source to a destination [[!RFC7235]  
 
    <dfn dfn> **media fragment** </dfn>
-            Media fragment, combination of moof and mdat in 
+             Media fragment, combination of moof and mdat in 
              ISOBMFF structure (MovieFragmentBox and mediaDataBox)
              
    <dfn dfn> **fragmentedMP4stream**  </dfn>:
@@ -475,8 +477,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
            Transmission Control Protocol (TCP) as defined in [[!RFC793]]  
 
    <dfn dfn> Arrival Time </dfn>: 
-            The time a metadata item is seen by the application for 
-             the first time, e.g. an announcement/avail  
+            The time a metadata item is seen/observed by the application for 
+            the first time, e.g. an announcement/avail  
              
    <dfn dfn> Application time </dfn>: 
               The time a metadata event is applied to a stream (if applicable) 
@@ -504,9 +506,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   to a content delivery network, or perhaps another  
   passive media entity such as a cloud storage. 
   In this case the ingest source uses HTTP post 
-  to push the fragments and the manifests 
-  for the media presentation.  
-  In this case, still MPEG-4 fragments can be used,  
+  to push the fragments and the manifests or other media
+  objects composing the streaming presentation.
+ 
+  In this case, still MPEG-4 media fragments can be used,  
   but the ingest works slightly different. The ingest 
   can be based on [=DASH Ingest=] or [=HLS Ingest=]
   defined in profile 2 and includes sending the 
@@ -555,7 +558,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   
   Diagram 5 highlights some of the key  
   differences and practical considerations of 
-  the profiles. In profile 1 (CMAF ingest) 
+  the profiles. In profile 1 (CMAF or fmp4 ingest) 
   the ingest source can be  
   simple as the media processing entity can  
   do many of the operations related to the  
@@ -706,7 +709,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
 # Profile 1: CMAF Ingest General Considerations # {#profile_1_general}
 
-The first profile assumes ingest to an active media processing entity,  
+The fmp4 or CMAF ingest assumes ingest to an active media processing entity,  
 from one or more [=ingest source=], ingesting one or more  
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
@@ -834,7 +837,7 @@ DNS resolution (if needed) and an authentication step (Authy,
 TLS certificate) to establish a secure [=TCP=] connection.   
 In some private datacenter deployments where nodes   
 are not reachable from outside, a non authenticated connection   
-MAY also be used. The ingest source then issues a POST   
+may also be used. The ingest source then issues a POST   
 to test that the [=media processing entity=] is listening. This 
 POST contains the [=moov=] + [=ftyp=] box (the init fragment)
 or cmaf header. In case this is succesfull this is followed by the rest of 
@@ -947,7 +950,7 @@ profile MUST also adhere to general requirements in section 4.
          in the btrt box in the sample 
          entry of the CMAF header or init fragment
      12. In case a track is part of a [=switching set=], all 
-         properties section 6.4 of [[!MPEGCMAF]] MUST be satisfied,
+         properties section 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied,
          enabling the receiver to group the tracks in respective 
          switching sets
          
@@ -1003,8 +1006,7 @@ A fragment can be composed of one or more chunks, while a segment can be
 composed of one or more fragments. The [=media fragment=] defined here 
 is independent of this notion and can be a chunk, a fragment containing 
 a single chunk or a segment containing a single fragment containing 
-a single chunk. Alternatively additional signalling may be defined for the 
-segment, fragment, chunk structure in next version. In this text we use
+a single chunk. In this text we use
 [=media fragment=] to denote the structure combination moof mdat. For example
 the styp box can be used to signal if the following structure is a CMAF fragment,
 chunk, or segment.
@@ -1246,7 +1248,7 @@ send inband emsg box and the receiver SHALL ignore it.
          unsupported media type
      8. In case an unknown error happened during
          the processing of the HTTP
-         POST request an HTTP 404 Bad request SHOULD be returned
+         POST request a HTTP 404 Bad request SHOULD be returned
          by the media processing entity
      9. In case the media processing entity cannot
          process a fragment posted
@@ -1297,7 +1299,7 @@ send inband emsg box and the receiver SHALL ignore it.
    Profile 2 is designed to ingest a [=streaming presentation=] composed of [=manifest objects=] and [=media objects=] 
    in to receiving entities that provide either pass-through functionality or limited processing of the content. 
    In this mode, the [=ingest source=] prepares and ingests all the content intended for consumption by a client. 
-   These are complete streaming presentations including all manifest and media objects needed for consuming the presentation. 
+   These are complete streaming presentations including all manifest and media objects. 
    
    Profile 2 exists independently of Profile 1. The requirements below encapsulate all 
    needed functionality to support Profile 2. The requirements listed for 
@@ -1409,14 +1411,14 @@ send inband emsg box and the receiver SHALL ignore it.
      1. The parent and child playlists MUST use a .m3u8 file extension.
      2. The keyfile, if required, MUST use a .key file extension, if statically served.
      3. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
-     4. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions defined in {{}} appropriate for the mime-type of the content they are carrying. 
+     4. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions appropriate for the mime-type of the content they are carrying. 
    
    ### Upload order ###{#Upload_order}
    
 In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, ingest sources
 MUST upload all required files for a specific bitrate and segment before proceeding to the next segment.
  For example, for a bitrate that has segments and a playlist that updates every segment and key files, 
- encoders should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. 
+ingest sources should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. 
  The encoder should only move to the next segment after the previous segment has been successfully 
  uploaded or after the segment duration time has elapsed. The order of operation should be:
        1.1 Upload media segment,
