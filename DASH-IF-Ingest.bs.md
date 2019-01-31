@@ -1,9 +1,9 @@
-# Specification: Live Media Ingest # {#IngestSpec}
+# Specification: live Media Ingest # {#IngestSpec}
              
 
 ## Abstract ## {#Abstract}
 
-   This draft presents the specification of Live Media Ingest.  
+   This draft presents the specification of live Media Ingest.  
    Two profiles are defined, the first profile, CMAF ingest 
    is based on fragmented MPEG-4 (fmp4). The second profile 
    is based on MPEG DASH and HLS. Details on ingest of 
@@ -50,9 +50,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
 # Introduction # {#Introduction}
  
-   This document presents the specification Live Media Ingest.
-   Live media ingest happens between an ingest source such as a  
-   live video encoder [=(Live) encoder=] and distributed media 
+   This document presents the specification live Media Ingest.
+   live media ingest happens between an ingest source such as a  
+   live video encoder [=live encoder=] and distributed media 
    processing entities that receive the ingest. 
    Examples of such media processing 
    entities include media packagers, streaming origins and 
@@ -101,7 +101,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
    A third level of interoperability,
    lies in the way metadata is  
-   inserted in streams. Live  
+   inserted in streams. live  
    content often needs such metadata to signal  
    opportunities for ad insertion,  
    or other metadata like timed graphics.  Examples  
@@ -173,7 +173,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    Content delivery networks are often designed for  
    Internet content like web pages and might  
    not be aware of media specific aspects. In fact, streaming  
-   protocols like MPEG DASH and HTTP Live Streaming have been  
+   protocols like MPEG DASH and HTTP live Streaming have been  
    developed with re-use of such a media agnostic  
    Content Delivery Networks in mind. For ingesting  
    encoded media into a content delivery network it  
@@ -353,10 +353,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
           The stream of media produced by the live source  
             transmitted to the media processing entity.  
 
-   <dfn dfn>**Live Stream Event**</dfn>:  
+   <dfn dfn>**live Stream Event**</dfn>:  
            the total live stream for the ingest. 
 	   
-   <dfn dfn> **(Live) encoder** </dfn>: 
+   <dfn dfn> **live encoder** </dfn>: 
            entity performing live  
            encoding and production of a high quality live stream,  
            can serve as ingest source  
@@ -384,7 +384,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 	   manifest objects and media objects 
 	   (media segments, subtitle segments)
    
-   <dfn dfn> **streaming presentation** </dfn>
+   <dfn dfn>**streaming presentation**</dfn>
            manifest objects and media objects composing 
 	   a Streaming presentation based on a streaming protocol
 	   
@@ -1056,7 +1056,7 @@ the notion of 9 adding a bitrate box.
            
            8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [[!MPEG4-30]]
              Caption data is embedded in SEI messages in video track ccea
-    9.    The BitRateBox 'btrt' SHOULD be used to signal the average and 
+    9.    The BitRateBox btrt SHOULD be used to signal the average and 
           maximum bitrate in the sample entry box, this is 
           most relevant for bitmap or xml based timed text subtitles
           that may consume significant bandwidths (e.g. im1i) 
@@ -1257,9 +1257,9 @@ send inband emsg box and the receiver SHALL ignore it.
      10. In case a ingest source receives an HTTP 412 response,
          it SHALL resend [=ftyp=] and [=moov=] boxes
  
-## Requirements for Live Media Source Failover ## {#failover_source}
+## Requirements for live Media Source Failover ## {#failover_source}
  
-  [=Live encoder=] or [=ingest source=] failover is the second type  
+  [=live encoder=] or [=ingest source=] failover is the second type  
   of failover scenario that needs to be supported for end-to-end  
   live streaming delivery. In this scenario, the error condition  
   occurs on the ingest source side. The following expectations apply  
@@ -1309,7 +1309,7 @@ send inband emsg box and the receiver SHALL ignore it.
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
        1. The [=streaming presentation=] ingested MUST be either MPEG DASH [[!MPEGDASH]] 
-	      or HTTP Live Streaming [[!RFC8216]] conforming. 
+	      or HTTP live Streaming [[!RFC8216]] conforming. 
        2. The ingest source MUST support the use of fully qualified domain names to identify the [=receiving entity=].
        3. Both the ingest source and [=receiving entity=] MUST support IPv4 and IPv6 transport.
        4. The ingest source MUST have the capability of specifying the publishing path 
@@ -1342,7 +1342,7 @@ send inband emsg box and the receiver SHALL ignore it.
 	    MUST carry unique path names. This uniqueness applies across all
 		ingested content in previous sessions, 
 		as well as the current session. 
-     2. All objects in a [=Live Stream Event=] MUST be contained within a root path assigned to it.
+     2. All objects in a [=live Stream Event=] MUST be contained within a root path assigned to it.
      3. [=Manifest objects=] MUST carry paths which are unique to each live stream event. 
 	    One suggested method of achieving this is to introduce the timestamp of the start of the 
 		live stream event in to the manifest path. 
@@ -1376,7 +1376,7 @@ send inband emsg box and the receiver SHALL ignore it.
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
      1. The ingest source MUST perform a fresh DNS lookup of the receiving entity hostname prior to 
 	    ingesting any manifest or media object at the start live stream event
-     2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, 
+     2. The publishing entity MUST honor DNS Time To live values when re-connecting, for any reason, 
 	    to the [=receiving entity=].
      3. For services in which ingest sources are dynamically allocated based upon DNS resolution, 
 	    it is recommended that short TTL values are chosen in order to allow ingest sources to fail 
@@ -1415,7 +1415,7 @@ send inband emsg box and the receiver SHALL ignore it.
    
    ### Upload order ###{#Upload_order}
    
-In accordance with the HTTP Live Streaming [[!RFC8216]] recommendation, ingest sources
+In accordance with the HTTP live Streaming [[!RFC8216]] recommendation, ingest sources
 MUST upload all required files for a specific bitrate and segment before proceeding to the next segment.
  For example, for a bitrate that has segments and a playlist that updates every segment and key files, 
 ingest sources should upload the segment file followed by a key file (optional) and the playlist file in serial fashion. 
@@ -1549,7 +1549,7 @@ Paul Higgs, Huawei
 <pre class="metadata">
 Revision: 1.0
 
-Title: Specification of Live Media Ingest
+Title: Specification of live Media Ingest
 Status: LD
 Shortname: ingest
 URL: https://dashif.org/guidelines/
