@@ -1,9 +1,9 @@
-# Specification: live Media Ingest # {#IngestSpec}
+# Specification: Live Media Ingest # {#IngestSpec}
              
 
 ## Abstract ## {#Abstract}
 
-   This draft presents the specification of live Media Ingest.  
+   This draft presents the specification of Live Media Ingest.  
    Two profiles are defined, the first profile, CMAF ingest 
    is based on fragmented MPEG-4 (fmp4). The second profile 
    is based on MPEG DASH and HLS. Details on ingest of 
@@ -50,7 +50,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
 # Introduction # {#Introduction}
  
-   This document presents the specification live Media Ingest.
+   This document presents the specification Live Media Ingest.
    live media ingest happens between an ingest source such as a  
    live video encoder [=live encoder=] and distributed media 
    processing entities that receive the ingest. 
@@ -173,7 +173,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    Content delivery networks are often designed for  
    Internet content like web pages and might  
    not be aware of media specific aspects. In fact, streaming  
-   protocols like MPEG DASH and HTTP live Streaming have been  
+   protocols like MPEG DASH and HTTP Live Streaming have been  
    developed with re-use of such a media agnostic  
    Content Delivery Networks in mind. For ingesting  
    encoded media into a content delivery network it  
@@ -337,7 +337,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    ISOBMFF: the ISO Base Media File Format specified in [[!ISOBMFF]].  
    
-   <dfn dfn>**Fmp4 Ingest**</dfn>:
+   <dfn dfn>**fmp4 Ingest**</dfn>:
           Ingest mode defined in this specification for ingesting fmp4 and/or CMAF content 
 
    <dfn dfn>**CMAF Ingest**</dfn>:
@@ -353,10 +353,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
           The stream of media produced by the live source  
             transmitted to the media processing entity.  
 
-   <dfn dfn>**live Stream Event**</dfn>:  
+   <dfn dfn>**live stream event**</dfn>:  
            the total live stream for the ingest. 
 	   
-   <dfn dfn> **live encoder** </dfn>: 
+   <dfn dfn>**live encoder**</dfn>: 
            entity performing live  
            encoding and production of a high quality live stream,  
            can serve as ingest source  
@@ -366,16 +366,16 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             , typically a live encoder but not restricted  
             to this, it could be a storage source aswell. 
 
-   <dfn dfn>**Publishing point** </dfn>:
+   <dfn dfn>**publishing point** </dfn>:
               Entry point used to receive the media content,  
               consumes/receives the incoming media [=ingest stream=]
               at the media processing entity  
    
-   <dfn dfn> **Manifest objects** </dfn>
+   <dfn dfn>**manifest objects**</dfn>
            objects ingested that represent streaming manifest 
 	   e.g. .mpd in MPEG DASH, .m3u8 in HLS
    
-   <dfn dfn> **Media objects** </dfn>
+   <dfn dfn> **media objects** </dfn>
            objects ingested that representing media, and or 
 	   timed text, or other non manifest objects
 	  
@@ -1342,7 +1342,7 @@ send inband emsg box and the receiver SHALL ignore it.
 	    MUST carry unique path names. This uniqueness applies across all
 		ingested content in previous sessions, 
 		as well as the current session. 
-     2. All objects in a [=live Stream Event=] MUST be contained within a root path assigned to it.
+     2. All objects in a [=live stream event=] MUST be contained within a root path assigned to it.
      3. [=Manifest objects=] MUST carry paths which are unique to each live stream event. 
 	    One suggested method of achieving this is to introduce the timestamp of the start of the 
 		live stream event in to the manifest path. 
