@@ -52,7 +52,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
  
    This document presents the specification Live Media Ingest.
    Live media ingest happens between an ingest source such as a  
-   live video encoder [=(Live) Encoder=] and distributed media 
+   live video encoder [=(Live) encoder=] and distributed media 
    processing entities that receive the ingest. 
    Examples of such media processing 
    entities include media packagers, streaming origins and 
@@ -356,7 +356,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn>**Live Stream Event**</dfn>:  
            the total live stream for the ingest. 
 	   
-   <dfn dfn> **(Live) encoder:** </dfn> 
+   <dfn dfn> **(Live) encoder** </dfn>: 
            entity performing live  
            encoding and production of a high quality live stream,  
            can serve as ingest source  
@@ -384,7 +384,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 	   manifest objects and media objects 
 	   (media segments, subtitle segments)
    
-   <dfn dfn> **Streaming presentation </dfn>
+   <dfn dfn> **streaming presentation** </dfn>
            manifest objects and media objects composing 
 	   a Streaming presentation based on a streaming protocol
 	   
@@ -392,7 +392,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
             Entity used to process the media content,  
             receives/consumes a media [=ingest stream].  
 
-   <dfn dfn>**Receiving entity**</dfn>:
+   <dfn dfn>**receiving entity**</dfn>:
           Entity used to process the media content,  
           receives/consumes a media [=ingest stream].
 	  May only provide a pass through functionality.
@@ -507,7 +507,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   passive media entity such as a cloud storage. 
   In this case the ingest source uses HTTP post 
   to push the fragments and the manifests or other media
-  objects composing the streaming presentation.
+  objects composing the [=streaming presentation=].
  
   In this case, still MPEG-4 media fragments can be used,  
   but the ingest works slightly different. The ingest 
@@ -526,7 +526,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   duplicate information in the manifest or  
   ISOBMFF moov box, and increased  
   signalling overhead for starting, closing  
-  and resetting the [=connection=]. Therefore,  
+  and resetting the [=Connection=]. Therefore,  
   the two procedures for media ingest in  
   these two common workflows are presented  
   as separately in different profiles. 
@@ -686,7 +686,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         the ingest source SHOULD use the mozzilla
         intermediate compatibility profile [=MozillaTLS=].
      8. In case of an authentication error, the ingest 
-        source SHALL retry establishing the connection
+        source SHALL retry establishing the [=Connection=]
         within a fixed time period 
         with updated authentication credentials
      9. The  ingest source SHOULD terminate
@@ -983,7 +983,7 @@ profile MUST also adhere to general requirements in section 4.
         init fragment, cmaf header
         and/or [=moof=] headers ([=mdhd=]).
      7. Fragments posted towards the media procesing entity SHOULD
-        contain the bitrate "btrt" box specifying the target
+        contain the bitrate btrt box specifying the target
         average and maximum bitrate of the fragments 
         in the sample entry container in the init fragment/CMAF header
      8. The media track MAY use the notion of a CMAF chunk 
@@ -1259,7 +1259,7 @@ send inband emsg box and the receiver SHALL ignore it.
  
 ## Requirements for Live Media Source Failover ## {#failover_source}
  
-  Live encoder/ingest source failover is the second type  
+  [=Live encoder=] or [=ingest source=] failover is the second type  
   of failover scenario that needs to be supported for end-to-end  
   live streaming delivery. In this scenario, the error condition  
   occurs on the ingest source side. The following expectations apply  
@@ -1298,8 +1298,8 @@ send inband emsg box and the receiver SHALL ignore it.
   
    Profile 2 is designed to ingest a [=streaming presentation=] composed of [=manifest objects=] and [=media objects=] 
    in to receiving entities that provide either pass-through functionality or limited processing of the content. 
-   In this mode, the [=ingest source=] prepares and ingests all the content intended for consumption by a client. 
-   These are complete streaming presentations including all manifest and media objects. 
+   In this mode, the [=ingest source=] prepares and ingests all the [=Objects=] intended for consumption by a client. 
+   These are complete [=streaming presentation=] including all manifest and media objects. 
    
    Profile 2 exists independently of Profile 1. The requirements below encapsulate all 
    needed functionality to support Profile 2. The requirements listed for 
@@ -1310,8 +1310,8 @@ send inband emsg box and the receiver SHALL ignore it.
    ### Industry Compliance ###{#Industry_compliance}
        1. The [=streaming presentation=] ingested MUST be either MPEG DASH [[!MPEGDASH]] 
 	      or HTTP Live Streaming [[!RFC8216]] conforming. 
-       2. The ingest source MUST support the use of fully qualified domain names to identify the receiving entity.
-       3. Both the ingest source and receiving entity MUST support IPv4 and IPv6 transport.
+       2. The ingest source MUST support the use of fully qualified domain names to identify the [=receiving entity=].
+       3. Both the ingest source and [=receiving entity=] MUST support IPv4 and IPv6 transport.
        4. The ingest source MUST have the capability of specifying the publishing path 
 	      (which will be used to publish the content) as well as the delivery path 
 		  (which clients will use to retrieve the content). 
@@ -1377,7 +1377,7 @@ send inband emsg box and the receiver SHALL ignore it.
      1. The ingest source MUST perform a fresh DNS lookup of the receiving entity hostname prior to 
 	    ingesting any manifest or media object at the start live stream event
      2. The publishing entity MUST honor DNS Time To Live values when re-connecting, for any reason, 
-	    to the receiving entity.
+	    to the [=receiving entity=].
      3. For services in which ingest sources are dynamically allocated based upon DNS resolution, 
 	    it is recommended that short TTL values are chosen in order to allow ingest sources to fail 
 		over to new ingest servers if warranted under a failure scenario. 
@@ -1390,7 +1390,7 @@ send inband emsg box and the receiver SHALL ignore it.
        The following items define the behavior of an ingest source when encountering certain conditions. 
            
       1.  When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, 
-	       TCP send/receive timeout or 5xx response when attempting to POST content to the receiving origin, it MUST
+	       TCP send/receive timeout or 5xx response when attempting to POST content to the [=receiving entity=], it MUST
                    a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
                    b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue 
 		    uploading for n seconds, where n is the segment duration. 
