@@ -1033,7 +1033,7 @@ chunk, or segment but this is not necessary, as based on the sample structure
 of the fragments a receiver can identify these boundaries.
  
 
-## Requirements for Signalling Swithcing Sets ## {#Requirements_for_formatting_Media_Tracks}
+## Requirements for Signalling Swithcing Sets ## {#Requirements_for_switchingsets}
 
   In live streaming a bundle of streams corresponding to a channel is ingested by posting
   to a publishing point. CMAF has the notion of switchingsets [!MPEGCMAF] which map to similar 
