@@ -1651,7 +1651,7 @@ send inband emsg box and the receiver SHALL ignore it.
            - In case a fragment is missing and SegmentTimeline is used, the packager may signal a discontinuity in the 
              Manifest presentation description 
            - In case a low latency mode is used, the pacakger may make output available before the entire fragment 
-           is received in the chunked transfer encoding
+             is received in the chunked transfer encoding
            - The packager may also have a proprietary API similar to the live source, for configuration of aspects 
              like the segmentTimeBuffer, DVR windows, encryption modes enabled etc.    
            - The pacakger uses a DASH or HLS ingest to push content to origin server of content delivery network. Alternatively
