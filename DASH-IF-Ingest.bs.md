@@ -1180,7 +1180,7 @@ in [!MPEGDASH] takes preference above the text below in case different.
 |karaoke	          | Textual representation of a songs’ lyrics, usually in the same language as the associated song as specified in [SMPTE ST 2067-2].
 </pre>
 
-Additionally another example for explicitly signalling roles could be DVB DASH [DVB-DASH] 
+Additionally another example for explicitly signalling roles could be DVB DASH [!DVB-DASH] 
 one could use schemeiduri@value and role as defined there.
 e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alternate
 
