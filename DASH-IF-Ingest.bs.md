@@ -1637,38 +1637,38 @@ send inband emsg box and the receiver SHALL ignore it.
    instruction/properties from the original HSDI or broadcast into the CMAF tracks. The packager 
    receives the ingested streams, and performs the following tasks. 
 
-         - it receives the CMAF tracks, grouping switching sets based on switching set constraints
-         - When packaging to MPEG DASH, an adaptationset is created for each switchingset ingested 
-         - the near constant fragment duration is used to generate segmenttemplate based presentation 
+           - it receives the CMAF tracks, grouping switching sets based on switching set constraints
+           - When packaging to MPEG DASH, an adaptationset is created for each switchingset ingested 
+           - the near constant fragment duration is used to generate segmenttemplate based presentation 
              using either \$Number\$ or \$Time\$ 
-         - in case changes happen, the packager can update the manifest and embed inband events to trigger 
-           manifest updates in the fragments 
-         - The DASH Packager encrypts media segments according to key information available. This key information 
-           is typically exchanged by protocol defined in Content Protection Interchange Format (CPIX) this 
-           allows configuration of the content keys, initialization vectors and embedding encryption information in the manifest 
-         - The DASH packager signals subtitles in the manifest based on received CMAF streams and roles signalled in 
-           Kind box 
-         - In case a fragment is missing and SegmentTimeline is used, the packager may signal a discontinuity in the 
-           Manifest presentation description 
-         - In case a low latency mode is used, the pacakger may make output available before the entire fragment 
+           - in case changes happen, the packager can update the manifest and embed inband events to trigger 
+             manifest updates in the fragments 
+           - The DASH Packager encrypts media segments according to key information available. This key information 
+             is typically exchanged by protocol defined in Content Protection Interchange Format (CPIX) this 
+             allows configuration of the content keys, initialization vectors and embedding encryption information in the manifest 
+           - The DASH packager signals subtitles in the manifest based on received CMAF streams and roles signalled in 
+             Kind box 
+           - In case a fragment is missing and SegmentTimeline is used, the packager may signal a discontinuity in the 
+             Manifest presentation description 
+           - In case a low latency mode is used, the pacakger may make output available before the entire fragment 
            is received in the chunked transfer encoding
-         - The packager may also have a proprietary API similar to the live source, for configuration of aspects 
-           like the segmentTimeBuffer, DVR windows, encryption modes enabled etc.    
-         - The pacakger uses a DASH or HLS ingest to push content to origin server of content delivery network. Alternatively
-           it could also make content directly available as DASH or HLS as an origin server. In this case DASH/HLS ingest is avoided
-         - The packager converts the timed metadata track and uses it to convert to either MPD Events or inband events 
-            signalled in the manifest. 
-         - The packager may also generate HLS or other streaming media presentation based on the input. 
-         - In case the packager crashes/fails, it will restart itself and wait for the ingest source to perform the actions 
-           as detailed in #{failover}
+           - The packager may also have a proprietary API similar to the live source, for configuration of aspects 
+             like the segmentTimeBuffer, DVR windows, encryption modes enabled etc.    
+           - The pacakger uses a DASH or HLS ingest to push content to origin server of content delivery network. Alternatively
+             it could also make content directly available as DASH or HLS as an origin server. In this case DASH/HLS ingest is avoided
+           - The packager converts the timed metadata track and uses it to convert to either MPD Events or inband events 
+             signalled in the manifest. 
+           - The packager may also generate HLS or other streaming media presentation based on the input. 
+           - In case the packager crashes/fails, it will restart itself and wait for the ingest source to perform the actions 
+             as detailed in #{failover}
 
       The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client. 
       The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks 
-         - it stores all posted content and makes them available for HTTP get requests from locations 
-            corresponding to the paths signalled in the manifest
-         - it occasionaly deletes content based on instructions from the ingest source, in this setup the packager
-         - in case low latency mode is used, content could be made available before the entire pieces of content are available 
-         - It updates the manifest accordingly when a manifest update is received 
+           - it stores all posted content and makes them available for HTTP get requests from locations 
+             corresponding to the paths signalled in the manifest
+           - it occasionaly deletes content based on instructions from the ingest source, in this setup the packager
+           - in case low latency mode is used, content could be made available before the entire pieces of content are available 
+           - It updates the manifest accordingly when a manifest update is received 
 
          In case the CDN serves as a proxy, it only forwards requests for content to the packager to receive the content, and 
          cache relevant segments for a duration N until it expires. 
