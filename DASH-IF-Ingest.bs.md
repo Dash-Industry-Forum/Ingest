@@ -1450,7 +1450,7 @@ send inband emsg box and the receiver SHALL ignore it.
   
    
    ### HTTP connections ### {#DASH_Ingest_HTTP}
-   
+
        1. [=Manifest objects=] and [=media objects=] MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] 
 	      PUT or POST operations. This specification does not imply any functional differentation 
 		  between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
@@ -1640,7 +1640,7 @@ send inband emsg box and the receiver SHALL ignore it.
          - it receives the CMAF tracks, grouping switching sets based on switching set constraints
          - When packaging to MPEG DASH, an adaptationset is created for each switchingset ingested 
          - the near constant fragment duration is used to generate segmenttemplate based presentation 
-           using either $Number$ or $Time$ 
+             using either \$Number\$ or \$Time\$ 
          - in case changes happen, the packager can update the manifest and embed inband events to trigger 
            manifest updates in the fragments 
          - The DASH Packager encrypts media segments according to key information available. This key information 
