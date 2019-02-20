@@ -1631,7 +1631,7 @@ send inband emsg box and the receiver SHALL ignore it.
             from redundant stream creation, avoiding timeline discontinuities as much as possible 
           - In case the receiver fails it will reconnect and resend as defined in #{failover}
           - In case the live encoder source fails it will restart and perform the steps as detailed in #{failover_source} 
-   
+                   
    The live encoder source can be deployed in the cloud or on a baremetal server or even as a dedicated hardware. 
    The live encoder source may have some tools or configuration API's to author the CMAF tracks and feed 
    instruction/properties from the original HSDI or broadcast into the CMAF tracks. The packager 
@@ -1661,9 +1661,9 @@ send inband emsg box and the receiver SHALL ignore it.
            - The packager may also generate HLS or other streaming media presentation based on the input. 
            - In case the packager crashes/fails, it will restart itself and wait for the ingest source to perform the actions 
              as detailed in #{failover}
-
-      The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client. 
-      The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks 
+            
+         The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client. 
+         The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks 
            - it stores all posted content and makes them available for HTTP get requests from locations 
              corresponding to the paths signalled in the manifest
            - it occasionaly deletes content based on instructions from the ingest source, in this setup the packager
@@ -1672,13 +1672,13 @@ send inband emsg box and the receiver SHALL ignore it.
 
          In case the CDN serves as a proxy, it only forwards requests for content to the packager to receive the content, and 
          cache relevant segments for a duration N until it expires. 
-
+           
       The client receives DASH or HLS streams, and is not affected by the specification of this work. Nevertheless it is expected 
       that by using a common media application format, less caching and less overhead in the network is resulting. This should 
       result to improved client experience as more resources will be freed up to improve the final quality of streams served to the user. 
       The client still needs to retrieve license and key information by steps defined outsides of this specification. Information 
       on how to retrieve these information wil typically be signalled in the manifest prepared by the packager. 
-
+         
       This example aims to illustrate how the specification defined in this document can be used to proved a live streaming presentation
       to clients, this example does not preclude other ways of using the specification and protocols defined in this document.
 
