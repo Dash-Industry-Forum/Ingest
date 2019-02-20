@@ -1595,7 +1595,7 @@ send inband emsg box and the receiver SHALL ignore it.
    ### Relative paths ###{#DASH_Relative_paths_and_extensions}
       1. Relative URL paths MUST be used to address each segment.
 
-# Illustrative Example of using CMAF and DASH ingest specification
+# Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide an example deployment for live streaming, mapping to the architecture 
  defined in DASH live TF.
