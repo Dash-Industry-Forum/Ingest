@@ -1601,7 +1601,7 @@ send inband emsg box and the receiver SHALL ignore it.
  defined in DASH live TF.
 
  Diagram 12: Example setup schema with CMAF ingest and DASH/HLS ingest 
- 
+ <pre>
    ==============                 ============            =============               ==============
     || broadcast||  HSDI source   || live   ||  CMAF     ||          || HLS ingest   || Content  ||       HLS
     ||   or SDI || ============>> || encoder||=======>>> || packager ||==========>>> || Delivery ||========>>> Client
@@ -1610,7 +1610,7 @@ send inband emsg box and the receiver SHALL ignore it.
 
                   SCTE 104/SCTE-35            CMAF tracks            Encrypted CMAF tracks
                   TS video/audio or SDI                                HLS/DASH Manifest
-
+ </pre>
   The broadcast source is used as input to the live ABT endccoder, the broadcast sources can be 
   original HSDI signals from a broadcast facility or TS streams intercepted from a broadcast
   that need to be used in an OTT distribution workflow. The live encoder source performs the 
