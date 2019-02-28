@@ -900,7 +900,7 @@ the session, for tear down the source can send an empty [=mfra=]
 box to close the connection. This is then followed with a zero length
 chunk, allowing the receiver to send a response, the encoder can 
 follow up by closing the TCP connection using a FIN command as 
-defined in HTTP [[!RFC2616]].
+defined in HTTP RFC2616.
 
 <pre>
 Diagram 11: CMAF ingest flow
@@ -975,7 +975,7 @@ profile MUST also adhere to general requirements in section 4.
         towards the media processing entity.
         After that it SHALL send an empty HTTP chunk, 
         Wait for the HTTP response before closing 
-        TCP session [[!RFC2616]] 
+        TCP session RFC2616 
         when this response is received
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
