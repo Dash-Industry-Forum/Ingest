@@ -1540,22 +1540,22 @@ send inband emsg box and the receiver SHALL ignore it.
      7. All objects must carry a file extension and a MIME-type. 
 	    The following file extensions and mime-types are the ONLY permissible combinations to be used:
    <pre>
-    | File extension| Mime-type|
-    | --- | --- |
-    | .m3u8| application/x-mpegURL or vnd.apple.mpegURL |
-    | .mpd | video/MP2T |
-    | .ts | video/MP2T |
-    |.cmfv | video/mp4 |
-    |.cmfa | audio/mp4 |
-    |.cmft | application/mp4 |
-    |.cmfm | application/mp4 |
-    |.m4v | video/mp4 |
-    |.mp4 | video/mp4 or application/mp4 |
-    |.m4a | audio/mp4 |
-    |.m4s | video/iso.segment |
-    |.init | video/mp4 |
-    |.header | video/mp4 |
-    |.key | to be defined |
+    | File extension| Mime-type                             |
+    | ---------| ------------------------------------------ |
+    | .m3u8    | application/x-mpegURL or vnd.apple.mpegURL |
+    | .mpd     | video/MP2T                                 |
+    | .ts      | video/MP2T                                 |
+    |.cmfv     | video/mp4                                  |
+    |.cmfa     | audio/mp4                                  |
+    |.cmft     | application/mp4                            |
+    |.cmfm     | application/mp4                            |
+    |.m4v      | video/mp4                                  |
+    |.mp4      | video/mp4 or application/mp4               |
+    |.m4a      | audio/mp4                                  |
+    |.m4s      | video/iso.segment                          |
+    |.init     | video/mp4                                  |
+    |.header   | video/mp4                                  |
+    |.key      | to be defined                              |
    </pre>
    
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
@@ -1680,8 +1680,8 @@ send inband emsg box and the receiver SHALL ignore it.
             to the CMAF ingest specification interface defined in this document. 
           - The CMAF ingest allows multiple live encoder sources and packagers to be deployed benefiting 
             from redundant stream creation, avoiding timeline discontinuities as much as possible 
-          - In case the receiver fails it will reconnect and resend as defined in #{failover}
-          - In case the live encoder source fails it will restart and perform the steps as detailed in #{failover_source} 
+          - In case the receiver fails it will reconnect and resend as defined in the section on failover
+          - In case the live encoder source fails it will restart and perform the steps as detailed in the section on failover
                    
    The live encoder source can be deployed in the cloud or on a baremetal server or even as a dedicated hardware. 
    The live encoder source may have some tools or configuration API's to author the CMAF tracks and feed 
@@ -1711,7 +1711,7 @@ send inband emsg box and the receiver SHALL ignore it.
              signalled in the manifest. 
            - The packager may also generate HLS or other streaming media presentations based on the input. 
            - In case the packager crashes or fails, it will restart itself and wait for the ingest source to perform the actions 
-             as detailed in #{failover}
+             as detailed in the section on failover
             
          The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client. 
          The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks 
