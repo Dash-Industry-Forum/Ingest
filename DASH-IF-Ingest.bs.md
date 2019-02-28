@@ -1779,7 +1779,7 @@ send inband emsg box and the receiver SHALL ignore it.
 <pre class="metadata">
 Revision: 1.0
 
-Title: Specification of Live Media Ingest
+Title: Specification of live Media Ingest
 Status: LD
 Shortname: ingest
 URL: https://dashif.org/guidelines/
