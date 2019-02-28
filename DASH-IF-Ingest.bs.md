@@ -1282,7 +1282,7 @@ Table 1 Example of DASH emsg schemes  URI
 
 
 
-<pre>
+ <pre>
 
 Table 2 example of a SCTE-35 marker embedded in a DASH eventmessagebox 
 | Tag                     |          Value                      |
@@ -1300,7 +1300,7 @@ Table 2 example of a SCTE-35 marker embedded in a DASH eventmessagebox
 Alternatively a version 1 of the eventmessagebox with absolute timing 
 could be used, where the presentation time is added as a 64 bit integer.
 
-</pre>
+ </pre>
 
   The following steps are recommended for timed metadata  
   ingest related to events, tags, ad markers and  
