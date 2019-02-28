@@ -81,7 +81,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    A second level of interoperability lies  
    in the media container and coded media formats.  
    The Moving Picture Experts Group defined several media  
-   container formats such as [!ISOBMFF] and [!MPEG2TS] 
+   container formats such as [[!ISOBMFF]] and [[!MPEG2TS]] 
    which are widely adopted and well supported.  
    However, these are general purpose formats,  
    targetting several different application areas.  
@@ -90,9 +90,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    other application standards such as those for  
    the broadcast or storage. For interoperable 
    live media ingest, this document provides 
-   guidance on how to use [!ISOBMFF].  
+   guidance on how to use [[!ISOBMFF]].  
    In addition, the codec and profile used, 
-   e.g. [!MPEGHEVC] are important  
+   e.g. [[!MPEGHEVC]] are important  
    interoperability points that itself also  
    have different profiles and different 
    configurations. This specification 
@@ -105,9 +105,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    content often needs such metadata to signal  
    opportunities for ad insertion,  
    or other metadata like timed graphics.  Examples  
-   of such metadata include [!SCTE35] markers which  
+   of such metadata include [[!SCTE35]] markers which  
    are often found in broadcast streams and other  
-   metadata such as ID3 tags [!ID3v2].
+   metadata such as ID3 tags [[!ID3v2]].
    In fact, many more types of metadata relating 
    to the live event might be ingested, as to pass
    it on to an OTT workflow.  
@@ -157,7 +157,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    encrypting or transcoding the streams.  
    Other example operations include watermarking,  
    content insertion and generating streaming manifests  
-   based on [!MPEGDASH] or HLS [!RFC8216]. 
+   based on [[!MPEGDASH]] or HLS [[!RFC8216]]. 
    What is typical of these operations is 
    that they actively inspect,  
    or modify the media content and may  
@@ -249,10 +249,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    on signalling metadata and timed text.   
    In addition, it incorporates the latest media formats   
    and protocols, making it ready for current and   
-   next generation media codecs such as [!MPEGHEVC]   
-   and protocols like MPEG DASH [!MPEGDASH].
+   next generation media codecs such as [[!MPEGHEVC]]   
+   and protocols like MPEG DASH [[!MPEGDASH]].
    In addition, to support the sub profiling 
-   of exising media containers CMAF [!MPEGCMAF]
+   of exising media containers CMAF [[!MPEGCMAF]]
    is referenced.   
    
    A second interface referenced
@@ -261,12 +261,12 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    streaming presentations to entities were    
    the media is not altered actively.
    A key idea of this part of the specification is to re-use   
-   the similarities of MPEG DASH [!MPEGDASH] 
-   and HLS [!RFC8216] protocols   
+   the similarities of MPEG DASH [[!MPEGDASH]] 
+   and HLS [[!RFC8216]] protocols   
    to enable a simultaneous ingest of media   
    presentations of these two formats using   
-   common media fragments such as based on [!ISOBMFF]   
-   and [!MPEGCMAF] formats. In this   
+   common media fragments such as based on [[!ISOBMFF]]   
+   and [[!MPEGCMAF]] formats. In this   
    profile naming is important to enable direct   
    processing and storage of the presentation.   
 
@@ -280,19 +280,19 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    The two interfaces, while presented separately
    both use a similar underlying media format,
-   the common media application format [!MPEGCMAF].
+   the common media application format [[!MPEGCMAF]].
    And both use the HTTP POST method defined
-   in [!RFC7235].  
+   in [[!RFC7235]].  
 
    We further motivate the specification  
    in this document supporting    
-   HTTP 1.1 [!RFC7235]  and [!ISOBMFF] a bit more.   
+   HTTP 1.1 [[!RFC7235]]  and [[!ISOBMFF]] a bit more.   
    We believe that Smooth streaming [=MS-SSTR=]   
-   and HLS [!RFC8216] have shown that HTTP usage   
+   and HLS [[!RFC8216]] have shown that HTTP usage   
    can survive the Internet ecosystem for   
    media delivery. In addition, HTTP based   
    ingest fits well with current HTTP   
-   based streaming protocols including [!MPEGDASH].   
+   based streaming protocols including [[!MPEGDASH]].   
    In addition, there is good support for HTTP   
    middleboxes and HTTP routing available   
    making it easier to debug and trace errors.   
@@ -302,7 +302,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    The binary media format for conveying  
    the media is based on CMAF track constraints as  
-   specified in [!MPEGCMAF]. 
+   specified in [[!MPEGCMAF]]. 
    A key benefit of this  format is that it 
    allows easy identification  
    of stream boundaries, enabling switching, redundancy,  
@@ -316,7 +316,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    track format will make things easier  
    and that the industry is already heading  
    in this direction following recent specifications  
-   like [!MPEGCMAF] and HLS  [!RFC8216].
+   like [[!MPEGCMAF]] and HLS  [[!RFC8216]].
 
    Regarding the transports protocol, in future versions,  
    alternative transport protocols could be considered  
@@ -332,7 +332,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    This specification does not impose any new constraints
    or requirements for live streaming to media clients on 
    end-user devices that consume streams using any 
-   defined streaming protocol, with a preference for [!MPEGDASH]   
+   defined streaming protocol, with a preference for [[!MPEGDASH]]  
 
    The document is structured as follows, in section 3   
    we present the conventions and terminology used throughout   
@@ -355,13 +355,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
 
    <dfn dfn>**CMAF Ingest**</dfn>:
-          Ingest interface defined in this specification for push based [!MPEGCMAF]
+          Ingest interface defined in this specification for push based [[!MPEGCMAF]]
 
    <dfn dfn>**DASH Ingest**</dfn>:
-          Ingest interface defined in this specification for push based [!MPEGDASH]
+          Ingest interface defined in this specification for push based [[!MPEGDASH]]
    
    <dfn dfn>**HLS Ingest**</dfn>:
-          Ingest interface defined in this specification for push based [!RFC8216]
+          Ingest interface defined in this specification for push based [[!RFC8216]]
 
    <dfn dfn>**Ingest Stream**</dfn>:
           The stream of media pushed from the ingest source to the media processing entity in a live event  
@@ -487,22 +487,22 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              fragment = [=Moof=] [=Mdat=]
     
    <dfn dfn> **CMAF Header** </dfn>:
-             CMAF track header defined in [!MPEGCMAF]
+             CMAF track header defined in [[!MPEGCMAF]]
 
    <dfn dfn> **CMAF Media object** </dfn>:
-             CMAF media object defined in [!MPEGCMAF]
+             CMAF media object defined in [[!MPEGCMAF]]
 
    <dfn dfn> **CMAF fragment** </dfn>:
-             CMAF fragment defined in [!MPEGCMAF]
+             CMAF fragment defined in [[!MPEGCMAF]]
 
    <dfn dfn> **CMAF chunk** </dfn>:
-             CMAF chunk defined in [!MPEGCMAF]
+             CMAF chunk defined in [[!MPEGCMAF]]
 
    <dfn dfn> **CMAF segment** </dfn>:
-             CMAF segment defined in [!MPEGCMAF]
+             CMAF segment defined in [[!MPEGCMAF]]
 
    <dfn dfn>**CMAF Track**</dfn>
-             CMAF Track defined in [!MPEGCMAF]
+             CMAF Track defined in [[!MPEGCMAF]]
 
    <dfn dfn> **POST_URL**  </dfn>:
             Target URL of a POST command in the HTTP protocol  
@@ -517,7 +517,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
              
    <dfn dfn> **Application time** </dfn>: 
               The time a metadata event is applied to a stream (if applicable),
-              correspond to the presentation_time of a dash event [!MPEGDASH] 
+              correspond to the presentation_time of a dash event [[!MPEGDASH]] 
 
 # Media Ingest Workflows and Profiles # {#workflow_and_use_cases}
  
@@ -755,8 +755,8 @@ from one or more [=ingest source=], ingesting one or more
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
 standardized media container formats 
-and boxes based on [!ISOBMFF] and [!MPEGCMAF].  
-In addition this allows extension towards codecs like [!MPEGHEVC] and  
+and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].  
+In addition this allows extension towards codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
 fragmented MPEG-4 ingest is illustrated in Diagram 7. Discussions
@@ -791,14 +791,14 @@ on the early development have been documented [=fmp4git=].
 
 Diagrams 8-10 detail some of the concepts and structures.   
 Diagram 8 shows the data format structure of the [=CMAF Track=] 
-format [!ISOBMFF] and [!MPEGCMAF]. In this format media meta data   
+format [[!ISOBMFF]] and [[!MPEGCMAF]]. In this format media meta data   
 such as playback time, sample duration and sample data (encoded samples)   
-are interleaved. The MovieFragmentBox [=moof=] box as specified in [!ISOBMFF] is used   
+are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] is used   
 to signal the information to playback and decode the samples   
 stored in the following mdat box.   
 The [=ftyp=] and moov box contain the track specific information   
 and can be seen as a [=CMAF Header=] of the stream, sometimes referred   
-as a [!MPEGCMAF] header.  
+as a [[!MPEGCMAF]] header.  
 The combination of  [=moof=] [=mdat=] can be referred   
 as a [=CMAF fragment=] or [=CMAF chunk=] or a [=CMAF segment=]
 depending on the structure content and the number of moof mdat structures
@@ -820,7 +820,7 @@ Diagram 8: [=CMAF Track=] stream:
 </pre>
 
 Diagram 9 illustrates the synchronisation model, that  
-is based on the synchronisation model proposed in [!MPEGCMAF]. 
+is based on the synchronisation model proposed in [[!MPEGCMAF]]. 
 Different bit-rate tracks and/or media streams are conveyed 
 in separate CMAF tracks. By having the boundaries 
 to the fragments time alligned for tracks comprising the 
@@ -830,7 +830,7 @@ different streams can be synchronized at the receiver,
 while they are in a separate [=CMAF Track=], 
 send over a separate connection, possibly from a different  
 [=Ingest source=]. For more information on the synchronisation
-model we refer to section 6 of [!MPEGCMAF]. For synchronization
+model we refer to section 6 of [[!MPEGCMAF]]. For synchronization
 of tracks coming from different encoders, sample time accuracy
 is required. i.e. the same samples need to be mapped to the 
 sameple time on the timescale used for the track. Further,
@@ -900,7 +900,7 @@ the session, for tear down the source can send an empty [=mfra=]
 box to close the connection. This is then followed with a zero length
 chunk, allowing the receiver to send a response, the encoder can 
 follow up by closing the TCP connection using a FIN command as 
-defined in HTTP [!RFC2616].
+defined in HTTP [[!RFC2616]].
 
 <pre>
 Diagram 11: CMAF ingest flow
@@ -975,7 +975,7 @@ profile MUST also adhere to general requirements in section 4.
         towards the media processing entity.
         After that it SHALL send an empty HTTP chunk, 
         Wait for the HTTP response before closing 
-        TCP session [!RFC2616] 
+        TCP session [[!RFC2616]] 
         when this response is received
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different track
@@ -1066,7 +1066,7 @@ profile MUST also adhere to general requirements in section 4.
           urn:mpeg:dash:role:2011 and a value containing a Role 
           as defined in [!MPEGDASH]
 
-Note: [!MPEGCMAF] has the notion of a segment, a fragment and a chunk. 
+Note: [[!MPEGCMAF]] has the notion of a segment, a fragment and a chunk. 
 A fragment can be composed of one or more chunks, while a segment can be 
 composed of one or more fragments. The [=media fragment=] defined here 
 is independent of this notion and can be a chunk, a fragment containing 
@@ -1081,9 +1081,9 @@ of the fragments a receiver can identify these boundaries.
 ## Requirements for Signalling Switching Sets ## {#Requirements_for_switchingsets}
 
   In live streaming a bundle of streams corresponding to a channel is ingested by posting
-  to a publishing point. CMAF has the notion of switchingsets [!MPEGCMAF] which map to similar 
-  streaming protocol concepts like adaptationset in [!MPEGDASH]. To signal a swtiching set
-  CMAF media tracks MUST correspond to the constraints defined in [!MPEGCMAF] section 7.3.4 
+  to a publishing point. CMAF has the notion of switchingsets [[!MPEGCMAF]] which map to similar 
+  streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a swtiching set
+  CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] section 7.3.4 
  
   <pre>
    | Box  | General CMAF header constraints in a CMAF switching set                                           |
@@ -1123,8 +1123,8 @@ NOTE 1 Track width and height can differ, but picture aspect ratio is the same f
 The media ingest follows requirements for ingesting
 a track with timed text, captions and/or subtitle streams. The 
 recommendations for formatting subtitle and timed text track 
-are defined in [!MPEGCMAF] and [!MPEG4-30] and are re-iterated 
-here for convenience to the reader. Note the text in [!MPEGCMAF] 
+are defined in [[!MPEGCMAF]] and [[!MPEG4-30]] and are re-iterated 
+here for convenience to the reader. Note the text in [[!MPEGCMAF]] 
 references prevails the text below when different except for 
 the notion of 9 and 10-11 on roles adding a bitrate box. 
 
@@ -1175,16 +1175,16 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
           urn:mpeg:dash:role:2011 and a value containing a Role 
           as defined in [!MPEGDASH]
 
-Note: [!MPEGCMAF] allows multiple kind boxes, hence multiple roles
+Note: [[!MPEGCMAF]] allows multiple kind boxes, hence multiple roles
 can be signalled. By default one should signal the DASH role 
 urn:mpeg:dash:role:2011. A receiver can derive corresponding configuration
-in other streaming protocols such as HLS [!RFC8216]. In case this 
+in other streaming protocols such as HLS [[!RFC8216]]. In case this 
 is not desired, additional kind boxes with corresponding schemeIdUri 
 and values can be used to explicitly signal this kind of information.
 Subschemes can be signalled in the schemIdURI as schemeIdURI@value.
 
 An informative scheme of defined roles in MPEG DASH and respective 
-corresponding roles in HLS [!RFC8216] can be found below, 
+corresponding roles in HLS [[!RFC8216]] can be found below, 
 additionally the forced subtitle in HLS might be derived from 
 a DASH forced subtitle role
 
@@ -1197,8 +1197,8 @@ a DASH forced subtitle role
 | description                | description                    |
 </pre>
 
-Some example roles defined in urn:mpeg:dash:role:2011 [!MPEGDASH] are summarized below, note the definition
-in [!MPEGDASH] takes preference above the text below in case different. 
+Some example roles defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]] are summarized below, note the definition
+in [[!MPEGDASH]] takes preference above the text below in case different. 
 
 <pre>
 | Role 	          | Description
@@ -1225,7 +1225,7 @@ in [!MPEGDASH] takes preference above the text below in case different.
 |karaoke	          | Textual representation of a songs’ lyrics, usually in the same language as the associated song as specified in [SMPTE ST 2067-2].
 </pre>
 
-Additionally another example for explicitly signalling roles could be DVB DASH [!DVB-DASH] 
+Additionally another example for explicitly signalling roles could be DVB DASH [[!DVB-DASH]] 
 one could use schemeiduri@value and role as defined there.
 e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alternate
 
@@ -1243,8 +1243,8 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   the signalling data usually does not  
   happen continuously, and the intervals can  
   be hard to predict. Examples of timed metadata are ID3 tags  
-  [!ID3v2], SCTE-35 markers [!SCTE35] and DASH emsg  
-  messages defined in section 5.10.3.3 of [!MPEGDASH].
+  [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASH emsg  
+  messages defined in section 5.10.3.3 of [[!MPEGDASH]].
   In addition any other metadata can be signalled in this 
   scheme by providing a URI to identify the scheme, and 
   the metadata embedded as a media samples.  
@@ -1260,7 +1260,7 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   possibly on different locations by embedding them in  
   sparse metadata tracks. In this approach metadata 
   are not interleaved with the media as for example
-  the case in emsg boxes in [!MPEGCMAF]. However, 
+  the case in emsg boxes in [[!MPEGCMAF]]. However, 
   by embedding the emsg structure the benefits of its 
   usages in DASH and CMAF are kept.  
 
@@ -1275,7 +1275,7 @@ Table 1 Example of DASH emsg schemes  URI
 | --------------------------:|:------------------------------:| 
 | urn:mpeg:dash:event:2012   | DASH, 5.10.4                   | 
 | urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1              | 
-|  urn:scte:scte35:2013:bin  | [!SCTE35] 14-3 (2015), 7.3.2   |  
+|  urn:scte:scte35:2013:bin  | [[!SCTE35]] 14-3 (2015), 7.3.2   |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
@@ -1316,7 +1316,7 @@ could be used, where the presentation time is added as a 64 bit integer.
         in a URIbox, the URI following the URI syntax in 
         [[!RFC3986]] defining the form  of the metadata
         (see the ISO Base media file format
-         specification [!ISOBMFF]). 
+         specification [[!ISOBMFF]]). 
      4.  The URIMetaSampleEntry
           SHOULD contain the urn urn:mpeg:dash:event:2012 
           or an equivalen urn to signal the presence of event
@@ -1345,7 +1345,7 @@ could be used, where the presentation time is added as a 64 bit integer.
         SHOULD be used to fill the timeline to avoid timeline 
         gaps or 32 bit duration overflow for large timescales 
      9. All Timed Metadata samples SHOULD
-        be sync samples [!ISOBMFF],
+        be sync samples [[!ISOBMFF]],
         defining the entire set of
         metadata for the time interval
         they cover. Hence, the sync
