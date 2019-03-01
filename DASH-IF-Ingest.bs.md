@@ -984,7 +984,7 @@ profile MUST also adhere to general requirements in section 4.
         appending it to the [=POST_URL=]
      9. The fragment decode timestamps 
         [=basemediadecodetime=] 
-        in tdft of fragments in the
+        in tfdt of fragments in the
         [=CMAFstream=]
         SHOULD arrive in increasing order 
         for each of the different
@@ -1460,10 +1460,10 @@ send inband emsg box and the receiver SHALL ignore it.
            with the previous stream, and interchangeable
            at the header and media fragment levels.
       6.   The new instance of ingest source SHOULD
-          try to minimize data loss. The basemediadecodetime tdft
+          try to minimize data loss. The basemediadecodetime tfdt
           of media fragments SHOULD increase from the point where
           the encoder last stopped. The basemediadecodetime in the
-          tdft box SHOULD increase in a continuous manner, but it
+          tfdt box SHOULD increase in a continuous manner, but it
           is permissible to introduce a discontinuity, if necessary.
           Media processing entities can ignore
           fragments that it has already received and processed, so
