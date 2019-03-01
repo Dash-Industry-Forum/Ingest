@@ -1390,9 +1390,7 @@ send inband emsg box and the receiver SHALL ignore it.
   issues. When used in conjunction with proper failover  
   logic from the ingest sources side, highly reliable live streaming  
   setups can be build. In this section, we discuss requirements  
-  for failover scenarios. 
-
-  The following steps are required for an ingest source
+  for failover scenarios. The following steps are required for an ingest source
    to deal with a failing media processing entity.  
 
      1. The ingest source MUST use a timeout for establishing the
