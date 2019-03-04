@@ -1399,13 +1399,13 @@ track.
   occurs on the ingest source side. The following expectations apply  
   to the live ingestion endpoint when encoder failover happens:  
   
-      1.    A new ingest source instance SHOULD be instantiated 
+      1.  A new ingest source instance SHOULD be instantiated 
           to continue the ingest
-      2.    The ingest source MUST use
-           the same URL for HTTP POST requests as the failed instance.
-      3.    The new  ingest source POST request
+      2.  The ingest source MUST use
+          the same URL for HTTP POST requests as the failed instance.
+      3.  The new  ingest source POST request
            MUST include the same [=CMAF Header=] or 
-		     init fragment as the failed instance
+	   init fragment as the failed instance
       4.  The ingest source
           MUST be properly synced with all other running ingest sources
           for the same live presentation to generate synced audio/video  
@@ -1414,10 +1414,10 @@ track.
           for fragments in the "tfdt" match between decoders,
           and encoders. In addition fragment boundaries need 
 	  to be appropriately synchronized.
-      5.   The new stream MUST be semantically equivalent
-           with the previous stream, and interchangeable
-           at the header and media fragment levels.
-      6.   The new instance of ingest source SHOULD
+      5.  The new stream MUST be semantically equivalent
+          with the previous stream, and interchangeable
+          at the header and media fragment levels.
+      6.  The new instance of ingest source SHOULD
           try to minimize data loss. The basemediadecodetime tfdt
           of media fragments SHOULD increase from the point where
           the encoder last stopped. The basemediadecodetime in the
