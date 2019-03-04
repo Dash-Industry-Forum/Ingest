@@ -8,7 +8,7 @@
    is based on fragmented MPEG-4 as defined by the common media
    application track format (CMAF). The second protocol interface 
    is based on MPEG DASH and HLS.  
-   Examples workflows based on DASH-IF architectures show how 
+   Example workflows based on DASH-IF architectures show how 
    live and low latency setups can be achieved by combining these interfaces.
    Details on the ingest of metadata markers, timed text, subtitles 
    data are also included.
@@ -53,7 +53,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    
 # Introduction # {#Introduction}
  
-   This document presents the specification Live Media Ingest.
+   This document presents the protocol specification of Live Media Ingest.
    Live media ingest happens between an ingest source, such as a  
    live video encoder [=live encoder=] and distributed media 
    processing entities that receive the ingest stream. 
@@ -80,7 +80,6 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    providing procedures for repeatedly sending 
    and receving the data, and timely resolution of hostnames.  
    
-
    A second level of interoperability lies  
    in the media container and coded media formats.  
    The Moving Picture Experts Group defined several media  
@@ -196,29 +195,15 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    This specification  provides a push based ingest 
    for these protocols.
    
-  <pre>
-
    Diagram 1: Example with CMAF Ingest
-
-   ============ CMAF  ==============      ==============
-   ||        || ingest||  Active  || HLS  || Content  ||  HLS
-   || ingest ||====>>>||processing||===>>>|| Delivery ||==>>>Client
-   || source ||       || entity   || DASH || Network  ||  DASH
-   ============       ==============      ==============
+   <figure>
+	  <img src="Images/Diagram1.png" />
+   </figure>
    
-   </pre>
-
-   <pre>
-
-   Diagram 2: Example with DASH or HLS ingest
- 
-   ============       ==============      
-   ||        || ingest|| Content  ||   HLS/DASH
-   || ingest ||====>>>||Delivery  ||==>>>> Client
-   || source ||       || Network  ||  
-   ============       ============== 
-
-  </pre>
+   Diagram 2: Example with DASH Ingest
+   <figure>
+	  <img src="Images/Diagram2.png" />
+   </figure>
 
    Diagram 1 shows the workflow with a live media ingest from an    
    ingest source towards a media processing entity.   
@@ -575,29 +560,15 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   some level of compatibility between the interfaces
   can be achieved. 
 
-   <pre>
-
-  Diagram 3: Streaming workflow with CMAF ingest 
-
-  ============       ==============      ==============
-  || live   ||ingest ||  Media   || HLS  || Content  ||  HLS
-  || media  ||====>>>||processing||===>>>|| Delivery ||==>>> Client
-  || source || fmp4  || entity   || DASH || Network  ||  DASH
-  ============       ==============      ==============
-
- </pre>
-
-  <pre>
-
-  Diagram 4: Streaming workflow with DASH ingest
-
-  ============  DASH   ==============      
-  || live   ||manifest|| Content  ||   
-  || media  ||====>>> ||Delivery  ||==>>>> Client
-  || source ||        || Network  ||  
-  ============        ==============   
-
-  </pre>
+   Diagram 3: Streaming with CMAF Ingest
+   <figure>
+	  <img src="Images/Diagram1.png" />
+   </figure>
+   
+   Diagram 4: Streaming with DASH Ingest
+   <figure>
+	  <img src="Images/Diagram2.png" />
+   </figure>
   
   Diagram 5 highlights some of the key  
   differences and practical considerations of 
@@ -628,46 +599,34 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   The best choice for a specific platform depends  
   on many of the use case specific requirements, 
   circumstances  and the available technologies.  
-  
-  <pre>
 
-    Diagram 5: Differences profile 1 and profile 2 for use cases
-  ============================================================
-  |Profile   |    Ingest source     |   Media processing     |
-  |----------|----------------------|------------------------|
-  |Interface1|limited overview      |encrypt, transcode,     |
-  | CMAF     | simple encoder       |package, watermark      |
-  | ingest   | multiple sources     |content stitch, timed   |
-  |Interface2|   Global overview    | cache, store, deliver  |
-  | DASH     |encoder targets client|                        |
-  | HLS      |only duplicate sources| manifest manipulation  |
-  |          |                      | storage & transmission |
-  ============================================================
-  
-  </pre>
-  
-  <pre>
+   Table 1: different ingest use cases
+   <!-- class=def is a built-in style. It is optional but looks nice. -->
+<table class="def">
+	<tr>
+		<th>Profile</th>
+		<th>Ingest source</th>
+      <th>  Media processing  </th>
+	</tr>
+	<tr>
+		<td>CMAF Ingest</td>
+		<td>Limited overview, simpler encoder, multiple sources </td>
+      <td> re-encryption, transcode, stitching, watermark, packaging</td>
+	</tr>
+	<tr>
+		<td>DASH/HLS Ingest</td>
+		<td>Global overview, targets duplicate presentations</td>
+      <td> manifest manipulation, transmission, storage</td>
+	</tr>
+</table>
+
   
   Diagram 6:
   workflow with redundant Ingest sources and receiving entities
+   <figure>
+	  <img src="Images/Diagram6.png" />
+   </figure>
   
-                CMAF ==============     
-  ============ stream||  Media   || 
-  || Ingest ||====>>>||Processing|| \\
-  || source ||   //  ||  Entity  ||  \\ 
-  ============  //   ==============   \\  ============        
-  ============ //                      \\ || load   || 
-  || Ingest ||// redundant stream       >>||balancer|| ==>>> Client
-  || source ||\\ stream                // =============
-  ============ \\     =============   // 
-  ============  \\   || Media     || //     
-  || Ingest ||====>>>||Processing ||//        
-  || source ||   //  || Entity    ||
-  ============  //   ===============
-  ============ //     
-  || Ingest ||// redundant stream       
-  || source ||       
-  ============  
   
   </pre>
 
@@ -767,30 +726,13 @@ fragmented MPEG-4 ingest is illustrated in Diagram 7. Discussions
 on the early development have been documented [=fmp4git=].
 
 
- <pre>
+ 
 
  Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources
+   <figure>
+	  <img src="Images/Diagram7.png" />
+   </figure>
 
-============ CMAF  ==============     
-||        || video ||          || 
-|| ingest ||====>>>||          ||
-|| source ||       ||          || 
-============       ||          ||      
-||        || CMAF  ||          ||
-|| ingest ||====>>>||  Active  ||      ==============
-|| source || audio ||   Media  || HLS  || Content  ||  HLS
-============       || procesing||===>>>|| Delivery ||==>>> Client
-||        || CMAF  ||  entity  || DASH || Network  ||  DASH
-||ingest  ||====>>>||          ||       =============
-|| source || text  ||          ||
-============       ||          ||
-||        || CMAF  ||          || 
-||ingest  || meta  ||          ||
-|| source ||  data ||          ||
-||        ||====>>>||          ||
-============       ==============
-
- </pre>
 
 
 Diagrams 8-10 detail some of the concepts and structures.   
@@ -906,35 +848,11 @@ chunk, allowing the receiver to send a response, the encoder can
 follow up by closing the TCP connection using a FIN command as 
 defined in HTTP RFC2616.
 
-<pre>
+
 Diagram 11: CMAF ingest flow
-||===============================================================||
-||=====================            ============================  ||
-|||     ingest source |            |  Media processing entity | ||
-||=====================            ============================  ||
-||        || <<------  DNS Resolve    -------->> ||              ||
-||        || <<------  Authenticate   -------->> ||              ||
-||        || <<------POST fmp4stream  -------->> ||              ||
-||================== Moov + ftyp Sending  =======================||
-||        || <<------ 404 Bad Request -----------||              ||
-||        || <<------ 202 OK --------------------||              ||
-||        || <<------ 403 Forbidden -------------||              ||
-||        || <<------ 404 Bad Request            ||              ||
-||        || <<------ 400 Forbidden -------------||              ||
-||        ||         Unsupported Media Type      ||              ||
-||        || <<------ 415 Forbidden -------------||              ||
-||================== Moov + ftyp Sending  =======================||
-||        || <<------ 202 OK --------------------||              ||
-||============= CMAF media objects Sending ======================||
-||        || <<------ 404 Bad Request -----------||              ||
-||============= mfra box Sending (close) ========================||
-||        || <<------ 200 OK --------------------||              ||
-||=====================            ============================  ||
-||| live ingest source |            |  Media processing entity | ||
-||=====================            ============================  ||
-||        ||                                     ||              ||
-||===============================================================||
-</pre>
+ <figure>
+	  <img src="Diagrams/media-ingest.png" />
+   </figure>
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
 
@@ -1082,32 +1000,87 @@ a single chunk. In this text we use
   to a publishing point. CMAF has the notion of switchingsets [[!MPEGCMAF]] which map to similar 
   streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a switching set
   CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] section 7.3.4 
- 
-  <pre>
-   | Box  | General CMAF header constraints in a CMAF switching set                       |
-   | ----:|:---------------------------------------------------------------------------- :| 
-   | ftyp | Shall be identical except for media profile brands (see ‎1 in ‎7.3.4.1)       |
-   | mvhd | Shall be identical except for creation_time, and modification_time            |
-   | tkhd | Shall be identical except for width, height,                                  | 
-   |      |  creation_time, and modification_time. See NOTE 1.                            |
-   | trex | identical                                                                     |
-   | elst | Shall be identical except for video CMAF track files with a different         |
-   |      | composition offset                                                            |
-   | mdhd | Shall be identical except for creation_time, and modification_time            |
-   | mehd | identical                                                                     |
-   | meta | May contain different boxes and data                                          |
-   | udta | May contain different boxes and data                                          |
-   | cprt | identical                                                                     |
-   | kind | identical                                                                     |
-   | elng | identical                                                                     |
-   | hdlr | identical                                                                     |
-   | vmhd | identical                                                                     |
-   | smhd | identical                                                                     |
-   | sthd |identical                                                                      |
-   | dref | identical                                                                     |
-   | stsd Sample entries shall have the same codingname (four-character code),            |
-   |      and conform to other CMAF Track format and media profile specified constraints. |
-   </pre>
+
+  Table 2: Switching set constraints
+  <table class="def">
+	<tr>
+		<th>Box</th>
+      <th>  General CMAF header constraints in a CMAF switching set      </th>
+	</tr>
+	<tr>
+		<td>ftyp</td>
+		<td>Shall be identical except for media profile brands (see ‎1 in ‎7.3.4.1)  </td>
+	</tr>
+	<tr>
+		<td>mvhd</td>
+		<td>Shall be identical except for creation_time, and modification_time </td>
+	</tr>
+   <tr>
+		<td>tkhd</td>
+		<td>Shall be identical except for width, height, 
+      creation_time, and modification_time. See NOTE 1.</td>
+	</tr>
+   <tr>
+		<td>trex </td>
+		<td>identical   </td>
+	</tr>
+   <tr>
+		<td>elst</td>
+		<td>Shall be identical except for video CMAF track files with a different composition offset</td>
+	</tr>
+   <tr>
+		<td>mdhd</td>
+		<td>Shall be identical except for creation_time, and modification_time  </td>
+	</tr>
+   <tr>
+		<td>mehd</td>
+		<td>Global overview, targets duplicate presentations</td>
+	</tr>
+   <tr>
+		<td>meta</td>
+		<td>May contain different boxes and data   </td>
+	</tr>
+   <tr>
+		<td>udta</td>
+		<td>May contain different boxes and data   </td>
+	</tr>
+   <tr>
+		<td>cprt</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>kind</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>elng</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>hdlr</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>vmhd</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>smhd</td>
+		<td>identical</td>
+	</tr>
+    <tr>
+		<td>sthd</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>dref</td>
+		<td>identical</td>
+	</tr>
+     <tr>
+		<td>stsd</td>
+		<td>Sample entries shall have the same codingname (four-character code)</td>
+	</tr>
+</table>
 
   NOTE 1: Track width and height can differ, but picture aspect ratio is the same for all CMAF tracks. 
   NOTE 2 Sample entry constraints for CMAF switching sets are defined by each CMAF media profile 
@@ -1187,14 +1160,25 @@ corresponding roles in HLS [[!RFC8216]] can be found below,
 additionally the forced subtitle in HLS might be derived from 
 a DASH forced subtitle role
 
-<pre>
-| Characteristic [!RFC8216]  | urn:mpeg:dash:role:2011        | 
-| --------------------------:|:------------------------------:| 
-| transcribes-spoken-dialog  | subitle                        | 
-| describes-music-and-sound  | caption                        | 
-| easy-to-read               | easyreader                     |  
-| description                | description                    |
-</pre>
+Table 3: Roles for subtitle and Audio tracks and HLS Characteristics
+<table class="def">
+	<tr>
+		<th>Characteristic [!RFC8216] </th>
+      <th> urn:mpeg:dash:role:2011     </th>
+	</tr>
+	<tr>
+		<td>transcribes-spoken-dialog </td>
+		<td>subitle  </td>
+	</tr>
+   <tr>
+		<td>easy-to-read </td>
+		<td> easyreader   </td>
+	</tr>
+   <tr>
+		<td>description  </td>
+		<td>description   </td>
+	</tr>
+</table>
 
 MPEG DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. 
 Additionally another example for explicitly signalling roles could b
@@ -1240,39 +1224,72 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   as used in [[!MPEGDASH]], [[!DVB-DASH]], or alternatively 
   direct embedding of [[!SCTE35]] or [[!ID3v2]]
 
-<pre>
+Table 4: Roles for subtitle and Audio tracks and HLS Characteristics
+<table class="def">
+	<tr>
+		<th>SchemeIdURI  </th>
+      <th> Reference     </th>
+	</tr>
+	<tr>
+		<td>urn:mpeg:dash:event:2012</td>
+		<td> [[!MPEGDASH]], 5.10.4 subitle  </td>
+	</tr>
+   <tr>
+		<td>urn:dvb:iptv:cpm:2014 </td>
+		<td> DVB-DASH, 9.1.2.1  </td>
+	</tr>
+   <tr>
+		<td>urn:scte:scte35:2013:bin </td>
+		<td>[[!SCTE35]] 14-3 (2015), 7.3.2  </td>
+	</tr>
+   <tr>
+		<td>www.nielsen.com:id3:v1  </td>
+		<td>Nielsen ID3 in MPEG-DASH  </td>
+	</tr>
+</table>
 
-Table 1 Example of DASH emsg schemes  URI
-| Scheme URI                 | Reference                      | 
-| --------------------------:|:------------------------------:| 
-| urn:mpeg:dash:event:2012   | DASH, 5.10.4                   | 
-| urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1              | 
-|  urn:scte:scte35:2013:bin  | [[!SCTE35]] 14-3 (2015), 7.3.2 |  
-| www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
-
-</pre>
-
-
-
- <pre>
-
-Table 2 example of a SCTE-35 marker embedded in a DASH eventmessagebox 
-| Tag                     |          Value                      |
-|------------------------:|:-----------------------------------:|
-| scheme_uri_id           | urn:scte:scte35:2013:bin            |
-| Value                   | the value of the SCTE 35 PID        |
-| Timescale               | positive number,similar to track    |
-| presentation_time_delta | non-negative number, splice time    |
-|                         | relative  to tfdt                   |
-| event_duration          | duration of event  "0xFFFFFFFF"     |
-|                         |  indicates unknown duration         |
-| Id                      | unique identifier for message       |
-| message_data            | splice info section including CRC   |
+Table 5: example of a SCTE-35 marker embedded in a DASH eventmessagebox 
+<table class="def">
+	<tr>
+		<th> Tag </th>
+      <th> Value </th>
+	</tr>
+	<tr>
+		<td>scheme_uri_id  </td>
+		<td> urn:scte:scte35:2013:bin    </td>
+	</tr>
+   <tr>
+		<td>Value </td>
+		<td> value used to signal subscheme </td>
+	</tr>
+   <tr>
+		<td>Timescale  </td>
+		<td>positive number, ticks per second, similar to track timescale </td>
+	</tr>
+   <tr>
+		<td>presentation_time_delta  </td>
+		<td>non-negative number, splice time compared to tfdt  </td>
+	</tr>
+     <tr>
+		<td>event_duration  </td>
+		<td>duration of event  "0xFFFFFFFF" if unknown   </td>
+	</tr>
+   </tr>
+     <tr>
+		<td>id </td>
+		<td>unique identifier for message   </td>
+	</tr>
+   </tr>
+     <tr>
+		<td> message_data </td>
+		<td> splice info section including CRC   </td>
+	</tr>
+ </table>
 
 Alternatively a version 1 of the eventmessagebox with absolute timing 
 could be used, where the presentation time is added as a 64 bit integer.
 
- </pre>
+ 
 
   The following steps are recommended for timed metadata  
   ingest related to events, tags, ad markers and  
@@ -1500,24 +1517,67 @@ track.
 		  MUST NOT include the string "init" in their file name.
      7. All objects must carry a file extension and a MIME-type. 
 	    The following file extensions and mime-types are the ONLY permissible combinations to be used:
-   <pre>
-    | File extension| Mime-type                             |
-    | ---------| ------------------------------------------ |
-    | .m3u8    | application/x-mpegURL or vnd.apple.mpegURL |
-    | .mpd     | video/MP2T                                 |
-    | .ts      | video/MP2T                                 |
-    |.cmfv     | video/mp4                                  |
-    |.cmfa     | audio/mp4                                  |
-    |.cmft     | application/mp4                            |
-    |.cmfm     | application/mp4                            |
-    |.m4v      | video/mp4                                  |
-    |.mp4      | video/mp4 or application/mp4               |
-    |.m4a      | audio/mp4                                  |
-    |.m4s      | video/iso.segment                          |
-    |.init     | video/mp4                                  |
-    |.header   | video/mp4                                  |
-    |.key      | to be defined                              |
-   </pre>
+
+   
+
+   <table class="def">
+	<tr>
+		<th> File Extension </th>
+      <th> Mime Type  </th>
+	</tr>
+   <tr>
+		<th> .m3u8  </th>
+      <th> application/x-mpegURL or vnd.apple.mpegURL  </th>
+	</tr>
+   <tr>
+		<th> .mpd </th>
+      <th> application/x-mpegURL </th>
+	</tr>
+   <tr>
+		<th>  .cmfv  </th>
+      <th> video/mp4 </th>
+	</tr>
+   <tr>
+		<th> .cmfa </th>
+      <th> audio/mp4  </th>
+	</tr>
+   <tr>
+		<th> .cmft   </th>
+      <th> application/mp4   </th>
+	</tr>
+   <tr>
+		<th> .cmfm   </th>
+      <th> application/mp4  </th>
+	</tr>
+    <tr>
+		<th> .mp4  </th>
+      <th> video/mp4 or application/mp4    </th>
+	</tr>
+    <tr>
+		<th> .m4v  </th>
+      <th> video/mp4   </th>
+	</tr>
+    <tr>
+		<th> .m4a  </th>
+      <th> audio/mp4  </th>
+	</tr>
+     <tr>
+		<th> .m4s  </th>
+      <th> video/iso.segment  </th>
+	</tr>
+     <tr>
+		<th> .init  </th>
+      <th> video/mp4  </th>
+	</tr>
+     <tr>
+		<th> .header  </th>
+      <th> video/mp4  </th>
+	</tr>
+     <tr>
+		<th> .key </th>
+      <th> to be defined    </th>
+	</tr>
+  </table>
    
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
 
