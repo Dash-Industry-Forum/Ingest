@@ -750,7 +750,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
 # Profile 1: CMAF Ingest General Considerations # {#profile_1_general}
 
-CMAF ingest assumes ingest to an active media processing entity,  
+CMAF ingest assumes ingest to an active media processing entity, 
+or any other entitiy such as a storage or origin server,
 from one or more [=ingest source=], ingesting one or more  
 types of media streams. This advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
@@ -805,7 +806,7 @@ depending on the structure content and the number of moof mdat structures
 in the addressable object.
 
 The combination of [=ftyp=] and [=moov=] can be referred   
-to as an init fragment or a [=CMAF header=].  
+to as a [=CMAF header=].  
 These CMAF Addressable media objects can be jointly referred to as 
 [=CMAF Media object=]  
 
@@ -840,8 +841,8 @@ they must present sample accurately synchronized streams.
 
 In diagram 10 another advantage of this synchronisation model   
 is illustrated, the concept of late binding. In the case   
-of late binding, a new stream becomes available or is 
-adopted in a presentation. By using   
+of late binding, a new stream becomes available and is 
+adopted later in a presentation. By using   
 the fragment boundaries and a common timeline it can   
 be received by the media processing entity and embedded   
 in the presentation. Late binding is useful for many   
@@ -887,8 +888,8 @@ Diagram 10: CMAF late binding:
 
 
 Diagram 11 shows the flow of the media ingest. It starts with a   
-DNS resolution (if needed) and an authentication step (Authy,   
-TLS certificate) to establish a secure [=TCP=] connection.   
+DNS resolution (if needed) and an authentication step (using Authy,   
+or TLS certificates) to establish a secure [=TCP=] connection.   
 In some private datacenter deployments where nodes   
 are not reachable from outside, a non authenticated connection   
 may also be used. The ingest source then issues a POST   
@@ -943,7 +944,7 @@ profile MUST also adhere to general requirements in section 4.
 
      1. The ingest source SHALL start
         by sending an HTTP POST request with the 
-        init fragment "ftyp" and "moov" 
+        CMAF Header, or an empty request,
         by using the POSTURL
         This can help the ingest source 
         to quickly detect whether the
@@ -952,14 +953,13 @@ profile MUST also adhere to general requirements in section 4.
         or other conditions required.
      2. The ingest source MUST initiate
         a media ingest connection by posting the
-        [=CMAF header=] or "ftyp" and "moov" boxes  
-        after step 1
+        [=CMAF header=] after step 1
      3. The ingest source SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
         when the content length is unknown at the start of transmission
         or to support use cases that require low latency
      4. If the HTTP POST request terminates or times out with a TCP
-        error prior to the end of the stream, the ingest source MUST establish
+        error, the ingest source MUST establish
         a new connection, and follow the
         preceding requirements. Additionally, the ingest source MAY resend
         the fragment in which the timeout or TCP error occured.
@@ -978,23 +978,23 @@ profile MUST also adhere to general requirements in section 4.
         TCP session RFC2616 
         when this response is received
      7. The [=Ingest source=] SHOULD use a separate TCP
-        connection for ingest of each different track
+        connection for ingest of each different CMAF track
      8. The [=Ingest source=] MAY use a separate relative path
-        in the [=POST_URL=] for ingest of each different track by 
+        in the [=POST_URL=] for ingesting each different track by 
         appending it to the [=POST_URL=]
-     9. The fragment decode timestamps 
+     9. The base media decode timestamps 
         [=basemediadecodetime=] 
         in tfdt of fragments in the
         [=CMAFstream=]
         SHOULD arrive in increasing order 
-        for each of the different
+        for each of the fragments in the different
         tracks/streams that are ingested.
      10. The fragment sequence numbers 
         seq_num of fragments in the
         [=CMAFstream=] signalled in the tfhd
         SHOULD arrive in increasing order for each of the different
         tracks/streams that are ingested. Using both 
-        timestamp in basemediadecodetime and seq_num 
+        timestamp basemediadecodetime and seq_num 
         based indexing will help the media processing 
         entities identify discontinuities in the ingest stream.
      11. Stream names MAY be signalled by adding the relative path 
@@ -1031,15 +1031,15 @@ profile MUST also adhere to general requirements in section 4.
         this issue should be avoided.
      4. The fragment durations SHOULD be between
         approximately 1 and 6 seconds.
-     5. The CMAFStream SHOULD use
+     5. The CMAF Tracks SHOULD use
         a timescale for video streams based on the framerate
         and 44.1 KHz or 48 KHz for audio streams
         or any another timescale that enables integer
         increments of the decode times of
         fragments signalled in the "tfdt" box based on this scale.
         If necessary, integer multiples of these timescales 
-        could be considered.
-     6. The language of the CMAFstream SHOULD be signalled in the
+        could be used.
+     6. The language of the CMAF Track SHOULD be signalled in the
         [=mdhd=] box or [=elng=] boxes in the
         init fragment, cmaf header
         and/or [=moof=] headers ([=mdhd=]).
@@ -1047,22 +1047,21 @@ profile MUST also adhere to general requirements in section 4.
         contain the bitrate btrt box specifying the target
         average and maximum bitrate of the fragments 
         in the sample entry container in the init fragment/CMAF header
-     8. The CMAF track MAY use the notion of a CMAF chunk 
-        [[!MPEGCMAF]] which is a moof mdat structure that may  
-        not be an IDR or switching point and is not targetted 
-        as an independently addressable media fragment
+     8. The CMAF track MAY comprise CMAF chunks 
+        [[!MPEGCMAF]] which are moof mdat structures that may  
+        not be an IDR or switching point
      9. For video tracks, profiles like avc1 and hvc1 MAY be used 
         that signal the sequence parameter set in the CMAF Header 
         in the sample entry. In this case parameters do not change
         dynamically during the live event and are signalled 
-        in the moviebox in the init fragment (CMAF Header).
-     10. Alternatively videotracks MAY use profiles like avc3 or 
+        in the moviebox  of the CMAF Header.
+     10. Alternatively, videotracks MAY use profiles like avc3 or 
          hev1 that signal the parameter sets (PPS, SPS, VPS) in 
           in the media samples.
      11. In case the language of track changes a new init fragment
           with update [=mdhd=] and or [=elng=] SHOULD be send. 
      12. Track roles can be signalled in the ingest by using a kind box 
-          in udta box. The kind box MUST contain a schemeIdUri MPEG 
+          in userData udta box. The kind box MUST contain a schemeIdUri MPEG 
           urn:mpeg:dash:role:2011 and a value containing a Role 
           as defined in [!MPEGDASH]
 
@@ -1072,60 +1071,57 @@ composed of one or more fragments. The [=media fragment=] defined here
 is independent of this notion and can be a chunk, a fragment containing 
 a single chunk or a segment containing a single fragment containing 
 a single chunk. In this text we use
-[=media fragment=] to denote the structure combination moof mdat. For example
-the styp box can be used to signal if the following structure is a CMAF fragment,
-chunk, or segment but this is not necessary, as based on the sample structure
-of the fragments a receiver can identify these boundaries.
- 
+[=media fragment=] to denote the structure combination moof mdat.
 
 ## Requirements for Signalling Switching Sets ## {#Requirements_for_switchingsets}
 
   In live streaming a bundle of streams corresponding to a channel is ingested by posting
   to a publishing point. CMAF has the notion of switchingsets [[!MPEGCMAF]] which map to similar 
-  streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a swtiching set
+  streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a switching set
   CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] section 7.3.4 
  
   <pre>
-   | Box  | General CMAF header constraints in a CMAF switching set                                           |
-   | ----:|:-------------------------------------------------------------------------------------------------:| 
-   | ftyp | Shall be identical except for media profile brands (see ‎1 in ‎7.3.4.1)                             |
-   | mvhd | Shall be identical except for creation_time, and modification_time                                |
-   | tkhd | Shall be identical except for width, height, creation_time, and modification_time. See NOTE 1.    |
-   | trex | identical                                                                                         |
-   | elst | Shall be identical except for video CMAF track files with a different composition offset          |
-   | mdhd | Shall be identical except for creation_time, and modification_time                                |
-   | mehd | identical                                                                                         |
-   | meta | May contain different boxes and data                                                              |
-   | udta | May contain different boxes and data                                                              |
-   | cprt | identical                                                                                         |
-   | kind | identical                                                                                         |
-   | elng | identical                                                                                         |
-   | hdlr | identical                                                                                         |
-   | vmhd | identical                                                                                         |
-   | smhd | identical                                                                                         |
-   | sthd |identical                                                                                          |
-   | dref | identical                                                                                         |
-   | stsd Sample entries shall have the same codingname (four-character code),                                |
-   |      and conform to other CMAF Track format and media profile specified constraints.                     |
+   | Box  | General CMAF header constraints in a CMAF switching set                       |
+   | ----:|:---------------------------------------------------------------------------- :| 
+   | ftyp | Shall be identical except for media profile brands (see ‎1 in ‎7.3.4.1)       |
+   | mvhd | Shall be identical except for creation_time, and modification_time            |
+   | tkhd | Shall be identical except for width, height,                                  | 
+   |      |  creation_time, and modification_time. See NOTE 1.                            |
+   | trex | identical                                                                     |
+   | elst | Shall be identical except for video CMAF track files with a different         |
+   |      | composition offset                                                            |
+   | mdhd | Shall be identical except for creation_time, and modification_time            |
+   | mehd | identical                                                                     |
+   | meta | May contain different boxes and data                                          |
+   | udta | May contain different boxes and data                                          |
+   | cprt | identical                                                                     |
+   | kind | identical                                                                     |
+   | elng | identical                                                                     |
+   | hdlr | identical                                                                     |
+   | vmhd | identical                                                                     |
+   | smhd | identical                                                                     |
+   | sthd |identical                                                                      |
+   | dref | identical                                                                     |
+   | stsd Sample entries shall have the same codingname (four-character code),            |
+   |      and conform to other CMAF Track format and media profile specified constraints. |
    </pre>
 
-NOTE 1 Track width and height can differ, but picture aspect ratio is the same for all CMAF tracks. NOTE 2 Sample entry constraints for CMAF switching sets are defined by each CMAF media profile, its specified or referenced ISOBMFF track format, and its CMAF switching set constraints. A sample description can contain multiple sample entries.
+  NOTE 1: Track width and height can differ, but picture aspect ratio is the same for all CMAF tracks. 
+  NOTE 2 Sample entry constraints for CMAF switching sets are defined by each CMAF media profile 
 
- For additional signalling of CMAF tracks belonging to the same switching set, the ingest source MAY set the alternate_group value in the 
- TrackHeaderBox tkhd to a value that is the same for tracks belonging to the same switching set.
- This allows explicit signalling of tracks that do apply to switchingset constraints but do not belong to the same switching set.
- Alternatively one could signal switching explicitly by means outside of this specification such as proprietary manifests. 
-
-  
+  For additional signalling of CMAF tracks belonging to the same switching set, the ingest source MAY set the alternate_group value 
+  in    the TrackHeaderBox tkhd to a value that is the same for tracks belonging to the same switching set.
+  This allows explicit signalling of tracks that do apply to switchingset constraints but do not belong to the same switching set.
+  Alternatively one could signal switching explicitly by means outside of this specification.   
 
 ## Requirements for Timed Text Captions and Subtitle Streams ## {#timed_text_and_subtitle_streams}
 
-The media ingest follows requirements for ingesting
+The live media ingest specification follows requirements for ingesting
 a track with timed text, captions and/or subtitle streams. The 
 recommendations for formatting subtitle and timed text track 
 are defined in [[!MPEGCMAF]] and [[!MPEG4-30]] and are re-iterated 
-here for convenience to the reader. Note the text in [[!MPEGCMAF]] 
-references prevails the text below when different except for 
+here for convenience to the reader. Note that the text in [[!MPEGCMAF]] 
+prevails the text below when different except for 
 the notion of 9 and 10-11 on roles adding a bitrate box. 
 
      1. The track SHOULD be a sparse track signalled by a null media
@@ -1142,13 +1138,13 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
         to signal sample description of the text stream [[!MPEG4-30]
      5. These boxes SHOULD signal the mime type and specifics as
         described in [[!MPEGCMAF]] sections 11.3 ,11.4 and 11.5
-     6. The boxes described 2-4 must be present in the init
+     6. The boxes described in 2-4 must be present in the init
         fragment ([=ftyp=] + [=moov=]) or cmaf header for the given track
      7. subtitles in CTA-608 and CTA-708 format SHOULD be conveyed
         following the recommendation section 11.5 in [[!MPEGCMAF]] via
         Supplemental Enhancement Information SEI messages
         in the video track [[!MPEGCMAF]]
-     8. The [=ftyp=] box in the init fragment for the track
+     8. The [=ftyp=] box in the CMAF Header for the track
         containing timed text, images, captions and sub-titles
         MAY use signalling using CMAF profiles based on [[!MPEGCMAF]]
            
@@ -1167,10 +1163,10 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
           maximum bitrate in the sample entry box, this is 
           most relevant for bitmap or xml based timed text subtitles
           that may consume significant bandwidths (e.g. im1i) 
-    10.   In case the language of track changes a new init fragment
+    10.   In case the language of track changes, a new init fragment
           with updated [=mdhd=] and/or [=elng=] SHOULD be send from the 
           ingest source to the media processing entity. 
-    11.   Track roles can be signalled in the ingest by using a kind box 
+    11.   Track roles can be signalled in the ingest, by using a kind box 
           in udta box. The kind box MUST contain a schemeIdUri MPEG 
           urn:mpeg:dash:role:2011 and a value containing a Role 
           as defined in [!MPEGDASH]
@@ -1178,7 +1174,7 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
 Note: [[!MPEGCMAF]] allows multiple kind boxes, hence multiple roles
 can be signalled. By default one should signal the DASH role 
 urn:mpeg:dash:role:2011. A receiver can derive corresponding configuration
-in other streaming protocols such as HLS [[!RFC8216]]. In case this 
+for other streaming protocols such as HLS [[!RFC8216]]. In case this 
 is not desired, additional kind boxes with corresponding schemeIdUri 
 and values can be used to explicitly signal this kind of information.
 Subschemes can be signalled in the schemIdURI as schemeIdURI@value.
@@ -1197,36 +1193,9 @@ a DASH forced subtitle role
 | description                | description                    |
 </pre>
 
-Some example roles defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]] are summarized below, note the definition
-in [[!MPEGDASH]] takes preference above the text below in case different. 
-
-<pre>
-| Role 	          | Description
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------
-| caption	       | textual media component containing transcriptions of spoken 
-|                  | dialog and auditory cues such as sound effects and music for the hearing impaired
-|subtitle       	 | textual transcriptions of spoken dialog
-|main	             | main media component(s) which is/are intended for presentation if no other information is provided
-|alternate	       | media content component(s) that is/are an alternative to
-|                  | (a) main media content component(s) of the same media component type
-|supplementary	    | media content component that is supplementary to a media content 
-|                  | component of a different media component type
-|commentary	       | experience that contains a commentary (e.g. director’s commentary) (typically audio)
-|dub	             | experience that contains an element that is presented in a different 
-|                  | language from the original (e.g. dubbed audio, translated captions)
-|description       |	3rd Edition	Textual or audio media component containing a textual description (intended for audio synthesis) or an audio description       |                  | describing a visual component
-|sign	             | Visual media component representing a sign-language interpretation of an audio component.
-|metadata	       | Media component containing information intended to be processed by application specific elements.
-|enhanced-audio-   |experience containing an element for improved intelligibility of the dialogue
-| intelligibility	 |
-|emergency	       | experience that provides information, about a current emergency, that is intended to enable the protection of life, health, safety, and    |                  | property, and may also include critical details regarding the emergency and how to respond to the emergency
-|forced-subtitle	 | Textual information meant for display when no other text representation is selected. 
-|easyreader	       |	Simplified or reduced captions as specified in [United States Code Title 47 CFR 79.103(c)(9)].
-|karaoke	          | Textual representation of a songs’ lyrics, usually in the same language as the associated song as specified in [SMPTE ST 2067-2].
-</pre>
-
-Additionally another example for explicitly signalling roles could be DVB DASH [[!DVB-DASH]] 
-one could use schemeiduri@value and role as defined there.
+MPEG DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. 
+Additionally another example for explicitly signalling roles could b
+e DVB DASH [[!DVB-DASH]]. One could use schemeiduri@value and role as defined there.
 e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alternate
 
 
@@ -1234,9 +1203,9 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
 ## Requirements for Timed Metadata ## {#timed_metadata}
    
   This section discusses the specific formatting requirements  
-  for ingest of timed metadata related to events and markers for  
+  for CMAF ingest of timed metadata related to events and markers for  
   ad insertion or other timed metadata.  An example of  
-  these are opportunities for dynamic live ad insertion  
+  these are opportunities for splice points and program information  
   signalled by SCTE-35 markers. This type of  event signalling  
   is different from regular audio/video information  
   because of its sparse nature. In this case,  
@@ -1275,7 +1244,7 @@ Table 1 Example of DASH emsg schemes  URI
 | --------------------------:|:------------------------------:| 
 | urn:mpeg:dash:event:2012   | DASH, 5.10.4                   | 
 | urn:dvb:iptv:cpm:2014      | DVB-DASH, 9.1.2.1              | 
-|  urn:scte:scte35:2013:bin  | [[!SCTE35]] 14-3 (2015), 7.3.2   |  
+|  urn:scte:scte35:2013:bin  | [[!SCTE35]] 14-3 (2015), 7.3.2 |  
 | www.nielsen.com:id3:v1     | Nielsen ID3 in MPEG-DASH       |
 
 </pre>
@@ -1311,7 +1280,7 @@ could be used, where the presentation time is added as a 64 bit integer.
         the track handler box is a null media header box [=nmhd=].
      2. The metadata track applies to the media streams
         ingested to a [=publishing point=] entry at the media 
-        processing entity
+        processing entity or origin server
      3. The URIMetaSampleEntry entry SHALL contain, 
         in a URIbox, the URI following the URI syntax in 
         [[!RFC3986]] defining the form  of the metadata
@@ -1319,7 +1288,7 @@ could be used, where the presentation time is added as a 64 bit integer.
          specification [[!ISOBMFF]]). 
      4.  The URIMetaSampleEntry
           SHOULD contain the urn urn:mpeg:dash:event:2012 
-          or an equivalen urn to signal the presence of event
+          or an equivalent urn to signal the presence of event
           message boxes
      5. The timescale of the metadata SHOULD match the value
         specified in the media header box "mdhd" of the
@@ -1337,8 +1306,7 @@ could be used, where the presentation time is added as a 64 bit integer.
          composition time offset can be used to signal the differnce
          between the Arrival and application time.
      7. The duration of the sample signalled in the 
-        trun box containing the metadata
-        SHOULD correspond to the duration of 
+        trun box SHOULD correspond to the duration of 
         the metadata if the metadata is valid 
         for a duration of time (if applicable)
      8. Empty samples, and fragments with empty samples 
@@ -1351,26 +1319,13 @@ could be used, where the presentation time is added as a 64 bit integer.
         they cover. Hence, the sync
         sample table box SHOULD
         not be present.
-     10. The metadata fragment becomes available to the
-        media processing entity
-        when the corresponding track fragment
-        from the media that has an equal
-        or larger timestamp compared to
-        the arrival time signalled
-        in the tfdt basemediadecodetime.
-        For example, if the sparse sample
-        has a timestamp of t=1000, it is expected that after the
-        processing entity sees "video"
-        (assuming the parent track name is "video")
-        fragment timestamp 1000 or beyond, it can retrieve the
-        sparse fragment from the binary payload.
-     11. The payload is conveyed in the mdat box as 
+     10. The payload is conveyed in the mdat box as 
         sample information.  
-     12. In some cases, the duration of the metadata may not 
+     11. In some cases, the duration of the metadata may not 
         be known, in this case the sample duration could 
         be set to zero and updated later when the timestamp 
         of the next metadata fragment is received.
-     13. The ingest source SHALL not embed inband event message 
+     12. The ingest source SHALL not embed inband event message 
          boxes emsg in the ingest stream
         
 Note: [[!MPEGCMAF]] has the notion of an inband event message box to convey
@@ -1378,8 +1333,10 @@ metadata and event messages. In the current specification
 a separate track is used instead to convey such information. 
 Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media 
-and metadata by interleaving them. The ingest source shall not 
-send inband emsg box and the receiver SHALL ignore it.
+and metadata by interleaving them. The ingest source shall NOT 
+send inband emsg box and the receiver SHALL ignore it. However,
+event message box can be embedded as samples in the timed metadata 
+track.
 
 ##  Requirements for Media Processing Entity Failover ## {#failover}
 
@@ -1392,6 +1349,9 @@ send inband emsg box and the receiver SHALL ignore it.
   setups can be build. In this section, we discuss requirements  
   for failover scenarios. The following steps are required for an ingest source
    to deal with a failing media processing entity.  
+   
+   The CMAF ingest source may implement the following recommendations 
+   to achieve failover support.
 
      1. The ingest source MUST use a timeout for establishing the
         TCP connection. If an attempt to establish 
@@ -1452,8 +1412,8 @@ send inband emsg box and the receiver SHALL ignore it.
           samples with aligned fragment boundaries.
           This implies that UTC timestamps
           for fragments in the "tfdt" match between decoders,
-          and encoders start running at
-          an appropriate fragment boundaries.
+          and encoders. In addition fragment boundaries need 
+	  to be appropriately synchronized.
       5.   The new stream MUST be semantically equivalent
            with the previous stream, and interchangeable
            at the header and media fragment levels.
