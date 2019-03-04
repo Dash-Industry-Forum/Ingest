@@ -1615,11 +1615,11 @@ track.
 
  Diagram 12: Example setup schema with CMAF ingest and DASH/HLS ingest 
  <pre>
-   ==============                 ============            =============               ==============
-    || broadcast||  SDI source    || live   ||  CMAF     ||          || HLS ingest   || Content  ||       HLS
-    ||   or SDI || ============>> || encoder||=======>>> || packager ||==========>>> || Delivery ||========>>> Client
-    || source   ||  TS source     || source || ingest    ||          || DASH ingest  || Network  ||       DASH
-    ==============                ============           ==============              ==============
+ ==============                ============            =============           ==============
+ || broadcast||  SDI source    || live   ||  CMAF     ||          || HLS ingest|| Content  ||       HLS
+ ||   or SDI || ============>> || encoder||=======>>> || packager ||=======>>> || Delivery ||========>>> Client
+ || source   ||  TS source     || source || ingest    ||          ||DASH ingest|| Network  ||       DASH
+ ==============                ============           ==============           ==============
 
                   SCTE 104/SCTE-35            CMAF tracks            Encrypted CMAF tracks
                   TS video/audio or SDI                                HLS/DASH Manifest
@@ -1728,15 +1728,15 @@ track.
       To receive the stream as a DASH Ingest, the steps described in DASH Ingest may be applied.
 
       Diagram 13: DASH-IF Reference Live Chunked CMAF Production Workflow
-      <pre>
-      ================                 ============  chunked      =============               =============
-      ||contribution||   RTP           ||        ||    CMAF       ||          || HLS ingest   ||          ||      
-      ||  encoder   ||  ============>> || FFMPEG ||===========>>> || origin   ||==========>>> ||  DASH.js ||
-      || source     ||  Mezannine      ||        || DASH Ingest   || server   || DASH ingest  ||   client ||      
-      ================                 ============               ==============              ==============   
-                                                    Multi-bitrate 
-						     CMAF ingest
-      </pre>
+<pre>
+================                 ============  chunked      =============               =============
+||contribution||   RTP           ||        ||    CMAF       ||          || HLS ingest   ||          ||      
+||  encoder   ||  ============>> || FFMPEG ||===========>>> || origin   ||==========>>> ||  DASH.js ||
+|| source     ||  Mezannine      ||        || DASH Ingest   || server   || DASH ingest  ||   client ||      
+================                 ============               ==============              ==============   
+                                              Multi-bitrate 
+				               CMAF ingest
+</pre>
 
 
 # Security Considerations # {#security}
