@@ -751,7 +751,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
          
 
-# Profile 1: CMAF Ingest General Considerations # {#profile_1_general}
+# CMAF Ingest General Considerations # {#profile_1_general}
 
 CMAF ingest assumes ingest to an active media processing entity, 
 or any other entitiy such as a storage or origin server,
@@ -1431,7 +1431,7 @@ track.
          it is better to error on the side of resending fragments
          than to introduce discontinuities in the media timeline.
 
-# Interface 2: DASH and HLS Ingest General Considerations # {#dash_ingest}
+# Ingest Interface 2: DASH and HLS Ingest General Considerations # {#dash_ingest}
   
    DASH/HLS is designed to ingest a [=streaming presentation=] 
    composed of [=manifest objects=] and [=media objects=] 
