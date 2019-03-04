@@ -1372,10 +1372,10 @@ track.
           headers ([=ftyp=], and [=moov=] boxes)
           identical to the stream headers.
      5.  In case the media processing entity cannot process the
-          POST request due to authentication or permission
-          problems then it SHOULD return a permission denied HTTP 403
+         POST request due to authentication or permission
+         problems then it SHOULD return a permission denied HTTP 403
      6.  In case the media processing entity can process the request
-          it SHOULD return an HTTP 200 OK or 202 Accepted
+         it SHOULD return an HTTP 200 OK or 202 Accepted
      7.  In case the media processing entity can process
          the fragment in the POST request body but finds
          the media type cannot be supported it SHOULD return an HTTP 415
@@ -1404,8 +1404,8 @@ track.
       2.  The ingest source MUST use
           the same URL for HTTP POST requests as the failed instance.
       3.  The new  ingest source POST request
-           MUST include the same [=CMAF Header=] or 
-	   init fragment as the failed instance
+          MUST include the same [=CMAF Header=] or 
+	  init fragment as the failed instance
       4.  The ingest source
           MUST be properly synced with all other running ingest sources
           for the same live presentation to generate synced audio/video  
