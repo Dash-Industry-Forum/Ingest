@@ -1405,7 +1405,7 @@ track.
          the same URL for HTTP POST requests as the failed instance.
       3. The new  ingest source POST request
          MUST include the same [=CMAF Header=] or 
-	 init fragment as the failed instance
+         init fragment as the failed instance
       4. The ingest source
          MUST be properly synced with all other running ingest sources
          for the same live presentation to generate synced audio/video  
@@ -1475,8 +1475,8 @@ track.
 	      that is being concurrently generated. For example, parallel connections 
           can be used for [=media objects=] for different bitrates. 
        6. If the content length of an object is not known at the start of the upload, 
-	       for example with low latency chunked encoding, 
-		    then HTTP 1.1 Chunked transfer encoding MUST be used. 
+          for example with low latency chunked encoding, 
+          then HTTP 1.1 Chunked transfer encoding MUST be used. 
    
    ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
 
