@@ -6,12 +6,12 @@
    This document presents the specification of a Live Media Ingest Protocol.  
    Two interfaces are defined. The first, CMAF ingest,
    is based on fragmented MPEG-4 as defined by the common media
-   application track format (CMAF). The second protocol interface 
+   application track format (CMAF). The second interface 
    is based on MPEG DASH and HLS.  
-   Examples workflows based on DASH-IF architectures show how 
-   live and low latency setups can be achieved by combining these interfaces.
-   Details on the ingest of metadata markers, timed text, subtitles 
-   data are also included.
+   Example workflows based on DASH-IF architectures show how 
+   live and low latency setups can use these interfaces.
+   Details on the ingest of metadata markers, timed text and subtitles 
+   are also included.
    
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
