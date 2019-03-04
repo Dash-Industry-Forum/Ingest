@@ -1413,7 +1413,7 @@ track.
          This implies that UTC timestamps
          for fragments in the "tfdt" match between decoders,
          and encoders. In addition fragment boundaries need 
-	 to be appropriately synchronized.
+         to be appropriately synchronized.
       5. The new stream MUST be semantically equivalent
          with the previous stream, and interchangeable
          at the header and media fragment levels.
