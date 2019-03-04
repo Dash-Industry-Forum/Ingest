@@ -6,13 +6,9 @@
    This document presents the specification of a Live Media Ingest Protocol.  
    Two interfaces are defined. The first, CMAF ingest,
    is based on fragmented MPEG-4 as defined by the common media
-   application track format (CMAF). The second protocol interface 
+   application track format (CMAF). The second interface 
    is based on MPEG DASH and HLS.  
-   Example workflows based on DASH-IF architectures show how 
-   live and low latency setups can be achieved by combining these interfaces.
-   Details on the ingest of metadata markers, timed text, subtitles 
-   data are also included.
-   
+ 
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
 Please review these documents  
@@ -570,7 +566,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 	  <img src="Images/Diagram2.png" />
    </figure>
   
-  Diagram 5 highlights some of the key  
+  Table 1 highlights some of the key  
   differences and practical considerations of 
   the interfaces. In CMAF ingest,
   the ingest source can be  
@@ -621,7 +617,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 </table>
 
   
-  Diagram 6:
+  Diagram 5:
   workflow with redundant Ingest sources and receiving entities
    <figure>
 	  <img src="Images/Diagram6.png" />
@@ -630,7 +626,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   
   </pre>
 
-  Diagram 6 highlights another aspect that was taken into  
+  Diagram 5 highlights another aspect that was taken into  
   consideration for large scale systems with many users.  
   Often one would like to run multiple ingest sources,  
   multiple  receiving entities and make them available  
@@ -638,7 +634,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   can be balanced over multiple processing nodes.  
   This approach is common when serving web pages,  
   and this architecture also applies to video  
-  streaming platforms. In Diagram  6 it is 
+  streaming platforms. In Diagram  5 it is 
   highlighted how one or more  
   Ingest sources can be sending data 
   to one or more processing entities. 
@@ -722,21 +718,21 @@ and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].
 In addition this allows extension towards codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
-fragmented MPEG-4 ingest is illustrated in Diagram 7. Discussions
+fragmented MPEG-4 ingest is illustrated in Diagram 6. Discussions
 on the early development have been documented [=fmp4git=].
 
 
  
 
- Diagram 7: fragmented MPEG-4 ingest with multiple ingest sources
+ Diagram 6: fragmented MPEG-4 ingest with multiple ingest sources
    <figure>
 	  <img src="Images/Diagram7.png" />
    </figure>
 
 
 
-Diagrams 8-10 detail some of the concepts and structures.   
-Diagram 8 shows the data format structure of the [=CMAF Track=] 
+Diagrams 7-9 detail some of the concepts and structures.   
+Diagram 7 shows the data format structure of the [=CMAF Track=] 
 format [[!ISOBMFF]] and [[!MPEGCMAF]]. In this format media meta data   
 such as playback time, sample duration and sample data (encoded samples)   
 are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] is used   
@@ -755,17 +751,15 @@ to as a [=CMAF header=].
 These CMAF Addressable media objects can be jointly referred to as 
 [=CMAF Media object=]  
 
-<pre>
+Diagram 7: [=CMAF Track=] stream: 
 
-Diagram 8: [=CMAF Track=] stream: 
+   <figure>
+	  <img src="Images/Diagram8.png" />
+   </figure>
 
-=========================================================
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
-=========================================================
 
-</pre>
 
-Diagram 9 illustrates the synchronisation model, that  
+Diagram 8 illustrates the synchronisation model, that  
 is based on the synchronisation model proposed in [[!MPEGCMAF]]. 
 Different bit-rate tracks and/or media streams are conveyed 
 in separate CMAF tracks. By having the boundaries 
@@ -784,7 +778,7 @@ in case multiple redundant ingest sources are used
 they must present sample accurately synchronized streams.
 
 
-In diagram 10 another advantage of this synchronisation model   
+In diagram 9 another advantage of this synchronisation model   
 is illustrated, the concept of late binding. In the case   
 of late binding, a new stream becomes available and is 
 adopted later in a presentation. By using   
@@ -803,36 +797,27 @@ other streams ingested avoiding missallignment and other
 issues.
 
 
-<pre>
+Diagram 8: [=CMAF Track=] synchronisation:
 
-Diagram 9: [=CMAF Track=] synchronisation:
-
-=========================================================
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
-=========================================================
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
-=========================================================
-||ftyp||moov||styp||moof||mdat||styp||moof||mdat|| .....=
-=========================================================
-
-</pre>
+   <figure>
+	  <img src="Images/Diagram9.png" />
+   </figure>
 
 
-<pre>
-
-Diagram 10: CMAF late binding: 
-
-===================================================
-||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=
-===================================================
-===================================================  << ==  different available track
-||ftyp||moov||styp||moof||mdat||moof||mdat|| .....=
-===================================================                   
-
-</pre>
 
 
-Diagram 11 shows the flow of the media ingest. It starts with a   
+
+
+Diagram 9: CMAF late binding: 
+
+<figure>
+	  <img src="Images/Diagram10.png" />
+</figure>                
+
+
+
+
+Diagram 10 shows the flow of the media ingest. It starts with a   
 DNS resolution (if needed) and an authentication step (using Authy,   
 or TLS certificates) to establish a secure [=TCP=] connection.   
 In some private datacenter deployments where nodes   
@@ -849,7 +834,7 @@ follow up by closing the TCP connection using a FIN command as
 defined in HTTP RFC2616.
 
 
-Diagram 11: CMAF ingest flow
+Diagram 10: CMAF ingest flow
  <figure>
 	  <img src="Diagrams/media-ingest.png" />
    </figure>
@@ -1207,8 +1192,8 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   For example, DASH Event messages contain a schemeIdUri 
   that defines the payload of the message.  
 
-  Table 1 provides some example urn schemes to be signalled in the emsg
-  Table 2 illustrates an example of a SCTE-35 marker stored  
+  Table 4 provides some example urn schemes to be signalled in the emsg
+  Table 5 illustrates an example of a SCTE-35 marker stored  
   in a DASH emsg.  
   
   The presented approach enables ingest of  
@@ -1519,7 +1504,7 @@ track.
 	    The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
    
-
+    Table 6:
    <table class="def">
 	<tr>
 		<th> File Extension </th>
@@ -1670,20 +1655,14 @@ track.
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide some example deployments for live streaming, mapping to the architecture 
-  defined in DASH live TF. Diagram 12 shows an example where a separate packager and origin are used 
+  defined in DASH live TF. Diagram 11 shows an example where a separate packager and origin are used 
  
 
- Diagram 12: Example setup schema with CMAF ingest and DASH/HLS ingest 
- <pre>
- ==============                ============            =============           ==============
- || broadcast||  SDI source    || live   ||  CMAF     ||          || HLS ingest|| Content  ||       HLS
- ||   or SDI || ============>> || encoder||=======>>> || packager ||=======>>> || Delivery ||========>>> Client
- || source   ||  TS source     || source || ingest    ||          ||DASH ingest|| Network  ||       DASH
- ==============                ============           ==============           ==============
-
-                  SCTE 104/SCTE-35            CMAF tracks            Encrypted CMAF tracks
-                  TS video/audio or SDI                                HLS/DASH Manifest
- </pre>
+ Diagram 11: Example setup schema with CMAF ingest and DASH/HLS ingest 
+ <figure>
+	  <img src="Images/DiagramX.png" />
+  </figure>
+  
   The broadcast source is used as input to the live ABR encoder (ingest source), the broadcast sources can be 
   original SDI signals from a broadcast facility or TS streams intercepted from a broadcast
   that need to be re-used in an OTT distribution workflow. The live encoder source performs the 
@@ -1787,16 +1766,10 @@ track.
       
       To receive the stream as a DASH Ingest, the steps described in DASH Ingest may be applied.
 
-      Diagram 13: DASH-IF Reference Live Chunked CMAF Production Workflow
-<pre>
-================                 ============  chunked      =============               =============
-||contribution||   RTP           ||        ||    CMAF       ||          || HLS ingest   ||          ||      
-||  encoder   ||  ============>> || FFMPEG ||===========>>> || origin   ||==========>>> ||  DASH.js ||
-|| source     ||  Mezannine      ||        || DASH Ingest   || server   || DASH ingest  ||   client ||      
-================                 ============               ==============              ==============   
-                                              Multi-bitrate 
-				               CMAF ingest
-</pre>
+      Diagram 12: DASH-IF Reference DASH-IF Live Chunked CMAF Production Workflow
+   <figure>
+	  <img src="Images/DiagramXI.png" />
+  </figure>
 
 
 # Security Considerations # {#security}
