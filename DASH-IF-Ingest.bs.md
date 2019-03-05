@@ -246,7 +246,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    next generation media codecs such as [[!MPEGHEVC]]   
    and protocols like MPEG DASH [[!MPEGDASH]].
    In addition, to support the sub profiling 
-   of exising media containers CMAF [[!MPEGCMAF]]
+   of existing media containers CMAF [[!MPEGCMAF]]
    is referenced.   
    
    A second interface referred
@@ -816,7 +816,7 @@ send over a separate connection, possibly from a different
 model we refer to section 6 of [[!MPEGCMAF]]. For synchronization
 of tracks coming from different encoders, sample time accuracy
 is required. i.e. the same samples need to be mapped to the 
-sameple time on the timescale used for the track. Further,
+sample time on the timescale used for the track. Further,
 in case multiple redundant ingest sources are used 
 they must present sample accurately synchronized streams.
 
@@ -836,7 +836,7 @@ Note that it is important, as defined in MPEG CMAF
 that different CMAF Tracks have the same starting time
 sharing an implicit timeline. A stream becoming available
 late needs to be synchronized and time aligned with 
-other streams ingested avoiding missalignment and other
+other streams ingested avoiding miss alignment and other
 issues.
 
 
@@ -1185,7 +1185,7 @@ urn:mpeg:dash:role:2011. A receiver can derive corresponding configuration
 for other streaming protocols such as HLS [[!RFC8216]]. In case this 
 is not desired, additional kind boxes with corresponding schemeIdUri 
 and values can be used to explicitly signal this kind of information.
-Subschemes can be signalled in the schemIdURI as schemeIdURI@value.
+Subschemes can be signalled in the schemeIdURI as schemeIdURI@value.
 
 An informative scheme of defined roles in MPEG DASH and respective 
 corresponding roles in HLS [[!RFC8216]] can be found below, 
@@ -1256,7 +1256,7 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
 
   Example metadata messages include inband event message box
   as used in [[!MPEGDASH]], [[!DVB-DASH]], or alternatively 
-  direct embedding of [[!SCTE35]] or [[!ID3v2]] wihch might 
+  direct embedding of [[!SCTE35]] or [[!ID3v2]] which might 
   in some cases be used.
 
 Table 4: Roles for subtitle and Audio tracks and HLS Characteristics
@@ -1267,7 +1267,7 @@ Table 4: Roles for subtitle and Audio tracks and HLS Characteristics
 	</tr>
 	<tr>
 		<td>urn:mpeg:dash:event:2012</td>
-		<td> [[!MPEGDASH]], 5.10.4 subitle  </td>
+		<td> [[!MPEGDASH]], 5.10.4 subtitle  </td>
 	</tr>
    <tr>
 		<td>urn:dvb:iptv:cpm:2014 </td>
@@ -1496,9 +1496,8 @@ track.
    The requirements below encapsulate all 
    needed functionality to support Interface 2. The requirements listed for 
    Profile 1 in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
-   General shared requirements are covered in section [[#general]]. In case CMAF used 
-   as track format, compatibility between two profiles/interfaces may be achieved, in the sense
-   that CMAF ingest receivers will also be able to interpret a DASH ingest.
+   General shared requirements are covered in section [[#general]]. In case [!MPEGCMAF] media is used, 
+   the media track and segment formatting will be similar as defined in Interface 1.
    
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
@@ -1724,7 +1723,7 @@ track.
           - It performs a high quality ABR encoding in different bit-rates with aligned switching points 
           - It packages all media and timed text tracks as CMAF compliant tracks and signals track roles 
             in kind boxes
-          - It POSTs the addressabe media objects composing the tracks to the live packager according 
+          - It POSTs the addressable media objects composing the tracks to the live packager according 
             to the CMAF ingest specification interface defined in this document. 
           - The CMAF ingest allows multiple live encoder sources and packagers to be deployed benefiting 
             from redundant stream creation, avoiding timeline discontinuities due to failures as much as 
@@ -1755,7 +1754,7 @@ track.
              is received in the chunked transfer encoding
            - The packager may also have a proprietary API similar to the live source, for configuration of aspects 
              like the segmentTimeBuffer, DVR window, encryption modes enabled etc.    
-           - The packager uses a DASH or HLS ingest to push content to an origin server of content delivery network.       Alternatively it could also make content directly available as DASH or HLS as an origin server. In this       case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
+           - The packager uses a DASH or HLS ingest to push content to an origin server of content delivery network.       Alternatively, it could also make content directly available as DASH or HLS as an origin server. In this       case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
            - The packager converts the timed metadata track and uses it to convert to either MPD Events or inband events 
              signalled in the manifest. 
            - The packager may also generate HLS or other streaming media presentations based on the input. 
@@ -1782,7 +1781,7 @@ track.
 
       A second example can be seen in Diagram 12. It constitutes the reference workflow for chunked DASH CMAF 
       under development by DASH-IF and DVB. In this workflow a contribution encoder produces an [=RTP=] mezzanine stream 
-      that is transmitted to FFMPEG, an open source encoder/packager running on a server. Alternatively a file resource may be used. In this workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
+      that is transmitted to FFMPEG, an open source encoder/packager running on a server. Alternatively, a file resource may be used. In this workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
       In this case the ingest source implements interface 2 DASH ingest. But as in this case the DASH 
       presentation uses CMAF, the media and track constraints of interface 1 are also satisfied. By also 
       resending CMAF Headers in case of failures both interfaces may be satisfied. 
