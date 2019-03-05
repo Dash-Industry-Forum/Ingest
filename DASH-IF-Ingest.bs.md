@@ -92,7 +92,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    other application standards such as those for  
    the broadcast or storage. For interoperable 
    live media ingest, this document provides 
-   guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF].  
+   guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF]].  
    
    In addition, the codec and profile used, 
    e.g. [[!MPEGHEVC]] are important  
@@ -476,13 +476,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
            Group of tracks corresponding to a switching set defined in
            [[!MPEGCMAF]] or an adaptationset in [[!MPEGDASH]]
    
-   <dfn dfn> **ABR** </dfn>
-          Adaptive Bit-rate 
+   <dfn dfn> **ABR** </dfn>:
+          Adaptive Bit-Rate 
 
-   <dfn dfn>**RTP** </dfn>
+   <dfn dfn>**RTP** </dfn>:
          Real Time Protocol 
 
-   <dfn dfn>**OTT** </dfn>
+   <dfn dfn>**OTT** </dfn>:
          Over the top transmission (HTTP based video streaming)  
 
    <dfn dfn>**moof**</dfn>:
@@ -653,6 +653,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 </table>
 
   
+
+
+
   Diagram 5:
   workflow with redundant Ingest sources and receiving entities
    <figure>
@@ -661,6 +664,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   
   
   </pre>
+
+
+
+
 
   Diagram 5 highlights another aspect that was taken into  
   consideration for large scale systems with many users.  
@@ -1488,8 +1495,8 @@ track.
    
    The requirements below encapsulate all 
    needed functionality to support Interface 2. The requirements listed for 
-   Profile 1 in section #general_Protocol_Requirements_p1 do not apply to Interface 2. 
-   General shared requirements are covered in section #general. In case CMAF used 
+   Profile 1 in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
+   General shared requirements are covered in section [[#general]]. In case CMAF used 
    as track format, compatibility between two profiles/interfaces may be achieved, in the sense
    that CMAF ingest receivers will also be able to interpret a DASH ingest.
    
@@ -1611,7 +1618,7 @@ track.
    
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
 
-     DNS lookup requirements are defined in the general protocol requirements section.
+     DNS lookup requirements are defined in the general protocol requirements section [[#general]].
    
    ### Ingest source identification ###{#DASH_Ingest_Publisher_Identification}
 
