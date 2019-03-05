@@ -1701,7 +1701,8 @@ track.
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide some example deployments for live streaming, mapping to the architecture 
-  defined in DASH live TF. Diagram 11 shows an example where a separate packager and origin server are used. 
+  defined in DASH-IF live Task Force. Diagram 11 shows an example where a separate packager 
+  and origin server are used. 
  
 
  Diagram 11: Example setup schema with CMAF ingest and DASH/HLS ingest 
@@ -1716,19 +1717,20 @@ track.
   ingest interface. Multiple live ABR encoder sources can be used, providing redundant inputs to the packager,
   which is the media processing entity consuming the CMAF ingest. The packager is receiving the 
   different CMAF tracks. The ingest follows the CMAF Ingest specification in this document, allowing for failover, 
-  redundancy and many of the other features of the content. The live encoder source performs the following tasks: 
+  redundancy and many of the other features related to the content tracks. The live encoder source performs the following tasks: 
 
-          - Demuxes and receives the MPEG-2 transport stream and/or HD SDI signal 
-          - It formats the metadata in these streams such as SCTE-35 or SCTE 104 to CMAF metadata tracks
-          - It performs a high quality ABR encode in different bit-rates with aligned switching points 
+          - It demuxes and receives the MPEG-2 transport stream and/or HD SDI signal 
+          - It formats the metadata in these streams such as SCTE-35 or SCTE 104 to timed metadata tracks
+          - It performs a high quality ABR encoding in different bit-rates with aligned switching points 
           - It packages all media and timed text tracks as CMAF compliant tracks and signals track roles 
-            as defined in this document 
+            in kind boxes
           - It POSTs the addressabe media objects composing the tracks to the live packager according 
             to the CMAF ingest specification interface defined in this document. 
           - The CMAF ingest allows multiple live encoder sources and packagers to be deployed benefiting 
             from redundant stream creation, avoiding timeline discontinuities due to failures as much as 
             possible.
-          - In case the receiver fails it will reconnect and resend as defined in the section on failover
+          - In case the receiver fails, it will reconnect and resend as defined in the section on failover once it
+            reconnects
           - In case the live encoder source fails it will restart and perform the steps as detailed in the section on      failover
                    
    The live encoder source can be deployed in the cloud or on a bare metal server or even as a dedicated hardware. 
@@ -1753,15 +1755,15 @@ track.
              is received in the chunked transfer encoding
            - The packager may also have a proprietary API similar to the live source, for configuration of aspects 
              like the segmentTimeBuffer, DVR window, encryption modes enabled etc.    
-           - The packager uses a DASH or HLS ingest to push content to origin server of content delivery network.          Alternatively it could also make content directly available as DASH or HLS as an origin server. In this       case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
+           - The packager uses a DASH or HLS ingest to push content to an origin server of content delivery network.       Alternatively it could also make content directly available as DASH or HLS as an origin server. In this       case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
            - The packager converts the timed metadata track and uses it to convert to either MPD Events or inband events 
              signalled in the manifest. 
            - The packager may also generate HLS or other streaming media presentations based on the input. 
-           - In case the packager crashes or fails, it will restart itself and wait for the ingest source to perform the actions as detailed in the section on failover
+           - In case the packager crashes or fails, it will restart itself and wait for the ingest source to perform the   actions as detailed in the section on failover
             
          The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client. 
          The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks 
-           - it stores all posted content and makes them available for HTTP get requests from locations 
+           - it stores all posted content and makes them available for HTTP GET requests from locations 
              corresponding to the paths signalled in the manifest
            - it occasionally deletes content based on instructions from the ingest source, in this setup the packager
            - in case low latency mode is used, content could be made available before the entire pieces of content are available 
@@ -1780,25 +1782,23 @@ track.
 
       A second example can be seen in Diagram 12. It constitutes the reference workflow for chunked DASH CMAF 
       under development by DASH-IF and DVB. In this workflow a contribution encoder produces an [=RTP=] mezzanine stream 
-      that is transmitted to FFMPEG. Alternatively a file resource may be used. In this 
-      workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded 
-      CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
+      that is transmitted to FFMPEG, an open source encoder/packager running on a server. Alternatively a file resource may be used. In this workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
       In this case the ingest source implements interface 2 DASH ingest. But as in this case the DASH 
       presentation uses CMAF, the media and track constraints of interface 1 are also satisfied. By also 
       resending CMAF Headers in case of failures both interfaces may be satisfied. 
       
       The origin server is used to pass the streams to the client, and may in some cases also perform a re-encryption 
       or re-packaging of the streaming presentation as needed by the client (in case encryption is needed for example).  
-      The target client is DASH.js and an end-to-end latency of 3500 ms is targeted.
+      The target client is DASH.js and an end-to-end latency of maximum 3500 ms is targeted.
       
       This example DASH reference workflow uses DASH Ingest that does not employ encryption and timed metadata and uses CMAF formatting. This exploits the synergies between the two interfaces defined in this document
       hence the ingest between FFMPEG and the origin server may implement both interfaces simultaneously. 
       
       To receive the stream as a CMAF ingest for re-packaging at the origin the following steps can be applied. 
       
-      1. ignore the DASH Manifest
-      2. ignore the segment names, only look at the relative path to identify the stream names 
-      3. ignore the HTTP Delete commands 
+      1. Ignore the DASH Manifest
+      2. Ignore the segment names, only look at the relative path to identify the stream names 
+      3. Ignore the HTTP Delete commands 
       
       The approaches for authentication and DNS resolution are similar for the two profiles/interfaces, as are the track
       formatting in case CMAF based media are used. This example does not use timed metadata. The ingest source 
@@ -1811,21 +1811,6 @@ track.
    <figure>
 	  <img src="Images/DiagramXI.png" />
   </figure>
-
-
-# Security Considerations # {#security}
-
-   Security considerations are extremely important  
-   for media ingest. Retrieving media from an illicit  
-   source can cause inappropriate content  
-   to be broadcasted and possibly lead to failure 
-   of infrastructure. Basic security requirements 
-   have been covered in  section 5.  
-   No security considerations except the ones mentioned  
-   in this part of the text are explicitly considered.  
-   Further security considerations will be updated  
-   once they have been investigated further based  
-   on review of this draft.
 
 # IANA Considerations # {#iana}
 
