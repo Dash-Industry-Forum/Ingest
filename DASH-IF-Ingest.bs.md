@@ -3,15 +3,16 @@
 
 ## Abstract ## {#Abstract}
 
-   This document presents Live Media Ingest Protocol specification.  
-   Two interfaces are defined. The first, CMAF ingest,
+   This document presents a Live Media Ingest Protocol specification.  
+   Two protocol interfaces are defined. The first, CMAF ingest,
    is based on fragmented MPEG-4 as defined by the common media
    application track format (CMAF). The second interface 
    is based on push based MPEG DASH and HLS and may also 
    use the common application track format (CMAF). 
+   Both Interfaces use the HTTP POST Method for transmission.
    Examples of live streaming workflows using these 
    protocol interfaces are included. The protocol also supports 
-   carriage of metadata and timed text.
+   carriage of timed metadata and timed text.
  
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
