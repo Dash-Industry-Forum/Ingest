@@ -404,7 +404,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn>**streaming presentation**</dfn>
            Manifest objects and media objects composing 
 	        a Streaming presentation based on a streaming protocol suc h
-           as for example [!MPEGDASH]
+           as for example [[!MPEGDASH]]
 	   
    <dfn dfn>**Media processing entity**</dfn>:
             Entity used to process the media content,  
@@ -471,7 +471,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    <dfn dfn> **HTTP POST** </dfn>:  
              Command used in the Hyper Text Transfer Protocol for  
-             sending data from a source to a destination [[!RFC7235]  
+             sending data from a source to a destination [[!RFC7235]]  
 
    <dfn dfn> **media fragment** </dfn>
              Media fragment, combination of moof and mdat in 
@@ -997,7 +997,7 @@ profile MUST also adhere to general requirements in section 4.
      12. Track roles can be signalled in the ingest by using a kind box 
           in userData udta box. The kind box MUST contain a schemeIdUri MPEG 
           urn:mpeg:dash:role:2011 and a value containing a Role 
-          as defined in [!MPEGDASH]
+          as defined in [[!MPEGDASH]]
 
 Note: [[!MPEGCMAF]] has the notion of a segment, a fragment and a chunk. 
 A fragment can be composed of one or more chunks, while a segment can be 
@@ -1125,7 +1125,7 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
      3. In case TTML is used the track MUST use the XMLSampleEntry
         to signal sample description of the sub-title stream [[!MPEG4-30]]
      4. In case WebVTT is used the track must use the WVTTSampleEntry
-        to signal sample description of the text stream [[!MPEG4-30]
+        to signal sample description of the text stream [[!MPEG4-30]]
      5. These boxes SHOULD signal the mime type and specifics as
         described in [[!MPEGCMAF]] sections 11.3 ,11.4 and 11.5
      6. The boxes described in 2-4 must be present in the init
@@ -1159,7 +1159,7 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
     11.   Track roles can be signalled in the ingest, by using a kind box 
           in udta box. The kind box MUST contain a schemeIdUri MPEG 
           urn:mpeg:dash:role:2011 and a value containing a Role 
-          as defined in [!MPEGDASH]
+          as defined in [[!MPEGDASH]]
 
 Note: [[!MPEGCMAF]] allows multiple kind boxes, hence multiple roles
 can be signalled. By default one should signal the DASH role 
