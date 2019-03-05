@@ -339,7 +339,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    The document is structured as follows, in section 3   
    we present the conventions and terminology used throughout   
    this document. In section 4 we present use cases and   
-   workflows related to media ingest and the two profiles   
+   workflows related to media ingest and the two profiles/interfaces   
    presented. Sections 5-9 will detail the protocol and   
    the two different interfaces defined.   
 
@@ -476,6 +476,15 @@ DASH-IF makes no any warranty whatsoever for such third party material.
            Group of tracks corresponding to a switching set defined in
            [[!MPEGCMAF]] or an adaptationset in [[!MPEGDASH]]
    
+   <dfn dfn> **ABR** </dfn>
+          Adaptive Bit-rate 
+
+   <dfn dfn>**RTP** </dfn>
+         Real Time Protocol 
+
+   <dfn dfn>**OTT** </dfn>
+         Over the top transmission (HTTP based video streaming)  
+
    <dfn dfn>**moof**</dfn>:
            The MovieFragmentBox "moof" box as defined in the  
            ISOBMFF  base media file format [[!ISOBMFF]] that defines 
@@ -683,7 +692,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # General Ingest Protocol Behavior # {#general}
 
   The media ingest follows the following  
-  general requirements for both target profiles.  
+  general requirements for both target /interfaces.  
 
 
      1. The ingest source SHALL communicate 
@@ -871,7 +880,7 @@ Diagram 10: CMAF ingest flow
 
 This section describes the protocol behavior specific to  
 interface 1: CMAF ingest. Operation of this  
-profile MUST also adhere to general requirements in section 4.  
+profile MUST also adhere to the general requirements.  
 
 
 ## General Protocol Requirements ## {#general_Protocol_Requirements_p1}
@@ -1481,7 +1490,7 @@ track.
    needed functionality to support Interface 2. The requirements listed for 
    Profile 1 in section #general_Protocol_Requirements_p1 do not apply to Interface 2. 
    General shared requirements are covered in section #general. In case CMAF used 
-   as track format, compatibility between two profiles may be achieved, in the sense
+   as track format, compatibility between two profiles/interfaces may be achieved, in the sense
    that CMAF ingest receivers will also be able to interpret a DASH ingest.
    
  ## General requirements ##{#DASH_General}
@@ -1693,9 +1702,9 @@ track.
 	  <img src="Images/DiagramX.png" />
   </figure>
   
-  The broadcast source is used as input to the live ABR encoder. The broadcast sources can be 
+  The broadcast source is used as input to the live [=ABR=] encoder. The broadcast sources can be 
   original SDI signals from a broadcast facility or TS streams intercepted from a broadcast
-  that need to be re-used in an OTT distribution workflow. The live ABR encoder source performs the 
+  that need to be re-used in an [=OTT=] distribution workflow. The live ABR encoder source performs the 
   ABR encoding of the tracks into CMAF tracks and functions as the ingest source in the CMAF
   ingest interface. Multiple live ABR encoder sources can be used, providing redundant inputs to the packager,
   which is the media processing entity consuming the CMAF ingest. The packager is receiving the 
@@ -1763,7 +1772,7 @@ track.
       specification and protocols defined in this document.
 
       A second example can be seen in Diagram 12. It constitutes the reference workflow for chunked DASH CMAF 
-      under development by DASH-IF and DVB. In this workflow a contribution encoder produces an RTP mezzanine stream 
+      under development by DASH-IF and DVB. In this workflow a contribution encoder produces an [=RTP=] mezzanine stream 
       that is transmitted to FFMPEG. Alternatively a file resource may be used. In this 
       workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded 
       CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
@@ -1784,7 +1793,7 @@ track.
       2. ignore the segment names, only look at the relative path to identify the stream names 
       3. ignore the HTTP Delete commands 
       
-      The approaches for authentication and DNS resolution are similar for the two profiles, as are the track
+      The approaches for authentication and DNS resolution are similar for the two profiles/interfaces, as are the track
       formatting in case CMAF based media are used. This example does not use timed metadata. The ingest source 
       may resend the CMAF header or init fragment in case of connection failures to conform to the CMAF ingest 
       specification. The origin server can then be used to repackage or re-encrypt the streams.
