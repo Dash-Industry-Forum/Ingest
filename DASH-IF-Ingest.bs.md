@@ -994,7 +994,7 @@ profile MUST also adhere to the general requirements.
      6. The language of the CMAF Track SHOULD be signalled in the
         [=mdhd=] box or [=elng=] boxes in the
         init fragment, cmaf header
-        and/or [=moov=] headers ([=mdhd=]).
+        and/or [=moof=] headers ([=mdhd=]).
      7. Media CMAF tracks SHOULD
         contain the bitrate btrt box specifying the target
         average and maximum bitrate of the fragments 
@@ -1166,7 +1166,7 @@ the notion of 9 and 10-11 on roles adding a bitrate box.
              IMSC1 Image Profile  *im1i*
            
            8d. CEA  CTA-608 and CTA-708 Specified in 11.4 [[!MPEG4-30]]
-             Caption data is embedded in SEI messages in video track ccea
+             Caption data is embedded in SEI messages in video track *ccea* (compatible brand)
     9.    The BitRateBox btrt SHOULD be used to signal the average and 
           maximum bitrate in the sample entry box, this is 
           most relevant for bitmap or xml based timed text subtitles
