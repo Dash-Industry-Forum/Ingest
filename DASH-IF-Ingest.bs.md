@@ -994,7 +994,7 @@ profile MUST also adhere to the general requirements.
      6. The language of the CMAF Track SHOULD be signalled in the
         [=mdhd=] box or [=elng=] boxes in the
         init fragment, cmaf header
-        and/or [=moof=] headers ([=mdhd=]).
+        and/or [=moov=] headers ([=mdhd=]).
      7. Media CMAF tracks SHOULD
         contain the bitrate btrt box specifying the target
         average and maximum bitrate of the fragments 
