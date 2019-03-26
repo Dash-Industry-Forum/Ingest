@@ -17,7 +17,3 @@ https://github.com/RufaelDev/Ingest/blob/master/README.md
 # Additional information 
 for the history of this project see:
 https://github.com/unifiedstreaming/fmp4-ingest  
-for the discussions and resolved issues and notes of the different discussion  
-and
-https://tools.ietf.org/html/draft-mekuria-mmediaingest-01  
- 
