@@ -1504,6 +1504,95 @@ track.
    <figure>
 	  <img src="Images/DiagramXI.png" />
   </figure>
+  
+  # Best Practices for Robust Playback of Streams #
+  
+  The requirements set forth in this specification attempt to provide resiliency between the ingest source and media processing entity so as to minimize gaps in content. However, it is still possible that a media processing entity may fail or loose network connectivity resulting in its inability to provide an updated stream to the client. Even transitent failures can result in buffering events and/or loss of archived content if not properly handled. To protect against this failure scenario the following guidiance is provided:
+  
+  * Live Streams should be handled by multiple Geo-Diverse media processing entities
+  * The Media Processor should set the expires header on stream level manifests to no longer than the segment duration. The expires header should be based on the time the manifest file was last updated, regardless of the last time it was requested.
+  * The Media Processor should return a 404 response to requests for unknown media segments.
+  * The Media Processor should not consider the manifest refreshed/updated till a minimum number of new segements have successfully been written. Once this minimum number is met, the Media Processor may begin updating the manifest and expires header to bring it current.
+  * A CDN or Load Balancer should be used to allow for automatic failover between the available media processing entities based on stale manifest files (e.g., the expires time has elapsed), timeouts and/or receipt of a 404 on a media segment.
+  
+  ##HLS##
+  
+  HLS provides little guidance and in general and what guidance is provided tends to only work with iOS devices. As such a two pronged approach has been found to provide the overall best possible experience. How the content owner manages these two approach is out of scope but a typical/common solution would be to provide device category specific TLM manifest files (typically based on user agent)
+  
+  ### iOS Devices ###
+  
+  iOS devices are particulary sensitive to manfiest file consistency, meaning that if the content of the stream level manifest changes from one request to the next in an unexpected way, it will abort playback. The most common issue is failback from a secondary Media Processor to a Primary where the manifest from the primary has a discontuinity due to an outage that the secondary did not experience. Testing has shown that iOS devices seem to work best if they are allowed to manage the failover between multiple media processing entities. This is accomplished by listing redundant stream URLs in the Top Level Manifest, as suggested by the Apple HLS Authoring specification. The iOS client in turn will attempt to use the first entry for the desired stream. If the client receives an error, timeout, stale manifest or similar, it will automatically re-request from the second URL listed for that stream. An example of such a top level manifest would be:
+  
+   #EXTM3U
+   #EXT-X-STREAM-INF:BANDWIDTH=1280000,AVERAGE-BANDWIDTH=1000000
+   http://video1.example.com/low.m3u8
+   http://video2.example.com/low.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=2560000,AVERAGE-BANDWIDTH=2000000
+   http://video1.example.com/mid.m3u8
+   http://video2.example.com/mid.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=7680000,AVERAGE-BANDWIDTH=6000000
+   http://video1.example.com/hi.m3u8
+   http://video2.example.com/hi.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"
+   http://video1.example.com/audio-only.m3u8
+   http://video2.example.com/audio-only.m3u8
+   
+   If using a CDN or load balancer, and the media processor is unavailable, it must timeout and return an error to the client so the client can try the next URL (Media Processor) in the manifest.
+  
+  ### non-iOS Devices ###
+  
+  Non-iOS devices do not appear to support multiple URLs for a given stream. However, they do appear rather tollerant to manifest inconsistencies. As such, for non-iOS devices, failover can be managed by the CDN or Load balancer. A simplified Top Level Manifest can be used which contains a single URL per stream:
+  
+   #EXTM3U
+   #EXT-X-STREAM-INF:BANDWIDTH=1280000,AVERAGE-BANDWIDTH=1000000
+   http://video.example.com/low.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=2560000,AVERAGE-BANDWIDTH=2000000
+   http://video.example.com/mid.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=7680000,AVERAGE-BANDWIDTH=6000000
+   http://video.example.com/hi.m3u8
+   #EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"
+   http://video.example.com/audio-only.m3u8
+  
+  The host, video.example.com, can be served by any one of several Media Processors. The CDN or Load Balancer is thus responsible for managing the failover for the client. In order for the CDN to be able to serve a manifest from any of the Media Processors and have the client accept it, the media segements within each bit rate should be named the same. Meaning that each Media Processor produces a stream manifest with the same segment names such that the client can receive a manifest from any of the Media Processors and know the next segement it should request. To accomplish this, segment names should be time based and never start from zero. A time base can be extracted from the stream or based on local system time. If using local system time, it should be tied to a reliable and percise NTP source. To create monitonically increasing media segment names using a timestamp, one can simply divide UTC time the segment was created by the segment duration.
+  
+  The side effect of this approach is potential inconsistencies in the manifest, primarly around discountinuities. If a Media Processor looses its network connection for a period of time, its manifest will go stale causing a failover to an alternate Media Processor. Upon restoration of its network connection, the Media Process should insert a discontunity to represent the missing data and then start adding new media segements to the manifest. If the client starts to receive this manifest it may be different than one received from another Media Processor which did not have a network outage and thus did not have a discountiuity. Testing has shown the most non-iOS clients are tollerant of this type of Manifest File inconsistencies.
+  
+  It is important to note that when a client receives a Manifest with a discountinuity, it will not be able to scrub back in time even if the content may exist on another Media Processor. Intelligent logic can be added to the CDN or Load Balancer to try and avoid switching between Media Processors and 'sticking' to a primary Media Process to try and avoid such sitations and always present the most complete manifest.
+  
+  
+  ## MPEG-DASH##
+  
+  For MPEG-DASH, there appears to be two viable solutions:
+  1. express gaps in the manifest by starting a new period once the ingest source or media processor return to service, or
+  2. fill the gap with non-existent media segements as MPEG-DASH does not have the concept of discontunities and supports multiple representations for segments.
+  
+  Community feedback and client testing suggest that using periods to express discountinuities does not always work as expected for key players like DASH.js and Shaka.
+  
+  A reasonabilty robust solution appears to fill in the missing data with a gap filling segment. Given MPEG-DASH supports a number of different segment representations, testing was done with different clients and segment representations to find the broadest interoperable solution. SegmentTemplate, SegmentList and SegmentTimeline manifests were tested with a SegmentTimeline manifest having the best player behavior for failover, failback and subsequent scrubbing of content.
+  
+  In the example below, the Media Processor 'guesses' what the missing segments might be and inserts them into the manifest in hops that a secondary Media Processor has them. How the Media Processor decides to represent the missing data is outside the scope of this document and left to the implementor to identify novel solutions.
+  
+                                             <SegmentTimeline>
+                                                  <S t="74495167698144" d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="1" />
+                                                  <S d="480000" r="11" /> // spoofed
+                                                  <S d="480960" />
+                                                  <S d="479232" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                                  <S d="482304" />
+                                                  <S d="479232" r="2" />
+                                          </SegmentTimeline>
 
 # IANA Considerations # {#iana}
 
