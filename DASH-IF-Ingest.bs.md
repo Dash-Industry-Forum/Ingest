@@ -1505,7 +1505,7 @@ track.
 	  <img src="Images/DiagramXI.png" />
   </figure>
   
-  # Best Practices for Robust Playback of Streams #
+  # Best Practices for Robust Playback of Streams # {#robust_playback}
   
   The requirements set forth in this specification attempt to provide resiliency between the ingest source and media processing entity so as to minimize gaps in content. However, it is still possible that a media processing entity may fail or loose network connectivity resulting in its inability to provide an updated stream to the client. Even transitent failures can result in buffering events and/or loss of archived content if not properly handled. To protect against this failure scenario the following guidiance is provided:
   
@@ -1515,11 +1515,11 @@ track.
   * The Media Processor should not consider the manifest refreshed/updated till a minimum number of new segements have successfully been written. Once this minimum number is met, the Media Processor may begin updating the manifest and expires header to bring it current.
   * A CDN or Load Balancer should be used to allow for automatic failover between the available media processing entities based on stale manifest files (e.g., the expires time has elapsed), timeouts and/or receipt of a 404 on a media segment.
   
-  ##HLS##
+  ## HLS ## {#robust_hls}
   
   HLS provides little guidance and in general and what guidance is provided tends to only work with iOS devices. As such a two pronged approach has been found to provide the overall best possible experience. How the content owner manages these two approach is out of scope but a typical/common solution would be to provide device category specific TLM manifest files (typically based on user agent)
   
-  ### iOS Devices ###
+  ### iOS Devices ### {#robust_ios}
   
   iOS devices are particulary sensitive to manfiest file consistency, meaning that if the content of the stream level manifest changes from one request to the next in an unexpected way, it will abort playback. The most common issue is failback from a secondary Media Processor to a Primary where the manifest from the primary has a discontuinity due to an outage that the secondary did not experience. Testing has shown that iOS devices seem to work best if they are allowed to manage the failover between multiple media processing entities. This is accomplished by listing redundant stream URLs in the Top Level Manifest, as suggested by the Apple HLS Authoring specification. The iOS client in turn will attempt to use the first entry for the desired stream. If the client receives an error, timeout, stale manifest or similar, it will automatically re-request from the second URL listed for that stream. An example of such a top level manifest would be:
   
@@ -1539,7 +1539,7 @@ track.
    
    If using a CDN or load balancer, and the media processor is unavailable, it must timeout and return an error to the client so the client can try the next URL (Media Processor) in the manifest.
   
-  ### non-iOS Devices ###
+  ### non-iOS Devices ### {#robust_generic}
   
   Non-iOS devices do not appear to support multiple URLs for a given stream. However, they do appear rather tollerant to manifest inconsistencies. As such, for non-iOS devices, failover can be managed by the CDN or Load balancer. A simplified Top Level Manifest can be used which contains a single URL per stream:
   
@@ -1560,7 +1560,7 @@ track.
   It is important to note that when a client receives a Manifest with a discountinuity, it will not be able to scrub back in time even if the content may exist on another Media Processor. Intelligent logic can be added to the CDN or Load Balancer to try and avoid switching between Media Processors and 'sticking' to a primary Media Process to try and avoid such sitations and always present the most complete manifest.
   
   
-  ## MPEG-DASH##
+  ## MPEG-DASH ## {#robust_dash}
   
   For MPEG-DASH, there appears to be two viable solutions:
   1. express gaps in the manifest by starting a new period once the ingest source or media processor return to service, or
