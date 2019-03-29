@@ -1523,6 +1523,7 @@ track.
   
   iOS devices are particulary sensitive to manfiest file consistency, meaning that if the content of the stream level manifest changes from one request to the next in an unexpected way, it will abort playback. The most common issue is failback from a secondary Media Processor to a Primary where the manifest from the primary has a discontuinity due to an outage that the secondary did not experience. Testing has shown that iOS devices seem to work best if they are allowed to manage the failover between multiple media processing entities. This is accomplished by listing redundant stream URLs in the Top Level Manifest, as suggested by the Apple HLS Authoring specification. The iOS client in turn will attempt to use the first entry for the desired stream. If the client receives an error, timeout, stale manifest or similar, it will automatically re-request from the second URL listed for that stream. An example of such a top level manifest would be:
   
+<xmp>
    #EXTM3U
    #EXT-X-STREAM-INF:BANDWIDTH=1280000,AVERAGE-BANDWIDTH=1000000
    http://video1.example.com/low.m3u8
@@ -1536,13 +1537,15 @@ track.
    #EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"
    http://video1.example.com/audio-only.m3u8
    http://video2.example.com/audio-only.m3u8
+</xmp>
    
    If using a CDN or load balancer, and the media processor is unavailable, it must timeout and return an error to the client so the client can try the next URL (Media Processor) in the manifest.
   
   ### non-iOS Devices ### {#robust_generic}
   
   Non-iOS devices do not appear to support multiple URLs for a given stream. However, they do appear rather tollerant to manifest inconsistencies. As such, for non-iOS devices, failover can be managed by the CDN or Load balancer. A simplified Top Level Manifest can be used which contains a single URL per stream:
-  
+
+<xmp>
    #EXTM3U
    #EXT-X-STREAM-INF:BANDWIDTH=1280000,AVERAGE-BANDWIDTH=1000000
    http://video.example.com/low.m3u8
@@ -1552,6 +1555,7 @@ track.
    http://video.example.com/hi.m3u8
    #EXT-X-STREAM-INF:BANDWIDTH=65000,CODECS="mp4a.40.5"
    http://video.example.com/audio-only.m3u8
+</xmp>
   
   The host, video.example.com, can be served by any one of several Media Processors. The CDN or Load Balancer is thus responsible for managing the failover for the client. In order for the CDN to be able to serve a manifest from any of the Media Processors and have the client accept it, the media segements within each bit rate should be named the same. Meaning that each Media Processor produces a stream manifest with the same segment names such that the client can receive a manifest from any of the Media Processors and know the next segement it should request. To accomplish this, segment names should be time based and never start from zero. A time base can be extracted from the stream or based on local system time. If using local system time, it should be tied to a reliable and percise NTP source. To create monitonically increasing media segment names using a timestamp, one can simply divide UTC time the segment was created by the segment duration.
   
