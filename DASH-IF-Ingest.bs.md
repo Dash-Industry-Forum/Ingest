@@ -1576,6 +1576,7 @@ track.
   
   In the example below, the Media Processor 'guesses' what the missing segments might be and inserts them into the manifest in hops that a secondary Media Processor has them. How the Media Processor decides to represent the missing data is outside the scope of this document and left to the implementor to identify novel solutions.
   
+<xmp>
                                              <SegmentTimeline>
                                                   <S t="74495167698144" d="482304" />
                                                   <S d="479232" r="2" />
@@ -1597,6 +1598,7 @@ track.
                                                   <S d="482304" />
                                                   <S d="479232" r="2" />
                                           </SegmentTimeline>
+</xmp>
 
 # IANA Considerations # {#iana}
 
