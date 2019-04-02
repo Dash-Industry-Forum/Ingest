@@ -422,6 +422,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         SHOULD use an additional relative path when posting
         different streams and fragments, for example, 
         to signal the stream or fragment name.
+     12. Both the ingest source and [=Receiving entity=] MUST support IPv4 and IPv6 transport.
+     13. The ingest source MUST include a User-Agent header (which provides information about brand name, 
+	     version number, and build number in a readable format) in all post messages.
 
          
 
@@ -1184,22 +1187,21 @@ track.
    DASH/HLS is designed to ingest a [=Streaming presentation=] 
    composed of [=Manifest objects=] and [=Media objects=] 
    to receiving entities that provide either pass-through functionality or limited processing of the content. 
-   In this mode, the [=Ingest source=] prepares and ingests all the [=Objects=] intended for consumption by a client. 
+   In this mode, the [=Ingest source=] prepares and ingests all the [=Objects=] in a form intended for consumption by a client. 
    These are complete [=Streaming presentation=] including all manifest and media objects. 
    
    The requirements below encapsulate all 
    needed functionality to support Interface 2. The requirements listed for 
-   Profile 1 in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
+   Interface 1 in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
    General shared requirements are covered in section [[#general]]. In case [!MPEGCMAF] media is used, 
-   the media track and segment formatting will be similar as defined in Interface 1.
+   the media track and segment formatting will be identical as defined in Interface 1.
    
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
       
-       1. The [=Streaming presentation=] ingested MUST be either MPEG DASH [[!MPEGDASH]] 
-	      or HTTP live Streaming [[!RFC8216]] conforming. 
+       1. The [=Streaming presentation=] ingested MUST be MPEG DASH [[!MPEGDASH]], HTTP live Streaming [[!RFC8216]], or [!MPEGCMAF] conforming. 
        2. The ingest source MUST support the use of fully qualified domain names to identify the [=Receiving entity=].
-       3. Both the ingest source and [=Receiving entity=] MUST support IPv4 and IPv6 transport.
+       3. moved req to general section
        4. The ingest source MUST have the capability of specifying the publishing path 
 	      (which will be used to publish the content) as well as the delivery path 
 		  (which clients will use to retrieve the content). 
@@ -1253,70 +1255,79 @@ track.
    <table class="def">
 	<tr>
 		<th> File Extension </th>
-      <th> Mime Type  </th>
+                <th> Mime Type  </th>
+		<th> Applicable Format  </th>
 	</tr>
-   <tr>
+        <tr>
 		<th> .m3u8  </th>
-      <th> application/x-mpegURL or vnd.apple.mpegURL  </th>
+                <th> application/x-mpegURL or vnd.apple.mpegURL  </th>
+		<th> HLS  </th>
 	</tr>
-   <tr>
+        <tr>
 		<th> .mpd </th>
-      <th> application/x-mpegURL </th>
+                <th> application/x-mpegURL </th>
+		<th> MPEG-DASH  </th>
 	</tr>
-   <tr>
-		<th>  .cmfv  </th>
-      <th> video/mp4 </th>
+        <tr>
+		<th> .cmfv  </th>
+                <th> video/mp4 </th>
+		<th> MPEG-DASH  </th>
 	</tr>
-   <tr>
+        <tr>
 		<th> .cmfa </th>
-      <th> audio/mp4  </th>
+                <th> audio/mp4  </th>
+		<th> HLS, MPEG-DASH  </th>
 	</tr>
-   <tr>
+        <tr>
 		<th> .cmft   </th>
-      <th> application/mp4   </th>
+                <th> application/mp4   </th>
+		<th> HLS, MPEG-DASH  </th>
 	</tr>
-   <tr>
+        <tr>
 		<th> .cmfm   </th>
-      <th> application/mp4  </th>
+                <th> application/mp4  </th>
+		<th> HLS, MPEG-DASH  </th>
 	</tr>
-    <tr>
+        <tr>
 		<th> .mp4  </th>
-      <th> video/mp4 or application/mp4    </th>
+                <th> video/mp4 or application/mp4    </th>
+		<th> MPEG-DASH  </th>
 	</tr>
     <tr>
 		<th> .m4v  </th>
-      <th> video/mp4   </th>
+                <th> video/mp4   </th>
+	        <th> MPEG-DASH  </th>
 	</tr>
     <tr>
 		<th> .m4a  </th>
-      <th> audio/mp4  </th>
+                <th> audio/mp4  </th>
+	        <th> MPEG-DASH  </th>
 	</tr>
      <tr>
 		<th> .m4s  </th>
-      <th> video/iso.segment  </th>
+                <th> video/iso.segment  </th>
+	        <th> MPEG-DASH  </th>
 	</tr>
      <tr>
 		<th> .init  </th>
-      <th> video/mp4  </th>
+                <th> video/mp4  </th>
+	        <th> MPEG-DASH  </th>
 	</tr>
      <tr>
 		<th> .header  </th>
-      <th> video/mp4  </th>
+                <th> video/mp4  </th>
+	        <th> MPEG-DASH  </th>
 	</tr>
      <tr>
 		<th> .key </th>
-      <th> to be defined    </th>
+                <th> to be defined    </th>
+	        <th> HLS  </th>
 	</tr>
   </table>
-   
-   ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
-
-     DNS lookup requirements are defined in the general protocol requirements section [[#general]].
-   
+    
    ### Ingest source identification ###{#DASH_Ingest_Publisher_Identification}
 
-     1. The ingest source MUST include a User-Agent header (which provides information about brand name, 
-	     version number, and build number in a readable format) in all post messages.
+     1. moved to general section
    
    ### Common Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
 
@@ -1379,7 +1390,7 @@ track.
 		 or use previously used object names. 
       3. When multiple ingest sources are used, they MUST use consistent media object
 	     names including when reconnecting due to any application or transport error. 
-		 A common approach is to use epoch time/segment duration as the object name.
+		 A common approach is to use (epoch time/segment duration) as the object name.
 
    ## DASH specific requirements ## {#DASH_requirements}
    
@@ -1390,6 +1401,9 @@ track.
 
    ### Relative paths ###{#DASH_Relative_paths_and_extensions}
       1. Relative URL paths MUST be used to address each segment.
+      
+   ## CMAF specific requirements ## {#CMAF_requirements}
+When the media source is using CMAF for the Media Objects, it MUST also prepare format specific manifest files (.m3u8 for HLS and .mpd for DASH). The format specific manifest files MUST reference the CMAF content such that it can be shared between the two formats (e.g., same path and file names).
 
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
