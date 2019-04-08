@@ -1865,6 +1865,8 @@ track.
       hence the ingest between FFMPEG and the origin server may implement both interfaces simultaneously. 
       
       To receive the stream as a CMAF ingest for re-packaging at the origin the following steps can be applied. 
+	  This is the case where interface 1 and interface 2 are used interchangeably, hence the live encoder can either 
+	  ingest to an origin that supports interface 2 with CMAF formatting, including the requirements from interface 1.
       
       1. Ignore the DASH Manifest
       2. Ignore the segment names, only look at the relative path to identify the stream names 
