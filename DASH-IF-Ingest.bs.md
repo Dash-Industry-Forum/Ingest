@@ -329,12 +329,12 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    <dfn dfn>**TCP**</dfn>:
            Transmission Control Protocol (TCP) as defined in [[!RFC793]]  
 
-   <dfn dfn>**Arrival Time**</dfn>: 
+   <dfn dfn>**Event Received Time**</dfn>: 
             The time a metadata item is seen/observed by the application for 
             the first time, e.g. an announcement/avail. The time the event 
             is received (event received time)  
              
-   <dfn dfn> **Application time** </dfn>: 
+   <dfn dfn> **Event Presentation Time** </dfn>: 
               The time a metadata event is applied to a stream (if applicable),
               correspond to the presentation_time of a dash event [[!MPEGDASH]] 
               (event presentation time)
@@ -1396,18 +1396,18 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      5. The timescale of the metadata SHOULD match the value
         specified in the media header box "mdhd" of the
         metadata track.
-     6.  The [=Arrival time=] is signalled in the "tfdt" box
+     6.  The [=Event Received Time=] is signalled in the "tfdt" box
          of the track fragment  as the basemediadecode
          time, this is the time when the metadata will be
          first received.
-     6. The [=Application time=] can be signalled as 
-        a difference to the arrival time by an 
+     6. The [=Event Presentation Time=] can be signalled as 
+        a difference to the Event Received Time by an 
         empty sample with duration delta, the application
         time is the time when the metadata or event is 
         applied. It is equal to the media presentation time
         of the sample containing the event/metadata. Alternatively
          composition time offset can be used to signal the difference
-         between the Arrival and application time.
+         between the Arrival and Event Presentation Time.
      7. The duration of the sample signalled in the 
         trun box SHOULD correspond to the duration of 
         the metadata if the metadata is valid 
