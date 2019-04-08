@@ -768,7 +768,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         SHOULD use an additional relative path when posting
         different streams and fragments, for example, 
         to signal the stream or fragment name.
-
+     12. Both the ingest source and [=Receiving entity=] 
+	    MUST support IPv4 and IPv6 transport.
          
 
 # CMAF Ingest General Considerations # {#profile_1_general}
@@ -1548,7 +1549,7 @@ track.
    
    The requirements below encapsulate all 
    needed functionality to support Interface 2. The requirements listed for 
-   Profile 1 in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
+   Interface 1 (CMAF Ingest) in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. 
    General shared requirements are covered in section [[#general]]. In case [!MPEGCMAF] media is used, 
    the media track and segment formatting will be similar as defined in Interface 1.
    
@@ -1558,10 +1559,11 @@ track.
        1. The [=Streaming presentation=] ingested MUST be either MPEG DASH [[!MPEGDASH]] 
 	      or HTTP live Streaming [[!RFC8216]] conforming. 
        2. The ingest source MUST support the use of fully qualified domain names to identify the [=Receiving entity=].
-       3. Both the ingest source and [=Receiving entity=] MUST support IPv4 and IPv6 transport.
-       4. The ingest source MUST have the capability of specifying the publishing path 
+       3. The ingest source MUST have the capability of specifying the publishing path 
 	      (which will be used to publish the content) as well as the delivery path 
 		  (which clients will use to retrieve the content). 
+	   4. The ingest source MUST include a User-Agent header (which provides information about brand name, 
+         version number, and build number in a readable format) in all post messages.
 		
       These capabilities are further illustrated in the Examples sections, and may be defined outside the scope of this 
       specification.
@@ -1713,6 +1715,7 @@ track.
      3. If segments are encapsulated using a Transport Stream File Format, they MUST carry a ".ts" file extension.
      4. If segments are encapsulated using [[!MPEGCMAF]], then they MUST NOT use  a ".ts" file extension and must use one of the other allowed file extensions appropriate for the mime-type of the content they are carrying. 
    
+  
    ### Upload order ###{#Upload_order}
    
     In accordance with the HTTP live Streaming [[!RFC8216]] recommendation, ingest sources
@@ -1758,6 +1761,13 @@ track.
    ### Relative paths ###{#DASH_Relative_paths_and_extensions}
       1. Relative URL paths MUST be used to address each segment.
 
+    ## CMAF specific requirements ## {#CMAF_requirements}
+
+    When the media source is using CMAF for the Media Objects, 
+    it MUST also prepare format specific manifest files (.m3u8 for   HLS and .mpd for DASH). 
+    The format specific manifest files MUST reference the CMAF content such that 
+    it can be shared between the two formats (e.g., same path and file names).
+	  
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide some example deployments for live streaming, mapping to the architecture 
