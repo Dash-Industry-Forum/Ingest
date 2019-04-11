@@ -728,8 +728,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         using the HTTP POST method as defined in 
         the HTTP protocol, version 1.1 [[!RFC7235]]
      2. The ingest source SHOULD 
-        use HTTP over TLS, if TLS is used it SHALL be 
-        TLS version 1.2 or higher [[!RFC2818]]
+        use HTTP over TLS, if TLS is used it SHALL support atleast 
+        TLS version 1.2, higher version 
+	may also be supported additionally [[!RFC2818]]
      3. The ingest source SHOULD repeatedly resolve
         the hostname to adapt to changes in the IP to Hostname mapping
         such as for example by using the domain naming system
@@ -784,13 +785,13 @@ and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].
 In addition, this allows extension towards codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
-fragmented MPEG-4 ingest is illustrated in Diagram 4. Discussions
+CMAF ingest is illustrated in Diagram 4. Discussions
 on the early development have been documented [=fmp4git=].
 
 
  
 
- Diagram 4: fragmented MPEG-4 ingest with multiple ingest sources
+ Diagram 4: CMAF ingest with multiple ingest sources
    <figure>
 	  <img src="Images/Diagram7.png" />
    </figure>
