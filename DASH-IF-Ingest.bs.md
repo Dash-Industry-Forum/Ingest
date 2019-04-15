@@ -730,7 +730,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
      2. The ingest source SHOULD 
         use HTTP over TLS, if TLS is used it SHALL support atleast 
         TLS version 1.2, higher version 
-	may also be supported additionally [[!RFC2818]]
+        may also be supported additionally [[!RFC2818]]
      3. The ingest source SHOULD repeatedly resolve
         the hostname to adapt to changes in the IP to Hostname mapping
         such as for example by using the domain naming system
