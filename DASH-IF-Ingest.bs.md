@@ -599,7 +599,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         source SHALL retry establishing the [=Connection=]
         within a fixed time period 
         with updated authentication credentials
-     9. The  ingest source SHOULD terminate
+     9. The  [=Ingest source=] SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
@@ -614,7 +614,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         SHOULD use an additional relative path when posting
         different streams and fragments, for example, 
         to signal the stream or fragment name.
-     12. Both the ingest source and [=Receiving entity=] 
+     12. Both the [=Ingest source=] and [=Receiving entity=] 
 	    MUST support IPv4 and IPv6 transport.
          
 
