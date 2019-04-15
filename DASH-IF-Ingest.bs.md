@@ -50,7 +50,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
  
    The main goal of this specification is to define the 
    interoperability point between an [=Ingest Source =] 
-   and a [=Receiving entitiy=] that typically reside 
+   and a [=Receiving entity=] that typically reside 
    in the cloud or the network. This specification does 
    not impose any new constraints or requirements to clients 
    that consume streams using any defined 
@@ -312,7 +312,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    <dfn dfn>**Connection**</dfn>:
               A connection setup between two hosts, typically the  
-              media [=ingest source=] and [=Receiving entity].  
+              media [=Ingest source=] and [=Receiving entity].  
 
    <dfn dfn>**Switching set**</dfn>: 
            Group of tracks corresponding to a switching set defined in
@@ -385,7 +385,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    and packager as [=Receiving entity=]. In this case, interface 1, 
    [[!MPEGCMAF]] (CMAF) Ingest may be used. This interface uses 
    [[!MPEGCMAF]] to ingest a live encoded stream to the packager. The 
-   [=Receiving entity] in this case may do the pacakging, encryption, or 
+   [=Receiving entity=] in this case may do the pacakging, encryption, or 
    other active media processing on the stream. This interface is defined
    in a way that it will be possible to generate streaming presentation
    based on [[!MPEGDASH]] or HLS [[!RFC8216]] based on the ingested stream. 
@@ -569,18 +569,18 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   general requirements for both target /interfaces.  
 
 
-     1. The ingest source SHALL communicate 
+     1. The [=Ingest source=]  SHALL communicate 
         using the HTTP POST method as defined in 
         the HTTP protocol, version 1.1 [[!RFC7235]]
-     2. The ingest source SHOULD 
+     2. The [=Ingest source=]  SHOULD 
         use HTTP over TLS, if TLS is used it SHALL support atleast 
         TLS version 1.2, higher version 
         may also be supported additionally [[!RFC2818]]
-     3. The ingest source SHOULD repeatedly resolve
+     3. The [=Ingest source=]  SHOULD repeatedly resolve
         the hostname to adapt to changes in the IP to Hostname mapping
         such as for example by using the domain naming system
         DNS [[!RFC1035]] or any other system that is in place.
-     4. The ingest source MUST update the IP to hostname
+     4. The [=Ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
         query responses, this will enable better resilience
         to changes of the IP address in large scale deployments
@@ -603,7 +603,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
-        prevent media processing entities
+        prevent the [=Receiving entity=] 
         from quickly disconnecting from the ingest source 
         in the event of a service update.
      10. The HTTP POST for sparse
@@ -780,7 +780,7 @@ Diagram 8: CMAF ingest flow
 
 ## General Protocol Requirements ## {#general_Protocol_Requirements_p1}
 
-     1. The ingest source SHALL start
+     1. The [=Ingest source=]  SHALL start
         by sending an HTTP POST request with the 
         CMAF Header, or an empty request,
         by using the POSTURL
@@ -789,19 +789,19 @@ Diagram 8: CMAF ingest flow
         publishing point is valid,
         and if there are any authentication
         or other conditions required.
-     2. The ingest source MUST initiate
+     2. The [=Ingest source=]  MUST initiate
         a media ingest connection by posting the
         [=CMAF header=] after step 1
-     3. The ingest source SHOULD use the chunked transfer
+     3. The [=Ingest source=]  SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
         when the content length is unknown at the start of transmission
         or to support use cases that require low latency
      4. If the HTTP POST request terminates or times out with a TCP
-        error, the ingest source MUST establish
+        error, the [=Ingest source=]  MUST establish
         a new connection, and follow the
-        preceding requirements. Additionally, the ingest source MAY resend
+        preceding requirements. Additionally, the [=Ingest source=] MAY resend
         the fragment in which the timeout or TCP error occurred.
-     5. The ingest source MUST handle
+     5. The [=Ingest source=]  MUST handle
         any error responses
         received from the media processing entity, by establishing
         a new connection and following the preceding
@@ -1229,7 +1229,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
   to relate to the media presentation (e.g. program information, splice information 
   , chapter information) and not to a specific track. For track specific metadata 
   other structures like the CMAF header can be used. 
-  Configuration of the receiving entity on how to handle the metadata is out of scope of current document. 
+  Configuration of the [=Receiving entity=] on how to handle the metadata is out of scope of current document. 
   More information about this will be given in supplementatal
   documents on implementation guidelines and best practices, that specify some recommended
   practices and example implmeentation. For example, a default behavior could be to embed 
@@ -1291,7 +1291,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         be known, in this case the sample duration could 
         be set to zero and updated later when the timestamp 
         of the next metadata fragment is received.
-     12. The ingest source SHOULD not embed inband event message 
+     12. The [=Ingest source=] SHOULD not embed inband event message 
          boxes emsg in the ingest stream
         
 Note: [[!MPEGCMAF]] has the notion of an inband event message box to convey
@@ -1299,7 +1299,7 @@ metadata and event messages. In the current specification
 a separate track is used instead to convey such information. 
 Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media 
-and metadata by interleaving them. The ingest source SHOULD NOT 
+and metadata by interleaving them. The [=Ingest source=] SHOULD NOT 
 send inband emsg box and the receiver SHOULD ignore it. However,
 event message box can be embedded as samples in the timed metadata 
 track.
@@ -1313,23 +1313,23 @@ track.
   issues. When used in conjunction with proper failover  
   logic from the ingest sources side, highly reliable live streaming  
   setups can be build. In this section, we discuss requirements  
-  for failover scenarios. The following steps are required for an ingest source
+  for failover scenarios. The following steps are required for an [=Ingest source=]
    to deal with a failing media processing entity.  
    
    The [=CMAF ingest=] source should implement the following recommendations 
    to achieve failover support.
 
-     1. The ingest source MUST use a timeout in order of segment duration (1-6 seconds) 
+     1. The [=Ingest source=] MUST use a timeout in order of segment duration (1-6 seconds) 
     	  for establishing the
         TCP connection. If an attempt to establish 
         the connection takes longer than the timeout, 
 		  abort the operation and try again.
-     2. The ingest source SHOULD resend media fragments for which a
+     2. The [=Ingest source=] SHOULD resend media fragments for which a
         connection was terminated early, if the connection was down 
 		  for less than 3 average segments durations. For connections
 		  that were down longer, ingest can resume at the live edge 
 		  of the live media presentation instead.
-     3. The ingest source SHOULD
+     3. The [=Ingest source=] SHOULD
         NOT limit the number of retries to establish a
         connection or resume streaming after a TCP error occurs.
      4. After a TCP error:
@@ -1342,7 +1342,7 @@ track.
         c. The new HTTP POST MUST include stream
           headers ([=ftyp=], and [=moov=] boxes)
           identical to the stream headers.
-     5.  In case the media processing entity cannot process the
+     5.  In case the [=Receiving entity=] cannot process the
          POST request due to authentication or permission
          problems then it SHALL return a permission denied HTTP 403
      6.  In case the media processing entity can process the request
@@ -1368,17 +1368,17 @@ track.
   [=Live encoder=] or [=Ingest source=] failover is the second type  
   of failover scenario that needs to be supported for end-to-end  
   live streaming delivery. In this scenario, the error condition  
-  occurs on the ingest source side. The following expectations apply  
+  occurs on the [=Ingest source=] side. The following expectations apply  
   to the live ingestion endpoint when encoder failover happens:  
   
-      1. A new ingest source instance SHOULD be instantiated 
+      1. A new [=Ingest source=] instance SHOULD be instantiated 
          to continue the ingest
-      2. The ingest source MUST use
+      2. The [=Ingest source=] MUST use
          the same URL for HTTP POST requests as the failed instance.
-      3. The new  ingest source POST request
+      3. The new  [=Ingest source=] POST request
          MUST include the same [=CMAF Header=] or 
          init fragment as the failed instance
-      4. The ingest source
+      4. The [=Ingest source=]
          MUST be properly synced with all other running ingest sources
          for the same live presentation to generate synced audio/video  
          samples with aligned fragment boundaries.
@@ -1389,7 +1389,7 @@ track.
       5. The new stream MUST be semantically equivalent
          with the previous stream, and interchangeable
          at the header and media fragment levels.
-      6. The new instance of ingest source SHOULD
+      6. The new instance of [=Ingest source=] SHOULD
          try to minimize data loss. The basemediadecodetime tfdt
          of media fragments SHOULD increase from the point where
          the encoder last stopped. The basemediadecodetime in the
@@ -1419,11 +1419,11 @@ track.
       
        1. The [=Streaming presentation=] ingested MUST be either MPEG DASH [[!MPEGDASH]] 
 	      or HTTP live Streaming [[!RFC8216]] conforming. 
-       2. The ingest source MUST support the use of fully qualified domain names to identify the [=Receiving entity=].
-       3. The ingest source MUST have the capability of specifying the publishing path 
+       2. The [=Ingest source=] MUST support the use of fully qualified domain names to identify the [=Receiving entity=].
+       3. The [=Ingest source=] MUST have the capability of specifying the publishing path 
 	      (which will be used to publish the content) as well as the delivery path 
 		  (which clients will use to retrieve the content). 
-	   4. The ingest source MUST include a User-Agent header (which provides information about brand name, 
+	   4. The [=Ingest source=] MUST include a User-Agent header (which provides information about brand name, 
          version number, and build number in a readable format) in all post messages.
 		
       These capabilities are further illustrated in the Examples sections, and may be defined outside the scope of this 
@@ -1434,7 +1434,7 @@ track.
 
        1. [=Manifest objects=] and [=Media objects=] MUST be uploaded via individual HTTP 1.1  [[!RFC7235]] 
 	       PUT or POST operations. This specification does not imply any functional differentiation 
-		    between a PUT or a POST operation. Either may be used to supply content to the receiving entity. 
+		    between a PUT or a POST operation. Either may be used to supply content to the [=Receiving entity=]. 
        3. [=Media objects=] that are not referenced in corresponding [=Manifest objects=] 
 	      SHOULD be removed by the ingest source via an HTTP DELETE operation. 
 		  A DELETE request should support:   
@@ -1595,7 +1595,7 @@ track.
    ### Encryption ###{#HLS_Ingest_Encryption}
 
       1. The ingest source MAY choose to encrypt the media segments 
-	     and publish the corresponding keyfile to the receiving entity.
+	     and publish the corresponding keyfile to the [=Receiving entity=].
 
    ### Relative paths  ###{#HLS_Ingest_relative_paths}
 
