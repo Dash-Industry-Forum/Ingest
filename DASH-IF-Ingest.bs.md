@@ -398,7 +398,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    In this case, besides the media object, also manifest objects are ingested to the 
    [=Receiving entity=].
    
-    Diagram 1: Example with CMAF Ingest
+    Diagram 1: Example with [=CMAF Ingest=]
     <figure>
 	   <img src="Images/Diagram1.png" />
     </figure>
@@ -432,7 +432,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
     provided features for high availability and   
     server side redundancy.   
 
-    The DASH-IF CMAF ingest protocol defined in this document,
+    The DASH-IF [=CMAF Ingest=] protocol defined in this document,
     advances over the smooth 
     ingest protocol including lessons learned over the last   
     ten years after the initial deployment of    
@@ -482,7 +482,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   
     Table 1 highlights some of the key  
     differences and practical considerations of 
-    the interfaces. In CMAF ingest,
+    the interfaces. In [=CMAF Ingest=],
     the ingest source can be  
     simple as the [=Receiving entity=] can  
     do many of the operations related to the  
@@ -621,7 +621,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
 
 This section describes the protocol behavior specific to  
-interface 1: CMAF ingest. Operation of this  
+interface 1: [=CMAF Ingest=]. Operation of this  
 profile MUST also adhere to the general requirements.  
 
 ## CMAF Ingest General Considerations ## {#profile_1_general}
@@ -642,7 +642,7 @@ and that the industry is already heading
 in this direction following recent specifications  
 like [[!MPEGCMAF]] and HLS  [[!RFC8216]].
 
-CMAF ingest typically assumes ingest to an active media processing entity.
+[=CMAF Ingest=] typically assumes ingest to an active media processing entity.
 It advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
 standardized media container formats 
@@ -650,7 +650,7 @@ and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].
 In addition, this enables extension towards codecs like [[!MPEGHEVC]] and  
 timed metadata ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
-CMAF ingest is illustrated in Diagram 4. Discussions
+[=CMAF Ingest=] is illustrated in Diagram 4. Discussions
 on the early development have been documented [=fmp4git=].
 
  Diagram 4: CMAF ingest with multiple ingest sources
@@ -1118,7 +1118,7 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
 ## Requirements for Timed Metadata ## {#timed_metadata}
    
   This section discusses the specific formatting requirements  
-  for CMAF ingest of timed metadata related to events and markers for  
+  for [=CMAF Ingest=] of timed metadata related to events and markers for  
   ad insertion or other timed metadata.  An example of  
   these are opportunities for splice points and program information  
   signalled by SCTE-35 markers. This type of  event signalling  
@@ -1316,7 +1316,7 @@ track.
   for failover scenarios. The following steps are required for an ingest source
    to deal with a failing media processing entity.  
    
-   The CMAF ingest source may implement the following recommendations 
+   The [=CMAF ingest=] source should implement the following recommendations 
    to achieve failover support.
 
      1. The ingest source MUST use a timeout in order of segment duration (1-6 seconds) 
