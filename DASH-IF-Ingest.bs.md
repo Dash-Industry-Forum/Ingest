@@ -49,7 +49,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # Introduction # {#Introduction}
  
    The main goal of this specification is to define the 
-   interoperability point between an [=Ingest Source =] 
+   interoperability point between an [=Ingest Source=] 
    and a [=Receiving entity=] that typically reside 
    in the cloud or the network. This specification does 
    not impose any new constraints or requirements to clients 
