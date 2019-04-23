@@ -1411,14 +1411,12 @@ track.
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
 
-       1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]]
-	      or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects.
-       2. The [=Ingest source=] MUST support the configuration and use of Fully Qualified Domain Names (per RFC8499) to identify the [=Receiving entity=].
-       3. The [=Ingest source=] MUST support the configuration of the path which it will POST or PUT all the [=Objects=] to.
-       4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Mainfest Files accordingly.
+    1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects.
+    2. The [=Ingest source=] MUST support the configuration and use of Fully Qualified Domain Names (per RFC8499) to identify the [=Receiving entity=].
+    3. The [=Ingest source=] MUST support the configuration of the path which it will POST or PUT all the [=Objects=] to.
+    4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Mainfest Files accordingly.
 
-      These capabilities are further illustrated in the Examples sections, and may be defined outside the scope of this
-      specification.
+    These capabilities are further illustrated in the Examples sections, and may be defined outside the scope of this specification.
 
 
    ### HTTP connections ### {#DASH_Ingest_HTTP}
@@ -1511,7 +1509,7 @@ track.
 
    ### DNS lookups ###{#DASH_Ingest_DNS_Lookups}
 
-     DNS lookup requirements are defined in the general protocol requirements section [[#general]].
+    DNS lookup requirements are defined in the general protocol requirements section [[#general]].
 
    ### Ingest source identification ###{#DASH_Ingest_Publisher_Identification}
 
@@ -1525,7 +1523,6 @@ track.
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the [=Receiving entity=], it MUST
         a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
         b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format at hand. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
-
     2. Upon receipt of an HTTP 403 or 400 error, for all objects (manifest and non-manifest), the ingest source MUST not retry and stop attempting to ingesting objects and provide a log or fatal error condition.
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
