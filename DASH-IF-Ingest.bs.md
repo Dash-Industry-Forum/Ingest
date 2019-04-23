@@ -1423,8 +1423,11 @@ track.
 
     1. The Ingest Source MUST transfer [=Manifest objects=] and [=Media objects=] to the Receiving entity via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
     2. The Ingest Source SHOULD remove [=Media objects=] from the Receiving entity which are no longer referenced in the corresponding [=Manifest objects=] via an HTTP DELETE operation. How long the Ingest Source waits to remove unreferenced content SHOULD be configurable. Upon receipt of a DELETE request, the Receiving entity should:   
-        3.1. delete the referenced content and return a 200 OK HTTP Response code
-        3.2. delete the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
+
+         2a. delete the referenced content and return a 200 OK HTTP Response code
+
+         2b. delete the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
+
     3. To avoid delay associated with the TCP handshake, the Ingest Source SHOULD use Persistent TCP connections.
     4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections to transfer the streaming presentation that it is generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP Session.
 
@@ -1521,8 +1524,11 @@ track.
    The following items define the behavior of an ingest source when encountering certain conditions.
 
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the [=Receiving entity=], it MUST
-        a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
-        b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format at hand. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
+
+         1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
+
+         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format at hand. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
+
     2. Upon receipt of an HTTP 403 or 400 error, for all objects (manifest and non-manifest), the ingest source MUST not retry and stop attempting to ingesting objects and provide a log or fatal error condition.
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
