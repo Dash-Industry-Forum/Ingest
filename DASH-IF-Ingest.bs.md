@@ -1157,7 +1157,7 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   while the SchemeIdUri could be used to signal schemes
   of the messageData payload in the EventMessage.
 
-Table 4: Roles for subtitle and Audio tracks and HLS Characteristics
+Table 4: Example URN schemes for timed metadata tracks
 <table class="def">
 	<tr>
 		<th>SchemeIdURI  </th>
