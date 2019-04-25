@@ -1173,7 +1173,7 @@ Table 4: Example URN schemes for timed metadata tracks
 	</tr>
    <tr>
 		<td>urn:scte:scte35:2013:bin </td>
-		<td>[[!SCTE35]] 14-3 (2015), 7.3.2  </td>
+		<td>[[!SCTE214-1]]] SCTE-35  </td>
 	</tr>
    <tr>
 		<td>www.nielsen.com:id3:v1  </td>
@@ -1437,8 +1437,8 @@ track.
     2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
     3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
     4. When receiving objects with the same path as an existing object, the Receiving entity MUST over-write the existing objects with the newer objects of the same path.
-    5. The Ingest Source MUST include a number which is monotonically increasing with each new Media Object at the end of Media objects name. It MUST be possible to retrieve this numeric suffix via a regular expression. A common method is to use the time at which the Media Segment was created divided by the Media object duration.
-    6. The Ingest Source MUST identify Media objects containing initialization fragments by using either the .init file extension OR "init" in their file name. All other objects which do not contain initialization fragments MUST NOT include the string "init" in their file name.
+    5. The Ingest Source MUST include a number which is monotonically increasing with each new Media Object at the end of Media objects name. It MUST be possible to retrieve this numeric suffix via a regular expression. A common method is to use the time at which the Media Segment was created divided by the Media object duration. Note: to be further disussed
+    6. The Ingest Source MUST identify Media objects containing initialization fragments by using either the .init file extension 
     7. The Ingest source MUST include a file extension and a MIME-type for all media objects. The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
 
@@ -1446,10 +1446,9 @@ track.
 	to follow based on their file extension. Segments
 	may be formatted as MPEG-4 [[!ISOBMFF]] .mp4, .m4v, m4a, CMAF based [[!MPEGCMAF]]
 	for .cmf[v.a.m.t], or [[!MPEGDASH]] for .mpd or HLS [[!RFC8216]] for .m3u8. Alternatively
-    .ts based files follow [[!MPEG2TS]]. Note that MPEG-2 TS is a commonly used format today,
-    and supported as ingest format. However we expect it gradually phased out in the coming 5 years.
-	For consistency between profiles and DASH and HLS segments based on [[!MPEGCMAF]] based
-    media objects would be preferred.
+       .ts based files follow [[!MPEG2TS]]. Note that MPEG-2 TS is also included for compatiblity 
+        with HLS. 
+   NOTE: using MPEG-2 TS will break consitency with interface 1 which uses CMAF container format structure
 
     Table 6:
    <table class="def">
@@ -1589,7 +1588,7 @@ track.
 
     ## CMAF specific requirements ## {#CMAF_requirements}
 
-    When the media source is using CMAF for the Media Objects, it MUST also prepare format specific manifest files (.m3u8 for   HLS and .mpd for DASH). The format specific manifest files MUST reference the CMAF content such that it can be shared between the two formats (e.g., same path and file names).
+    When the media source is using CMAF for the Media Objects, it MUST also prepare format specific manifest files (.m3u8 for   HLS and .mpd for DASH). The format specific manifest files MUST reference the CMAF content such that it can be shared between the two formats (e.g., same path and file names). In other words, when using interface 2 to ingest CMAF content a manifest file describin the content is also required.
 
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
