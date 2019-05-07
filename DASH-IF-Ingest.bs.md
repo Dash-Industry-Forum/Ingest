@@ -1411,10 +1411,10 @@ track.
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
 
-    1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects.
+    1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] and/or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects.
     2. The [=Ingest source=] MUST support the configuration and use of Fully Qualified Domain Names (per RFC8499) to identify the [=Receiving entity=].
     3. The [=Ingest source=] MUST support the configuration of the path which it will POST or PUT all the [=Objects=] to.
-    4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Mainfest Files accordingly.
+    4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Manifest Files accordingly.
 
     These capabilities are further illustrated in the Examples sections, and may be defined outside the scope of this specification.
 
@@ -1437,18 +1437,14 @@ track.
     2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
     3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
     4. When receiving objects with the same path as an existing object, the Receiving entity MUST over-write the existing objects with the newer objects of the same path.
-    5. The Ingest Source MUST include a number which is monotonically increasing with each new Media Object at the end of Media objects name. It MUST be possible to retrieve this numeric suffix via a regular expression. A common method is to use the time at which the Media Segment was created divided by the Media object duration. Note: to be further disussed
-    6. The Ingest Source MUST identify Media objects containing initialization fragments by using either the .init file extension 
+    5. The Ingest Source MUST include a number which is monotonically increasing with each new Media Object at the end of Media objects name. It MUST be possible to retrieve this numeric suffix via a regular expression. A common method is to use the time at which the Media Segment was created divided by the Media object duration. Note: to be further discussed
+    6. The Ingest Source MUST identify Media objects containing initialization fragments by using the .init file extension
     7. The Ingest source MUST include a file extension and a MIME-type for all media objects. The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
 
-	Table 6 outlines the formats that media and manifest objects are expected
-	to follow based on their file extension. Segments
-	may be formatted as MPEG-4 [[!ISOBMFF]] .mp4, .m4v, m4a, CMAF based [[!MPEGCMAF]]
-	for .cmf[v.a.m.t], or [[!MPEGDASH]] for .mpd or HLS [[!RFC8216]] for .m3u8. Alternatively
-       .ts based files follow [[!MPEG2TS]]. Note that MPEG-2 TS is also included for compatiblity 
-        with HLS. 
-   NOTE: using MPEG-2 TS will break consitency with interface 1 which uses CMAF container format structure
+	Table 6 outlines the formats that media and manifest objects are expected to follow based on their file extension. Segments may be formatted as MPEG-4 [[!ISOBMFF]] .mp4, .m4v, m4a, CMAF [[!MPEGCMAF]] .cmf[v.a.m.t], or [!MPEG2TS]] .ts (HLS only). Manifests may be formatted as [[!MPEGDASH]] .mpd or HLS [[!RFC8216]] .m3u8.
+
+  NOTE: using MPEG-2 TS will break consistency with interface 1 which uses CMAF container format structure
 
     Table 6:
    <table class="def">
@@ -1585,10 +1581,6 @@ track.
    ### Relative paths ###{#DASH_Relative_paths_and_extensions}
 
       1. The ingest source SHOULD use Relative URL paths to address each segment within the manifest object.
-
-    ## CMAF specific requirements ## {#CMAF_requirements}
-
-    When the media source is using CMAF for the Media Objects, it MUST also prepare format specific manifest files (.m3u8 for   HLS and .mpd for DASH). The format specific manifest files MUST reference the CMAF content such that it can be shared between the two formats (e.g., same path and file names). In other words, when using interface 2 to ingest CMAF content a manifest file describin the content is also required.
 
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
