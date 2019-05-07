@@ -1010,7 +1010,10 @@ to a CMAF fragment or chunk.
 
   NOTE 1: Track width and height can differ, but picture aspect ratio is the same for all CMAF tracks.
   NOTE 2: Sample entry constraints for CMAF switching sets are defined by each CMAF media profile
-
+  
+  aligned swtiching sets can be signalled aswell, aligned switching sets follow the same constraints, 
+  yet the codec string in stsd may be different.
+  
   For additional signalling of CMAF tracks belonging to the same switching set, the ingest source MAY set the alternate_group value
   in    the TrackHeaderBox tkhd to a value that is the same for tracks belonging to the same switching set.
   This allows explicit signalling of tracks that do apply to switchingset constraints but do not belong to the same switching set.
