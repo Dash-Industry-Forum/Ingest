@@ -56,7 +56,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    that consume streams using any defined
    streaming protocol, with a preference for [[!MPEGDASH]]
 
-   Live media ingest happens between an [=Ingest source=], such as a [=live encoder=] and a [=Receiving entity=].
+   Live media ingest happens between an [=Ingest source=], such as a [=Live encoder=] and a [=Receiving entity=].
    Examples of such a [=Receiving entity=] could be a media packager,streaming origin or a content delivery network.
    The combination of ingest sources and
    receiving entities  
