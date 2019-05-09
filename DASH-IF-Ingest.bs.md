@@ -1403,7 +1403,7 @@ send inband emsg box and the receiver SHOULD ignore it.
    ### Industry Compliance ###{#Industry_compliance}
 
     1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] 
-       and/or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects as a [=Streaming presentation=].
+         and/or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects as a [=Streaming presentation=].
     2. The [=Ingest source=] MUST support the configuration and use of Fully Qualified Domain Names (per RFC8499) to identify the [=Receiving entity=].
     3. The [=Ingest source=] MUST support the configuration of the path which it will POST or PUT all the [=Objects=] to.
     4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Manifest Files accordingly.
@@ -1414,7 +1414,7 @@ send inband emsg box and the receiver SHOULD ignore it.
    ### HTTP connections ### {#DASH_Ingest_HTTP}
 
     1. The Ingest Source MUST transfer [=Manifest objects=] and [=Media objects=] to the Receiving entity via individual 
-        HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
+         HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
     2. The Ingest Source SHOULD remove [=Media objects=] from the Receiving entity which are no longer referenced in the corresponding [=Manifest objects=] via     an HTTP DELETE operation. How long the Ingest Source waits to remove unreferenced content MAY be configurable. Upon receipt of a DELETE request, the        Receiving entity should:   
 
          2a. delete the referenced content and return a 200 OK HTTP Response code
@@ -1431,17 +1431,17 @@ send inband emsg box and the receiver SHOULD ignore it.
         have unique paths. This uniqueness applies across all ingested content in previous sessions, as well as the current session. 
         This requirement ensures previously cached content (i.e., by a CDN) is not inadvertently served instead of newer content of the same name.
     2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving 
-        entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
+         entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
     3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. 
-       One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
+         One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
     4. When receiving objects with the same path as an existing object, the Receiving entity MUST 
-        over-write the existing objects with the newer objects of the same path.
+         over-write the existing objects with the newer objects of the same path.
     5. To support unique naming and support consistency, the Ingest Source SHOULD include a number which is monotonically 
-        increasing with each new Media Object at the end of Media objects name, separated by a non-numeric character. 
-        This way it will be possible to retrieve this numeric suffix via a regular expression. 
+         increasing with each new Media Object at the end of Media objects name, separated by a non-numeric character. 
+         This way it will be possible to retrieve this numeric suffix via a regular expression. 
     6. The Ingest Source MUST identify Media objects containing initialization fragments by using the .init file extension
     7. The Ingest source MUST include a file extension and a MIME-type for all media objects. 
-         The following file extensions and mime-types are the ONLY permissible combinations to be used:
+          The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
 
 	Table 6 outlines the formats that media and manifest objects are expected to follow based on their file extension. 
