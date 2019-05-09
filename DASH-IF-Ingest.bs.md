@@ -548,7 +548,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
   The media ingest follows the following  
   general requirements for both target /interfaces.  
-
+  The ingest interface uses exising media format 
+  in combination with the HTTP POST protocol.
 
      1. The [=Ingest source=]  SHALL communicate
         using the HTTP POST method as defined in
@@ -576,11 +577,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
      7. As compatibility profile for the TLS encryption
         the ingest source SHOULD support the mozzilla
         intermediate compatibility profile [=MozillaTLS=].
-     8. In case of an authentication error, the ingest
-        source SHALL retry establishing the [=Connection=]
+     8. In case of an authentication error HTTP 403 response, 
+        the ingest source SHALL retry establishing the [=Connection=]
         within a fixed time period
         with updated authentication credentials, when 
-        that also results in error the ingest source can stop.
+        that also results in error the ingest source
+        can retry N times, after this the 
+        ingest source SHOULD stop and log an error.
      9. The  [=Ingest source=] SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
@@ -589,16 +592,60 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         from quickly disconnecting from the ingest source
         in the event of a service update.
      10. The HTTP POST for sparse
-        data SHOULD be short-lived,
-        terminating as soon as the data of a fragment is sent.
+         data SHOULD be short-lived,
+         terminating as soon as the data of a fragment is sent.
      11. The POST request uses a [=POST_URL=] to the basepath of the
-        publishing point at the media processing entity and
-        SHOULD use an additional relative path when posting
-        different streams and fragments, for example,
+         publishing point at the media processing entity and
+         SHOULD use an additional relative path when posting
+         different streams and fragments, for example,
         to signal the stream or fragment name.
      12. Both the [=Ingest source=] and [=Receiving entity=]
-	    MUST support IPv4 and IPv6 transport.
-
+	      MUST support IPv4 and IPv6 transport.
+         1. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
+    	   for establishing the
+         TCP connection. If an attempt to establish
+         the connection takes longer than the timeout,
+		   abort the operation and try again.
+     13. The [=Ingest source=] SHOULD resend [=Objects=] for which a
+        connection was terminated early, or when an error 
+        response was received such as HTTP 400 or 403, 
+        if the connection was down
+		  for less than 3 average segments durations. For connections
+		  that were down longer, ingest can resume sending [=Objects=] at the live edge
+		  of the live media presentation instead.
+     14. The [=Ingest source=] MAY limit the number 
+         of retries to establish a new
+         connection or resume streaming after a TCP error occurs to N.
+         This number N MAY be configurable.
+     15. After a TCP error:
+        a. The current connection MUST be closed,
+          and a new connection MUST be created
+          for a new HTTP POST request.
+        b. The new HTTP POST URL MUST be the same
+          as the initial POST URL for the
+          object to be ingested.
+     16.  In case the [=Receiving entity=] cannot process the
+          POST request due to authentication or permission
+          problems, or incorrect path, 
+          then it SHALL return a permission denied HTTP 403
+     17.  In case the media processing entity can process
+          the fragment in the POST request body but finds
+          the media type cannot be supported it MAY return an HTTP 415
+          unsupported media type, otherwise 400 bad request MUST be 
+          returned.
+     18. In case an unknown error happened during
+         the processing of the HTTP
+         POST request a HTTP 400 Bad request SHALL be returned
+         by the media processing entity
+     19. In case the receiving entity cannot
+         process a fragment posted
+         due to missing or incorrect init fragment, an HTTP 412
+         unfulfilled condition MAY be returned, otherwise,
+         a HTTP 400 bad request response MUST be returned.
+      20. The[=Receiving entity=] MAY return 50x HTTP response in case
+          of other errors at the server, not particularly relating
+          to the request from the Ingest Source.
+      
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
 
@@ -662,7 +709,7 @@ Diagram 5: [=CMAF Track=] stream:
 
 
 
-Diagram 5 illustrates the synchronization model, that  
+Diagram 6 illustrates the synchronization model, that  
 is based on the synchronization model proposed in [[!MPEGCMAF]].
 Different bit-rate tracks and/or media streams are conveyed
 in separate CMAF tracks. By having the boundaries
@@ -789,7 +836,7 @@ Diagram 8: CMAF ingest flow
         After that it SHALL send an empty HTTP chunk,
         Wait for the HTTP response before closing
         TCP session RFC2616
-        when this response is received
+        when this response is received. 
      7. The [=Ingest source=] SHOULD use a separate TCP
         connection for ingest of each different CMAF track
      8. The [=Ingest source=] MAY use a separate relative path
@@ -1187,7 +1234,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 	</tr>
  </table>
 
-  Alternatively, a version 1 of the eventmessagebox with absolute timing
+  Alternatively, a version 1 of the DashEventMessageBox with absolute timing
   could be used, where the presentation time is added as a 64 bit integer.
   In this case care must be taken not to signal events in the past or or
   far in the future.
@@ -1267,7 +1314,7 @@ in multiple tracks, and avoiding a strong dependency between media
 and metadata by interleaving them. The [=Ingest source=] SHOULD NOT
 send inband emsg box and the receiver SHOULD ignore it. 
 
-##  Requirements for Media Processing Entity Failover and Connection Error Handling ## {#failover}
+##  Requirements for Media Processing and ingest source Entity Failover and Connection Error Handling ## {#failover}
 
   Given the nature of live streaming, good failover support is  
   critical for ensuring the availability of the service.  
@@ -1279,68 +1326,25 @@ send inband emsg box and the receiver SHOULD ignore it.
   for failover scenarios. The following steps are required for an [=Ingest source=]
    to deal with a failing media processing entity.  
 
-   The [=CMAF ingest=] source and [=Receiving entity=] should implement the following recommendation to achieve failover support.
+   The [=CMAF ingest=] source and [=Receiving entity=] should implement the following recommendation to achieve failover support
+   of the receiving entity.
 
-     1. The [=Ingest source=] MUST use a timeout in order of segment duration (1-6 seconds)
-    	  for establishing the
-        TCP connection. If an attempt to establish
-        the connection takes longer than the timeout,
-		  abort the operation and try again.
-     2. The [=Ingest source=] SHOULD resend media fragments for which a
-        connection was terminated early, if the connection was down
-		  for less than 3 average segments durations. For connections
-		  that were down longer, ingest can resume at the live edge
-		  of the live media presentation instead.
-     3. The [=Ingest source=] SHOULD
-        NOT limit the number of retries to establish a
-        connection or resume streaming after a TCP error occurs.
-     4. After a TCP error:
-        a. The current connection MUST be closed,
-          and a new connection MUST be created
-          for a new HTTP POST request.
-        b. The new HTTP POST URL MUST be the same
-          as the initial POST URL for the
-          fragment to be ingested.
-        c. The new HTTP POST MUST include CMAF
-          headers ([=ftyp=], and [=moov=] boxes)
-          identical to the original CMAF headers.
-     5.  In case the [=Receiving entity=] cannot process the
-         POST request due to authentication or permission
-         problems then it SHALL return a permission denied HTTP 403
-     6.  In case the media processing entity can process the request
-         it SHALL return an HTTP 200 OK or 202 Accepted
-     7.  In case the media processing entity can process
-         the fragment in the POST request body but finds
-         the media type cannot be supported it MAY return an HTTP 415
-         unsupported media type, otherwise 400 bad request may be 
-         returned.
-     8. In case an unknown error happened during
-         the processing of the HTTP
-         POST request a HTTP 400 Bad request SHALL be returned
-         by the media processing entity
-     9. In case the media processing entity cannot
-         process a fragment posted
-         due to missing or incorrect init fragment, an HTTP 412
-         unfulfilled condition SHOULD be returned, otherwise,
-         a HTTP 400 bad request response may be returned.
-     10. In case an ingest source receives an HTTP 412 response, 
-         HTTP  415, or HTTP   400 bad request
-         it SHALL resend [=ftyp=] and [=moov=] boxes (CMAF Header), followed by a fragment. In case this course of action results in the same response code from the receiving entity the ingest source SHOULD stop and log an error. 
-
-## Requirements for Live Media Source Failover ## {#failover_source}
+      1. In case the receveing entity failed, a new instance SHOULD be 
+          created, listening on the same [=Publishing point=] for the ingest 
+          stream.
 
   [=Live encoder=] or [=Ingest source=] failover is the second type  
   of failover. In this scenario, the error condition  
   occurs on the [=Ingest source=] side. The following expectations apply  to the live ingestion endpoint when encoder failover happens:  
 
-      1. A new [=Ingest source=] instance SHOULD be instantiated
+      2. A new [=Ingest source=] instance SHOULD be instantiated
          to continue the ingest
-      2. The [=Ingest source=] MUST use
+      3. The [=Ingest source=] MUST use
          the same URL for HTTP POST requests as the failed instance.
-      3. The new  [=Ingest source=] POST request
+      4. The new  [=Ingest source=] POST request
          MUST include the same [=CMAF Header=] or
          init fragment as the failed instance
-      4. The [=Ingest source=]
+      5. The [=Ingest source=]
          MUST be properly synced with all other running ingest sources
          for the same live presentation to generate synced audio/video  
          samples with aligned fragment boundaries.
@@ -1348,10 +1352,10 @@ send inband emsg box and the receiver SHOULD ignore it.
          for fragments in the "tfdt" match between decoders,
          and encoders. In addition, fragment boundaries need
          to be appropriately synchronized.
-      5. The new stream MUST be semantically equivalent
+      6. The new stream MUST be semantically equivalent
          with the previous stream, and interchangeable
          at the header and media fragment levels.
-      6. The new instance of [=Ingest source=] SHOULD
+      7. The new instance of [=Ingest source=] SHOULD
          try to minimize data loss. The basemediadecodetime tfdt
          of media fragments SHOULD increase from the point where
          the encoder last stopped. The basemediadecodetime in the
@@ -1399,14 +1403,18 @@ send inband emsg box and the receiver SHOULD ignore it.
     2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
     3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
     4. When receiving objects with the same path as an existing object, the Receiving entity MUST over-write the existing objects with the newer objects of the same path.
-    5. The Ingest Source MUST include a number which is monotonically increasing with each new Media Object at the end of Media objects name. It MUST be possible to retrieve this numeric suffix via a regular expression. A common method is to use the time at which the Media Segment was created divided by the Media object duration. Note: to be further discussed
+    5. TO support unique naming and support consistency, the Ingest Source SHOULD include a number which is monotonically 
+        increasing with each new Media Object at the end of Media objects name, separated by a non-numeric character. 
+        This way it will be possible to retrieve this numeric suffix via a regular expression. 
     6. The Ingest Source MUST identify Media objects containing initialization fragments by using the .init file extension
     7. The Ingest source MUST include a file extension and a MIME-type for all media objects. The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
 
-	Table 6 outlines the formats that media and manifest objects are expected to follow based on their file extension. Segments may be formatted as MPEG-4 [[!ISOBMFF]] .mp4, .m4v, m4a, CMAF [[!MPEGCMAF]] .cmf[v.a.m.t], or [!MPEG2TS]] .ts (HLS only). Manifests may be formatted as [[!MPEGDASH]] .mpd or HLS [[!RFC8216]] .m3u8.
+	Table 6 outlines the formats that media and manifest objects are expected to follow based on their file extension. 
+   Segments may be formatted as MPEG-4 [[!ISOBMFF]] .mp4, .m4v, m4a, CMAF [[!MPEGCMAF]] .cmf[v.a.m.t], or [!MPEG2TS]] .ts 
+   (HLS only). Manifests may be formatted as [[!MPEGDASH]] .mpd or HLS [[!RFC8216]] .m3u8.
 
-  NOTE: using MPEG-2 TS will break consistency with interface 1 which uses CMAF container format structure
+  NOTE: using MPEG-2 TS will break consistency with interface 1 which uses a CMAF container format structure
 
     Table 6:
    <table class="def">
@@ -1415,42 +1423,42 @@ send inband emsg box and the receiver SHOULD ignore it.
       <th> Mime Type  </th>
 	</tr>
    <tr>
-		<th> .m3u8  </th>
+		<th> .m3u8  [[!RFC8216]]</th>
       <th> application/x-mpegURL or vnd.apple.mpegURL  </th>
 	</tr>
    <tr>
-		<th> .mpd </th>
+		<th> .mpd [[!MPEGDASH]]</th>
       <th> application/x-mpegURL </th>
 	</tr>
    <tr>
-		<th>  .cmfv  </th>
+		<th>  .cmfv  [[!MPEGCMAF]]</th>
       <th> video/mp4 </th>
 	</tr>
    <tr>
-		<th> .cmfa </th>
+		<th> .cmfa [[!MPEGCMAF]]</th>
       <th> audio/mp4  </th>
 	</tr>
    <tr>
       <th> application/mp4   </th>
 	</tr>
    <tr>
-		<th> .cmfm   </th>
+		<th> .cmfm  [[!MPEGCMAF]] </th>
       <th> application/mp4  </th>
 	</tr>
     <tr>
-		<th> .mp4  </th>
+		<th> .mp4  [[!ISOBMFF]]</th>
       <th> video/mp4 or application/mp4   </th>
 	</tr>
     <tr>
-		<th> .m4v  </th>
+		<th> .m4v  [[!ISOBMFF]]</th>
       <th> video/mp4    </th>
 	</tr>
     <tr>
-		<th> .m4a  </th>
+		<th> .m4a  [[!ISOBMFF]]</th>
       <th> audio/mp4   </th>
 	</tr>
      <tr>
-		<th> .m4s  </th>
+		<th> .m4s  [[!ISOBMFF]]</th>
       <th> video/iso.segment   </th>
 	</tr>
      <tr>
@@ -1458,7 +1466,7 @@ send inband emsg box and the receiver SHOULD ignore it.
       <th> video/mp4   </th>
 	</tr>
      <tr>
-		<th> .header  </th>
+		<th> .header  [[!ISOBMFF]]</th>
       <th> video/mp4  </th>
 	</tr>
      <tr>
@@ -1473,20 +1481,20 @@ send inband emsg box and the receiver SHOULD ignore it.
 
    ### Ingest source identification ###{#DASH_Ingest_Publisher_Identification}
 
-    1. The [=Ingest source=] MUST include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all allowed HTTP messages. The Receiving entity MUST log the received User-Agent, along with other relevant HTTP Header data to facilitate troubleshooting.
+    1. The [=Ingest source=] SHOULD include a User-Agent header (which provides information about brand name, version number, and build number in a readable format) in all allowed HTTP messages. The Receiving entity MAY log the received User-Agent, along with other relevant HTTP Header data to facilitate troubleshooting.
 
 
-   ### Common Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
+   ### Additional Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
 
-   The following items define the behavior of an ingest source when encountering certain conditions.
+   The following items defines additional the behavior of an ingest source when encountering certain error responses from the receiving entity.
 
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the [=Receiving entity=], it MUST
 
          1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
 
-         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format at hand. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
+         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
 
-    2. Upon receipt of an HTTP 403 or 400 error, for all objects (manifest and non-manifest), the ingest source MUST not retry and stop attempting to ingesting objects and provide a log or fatal error condition.
+    2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, as defined in the general protocol        behavior
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
 
