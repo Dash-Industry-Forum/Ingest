@@ -1523,7 +1523,7 @@ send inband emsg box and the receiver SHOULD ignore it.
    The following items defines additional behavior of an ingest source when encountering certain error responses from the receiving entity.
 
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 
-       5xx response when attempting to POST content to the [=Receiving entity=], it MUST
+         5xx response when attempting to POST content to the [=Receiving entity=], it MUST
 
          1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry as defined in #general.
 
@@ -1541,7 +1541,7 @@ send inband emsg box and the receiver SHOULD ignore it.
     2. use a .key file extension for any keyfiles posted to the receiving entity for client delivery.
     3. use a ".ts" file extension for segments encapsulated in a Transport Stream File Format.
     4. use one of the allowed file extensions (per the table above) appropriate for the mime-type 
-       of the content encapsulated using [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
+          of the content encapsulated using [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
 
 
    ### Upload order ###{#Upload_order}
@@ -1573,10 +1573,10 @@ send inband emsg box and the receiver SHOULD ignore it.
 
     1. When ingesting media objects to multiple receiving entities, the ingest source MUST send identical media objects with identical names
     2. To allow resumption of failed sessions and to avoid reuse of previously cached content, 
-       the ingest source MUST NOT restart object names or use previously used object names.
+          the ingest source MUST NOT restart object names or use previously used object names.
     3. When multiple ingest sources are used, they MUST use consistent media object names 
-       including when reconnecting due to any application or transport error. A common approach 
-       is to use (epoch time)/(segment duration) as the object name.
+          including when reconnecting due to any application or transport error. A common approach 
+          is to use (epoch time)/(segment duration) as the object name.
 
    ## DASH specific requirements ## {#DASH_requirements}
 
