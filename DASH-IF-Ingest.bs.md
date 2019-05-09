@@ -601,50 +601,50 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         to signal the stream or fragment name.
      12. Both the [=Ingest source=] and [=Receiving entity=]
 	      MUST support IPv4 and IPv6 transport.
-         1. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
+     13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
     	   for establishing the
          TCP connection. If an attempt to establish
          the connection takes longer than the timeout,
 		   abort the operation and try again.
-     13. The [=Ingest source=] SHOULD resend [=Objects=] for which a
-        connection was terminated early, or when an error 
-        response was received such as HTTP 400 or 403, 
-        if the connection was down
-		  for less than 3 average segments durations. For connections
-		  that were down longer, ingest can resume sending [=Objects=] at the live edge
-		  of the live media presentation instead.
-     14. The [=Ingest source=] MAY limit the number 
+     14. The [=Ingest source=] SHOULD resend [=Objects=] for which a
+         connection was terminated early, or when an error 
+         response was received such as HTTP 400 or 403, 
+         if the connection was down
+		   for less than 3 average segments durations. For connections
+		   that were down longer, ingest can resume sending [=Objects=] at the live edge
+		   of the live media presentation instead.
+     15. The [=Ingest source=] MAY limit the number 
          of retries to establish a new
          connection or resume streaming after a TCP error occurs to N.
          This number N MAY be configurable.
-     15. After a TCP error:
-        a. The current connection MUST be closed,
+     16. After a TCP error:
+         a. The current connection MUST be closed,
           and a new connection MUST be created
           for a new HTTP POST request.
-        b. The new HTTP POST URL MUST be the same
+         b. The new HTTP POST URL MUST be the same
           as the initial POST URL for the
           object to be ingested.
-     16.  In case the [=Receiving entity=] cannot process the
+     17.  In case the [=Receiving entity=] cannot process the
           POST request due to authentication or permission
           problems, or incorrect path, 
           then it SHALL return a permission denied HTTP 403
-     17.  In case the media processing entity can process
+     18.  In case the media processing entity can process
           the fragment in the POST request body but finds
           the media type cannot be supported it MAY return an HTTP 415
           unsupported media type, otherwise 400 bad request MUST be 
           returned.
-     18. In case an unknown error happened during
+     19. In case an unknown error happened during
          the processing of the HTTP
          POST request a HTTP 400 Bad request SHALL be returned
          by the media processing entity
-     19. In case the receiving entity cannot
+     20. In case the receiving entity cannot
          process a fragment posted
          due to missing or incorrect init fragment, an HTTP 412
          unfulfilled condition MAY be returned, otherwise,
          a HTTP 400 bad request response MUST be returned.
-      20. The[=Receiving entity=] MAY return 50x HTTP response in case
-          of other errors at the server, not particularly relating
-          to the request from the Ingest Source.
+     21. The[=Receiving entity=] MAY return 50x HTTP response in case
+         of other errors at the server, not particularly relating
+         to the request from the Ingest Source.
       
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
