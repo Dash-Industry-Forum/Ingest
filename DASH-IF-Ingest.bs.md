@@ -3,10 +3,14 @@
 
 ## Abstract ## {#Abstract}
 
-   This document presents the DASH-IF Live Media Ingest Protocol Specification. Two protocol interfaces are defined. The first, interface 1, CMAF ingest, is based on fragmented MPEG-4 as defined by the common media application track format (CMAF). The second interface is based on MPEG DASH and HLS.
-   Both Interfaces use the HTTP POST Method to transmit media objects from the ingest source to the receiving entity.
-   Examples of live streaming workflows using these
-   protocol interfaces are also presented. The protocol interfaces also support carriage of timed metadata and timed text. Guidelines for redundancy and failover are also included.
+   This document presents the DASH-IF Live Media Ingest Protocol Specification. 
+   Two protocol interfaces are defined. The first, interface 1, CMAF ingest, 
+   is based on fragmented MPEG-4 as defined in the common media application track format (CMAF). 
+   The second interface is based on MPEG DASH and HLS.
+   Both Interfaces use the HTTP POST Method to transmit media objects 
+   from the ingest source to the receiving entity. Examples of live streaming workflows using these
+   protocol interfaces are also presented. The protocol interfaces also support carriage of timed metadata and timed text. 
+   Guidelines for redundancy and failover are also included.
 
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
@@ -58,10 +62,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
    Live media ingest happens between an [=Ingest source=], such as a [=Live encoder=] and a [=Receiving entity=].
    Examples of such a [=Receiving entity=] could be a media packager,streaming origin or a content delivery network.
-   The combination of ingest sources and
-   receiving entities  
+   The combination of ingest sources and receiving entities  
    is common in practical video streaming deployments.  
-   It allows media processing functionality to be distributed between the ingest source and receiving entities.
+   In such deployments, media processing functionality is distributed between the ingest source and receiving entities.
 
    Nevertheless, in such deployments, interoperability between  
    ingest sources and downstream processing  
@@ -80,7 +83,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    and receiving the data, and timely resolution of hostnames.  
 
    A second level of interoperability lies  
-   in the media container and coded media formats.  
+   with the media container and coded media formats.  
    The Moving Picture Experts Group defined several media  
    container formats such as [[!ISOBMFF]] and [[!MPEG2TS]]
    which are widely adopted and well supported.  
@@ -89,7 +92,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    To do so, they provide many different profiles and options.  
    Detailed interoperability is often achieved through  
    other application standards such as those for  
-   the broadcast, storage or video on demand. For interoperable
+   broadcast, storage or video on demand. For interoperable
    live media ingest, this document provides
    guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF]] for 
    formatting the media content.  
@@ -109,10 +112,11 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    opportunities for ad insertion, program information,  
    or other attributes like timed graphics or general
    information relating to the broadcast.  Examples  
-   of such metadata include [[!SCTE35]] markers which  
+   of such metadata formats include [[!SCTE35]] markers which  
    are often found in broadcast streams and other  
-   metadata such as ID3 tags [[!ID3v2]] relating to the
-   media presentation.
+   metadata such as ID3 tags [[!ID3v2]] containing information
+   relating to the media presentation.
+
    In fact, many more types of metadata relating
    to the live event might be ingested and passed
    on to an Over the top (OTT) streaming workflow.  
@@ -126,7 +130,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    timeline discontinuities must be avoided as much as
    possible during normal operation. Further, when
    using redundant ingest sources, the ingested streams 
-   must be sample synchronized.
+   must be sample accurately synchronized.
    Last, streams may need to be started at the same
    time as to avoid miss alignment between audio and video
    tracks.
@@ -150,11 +154,13 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    technologies that have been tested and deployed  
    in several large scale streaming deployments.
 
-   To adress this interoperability point, two key interfaces and their protocol specification have been identified.
-   The first, CMAF Ingest, mainly aims as a ingest format to packager
+   To adress this interoperability point, two key interfaces 
+   and their protocol specification have been identified.
+   The first, CMAF Ingest, mainly functions as a ingest format to packager
    or active media processor, while the second works mainly
    to ingest media streaming presentations to origin servers
-   and or storage or content delivery network facilities.
+   cloud storage or content delivery networks.
+
    The section on interfaces and profiles provides more
    background and motivation around these two interfaces
    that both use HTTP POST.   
@@ -181,11 +187,11 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    We believe the proposed media format and protocol interfaces
    will provide the same benefits with other transports  
    protocols. Our view is that for current and near future  
-   deployments using [[!RFC7235]]  is still a good approach.   
+   deployments using [[!RFC7235]] is still a good approach.   
 
-   The document is structured as follows, in section 3   
-   we present the conventions and terminology used throughout   
-   this document. In section 4 we present use cases and   
+   The document is structured as follows, section 3   
+   presents the conventions and terminology used throughout   
+   this document. Section 4 presents use cases and   
    workflows related to media ingest and the two profiles/interfaces   
    presented. Sections 5-9 will detail the two different protocol interfaces defined.   
 
@@ -369,23 +375,23 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 
 
 
-# Media Ingest Workflows and Profiles # {#workflow_and_use_cases}
+# Media Ingest Workflows and Interfaces # {#workflow_and_use_cases}
 
-   Two workflows have been identified mapping to the two protocol interfaces defined.
+   Two workflows have been identified mapping to the two protocol interfaces.
 
    The first workflow uses a separate live encoder as [=Ingest source=]
    and packager as [=Receiving entity=]. In this case, interface 1,
    [[!MPEGCMAF]] (CMAF) Ingest may be used. This interface uses
    [[!MPEGCMAF]] to ingest a live encoded stream to the packager. The
-   [=Receiving entity=] in this case may do the packaging, encryption, or other active media processing. This interface is defined
-   in a way that it will be possible to generate streaming presentation
-   based on [[!MPEGDASH]] or HLS [[!RFC8216]] based on the ingested stream.
+   [=Receiving entity=] in this case may do the packaging, encryption, or other active media processing. 
+   This interface is defined in a way that it will be possible to generate streaming presentation
+   based on [[!MPEGDASH]] or HLS [[!RFC8216]] based on information in the ingested stream.
 
    The second workflow, constitutes ingest to a passive delivery system such
    as a cloud storage or a content delivery network. In this case the stream needs
    to be formatted as close as possible to the final stream for consumption by a client.
    This interface is defined in the second part, interface 2 [=DASH Ingest=] or [=HLS Ingest=].
-   It enables a push based version of these commonly used streaming protocols.
+   It enables a HTTP POST based version of these commonly used streaming protocols.
    In this case, besides the media objects, also manifest objects are ingested to the
    [=Receiving entity=].
 
@@ -428,7 +434,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
     smooth streaming in 2009 and several advances   
     on signaling metadata and timed text.  
 
-    In addition, the current specification incorporates the latest media formats and protocols, making it ready for current and   
+    In addition, the current specification incorporates 
+    the latest media formats and protocols, making it ready for current and   
     next generation media codecs such as [[!MPEGHEVC]]   
     and protocols like MPEG DASH [[!MPEGDASH]].  
 
@@ -479,13 +486,14 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    In this case also [=Manifest objects=] and other client specific  
    information needs to be ingested. Besides these factors  
    , choosing a workflow for a video streaming platform depends  
-   on many other factors. Note that interface 2 could also be used as an output format of a packager.
+   on many other factors. Note that interface 2 could also be 
+   used as an output format of a packager.
    
    This specification does not
    provide guidance on what workflow is best to use in which
    cases. Yet, the live ingest specification
-   covers the two interfaces suitable for
-   different the types of workflows.
+   covers the two interfaces most suitable for
+   both types of workflows identified.
 
    The best choice for a specific platform depends  
    on many of the use case specific requirements,
@@ -531,7 +539,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
   Finally, Diagram 3 highlights another aspect that was taken into consideration
   for large scale systems with many users. Often content owners would like to run multiple
   ingest sources, multiple receiving entities and make them available to the clients
-  in a seamless fashion for maximum resilliencey. This approach is already common when serving web pages,
+  in a seamless fashion. This approach is already common when serving web pages,
   and this architecture also applies to video streaming over HTTP. In Diagram 3
   it is highlighted how one or more Ingest Sources can be sending data to one or
   more receiving entities. In such a workflow it is important to handle the case
@@ -547,9 +555,9 @@ DASH-IF makes no any warranty whatsoever for such third party material.
 # General Ingest Protocol Behavior # {#general}
 
   The media ingest follows the following  
-  general requirements for both target /interfaces.  
-  The ingest interface uses exising media format 
-  in combination with the HTTP POST protocol.
+  general requirements for both targetted interfaces.  
+  The ingest interface uses exising media formats 
+  in combination with the HTTP POST method.
 
      1. The [=Ingest source=]  SHALL communicate
         using the HTTP POST method as defined in
@@ -584,7 +592,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         that also results in error the ingest source
         can retry N times, after this the 
         ingest source SHOULD stop and log an error.
-     9. The  [=Ingest source=] SHOULD terminate
+        The number of retries N MAY be configurable in the [=Ingest Source=].
+     9. The [=Ingest source=] SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
@@ -595,15 +604,14 @@ DASH-IF makes no any warranty whatsoever for such third party material.
          data SHOULD be short-lived,
          terminating as soon as the data of a fragment is sent.
      11. The POST request uses a [=POST_URL=] to the basepath of the
-         publishing point at the media processing entity and
+         publishing point at the [=Receiving entity=] and
          SHOULD use an additional relative path when posting
          different streams and fragments, for example,
-        to signal the stream or fragment name.
+         to signal the stream or fragment name.
      12. Both the [=Ingest source=] and [=Receiving entity=]
 	      MUST support IPv4 and IPv6 transport.
      13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
-    	   for establishing the
-         TCP connection. If an attempt to establish
+    	   for establishing the TCP connection. If an attempt to establish
          the connection takes longer than the timeout,
 		   abort the operation and try again.
      14. The [=Ingest source=] SHOULD resend [=Objects=] for which a
@@ -672,13 +680,14 @@ in this direction following recent specifications
 like [[!MPEGCMAF]] and HLS  [[!RFC8216]].
 
 [=CMAF Ingest=] assumes ingest to an active media processing entity,
-such as a packager or active origin server.
+such as a packager or active origin server. However, 
+it can also be used for simple transport of media to an archive.
 It advances over the ingest  
 part of the smooth ingest protocol [=MS-SSTR=] by only using  
 standardized media container formats
 and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].  
 In addition, this enables extension towards codecs like [[!MPEGHEVC]] and  
-timed metadata ingest of subtitle and timed text streams.  
+timed metadata ingest, and ingest of subtitle and timed text streams.  
 The workflow ingesting multiple media ingest streams with  
 [=CMAF Ingest=] is illustrated in Diagram 4. Discussions
 on the early development have been documented [=fmp4git=].
@@ -692,14 +701,15 @@ on the early development have been documented [=fmp4git=].
 
 Diagrams 5-7 detail some of the concepts and structures.   
 Diagram 5 shows the data format structure of the [=CMAF Track=]
-format [[!ISOBMFF]] and [[!MPEGCMAF]]. In this format media meta data   
-such as playback time, sample duration and sample data (encoded samples  
-are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] is used to signal the information to playback and decode the samples  stored in the mdat box.   
+format bassed on  [[!ISOBMFF]] and [[!MPEGCMAF]]. In this format media samples 
+and meta data are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] 
+is used to signal the information to playback and decode properties of the samples stored in the mdat box.   
 The [=ftyp=] and moov box contain the track specific information   
 and can  sometimes referred  to as a [[!MPEGCMAF]] header.  
 The combination of  [=moof=] [=mdat=] can be referred   
 as a [=CMAF fragment=] or [=CMAF chunk=] or a [=CMAF segment=]
-depending on the structure content and the number of moof mdat structures in the addressable object. These CMAF Addressable media objects can be jointly referred to as [=CMAF Media object=]  
+depending on the structure content and the number of moof mdat structures in the addressable object. 
+These CMAF Addressable media objects can be jointly referred to as [=CMAF Media object=]  
 
 Diagram 5: [=CMAF Track=] stream:
 
@@ -723,14 +733,11 @@ send over a separate connection, possibly from a different
 model we refer to section 6 of [[!MPEGCMAF]]. For synchronization
 of tracks coming from different encoders, sample time accuracy
 is required. i.e. the same samples need to be mapped to the
-sample time on the timescale used for the track. Further,
-in case multiple redundant ingest sources are used
-they must present sample accurately synchronized streams.
-
+sample time on the timescale used for the track. 
 
 In diagram 7 another advantage of this synchronization model   
 is illustrated, i.e. the concept of late binding. In the case   
-of late binding, streams are combined on playout
+of late binding, streams are combined on playout/streaming
 in a presentation. By using   
 the fragment boundaries and a common timeline it can   
 be received by the media processing entity and embedded   
@@ -742,14 +749,16 @@ Also it allows storage of each track separately, and combining
 them later in a presentation based on user/operator preferences
 signalled in the manifest (e.g. mpd, m3u8).
 Contrary, to multiplexed content, with late binding, the
-combination of media tracks is decided at playout.  
+combination of media tracks is decided at playout/streaming.
+For example, different manifests could reference the same 
+CMAF tracks, but describe a different composition of media
+contents.   
 
 Note that it is important, as defined in MPEG CMAF,
 that different CMAF Tracks have the same starting time
 sharing an implicit timeline. A stream becoming available
-late or from a different source needs to be synchronized
-and time aligned with other streams ingested avoiding
-miss alignment and other issues.
+from a different source needs to be synchronized
+and time aligned with other streams ingested.
 
 
 Diagram 6: [=CMAF Track=] synchronization:
@@ -772,7 +781,7 @@ Diagram 7: CMAF late binding:
 
 
 
-Diagram 8 shows the flow of the media ingest. It starts with a   
+Diagram 8 shows the sequence diagram of the protocol. It starts with a   
 DNS resolution (if needed) and an authentication step (using Authy,   
 or TLS certificates) to establish a secure [=TCP=] connection.
 While this specification promotes TLS certificates,
@@ -783,13 +792,21 @@ may also be used. The ingest source then issues a POST
 to test that the [=media processing entity=] is listening. This
 POST contains the [=moov=] + [=ftyp=] box (the init fragment
 or [=CMAF Header=] or could be empty.
-In case this is successful this is followed by the rest of
+In case this is successful this is followed by an initialization 
+fragment and the rest of
 the fragments in the [=CMAFstream=]. At the end of
 the session, for tear down the source may send an empty [=mfra=]
-box to close the connection and [=Publishing point=]. This is then followed with a zero length
+box to close the connection and [=Publishing point=]. 
+This is then followed with a zero length
 chunk, allowing the receiver to send a response, the encoder can
 follow up by closing the TCP connection using a FIN command as
 defined in HTTP RFC2616.
+This last step is especially important in long runing posts
+using chunked transfer encoding, as in this case the receiver 
+may not know that the connection needs to be closed or that the 
+HTTP POST command is over. 
+In case fixed lenght POST commands are used, it is easy for the 
+receiver to detect this. 
 
 
 Diagram 8: CMAF ingest flow
@@ -825,9 +842,9 @@ Diagram 8: CMAF ingest flow
         the fragment in which the timeout or TCP error occurred.
      5. The [=Ingest source=]  MUST handle
         any error responses
-        received from the media processing entity, by establishing
-        a new connection and following the preceding
-        requirements including retransmitting
+        received from the media processing entity, 
+        as described in general requirements, 
+        and by retransmitting
         the ftyp and moov boxes or the [=CMAF Header=].
      6. In case the [=Live stream event=] is over the
         ingest source SHALL signal
@@ -837,11 +854,12 @@ Diagram 8: CMAF ingest flow
         Wait for the HTTP response before closing
         TCP session RFC2616
         when this response is received. 
-     7. The [=Ingest source=] SHOULD use a separate TCP
+     7. The [=Ingest source=] SHOULD use a separate (parallel) TCP
         connection for ingest of each different CMAF track
      8. The [=Ingest source=] MAY use a separate relative path
         in the [=POST_URL=] for ingesting each different track or
-        track segment by appending it to the [=POST_URL=], this can make it easy to detect redundant streams from different ingest
+        track segment by appending it to the [=POST_URL=], 
+        this can make it easy to detect redundant streams from different ingest
         sources.
      9. The base media decode timestamps
         [=basemediadecodetime=]
@@ -851,13 +869,13 @@ Diagram 8: CMAF ingest flow
         for each of the fragments in the different
         tracks/streams that are ingested.
      10. The fragment sequence numbers
-        seq_num of fragments in the
-        [=CMAFstream=] signalled in the tfhd
-        SHOULD arrive in increasing order for each of the different
-        tracks/streams that are ingested. Using both
-        timestamp basemediadecodetime and seq_num
-        based indexing will help the media processing
-        entities identify discontinuities in the ingest stream.
+         seq_num of fragments in the
+         [=CMAFstream=] signalled in the tfhd
+         SHOULD arrive in increasing order for each of the different
+         tracks/streams that are ingested. Using both
+         timestamp basemediadecodetime and seq_num
+         based indexing will help the media processing
+         entities identify discontinuities.
      11. The average and maximum bitrate of each
          track SHOULD be signalled
          in the btrt box in the sample
@@ -873,8 +891,7 @@ Diagram 8: CMAF ingest flow
 
 	Note, in case a media processing entity cannot process a request from an ingest source
 	correctly, it can send respective HTTP error code. Please see the section
-    for the usage of these codes in [Failover and error handling](#failover). Please
-	also read this section for a complete understanding of the general protocol behavior.
+    for the usage of these codes in [Failover and error handling](#failover) or in (#general).
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
@@ -919,7 +936,7 @@ Diagram 8: CMAF ingest flow
          hev1 that signal the parameter sets (PPS, SPS, VPS) in
           in the media samples. This allows inband signalling
           of parameter changes.
-     11. In case the language of a track changes a new CMAF Header
+     11. In case the language of a track changes, a new CMAF Header
           with updated [=mdhd=] and or [=elng=] SHOULD be send.
      12. Track roles SHOULD be signalled in the ingest by using a kind box
           in userData udta box. The kind box MUST contain a schemeIdUri MPEG
@@ -933,15 +950,14 @@ A fragment can be composed of one or more chunks, while a segment can be
 composed of one or more fragments. The [=Media fragment=] defined here
 is independent of this notion and can be a chunk, a fragment containing
 a single chunk or a segment containing a single fragment containing
-a single chunk. In this text we use
-[=Media fragment=] to denote the structure combination moof mdat, corresponding
-to a CMAF fragment or chunk.
+a single chunk. In this text we use [=Media fragment=] to denote the 
+structure combination moof mdat, corresponding to a CMAF fragment or chunk.
 
 ## Requirements for Signalling Switching Sets ## {#Requirements_for_switchingsets}
 
   In live streaming a bundle of streams corresponding to a channel is ingested by posting
-  to a [=Publishing point=] at the [=Receiving entity=] . CMAF has the notion of a switchingsets [[!MPEGCMAF]] which map to similar
-  streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a switching set
+  to a [=Publishing point=] at the [=Receiving entity=]. CMAF has the notion of switchingsets [[!MPEGCMAF]] 
+  that map to similar streaming protocol concepts like adaptationset in [[!MPEGDASH]]. To signal a switching set
   CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] section 7.3.4 .
   Table 2 summarizes the CMAF Switching set constraints.
 
@@ -1095,7 +1111,7 @@ the notion of 9, 10 and 11.
 
 Note: [[!MPEGCMAF]] allows multiple kind boxes, hence multiple roles
 can be signalled. By default one should signal the DASH role
-urn:mpeg:dash:role:2011. A receiver can derive corresponding configuration
+urn:mpeg:dash:role:2011. A receiver may derive corresponding configuration
 for other streaming protocols such as HLS [[!RFC8216]]. In case this
 is not desired, additional kind boxes with corresponding schemeIdUri
 and values can be used to explicitly signal this kind of information.
@@ -1131,8 +1147,8 @@ Table 3: Roles for subtitle and Audio tracks and HLS Characteristics
 </table>
 
 MPEG DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]].
-Additionally, another example for explicitly signalling roles could b
-e DVB DASH [[!DVB-DASH]]. One could use schemeiduri@value and role as defined there.
+Additionally, another example for explicitly signalling roles could be DVB DASH [[!DVB-DASH]]. 
+One could use schemeiduri@value and role as defined there.
 e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alternate
 
 
@@ -1140,8 +1156,10 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
 ## Requirements for Timed Metadata ## {#timed_metadata}
 
   This section discusses the specific formatting requirements  
-  for [=CMAF Ingest=] of timed metadata related to events and markers for  ad insertion or other timed metadata such a program information. An example of  these are opportunities for splice points and program information  
-  signalled by SCTE-35 markers. This type of  event signalling  
+  for [=CMAF Ingest=] of timed metadata related to events and markers for  
+  ad insertion or other timed metadata such a program information. An example of  
+  these are opportunities for splice points and program information  
+  signalled by SCTE-35 markers. This type of event signalling  
   is different from regular audio/video information  
   because of its sparse nature. In this case,  
   the signalling data usually does not  
@@ -1151,11 +1169,12 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
   Examples of timed metadata are ID3 tags  
   [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASH emsg  
   messages defined in section 5.10.3.3 of [[!MPEGDASH]].
-  In addition, any other metadata can be signalled in an EventMessageBox emsg, by providing a schemeIdUri to identify the scheme, and the metadata embedded as samples in mdat.  
+  In addition, any other metadata can be signalled in an EventMessageBox emsg, 
+  by providing a schemeIdUri to identify the scheme, and the metadata embedded as samples in mdat.  
 
   Table 4 provides some example urn schemes to be signalled
   Table 5 illustrates an example of a SCTE-35 marker stored  
-  in a DASH emsg, that is in turn stored as a metadata sample.  
+  in a DASH EventMessageBox, that is in turn stored as a metadata sample.  
 
   The presented approach enables ingest of  
   timed metadata from different sources,  
@@ -1166,11 +1185,12 @@ e.g. 	kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1 kind.value=Alt
 
   By embedding the emsg structure in samples the benefits
   of its usages in DASH and CMAF are kept. In this case
-  the URIMetasample entry should be mpeg:dash:event:2012,
+  the URIMetasample entry MAY be mpeg:dash:event:2012,
   while the SchemeIdUri could be used to signal schemes
   of the messageData payload in the EventMessage. In addition, 
   the id enables detecting duplicate events, and value allows 
-  identification of the subscheme.
+  identification of the subscheme or other scheme specific 
+  information.
 
 Table 4: Example URN schemes for timed metadata tracks
 <table class="def">
@@ -1240,14 +1260,14 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
   far in the future.
 
   The active media processing entity can insert metadata in any of the
-  switching sets, embedded as DashEventMesageBoxes, for playout using MPEG DASH. The metadata encapsulated in the DashEventMessageBox is assumed
+  switching sets, embedded as DashEventMesageBoxes, for playout using MPEG DASH. 
+  The metadata encapsulated in the DashEventMessageBox is assumed
   to relate to the media presentation (e.g. program information, splice information
   , chapter information) and not to a specific track. For track specific metadata
   other structures like the CMAF header can be used.
-  Configuration of the [=Receiving entity=] on how to handle the metadata/EventMessageBoxes is out of scope of current document.
-  More information about this will be given in supplementatal
-  documents on implementation guidelines and best practices, that specify some recommended
-  practices and example implementation. An example default behavior could be to embed
+  Configuration of the [=Receiving entity=] on how to handle the metadata/EventMessageBoxes 
+  is out of scope of current document. More information about this will be given in supplemental
+  documents on implementation guidelines and best practices. An example default behavior could be to embed
   the metadata events in eventmessages and encapsulate these in each audio track for delivery.
 
   The following steps are recommended for timed metadata  
@@ -1275,7 +1295,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      6.  The [=Event Received Time=] is signalled in the "tfdt" box
          of the track fragment  as the basemediadecode
          time, this is the time when the metadata will be
-         first received.
+         first received when it is played out as inband event.
      6. The [=Event Presentation Time=] can be signalled as
         a difference to the Event Received Time by an
         empty sample with duration delta, the application
@@ -1283,9 +1303,14 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         applied. It is equal to the media presentation time
         of the sample containing the events/metadata. Such a
         sparse fragment may contains 3 samples, and empty sample
-        to signal the difference with the event received time, a sample that contains the one or more events, and an optional empty sample to fill the timeline as to avoid gaps.
+        to signal the difference with the event received time, 
+        a sample that contains the one or more events, and 
+        an optional empty sample to fill the timeline as to avoid gaps.
+        THe [=Event Presentation Time=] corresponds to the media 
+        presentation time of the sample containing the metadata.
      7. The duration of the sample SHOULD correspond
-        to the duration of the metadata or event if the metadata is valid for a duration of time (if applicable).
+        to the duration of the metadata or event if the 
+        metadata is valid for a duration of time (if applicable).
      8. Empty samples, and fragments with empty samples
         SHOULD be used to fill the timeline to avoid timeline
         gaps or 32 bit duration overflow for large timescales
@@ -1300,10 +1325,10 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         sample information.  
      11. In some cases, the duration of the metadata may not
         be known, in this case the sample duration could
-        be set to zero and updated later when the timestamp
-        of the next metadata fragment is received.
+        be set to 0 or 0xFFFFFFFF unkown duration and updated later when the timestamp
+        of the next metadata sample is received.
      12. The [=Ingest source=] SHOULD not embed inband event message
-         boxes emsg in the ingest stream, however it is not prohibited
+         boxes emsg in the ingest stream, however it is not strictly prohibited
          when conforming to this specification.
 
 Note: [[!MPEGCMAF]] has the notion of an inband event message box to convey
@@ -1326,16 +1351,16 @@ send inband emsg box and the receiver SHOULD ignore it.
   for failover scenarios. The following steps are required for an [=Ingest source=]
    to deal with a failing media processing entity.  
 
-   The [=CMAF ingest=] source and [=Receiving entity=] should implement the following recommendation to achieve failover support
-   of the receiving entity.
+   The [=CMAF ingest=] source and [=Receiving entity=] should implement the following 
+   recommendation to achieve failover support of the receiving entity.
 
-      1. In case the receveing entity failed, a new instance SHOULD be 
+      1. In case the receiving entity failed, a new instance SHOULD be 
           created, listening on the same [=Publishing point=] for the ingest 
           stream.
 
   [=Live encoder=] or [=Ingest source=] failover is the second type  
   of failover. In this scenario, the error condition  
-  occurs on the [=Ingest source=] side. The following expectations apply  to the live ingestion endpoint when encoder failover happens:  
+  occurs on the [=Ingest source=] side. The following expectations apply:  
 
       2. A new [=Ingest source=] instance SHOULD be instantiated
          to continue the ingest
@@ -1368,7 +1393,7 @@ send inband emsg box and the receiver SHOULD ignore it.
 
 # Ingest Interface 2: DASH and HLS Ingest Protocol Behavior # {#dash_ingest}
 
-   Interface 2 defines the protocol specific behavior required to ingest a [=Streaming presentation=] composed of [=Manifest objects=] and [=Media objects=] to receiving entities that provide either pass-through functionality or limited processing of the content. In this mode, the [=Ingest source=] prepares and delivers to the receiving entity all the [=Objects=] intended for consumption by a client. These are complete [=Streaming presentation=] including all manifest and media objects.
+   Interface 2 defines the protocol specific behavior required to ingest a [=Streaming presentation=] composed of [=Manifest objects=] and [=Media objects=] to receiving entities. In this mode, the [=Ingest source=] prepares and delivers to the receiving entity all the [=Objects=] intended for consumption by a client. These are complete [=Streaming presentation=] including all manifest and media objects.
 
    This interface is intended to be used by workflows which do not require active media processing post encoding. It leverages the fact that many encoders provide HLS and DASH packaging capabilities and that the resulting packaged content can easily be transferred via HTTP to standard web servers. However, neither HLS nor DASH has specified how such a workflow is intended to work leaving the industry to self specify key decisions such as how to secure and authenticate ingest sources, who is responsible for managing the content life cycle, the order of operations, failover, robustness, etc. In most cases a working solution can be had using a readily available web server such as Nginx or Varnish and the standard compliment of HTTP Methods. In many cases Interface 2 simply documents what is considered industry best practice while attempting to provide guidance to areas less common.
 
@@ -1377,7 +1402,8 @@ send inband emsg box and the receiver SHOULD ignore it.
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
 
-    1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] and/or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects.
+    1. The [=Ingest source=] MUST be able to create a compliant [=Streaming presentation=] for MPEG-DASH [[!MPEGDASH]] 
+       and/or HTTP live Streaming [[!RFC8216]]. The Ingest Source MAY create both MPEG-DASH and HLS Streaming Presentations using common Media Objects (e.g., CMAF), but the Ingest Source MUST generate format specific Manifest Objects which describe the common Media Objects as a [=Streaming presentation=].
     2. The [=Ingest source=] MUST support the configuration and use of Fully Qualified Domain Names (per RFC8499) to identify the [=Receiving entity=].
     3. The [=Ingest source=] MUST support the configuration of the path which it will POST or PUT all the [=Objects=] to.
     4. The [=Ingest source=] SHOULD support the configuration of the delivery path which clients will use to retrieve the content. When provided, the [=Ingest source=] MUST use this path to build absolute URLs in the Manifest Files it generates. When absent, relative pathing is assumed and the Ingest Source MUST build the Manifest Files accordingly.
@@ -1387,27 +1413,35 @@ send inband emsg box and the receiver SHOULD ignore it.
 
    ### HTTP connections ### {#DASH_Ingest_HTTP}
 
-    1. The Ingest Source MUST transfer [=Manifest objects=] and [=Media objects=] to the Receiving entity via individual HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
-    2. The Ingest Source SHOULD remove [=Media objects=] from the Receiving entity which are no longer referenced in the corresponding [=Manifest objects=] via an HTTP DELETE operation. How long the Ingest Source waits to remove unreferenced content SHOULD be configurable. Upon receipt of a DELETE request, the Receiving entity should:   
+    1. The Ingest Source MUST transfer [=Manifest objects=] and [=Media objects=] to the Receiving entity via individual 
+        HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
+    2. The Ingest Source SHOULD remove [=Media objects=] from the Receiving entity which are no longer referenced in the corresponding [=Manifest objects=] via     an HTTP DELETE operation. How long the Ingest Source waits to remove unreferenced content MAY be configurable. Upon receipt of a DELETE request, the        Receiving entity should:   
 
          2a. delete the referenced content and return a 200 OK HTTP Response code
 
          2b. delete the corresponding folder if the last file in the folder is deleted and it is not a root folder but not necessarily recursively deleting empty folders.
 
     3. To avoid delay associated with the TCP handshake, the Ingest Source SHOULD use Persistent TCP connections.
-    4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections to transfer the streaming presentation that it is generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP Session.
+    4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections 
+        to transfer the streaming presentation that it is     generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP Session.
 
    ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
 
-    1. The Ingest Source MUST ensure all [=Media objects=] (video segments, audio segments, init segments and caption segments) have unique paths. This uniqueness applies across all ingested content in previous sessions, as well as the current session. This requirement ensures previously cached content (i.e., by a CDN) is not inadvertently served instead of newer content of the same name.
-    2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
-    3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
-    4. When receiving objects with the same path as an existing object, the Receiving entity MUST over-write the existing objects with the newer objects of the same path.
-    5. TO support unique naming and support consistency, the Ingest Source SHOULD include a number which is monotonically 
+    1. The Ingest Source MUST ensure all [=Media objects=] (video segments, audio segments, init segments and caption segments) 
+        have unique paths. This uniqueness applies across all ingested content in previous sessions, as well as the current session. 
+        This requirement ensures previously cached content (i.e., by a CDN) is not inadvertently served instead of newer content of the same name.
+    2. The Ingest Source MUST ensure all objects in a [=Live stream event=] are contained within the configured path. Should the Receiving 
+        entity receive Media Objects outside of the allowed path, it SHOULD return an HTTP 403 Forbidden response.
+    3. For each live stream event, the Ingest Source MUST provide unique paths for the [=Manifest objects=]. 
+       One suggested method of achieving this is to introduce a timestamp of the start of the live stream event in to the manifest path. An event is defined by the explicit start and stop of the encoding process.
+    4. When receiving objects with the same path as an existing object, the Receiving entity MUST 
+        over-write the existing objects with the newer objects of the same path.
+    5. To support unique naming and support consistency, the Ingest Source SHOULD include a number which is monotonically 
         increasing with each new Media Object at the end of Media objects name, separated by a non-numeric character. 
         This way it will be possible to retrieve this numeric suffix via a regular expression. 
     6. The Ingest Source MUST identify Media objects containing initialization fragments by using the .init file extension
-    7. The Ingest source MUST include a file extension and a MIME-type for all media objects. The following file extensions and mime-types are the ONLY permissible combinations to be used:
+    7. The Ingest source MUST include a file extension and a MIME-type for all media objects. 
+         The following file extensions and mime-types are the ONLY permissible combinations to be used:
 
 
 	Table 6 outlines the formats that media and manifest objects are expected to follow based on their file extension. 
@@ -1486,15 +1520,16 @@ send inband emsg box and the receiver SHOULD ignore it.
 
    ### Additional Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
 
-   The following items defines additional the behavior of an ingest source when encountering certain error responses from the receiving entity.
+   The following items defines additional behavior of an ingest source when encountering certain error responses from the receiving entity.
 
-    1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 5xx response when attempting to POST content to the [=Receiving entity=], it MUST
+    1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 
+       5xx response when attempting to POST content to the [=Receiving entity=], it MUST
 
-         1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry indefinitely.
+         1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry as defined in #general.
 
-         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, drop the current data and continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so care should be taken in choosing to make such updates.
+         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, [=Ingest source] MUST continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so this should only be applied for MPEG DASH manifests.
 
-    2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, as defined in the general protocol        behavior
+    2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, as defined #general 
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
 
@@ -1505,7 +1540,8 @@ send inband emsg box and the receiver SHOULD ignore it.
     1. use a .m3u8 file extension for parent and child playlists.
     2. use a .key file extension for any keyfiles posted to the receiving entity for client delivery.
     3. use a ".ts" file extension for segments encapsulated in a Transport Stream File Format.
-    4. use one of the allowed file extensions (per the table above) appropriate for the mime-type of the content encapsulated using [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
+    4. use one of the allowed file extensions (per the table above) appropriate for the mime-type 
+       of the content encapsulated using [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
 
 
    ### Upload order ###{#Upload_order}
@@ -1536,8 +1572,11 @@ send inband emsg box and the receiver SHOULD ignore it.
    ### Resiliency ###{#HLS_Ingest_Resiliency}
 
     1. When ingesting media objects to multiple receiving entities, the ingest source MUST send identical media objects with identical names
-    2. To allow resumption of failed sessions and to avoid reuse of previously cached content, the ingest source MUST NOT restart object names or use previously used object names.
-    3. When multiple ingest sources are used, they MUST use consistent media object names including when reconnecting due to any application or transport error. A common approach is to use (epoch time)/(segment duration) as the object name.
+    2. To allow resumption of failed sessions and to avoid reuse of previously cached content, 
+       the ingest source MUST NOT restart object names or use previously used object names.
+    3. When multiple ingest sources are used, they MUST use consistent media object names 
+       including when reconnecting due to any application or transport error. A common approach 
+       is to use (epoch time)/(segment duration) as the object name.
 
    ## DASH specific requirements ## {#DASH_requirements}
 
@@ -1569,9 +1608,9 @@ send inband emsg box and the receiver SHOULD ignore it.
   that need to be re-used in an [=OTT=] distribution workflow. The live ABR encoder source performs the
   ABR encoding of the tracks into CMAF tracks and functions as the ingest source in the CMAF
   ingest interface. Multiple live ABR encoder sources can be used, providing redundant inputs to the packager,
-  which is the media processing entity consuming the CMAF ingest. The packager is receiving the
-  different CMAF tracks. The ingest follows the CMAF Ingest specification in this document, allowing for failover,
-  redundancy and many of the other features related to the content tracks. The live encoder source performs the following tasks:
+  which is the [=Receiving entity=] consuming the CMAF ingest. The ingest follows the CMAF Ingest specification 
+  in this document, allowing for failover, redundancy and many of the other features related to the content tracks. 
+  The live encoder source performs the following tasks:
 
           - It demuxes and receives the MPEG-2 transport stream and/or HD SDI signal
           - It formats the metadata in these streams such as SCTE-35 or SCTE 104 to timed metadata tracks
@@ -1583,9 +1622,8 @@ send inband emsg box and the receiver SHOULD ignore it.
           - The CMAF ingest allows multiple live encoder sources and packagers to be deployed benefiting
             from redundant stream creation, avoiding timeline discontinuities due to failures as much as
             possible.
-          - In case the receiver fails, it will reconnect and resend as defined in the section on failover once it
-            reconnects
-          - In case the live encoder source fails it will restart and perform the steps as detailed in the section on      failover
+          - In case the receiver fails, it will reconnect and resend as defined in #general and #failover
+          - In case the live encoder source fails it will restart and perform the steps as in #failover
 
    The live encoder source can be deployed in the cloud or on a bare metal server or even as a dedicated hardware.
    The live encoder source may have some tools or configuration API's to author the CMAF tracks and feed
@@ -1599,7 +1637,7 @@ send inband emsg box and the receiver SHOULD ignore it.
            - In case changes happen, the packager can update the manifest and embed inband events to trigger
              manifest updates in the fragments
            - The DASH Packager encrypts media segments according to key information available. This key information
-             is typically exchanged by protocol defined in Content Protection Interchange Format (CPIX) this
+             is typically exchanged by protocols defined in Content Protection Interchange Format (CPIX). This
              allows configuration of the content keys, initialization vectors and embedding encryption information in the manifest
            - The DASH packager signals subtitles in the manifest based on received CMAF streams and roles signalled in
              kind box
@@ -1609,11 +1647,14 @@ send inband emsg box and the receiver SHOULD ignore it.
              is received in the chunked transfer encoding
            - The packager may also have a proprietary API similar to the live source, for configuration of aspects
              like the segmentTimeBuffer, DVR window, encryption modes enabled etc.    
-           - The packager uses a DASH or HLS ingest to push content to an origin server of content delivery network.       Alternatively, it could also make content directly available as DASH or HLS as an origin server. In this       case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
+           - The packager uses a DASH or HLS ingest to push content to an origin server of content delivery network.       
+              Alternatively, it could also make content directly available as DASH or HLS as an origin server. In this       
+              case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
            - The packager converts the timed metadata track and uses it to convert to either MPD Events or inband events
              signalled in the manifest.
            - The packager may also generate HLS or other streaming media presentations based on the input.
-           - In case the packager crashes or fails, it will restart itself and wait for the ingest source to perform the   actions as detailed in the section on failover
+           - In case the packager crashes or fails, it will restart itself and wait for the ingest 
+             source to perform the   actions as detailed in the section on failover
 
          The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client.
          The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks
@@ -1646,11 +1687,11 @@ send inband emsg box and the receiver SHOULD ignore it.
       The target client is DASH.js and an end-to-end latency of maximum 3500 ms is targeted.
 
       This example DASH reference workflow uses DASH Ingest that does not employ encryption and timed metadata and uses CMAF formatting. This exploits the synergies between the two interfaces defined in this document
-      hence the ingest between FFMPEG and the origin server may implement both interfaces simultaneously.
+      hence the ingest between FFMPEG and the origin server may implement both interfaces simultaneously, or only interface 2.
 
       To receive the stream as a CMAF ingest for re-packaging at the origin the following steps can be applied.
-	  This is the case where interface 1 and interface 2 are used interchangeably, hence the live encoder can either
-	  ingest to an origin that supports interface 2 with CMAF formatting, including the requirements from interface 1.
+	   This is the case where interface 1 and interface 2 are used interchangeably, hence the live encoder can either
+	   ingest to an origin that supports interface 2 with CMAF formatting, including the requirements from interface 1.
 
       1. Ignore the DASH Manifest
       2. Ignore the segment names, only look at the relative path to identify the stream names
@@ -1659,7 +1700,8 @@ send inband emsg box and the receiver SHOULD ignore it.
       The approaches for authentication and DNS resolution are similar for the two profiles/interfaces, as are the track
       formatting in case CMAF based media are used. This example does not use timed metadata. The ingest source
       may resend the CMAF header or init fragment in case of connection failures to conform to the CMAF ingest
-      specification. The origin server can then be used to repackage or re-encrypt the streams.
+      specification. The origin server can then be used to repackage or re-encrypt the streams. This might be useful 
+      approach when additional functionality is needed.
 
       To receive the stream as a DASH Ingest in this workflow, the steps described in DASH Ingest may be applied.
 
