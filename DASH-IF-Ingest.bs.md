@@ -961,7 +961,7 @@ structure combination moof mdat, corresponding to a CMAF fragment or chunk.
   CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] section 7.3.4 .
   Table 2 summarizes the CMAF Switching set constraints.
 
-  Table 2: Switching set constraints
+  Table 2: Switching set constraints based on [[!MPEGCMAF]] prevails in case different
   <table class="def">
 	<tr>
 		<th>Box</th>
@@ -1424,7 +1424,11 @@ send inband emsg box and the receiver SHOULD ignore it.
     3. To avoid delay associated with the TCP handshake, the Ingest Source SHOULD use Persistent TCP connections.
     4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections 
         to transfer the streaming presentation that it is     generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP Session.
-
+    5. The [=Ingest source=]  SHOULD use the chunked transfer
+        encoding option of the HTTP POST command [[!RFC2626]]
+        when the content length is unknown at the start of transmission
+        or to support use cases that require low latency.
+	
    ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
 
     1. The Ingest Source MUST ensure all [=Media objects=] (video segments, audio segments, init segments and caption segments) 
