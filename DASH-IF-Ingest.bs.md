@@ -410,7 +410,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
     In the example, the media processing entity  
     prepares the final media presentation for the client  .
     The media processing entity could be a live packager for
-    DASH or HLS streams.    
+    DASH or HLS streams. The segments of the stream may 
+    be requested via a CDN that acts as an intermediate proxy.
 
     Diagram 2 shows the example in workflow 2 were content  
     is ingested directly into a Content Delivery Network.  
