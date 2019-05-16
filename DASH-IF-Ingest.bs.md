@@ -1598,8 +1598,10 @@ send inband emsg box and the receiver SHOULD ignore it.
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide some example deployments for live streaming, mapping to the architecture
-  defined in DASH-IF live Task Force. Diagram 9 shows an example where a separate packager
-  and origin server are used.
+  defined in DASH-IF live Task Force. 
+  
+  ## Example 1 with CMAF ingest and a just-in-time packager ##{##Example_1}
+  Diagram 9 shows an example where a separate packager and origin server are used.
 
 
  Diagram 9: Example setup schema with CMAF ingest and DASH/HLS ingest
@@ -1679,19 +1681,21 @@ send inband emsg box and the receiver SHOULD ignore it.
       live streaming presentation to clients, this example does not preclude other ways of using the
       specification and protocols defined in this document.
 
+## Example 2 low latency dash with an open source encoder and packager and a combination of interface 1 and 2 ##{##Example_2}
+
       A second example can be seen in Diagram 10. It constitutes the reference workflow for chunked DASH CMAF
       under development by DASH-IF and DVB. In this workflow a contribution encoder produces an [=RTP=] mezzanine stream
-      that is transmitted to FFMPEG, an open source encoder/packager running on a server. Alternatively, a file resource may be used. In this workflow FFMPEG functions as the ingest source. FFMPEG produces the ingest stream with different ABR encoded CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
+      that is transmitted to FFmpeg, an example open source encoder/packager running on a server. Alternatively, a file resource may be used. In this workflow the open source encoder functions as the ingest source. FFmpeg produces the ingest stream with different ABR encoded CMAF tracks. In addition, it also sends a manifest that complies with DASH-IF and DVB low latency CMAF specification and MPD updates. The CMAF tracks also contain respective timing information (prft etc.).
       In this case the ingest source implements interface 2 DASH ingest. But as in this case the DASH
       presentation uses CMAF, the media and track constraints of interface 1 are also satisfied. By also
       resending CMAF Headers in case of failures both interfaces may be satisfied.
 
       The origin server is used to pass the streams to the client, and may in some cases also perform a re-encryption
       or re-packaging of the streaming presentation as needed by the client (in case encryption is needed for example).  
-      The target client is DASH.js and an end-to-end latency of maximum 3500 ms is targeted.
+      The target example client is DASH.js and an end-to-end latency of maximum 3500 ms is targeted.
 
       This example DASH reference workflow uses DASH Ingest that does not employ encryption and timed metadata and uses CMAF formatting. This exploits the synergies between the two interfaces defined in this document
-      hence the ingest between FFMPEG and the origin server may implement both interfaces simultaneously, or only interface 2.
+      hence the ingest between FFmpeg and the origin server may implement both interfaces simultaneously, or only interface 2.
 
       To receive the stream as a CMAF ingest for re-packaging at the origin the following steps can be applied.
 	   This is the case where interface 1 and interface 2 are used interchangeably, hence the live encoder can either
