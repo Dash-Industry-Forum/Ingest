@@ -1560,7 +1560,7 @@ send inband emsg box and the receiver SHOULD ignore it.
          Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so this should only be applied for MPEG DASH manifests.
 
     2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, hence
-       N will be 0, as descrbed in  [general](#general) 
+          N will be 0, as descrbed in  [general](#general) 
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
 
