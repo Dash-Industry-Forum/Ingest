@@ -581,8 +581,10 @@ DASH-IF makes no any warranty whatsoever for such third party material.
         basic authentication HTTP AUTH [[!RFC7617]]
         or TLS client certificates MUST be supported.
      6. Mutual authentication SHALL be supported.
-        Client certificates SHALL chain to a trusted CA
-        , or be self assigned.
+        TLS Client certificates SHALL chain to a trusted CA
+        , or be self signed. SElf signed certificates MAY 
+        be used, for example, when the ingest source 
+        and receiving entity fall under common administration.
      7. As compatibility profile for the TLS encryption
         the ingest source SHOULD support the mozzilla
         intermediate compatibility profile [=MozillaTLS=].
@@ -620,13 +622,14 @@ DASH-IF makes no any warranty whatsoever for such third party material.
          response was received such as HTTP 400 or 403 
          if the connection was down
 		   for less than 3 average segments durations. For connections
-		   that were down longer, ingest can resume sending [=Objects=] at the live edge
+		   that were down longer, ingest source can resume sending [=Objects=] at the live edge
 		   of the live media presentation instead.
      15. The [=Ingest source=] MAY limit the number 
          of retries to establish a new
          connection or resume streaming after a TCP error occurs to N.
          This number N MAY be configurable.
-     16. After a TCP error:
+     16. After a TCP error, the [=Ingest source=] should 
+         perform the following:
          a. The current connection MUST be closed,
           and a new connection MUST be created
           for a new HTTP POST request.
@@ -636,7 +639,8 @@ DASH-IF makes no any warranty whatsoever for such third party material.
      17.  In case the [=Receiving entity=] cannot process the
           POST request due to authentication or permission
           problems, or incorrect path, 
-          then it SHALL return a permission denied HTTP 403
+          then it SHALL return a permission denied HTTP 403 
+          with error reason
      18.  In case the media processing entity can process
           the fragment in the POST request body but finds
           the media type cannot be supported it MAY return an HTTP 415
@@ -649,14 +653,20 @@ DASH-IF makes no any warranty whatsoever for such third party material.
      20. In case the receiving entity cannot
          process a fragment posted
          due to missing or incorrect init fragment, an HTTP 412
-         unfulfilled condition MAY be returned, otherwise,
+         unfulfilled condition MAY be returned, otherwise, in case 
+         this is not supported by the system,
          a HTTP 400 bad request response MUST be returned.
      21. The[=Receiving entity=] MAY return 50x HTTP response in case
          of other errors at the server, not particularly relating
-         to the request from the Ingest Source.
+         to the request from the Ingest Source, but due to an 
+         error at the receiving entity. 
      22. In case the receiving entity or publishing point 
          receiving the HTTP POST body is not setup or available 
          an HTTP 404 not found SHOULD be returned to the ingest source. 
+     23. The ingest source SHOULD support the handling of 30x redirect 
+         responses. 
+     24. The ingest source and receiving entity SHOULD support 
+         gzip based content encoding
       
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
@@ -1412,7 +1422,7 @@ send inband emsg box and the receiver SHOULD ignore it.
 
    This interface is intended to be used by workflows which do not require active media processing post encoding. It leverages the fact that many encoders provide HLS and DASH packaging capabilities and that the resulting packaged content can easily be transferred via HTTP to standard web servers. However, neither HLS nor DASH has specified how such a workflow is intended to work leaving the industry to self specify key decisions such as how to secure and authenticate ingest sources, who is responsible for managing the content life cycle, the order of operations, failover, robustness, etc. In most cases a working solution can be had using a readily available web server such as Nginx or Varnish and the standard compliment of HTTP Methods. In many cases Interface 2 simply documents what is considered industry best practice while attempting to provide guidance to areas less common.
 
-   The requirements below encapsulate all needed functionality to support Interface 2. The requirements listed for Interface 1 (CMAF Ingest) in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. General shared requirements are covered in section [[#general]]. In case [!MPEGCMAF] media is used, the media track and segment formatting will be similar as defined in Interface 1.
+   The requirements below encapsulate all needed functionality to support Interface 2. The requirements listed for Interface 1 (CMAF Ingest) in section [[#general_Protocol_Requirements_p1]] do not apply to Interface 2. General shared requirements are covered in section [general](#general). In case [!MPEGCMAF] media is used, the media track and segment formatting will be similar as defined in Interface 1.
 
  ## General requirements ##{#DASH_General}
    ### Industry Compliance ###{#Industry_compliance}
@@ -1438,7 +1448,7 @@ send inband emsg box and the receiver SHOULD ignore it.
 
     3. To avoid delay associated with the TCP handshake, the Ingest Source SHOULD use Persistent TCP connections.
     4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections 
-        to transfer the streaming presentation that it is     generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP Session.
+        to transfer the streaming presentation that it is     generating. For example, the Ingest Source POSTs each bit rate in a Media Presentation over a different TCP  connection.
     5. The [=Ingest source=]  SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
         when the content length is unknown at the start of transmission
@@ -1523,8 +1533,8 @@ send inband emsg box and the receiver SHOULD ignore it.
       <th> video/mp4  </th>
 	</tr>
      <tr>
-		<th> .key </th>
-      <th> to be defined    </th>
+		<th> .key  </th>
+      <th> TBD   </th>
 	</tr>
   </table>
 
@@ -1544,11 +1554,13 @@ send inband emsg box and the receiver SHOULD ignore it.
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 
          5xx response when attempting to POST content to the [=Receiving entity=], it MUST
 
-         1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry as defined in #general.
+         1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry as defined in [general](#general).
 
-         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, [=Ingest source] MUST continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so this should only be applied for MPEG DASH manifests.
+         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, [=Ingest source] MUST continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. The reason for this is to maintain an archive without discontinuity in case the stream is played back at a later time. 
+         Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so this should only be applied for MPEG DASH manifests.
 
-    2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, as defined #general 
+    2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, hence
+       N will be 0, as descrbed in  [general](#general) 
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
 
@@ -1556,10 +1568,10 @@ send inband emsg box and the receiver SHOULD ignore it.
 
    When ingesting prepared HLS content, the Ingest Source MUST:
 
-    1. use a .m3u8 file extension for parent and child playlists.
-    2. use a .key file extension for any keyfiles posted to the receiving entity for client delivery.
-    3. use a ".ts" file extension for segments encapsulated in a Transport Stream File Format.
-    4. use one of the allowed file extensions (per the table above) appropriate for the mime-type 
+    1. MUST use a .m3u8 file extension for master and variant playlists.
+    2. SHOULD use a .key file extension for any keyfiles posted to the receiving entity for client delivery.
+    3. MUST use a ".ts" file extension for segments encapsulated in a MPEG Transport Stream (TS) File Format.
+    4. MUST use one of the allowed file extensions (per the table above) appropriate for the mime-type 
           of the content encapsulated using [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
 
 
@@ -1587,13 +1599,12 @@ send inband emsg box and the receiver SHOULD ignore it.
    ### Relative paths  ###{#HLS_Ingest_relative_paths}
 
     1. The ingest source SHOULD use Relative URL paths to address each segment within the stream level manifest.
+    2. The ingest source SHOULD use Relative URL paths to address each variant playlist within the master playlist.
 
    ### Resiliency ###{#HLS_Ingest_Resiliency}
 
-    1. When ingesting media objects to multiple receiving entities, the ingest source MUST send identical media objects with identical names
-    2. To allow resumption of failed sessions and to avoid reuse of previously cached content, 
-          the ingest source MUST NOT restart object names or use previously used object names.
-    3. When multiple ingest sources are used, they MUST use consistent media object names 
+    1. When ingesting media objects to multiple receiving entities, the ingest source MUST send identical media objects with identical names.
+    2. When multiple ingest sources are used, they MUST use consistent media object names 
           including when reconnecting due to any application or transport error. A common approach 
           is to use (epoch time)/(segment duration) as the object name.
 
@@ -1613,7 +1624,7 @@ send inband emsg box and the receiver SHOULD ignore it.
 # Illustrative Example of using CMAF and DASH ingest specification # {#Example_ingest}
 
   In this section we provide some example deployments for live streaming, mapping to the architecture
-  defined in DASH-IF live Task Force. 
+  defined in DASH-IF live Task Force using the emerging MPEG DASH CMAF profile. 
   
   ## Example 1 with CMAF ingest and a just-in-time packager ##{##Example_1}
   Diagram 9 shows an example where a separate packager and origin server are used.
