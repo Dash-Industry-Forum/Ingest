@@ -902,15 +902,14 @@ Diagram 8: CMAF ingest flow
      13. Ingested tracks MUST conform to CMAF track structure defined
          in [[!MPEGCMAF]]
      14. CMAF Tracks MAY use segmentTypeBox to signal [=CMAF Media object=]
-         brands like chunk, fragment, segment. However, this is not 
-         mandatory as the receiving entity can insert such signalling, in case 
-         it is needed by the client, as this information can be derived from the stream.
-	 It can be used in workflows for low latency streaming.
+          brands like chunk, fragment, segment. However, this is not 
+          m andatory as the receiving entity can insert such signalling, in case 
+          it is needed by the client, as this information can be derived from the stream.
+	  It can be used in workflows for low latency streaming.
     
-
 	Note, in case a media processing entity cannot process a request from an ingest source
 	correctly, it can send a respective HTTP error code. Please see the section
-    for the usage of these codes in [Failover and error handling](#failover)] or in [general](#general).
+         for the usage of these codes in [Failover and error handling](#failover)] or in [general](#general).
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
