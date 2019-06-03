@@ -667,6 +667,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
          responses. 
      24. The ingest source and receiving entity SHOULD support 
          gzip based content encoding
+
       
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
@@ -904,6 +905,8 @@ Diagram 8: CMAF ingest flow
          brands like chunk, fragment, segment. However, this is not 
          mandatory as the receiving entity can insert such signalling, in case 
          it is needed by the client, as this information can be derived from the stream.
+	 It can be used in workflows for low latency streaming.
+    
 
 	Note, in case a media processing entity cannot process a request from an ingest source
 	correctly, it can send a respective HTTP error code. Please see the section
