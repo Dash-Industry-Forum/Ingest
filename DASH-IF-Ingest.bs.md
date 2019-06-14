@@ -1347,7 +1347,9 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
          in [[!SCTE214-1]], a binary scte-35 payload in a
          DASHEventMessageBox. The DASHEventMessageBox 
          must conform to [!SCTE214-1] and the messageData 
-         field SHALL contain a binary SCTE-35 payload.
+         field SHALL contain a binary SCTE-35 payload. 
+	 In this case, media tracks MUST insert an IDR (intra decoder refresh frame)
+	 at time corresponding to the event presentation time. 
      15. In some cases, the duration of the metadata may not
          be known, in this case the sample duration could
          be set to 0 0xFFFFFFFF unkown duration and updated later when the timestamp
