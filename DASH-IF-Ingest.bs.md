@@ -1781,12 +1781,13 @@ send inband emsg box and the receiver SHOULD ignore it.
 Revision: 1.0
 
 Title: Specification of Live Media Ingest
-Status: LD
+Status: TS
+Status Text: Specification for Community Review
 Shortname: ingest
 URL: https://dashif.org/guidelines/
 Issue Tracking: GitHub https://github.com/Dash-Industry-Forum/Ingest/issues
 Repository: https://github.com/Dash-Industry-Forum/Ingest GitHub
-Editor: DASH IOP Ingest TF
+Editor: DASH-IF IOP Ingest TF
 
 Default Highlight: text
 <!-- Enabling line numbers breaks code blocks in PDF! (2018-10-02) -->
