@@ -13,7 +13,7 @@
    <th> <b>Status: </b> </th>
    <td> Draft [ ]</td>
    <td> Internal Review [ ]</td>
-   <td>Community Review [X]</td>
+   <td>Community Review [ X ]</td>
    </tr>
 	<tr>
 		<th><b>Title: </b></th>
