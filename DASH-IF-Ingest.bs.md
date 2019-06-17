@@ -1,7 +1,7 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
 <table class="def">
 	<tr>
-		<th>Change Request</th>
+		<th colspan="4">Change Request</th>
 	</tr>
    <tr>
 		<th>DASH-IF IOP</th>
@@ -10,45 +10,26 @@
       <th>Current version: </th>
 	</tr>
    <tr>
-   <td>
-   Status:
-   </td>
-   <td>
-   [  ]
-   </td>
-    <td>
-    Draft
-   </td>
-   <td>
-   [  ]
-   </td>
-   <td>
-    Internal Review
-   </td>
-   <td>
-   [  ]
-   </td>
-   <td>
-   Community Review
-   </td>
-    <td>
-   [  ]
-   </td>
+   <td> Status: [] </td>
+   <td> Draft [ ]</td>
+   <td> Internal Review [ ]</td>
+   <td>Community Review [ ]</td>
    </tr>
 	<tr>
-		<th>title</th>
-		<td>DASH-IF Ingest TF</td>
+		<th><b>title</b></th>
+		<td colspan="3">DASH-IF Specification of live ingest</td>
 	</tr>
    <tr>
-		<th>Supporting Companies: </th>
-		<td> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, Bitmovin, Hulu, Microsoft, Unified Streaming, AWS Elemental, Huawei Technologies </td>
+		<th> <b> Supporting Companies: </b> </th>
+		<td colspan="3"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
+       Bitmovin, Hulu, Microsoft, Unified Streaming, </td>
+       AWS Elemental, Huawei Technologies </td>
 	</tr>
 	<tr>
-		<td> Category </td>
-      <TD> [ A = addition of feature ] </td>
+		<td> <b> Category </b></td>
+      <td> [ A = addition of feature ] </td>
 		<td> Date </td>
-      <TD> [  ] </td>
-      <td> manifest manipulation, transmission, storage</td>
+      <td> [  ] </td>
 	</tr>
 </table>
 
