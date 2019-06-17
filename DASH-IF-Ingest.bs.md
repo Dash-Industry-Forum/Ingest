@@ -1,5 +1,5 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
-<table bgcolor="grey" border="0">
+<table bgcolor="#D3D3D3" border="0">
 	<tr>
 		<th colspan="4"> <b>Change Request</b></th>
 	</tr>
@@ -31,9 +31,12 @@
 		<td> Date: </td>
       <td> [ June 17th 2019 ] </td>
 	</tr>
+	
 </table>
 
-<table bgcolor="grey" border="0">
+<br>
+
+<table bgcolor="#D3D3D3" border="0">
 <tr>
 	  <th colspan="1">Reason for Change: </th>
       <td colspan="3">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
@@ -42,8 +45,8 @@
 <tr>
 </tr>
 <tr>
-	  <th colspan="1">Summary of Change: </th>
-      <td colspan="3">Specifies the protocol interfaces for live ingest/egress of media content. It is specifically targetting live and 
+	   <th colspan="1">Summary of Change: </th>
+       <td colspan="3">Specifies the protocol interfaces for live ingest/egress of media content. It is specifically targetting live and 
        low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
        and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
        metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems </td>
@@ -55,7 +58,9 @@
 </tr>
 </table>
 
-<table bgcolor="grey" border="0">
+<br>
+
+<table bgcolor="#D3D3D3" border="0">
 <tr>
 	  <th colspan="1"> Sections Affected: </th>
       <td colspan="3"> Independent Document, to be published as a standalone specification by DASH-IF </td>
@@ -66,7 +71,7 @@
 </tr>
 <tr>
 		<th colspan="1">Disclaimer: </th>
-      <td colspan="3"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
+        <td colspan="3"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
           dashif+iop@groupspaces.com with a subject tag [ Ingest ]
           Please add a detailed description of the problem and the comment.
           Based on the received comments a final document will be published latest by the
@@ -77,11 +82,11 @@
 </tr>
 <tr>
 		<th colspan="1">Commenting Deadline: </th>
-      <td colspan="3">July 31st 2019</td>
+        <td colspan="3">July 31st 2019</td>
 </tr>
 <tr>
 		<th colspan="1">Expected Publication: </th>
-      <td colspan="3">August 31st 2019</td>
+        <td colspan="3">August 31st 2019</td>
 </tr>
 </table>
 
