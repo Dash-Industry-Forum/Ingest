@@ -1,5 +1,5 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
-<table bgcolor="#D3D3D3" border="0">
+<table bgcolor="#D3D3D3" border="1">
 	<tr>
 		<th colspan="4"> <b>Change Request</b></th>
 	</tr>
@@ -36,7 +36,7 @@
 
 <br>
 
-<table bgcolor="#D3D3D3" border="0">
+<table bgcolor="#D3D3D3" border="1">
 <tr>
 	  <th colspan="1">Reason for Change: </th>
       <td colspan="3">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
@@ -60,7 +60,7 @@
 
 <br>
 
-<table bgcolor="#D3D3D3" border="0">
+<table bgcolor="#D3D3D3" border="1">
 <tr>
 	  <th colspan="1"> Sections Affected: </th>
       <td colspan="3"> Independent Document, to be published as a standalone specification by DASH-IF </td>
