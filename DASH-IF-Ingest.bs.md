@@ -64,10 +64,7 @@
              Please add a detailed description of the problem and the comment.
          - Based on the received comments a final document will be published latest by the
              expected publication date below, integrated in a new version of DASH-IF IOP if
-             the following additional criteria are fulfilled:
-             - All comments from community review are addressed
-             - The relevant aspects for the Conformance Software are provided
-             - Verified IOP test vectors are provided
+             the following additional criteria are fulfilled: All comments from community review are addressed, The relevant aspects for the Conformance Software are provided Verified IOP test vectors are provided
         </td>
 
 </tr>
