@@ -17,22 +17,22 @@
    </tr>
 	<tr>
 		<th><b>Title: </b></th>
-		<td colspan="3" bgcolor="yellow">DASH-IF Specification of Live Media Ingest</td>
+		<td colspan="3" bgcolor="LightYellow ">DASH-IF Specification of Live Media Ingest</td>
 	</tr>
 	<tr>
 		<th><b>Source: </b></th>
-		<td colspan="3" bgcolor="yellow">DASH-IF Ingest Task Force </td>
+		<td colspan="3" bgcolor="LightYellow ">DASH-IF Ingest Task Force </td>
 	</tr>
     <tr>
 		<th> <b> Supporting Companies: </b> </th>
-		<td colspan="3" bgcolor="yellow"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
-       Bitmovin, Hulu, Microsoft, Unified Streaming, Akamai, Comcast, AWS Elemental  </td>
+		<td colspan="3" bgcolor="LightYellow "> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
+       Bitmovin, Hulu, Microsoft, Unified Streaming, Akamai, Comcast, AWS Elemental, Sony, Tencent  </td>
 	</tr>
 	<tr>
 		<th> <b> Category: </b></th>
-      <td bgcolor="yellow"> [ A = addition of feature ] </td>
+        <td bgcolor="LightYellow "> [ A = addition of feature ] </td>
 		<td> Date: </td>
-      <td> [ June 17th 2019 ] </td>
+      <td bgcolor="LightYellow">  June 17th 2019  </td>
 	</tr>
 	
 </table>
@@ -42,23 +42,24 @@
 <table bgcolor="#D3D3D3" border="1">
 <tr>
 	  <th colspan="1">Reason for Change: </th>
-      <td colspan="3" bgcolor="yellow">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
-      defining interoperability points and a protocol interface</td>
+      <td colspan="3" bgcolor="LightYellow ">Improve interoperability between cloud and server side streaming entities. In particular, 
+	  between ABR live encoders, origin servers and content delivery networks. </td>
 </tr>
 <tr>
 </tr>
 <tr>
 	   <th colspan="1">Summary of Change: </th>
-       <td colspan="3" bgcolor="yellow">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
+       <td colspan="3" bgcolor="LightYellow ">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
        low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
        and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
-       metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems </td>
+       metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems. 
+       The interfaces define push based (HTTP POST) versions of CMAF, DASH and HLS based media formats	   </td>
 </tr>
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
-        <td colspan="3" bgcolor="yellow">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
+        <td colspan="3" bgcolor="LightYellow ">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
 	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice. 
-        Less interactivity and less programme information in OTT compared to broadcast		</td>
+        Less interactivity and less programme information in OTT compared to linear broadcast		</td>
 </tr>
 </table>
 
@@ -71,26 +72,27 @@
 </tr>
 <tr>
 	  <th colspan="1">Other Comments: </th>
-      <td colspan="3" bgcolor="yellow"> </td>
+      <td colspan="3"> </td>
 </tr>
 <tr>
 		<th colspan="1">Disclaimer: </th>
-        <td colspan="3" bgcolor="yellow"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
+        <td colspan="3" bgcolor="LightYellow "> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
           dashif+iop@groupspaces.com with a subject tag [ Ingest ]
           Please add a detailed description of the problem and the comment.
           Based on the received comments a final document will be published latest by the
           expected publication date below, integrated in a new version of DASH-IF IOP if
-          the following additional criteria are fulfilled: All comments from community review are addressed, The relevant aspects for the Conformance Software are provided Verified IOP test vectors are provided
+          the following additional criteria are fulfilled: All comments from community review are addressed, 
+		  The relevant aspects for the Conformance Software are provided Verified IOP test vectors are provided
         </td>
 
 </tr>
 <tr>
 		<th colspan="1">Commenting Deadline: </th>
-        <td colspan="3" bgcolor="yellow"><b>July 31st 2019 </b></td>
+        <td colspan="3" bgcolor="LightYellow "><b>July 31st 2019 </b></td>
 </tr>
 <tr>
 		<th colspan="1">Expected Publication: </th>
-        <td colspan="3" bgcolor="yellow"> <b>August 31st 2019 </b></td>
+        <td colspan="3" bgcolor="LightYellow "> <b>August 31st 2019 </b></td>
 </tr>
 </table>
 
