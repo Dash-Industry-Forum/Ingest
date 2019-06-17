@@ -61,13 +61,13 @@
 		<th colspan="1">Disclaimer: </th>
       <td colspan="3"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
          - dashif+iop@groupspaces.com with a subject tag [Ingest]
-         Please add a detailed description of the problem and the comment.
-         Based on the received comments a final document will be published latest by the
-         expected publication date below, integrated in a new version of DASH-IF IOP if
-         the following additional criteria are fulfilled:
-         - All comments from community review are addressed
-         - The relevant aspects for the Conformance Software are provided
-         - Verified IOP test vectors are provided
+           Please add a detailed description of the problem and the comment.
+           Based on the received comments a final document will be published latest by the
+           expected publication date below, integrated in a new version of DASH-IF IOP if
+           the following additional criteria are fulfilled:
+             - All comments from community review are addressed
+             - The relevant aspects for the Conformance Software are provided
+             - Verified IOP test vectors are provided
         </td>
 
 </tr>
