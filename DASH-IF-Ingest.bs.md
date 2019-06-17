@@ -1,7 +1,7 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
 <table bgcolor="#D3D3D3" border="1">
 	<tr>
-		<th colspan="4"> <b>Change Request</b></th>
+		<th colspan="4"> <b>                   Change Request                 </b></th>
 	</tr>
    <tr>
 		<th><b>DASH-IF IOP</b></th>
@@ -22,8 +22,8 @@
     <tr>
 		<th> <b> Supporting Companies: </b> </th>
 		<td colspan="3"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
-       Bitmovin, Hulu, Microsoft, Unified Streaming,
-       AWS Elemental, Huawei Technologies, Microsoft Inc. </td>
+       Bitmovin, Hulu, Microsoft, Unified Streaming, Akamai, Comcast
+       AWS Elemental,  </td>
 	</tr>
 	<tr>
 		<th> <b> Category: </b></th>
@@ -46,7 +46,7 @@
 </tr>
 <tr>
 	   <th colspan="1">Summary of Change: </th>
-       <td colspan="3">Specifies the protocol interfaces for live ingest/egress of media content. It is specifically targetting live and 
+       <td colspan="3">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
        low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
        and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
        metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems </td>
@@ -54,7 +54,8 @@
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
         <td colspan="3">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
-	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice </td>
+	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice. 
+        Less interactivity and less programme information in OTT compared to broadcast		</td>
 </tr>
 </table>
 
