@@ -1,7 +1,7 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
 <table bgcolor="#D3D3D3" border="1">
 	<tr>
-		<th colspan="4"> <b>                   Change Request                 </b></th>
+		<th colspan="4"> <b>CHANGE REQUEST</b></th>
 	</tr>
    <tr>
 		<th><b>DASH-IF IOP</b></th>
@@ -11,23 +11,26 @@
 	</tr>
    <tr>
    <th> <b>Status: </b> </th>
-   <td> Draft [ ]</td>
-   <td> Internal Review [ ]</td>
-   <td>Community Review [ X ]</td>
+   <td> [ ] Draft </td>
+   <td> [ ] Internal Review </td>
+   <td> [ X ] Community Review </td>
    </tr>
 	<tr>
 		<th><b>Title: </b></th>
-		<td colspan="3">DASH-IF Specification of Live Media Ingest</td>
+		<td colspan="3" bgcolor="yellow">DASH-IF Specification of Live Media Ingest</td>
+	</tr>
+	<tr>
+		<th><b>Source: </b></th>
+		<td colspan="3" bgcolor="yellow">DASH-IF Ingest Task Force </td>
 	</tr>
     <tr>
 		<th> <b> Supporting Companies: </b> </th>
-		<td colspan="3"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
-       Bitmovin, Hulu, Microsoft, Unified Streaming, Akamai, Comcast
-       AWS Elemental,  </td>
+		<td colspan="3" bgcolor="yellow"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
+       Bitmovin, Hulu, Microsoft, Unified Streaming, Akamai, Comcast, AWS Elemental  </td>
 	</tr>
 	<tr>
 		<th> <b> Category: </b></th>
-      <td> [ A = addition of feature ] </td>
+      <td bgcolor="yellow"> [ A = addition of feature ] </td>
 		<td> Date: </td>
       <td> [ June 17th 2019 ] </td>
 	</tr>
@@ -39,21 +42,21 @@
 <table bgcolor="#D3D3D3" border="1">
 <tr>
 	  <th colspan="1">Reason for Change: </th>
-      <td colspan="3">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
+      <td colspan="3" bgcolor="yellow">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
       defining interoperability points and a protocol interface</td>
 </tr>
 <tr>
 </tr>
 <tr>
 	   <th colspan="1">Summary of Change: </th>
-       <td colspan="3">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
+       <td colspan="3" bgcolor="yellow">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
        low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
        and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
        metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems </td>
 </tr>
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
-        <td colspan="3">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
+        <td colspan="3" bgcolor="yellow">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
 	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice. 
         Less interactivity and less programme information in OTT compared to broadcast		</td>
 </tr>
@@ -68,11 +71,11 @@
 </tr>
 <tr>
 	  <th colspan="1">Other Comments: </th>
-      <td colspan="3"> </td>
+      <td colspan="3" bgcolor="yellow"> </td>
 </tr>
 <tr>
 		<th colspan="1">Disclaimer: </th>
-        <td colspan="3"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
+        <td colspan="3" bgcolor="yellow"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
           dashif+iop@groupspaces.com with a subject tag [ Ingest ]
           Please add a detailed description of the problem and the comment.
           Based on the received comments a final document will be published latest by the
@@ -83,11 +86,11 @@
 </tr>
 <tr>
 		<th colspan="1">Commenting Deadline: </th>
-        <td colspan="3">July 31st 2019</td>
+        <td colspan="3" bgcolor="yellow"><b>July 31st 2019 </b></td>
 </tr>
 <tr>
 		<th colspan="1">Expected Publication: </th>
-        <td colspan="3">August 31st 2019</td>
+        <td colspan="3" bgcolor="yellow"> <b>August 31st 2019 </b></td>
 </tr>
 </table>
 
