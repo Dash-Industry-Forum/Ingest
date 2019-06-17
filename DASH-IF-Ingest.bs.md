@@ -49,17 +49,16 @@
 </tr>
 <tr>
 	   <th colspan="1">Summary of Change: </th>
-       <td colspan="3" bgcolor="LightYellow ">This document specifies the protocol interfaces for live ingest/egress of media content. It is targetting live and 
-       low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
-       and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
-       metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems. 
-       The interfaces define push based (HTTP POST) versions of CMAF, DASH and HLS based media formats	   </td>
+       <td colspan="3" bgcolor="LightYellow ">This document specifies the protocol interfaces for live ingest/egress of media content.
+	   A well defined protocol interface between live ABR encoder and downstream packager 
+       and origin is present, that includes timed metadata, spice information, redundancy and failover support. 
+       </td>
 </tr>
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
         <td colspan="3" bgcolor="LightYellow ">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
-	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice. 
-        Less interactivity and less programme information in OTT compared to linear broadcast		</td>
+	    It will keep live and low latency streaming setups with redundancy and failover support difficult to deploy and maintain in practice. 
+        Less interactivity and less programme information will be available in OTT when compared to linear broadcast		</td>
 </tr>
 </table>
 
