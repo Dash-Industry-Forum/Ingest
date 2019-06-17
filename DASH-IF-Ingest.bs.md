@@ -4,29 +4,29 @@
 		<th colspan="4">Change Request</th>
 	</tr>
    <tr>
-		<th>DASH-IF IOP</th>
+		<th><b>DASH-IF IOP</b></th>
       <td>CR </td>
       <td>REV </td>
       <td>Current version: 0.9 </td>
 	</tr>
    <tr>
-   <th> Status: </th>
+   <th> <b>Status: </b> </th>
    <td> Draft [ ]</td>
    <td> Internal Review [ ]</td>
    <td>Community Review [X]</td>
    </tr>
 	<tr>
-		<th><b>title: </b></th>
+		<th><b>Title: </b></th>
 		<td colspan="3">DASH-IF Specification of live ingest</td>
 	</tr>
    <tr>
 		<th> <b> Supporting Companies: </b> </th>
 		<td colspan="3"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
-       Bitmovin, Hulu, Microsoft, Unified Streaming, </td>
-       AWS Elemental, Huawei Technologies </td>
+       Bitmovin, Hulu, Microsoft, Unified Streaming,
+       AWS Elemental, Huawei Technologies, Microsoft Inc. </td>
 	</tr>
 	<tr>
-		<td> <b> Category </b></td>
+		<th> <b> Category: </b></th>
       <td> [ A = addition of feature ] </td>
 		<td> Date </td>
       <td> [ June 17th 2019 ] </td>
