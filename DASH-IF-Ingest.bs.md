@@ -1,7 +1,7 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
-<table class="def">
+<table>
 	<tr>
-		<th colspan="4">Change Request</th>
+		<th colspan="4"> <b>Change Request</b></th>
 	</tr>
    <tr>
 		<th><b>DASH-IF IOP</b></th>
@@ -17,9 +17,9 @@
    </tr>
 	<tr>
 		<th><b>Title: </b></th>
-		<td colspan="3">DASH-IF Specification of live ingest</td>
+		<td colspan="3">DASH-IF Specification of Live Media Ingest</td>
 	</tr>
-   <tr>
+    <tr>
 		<th> <b> Supporting Companies: </b> </th>
 		<td colspan="3"> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, 
        Bitmovin, Hulu, Microsoft, Unified Streaming,
@@ -28,39 +28,44 @@
 	<tr>
 		<th> <b> Category: </b></th>
       <td> [ A = addition of feature ] </td>
-		<td> Date </td>
+		<td> Date: </td>
       <td> [ June 17th 2019 ] </td>
 	</tr>
 </table>
 
-<table class="def">
+<table>
 <tr>
-		<th colspan="1">Reason for Change: </th>
-      <td colspan="3">Reason for Change: </td>
+	  <th colspan="1">Reason for Change: </th>
+      <td colspan="3">Improve interoperability between ABR live encoders and origin servers and packagers by 
+      defining interoperability points and defining a protocol	</td>
 </tr>
 <tr>
-		<th colspan="1">Summary of Change: </th>
-      <td colspan="3">Summary of Change: </td>
+	  <th colspan="1">Summary of Change: </th>
+      <td colspan="3">Specifies the protocol interfaces for live ingest/egress of media content. It is specifically targetting live and 
+       low latency live broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
+       and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
+       metadata formatting will enable richer HTTP broadcast re-using many of the metadata available from broadcast production </td>
 </tr>
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
-      <td colspan="3">Summary of Change</td>
+        <td colspan="3">Poor interoperability between live encoder sources, origin servers, content delivery networks. 
+	    It will keep live and low latency streaming setups with high redundancy and failover difficult to deploy and maintain in practice </td>
 </tr>
 </table>
 
-<table class="def">
+<table>
 <tr>
-		<th colspan="1">Sections Affected: </th>
-      <td colspan="3"> Independent Document </td>
+	  <th colspan="1"> Sections Affected: </th>
+      <td colspan="3"> Independent Document, to be published as a standalone specification by DASH-IF </td>
 </tr>
 <tr>
-		<th colspan="1">Other Comments: </th>
-      <td colspan="3">Summary of Change: </td>
+	  <th colspan="1">Other Comments: </th>
+      <td colspan="3"> </td>
 </tr>
 <tr>
 		<th colspan="1">Disclaimer: </th>
       <td colspan="3"> This document is not yet final. It is provided for public review until the deadline mentioned below. If you have comments on the            document, please submit comments by one of the following means - at the github repository https://github.com/Dash-Industry- Forum/Events/issues, or
-          dashif+iop@groupspaces.com with a subject tag [Ingest]
+          dashif+iop@groupspaces.com with a subject tag [ Ingest ]
           Please add a detailed description of the problem and the comment.
           Based on the received comments a final document will be published latest by the
           expected publication date below, integrated in a new version of DASH-IF IOP if
