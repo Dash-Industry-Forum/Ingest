@@ -1,5 +1,5 @@
 <!-- class=def is a built-in style. It is optional but looks nice. -->
-<table>
+<table bgcolor="grey" border="0">
 	<tr>
 		<th colspan="4"> <b>Change Request</b></th>
 	</tr>
@@ -33,18 +33,20 @@
 	</tr>
 </table>
 
-<table>
+<table bgcolor="grey" border="0">
 <tr>
 	  <th colspan="1">Reason for Change: </th>
-      <td colspan="3">Improve interoperability between ABR live encoders and origin servers and packagers by 
-      defining interoperability points and defining a protocol	</td>
+      <td colspan="3">Improve interoperability between ABR live encoders and origin servers, content delivery networks and packagers by 
+      defining interoperability points and a protocol interface</td>
+</tr>
+<tr>
 </tr>
 <tr>
 	  <th colspan="1">Summary of Change: </th>
       <td colspan="3">Specifies the protocol interfaces for live ingest/egress of media content. It is specifically targetting live and 
-       low latency live broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
+       low latency broadcast over HTTP. A well defined protocol interface between live ABR encoder and downstream packager 
        and origin will make the deployment and roll out of such services easier. Further, well defined splicing and timed 
-       metadata formatting will enable richer HTTP broadcast re-using many of the metadata available from broadcast production </td>
+       metadata formatting will enable richer HTTP broadcast re-using many of the tiemd metadata available from broadcast production systems </td>
 </tr>
 <tr>
 		<th colspan="1">Consequences if not approved: </th>
@@ -53,7 +55,7 @@
 </tr>
 </table>
 
-<table>
+<table bgcolor="grey" border="0">
 <tr>
 	  <th colspan="1"> Sections Affected: </th>
       <td colspan="3"> Independent Document, to be published as a standalone specification by DASH-IF </td>
