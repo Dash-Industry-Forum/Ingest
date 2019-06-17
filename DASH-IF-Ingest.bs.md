@@ -67,7 +67,7 @@
 <table bgcolor="#D3D3D3" border="1">
 <tr>
 	  <th colspan="1"> Sections Affected: </th>
-      <td colspan="3" bgcolor="LightYellow> Independent Document, to be published as a standalone specification by DASH-IF </td>
+      <td colspan="3" bgcolor="LightYellow"> Independent Document, to be published as a standalone specification by DASH-IF </td>
 </tr>
 <tr>
 	  <th colspan="1">Other Comments: </th>
