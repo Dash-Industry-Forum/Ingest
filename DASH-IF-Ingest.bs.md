@@ -1878,8 +1878,6 @@ send inband emsg box and the receiver SHOULD ignore it.
 Revision: 1.0
 
 Title: Specification of Live Media Ingest
-Status: LS
-Group: 
 Deadline: 2019-07-31
 Status Text: Specification for Community Review
 Shortname: ingest
