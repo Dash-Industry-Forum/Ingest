@@ -5,18 +5,18 @@
 	</tr>
    <tr>
 		<th>DASH-IF IOP</th>
-      <th>CR </th>
-      <th>REV </th>
-      <th>Current version: </th>
+      <td>CR </td>
+      <td>REV </td>
+      <td>Current version: 0.9 </td>
 	</tr>
    <tr>
-   <td> Status: [] </td>
+   <th> Status: </th>
    <td> Draft [ ]</td>
    <td> Internal Review [ ]</td>
-   <td>Community Review [ ]</td>
+   <td>Community Review [X]</td>
    </tr>
 	<tr>
-		<th><b>title</b></th>
+		<th><b>title: </b></th>
 		<td colspan="3">DASH-IF Specification of live ingest</td>
 	</tr>
    <tr>
@@ -29,8 +29,59 @@
 		<td> <b> Category </b></td>
       <td> [ A = addition of feature ] </td>
 		<td> Date </td>
-      <td> [  ] </td>
+      <td> [ June 17th 2019 ] </td>
 	</tr>
+</table>
+
+<table class="def">
+<tr>
+		<th colspan="1">Reason for Change: </th>
+      <td colspan="1">Reason for Change: </td>
+</tr>
+<tr>
+		<th colspan="1">Summary of Change: </th>
+      <td colspan="3">Summary of Change: </td>
+</tr>
+<tr>
+		<th colspan="1">Consequences if not approved: </th>
+      <td colspan="3">Summary of Change</td>
+</tr>
+</table>
+
+<table class="def">
+<tr>
+		<th colspan="1">Sections Affected: </th>
+      <td colspan="1"> Independent Document </td>
+</tr>
+<tr>
+		<th colspan="1">Other Comments: </th>
+      <td colspan="3">Summary of Change: </td>
+</tr>
+<tr>
+		<th colspan="1">Disclaimer: </th>
+      <td colspan="3">This document is not yet final. It is provided for public review until the deadline
+mentioned below. If you have comments on the document, please submit
+comments by one of the following means:
+- at the github repository https://github.com/Dash-Industry-
+Forum/Events/issues, or
+- dashif+iop@groupspaces.com with a subject tag [Events]
+Please add a detailed description of the problem and the comment.
+Based on the received comments a final document will be published latest by the
+expected publication date below, integrated in a new version of DASH-IF IOP if
+the following additional criteria are fulfilled:
+- All comments from community review are addressed
+- The relevant aspects for the Conformance Software are provided
+- Verified IOP test vectors are provided</td>
+
+</tr>
+<tr>
+		<th colspan="1">Commenting Deadline: </th>
+      <td colspan="3">July 31st 2019</td>
+</tr>
+<tr>
+		<th colspan="1">Expected Publication: </th>
+      <td colspan="3">August 31st 2019</td>
+</tr>
 </table>
 
 # Specification: Live Media Ingest # {#IngestSpec}
