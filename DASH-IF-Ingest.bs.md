@@ -36,7 +36,7 @@
 <table class="def">
 <tr>
 		<th colspan="1">Reason for Change: </th>
-      <td colspan="1">Reason for Change: </td>
+      <td colspan="3">Reason for Change: </td>
 </tr>
 <tr>
 		<th colspan="1">Summary of Change: </th>
@@ -51,7 +51,7 @@
 <table class="def">
 <tr>
 		<th colspan="1">Sections Affected: </th>
-      <td colspan="1"> Independent Document </td>
+      <td colspan="3"> Independent Document </td>
 </tr>
 <tr>
 		<th colspan="1">Other Comments: </th>
