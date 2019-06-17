@@ -1,3 +1,57 @@
+<!-- class=def is a built-in style. It is optional but looks nice. -->
+<table class="def">
+	<tr>
+		<th>Change Request</th>
+	</tr>
+   <tr>
+		<th>DASH-IF IOP</th>
+      <th>CR </th>
+      <th>REV </th>
+      <th>Current version: </th>
+	</tr>
+   <tr>
+   <td>
+   Status:
+   </td>
+   <td>
+   [  ]
+   </td>
+    <td>
+    Draft
+   </td>
+   <td>
+   [  ]
+   </td>
+   <td>
+    Internal Review
+   </td>
+   <td>
+   [  ]
+   </td>
+   <td>
+   Community Review
+   </td>
+    <td>
+   [  ]
+   </td>
+   </tr>
+	<tr>
+		<th>title</th>
+		<td>DASH-IF Ingest TF</td>
+	</tr>
+   <tr>
+		<th>Supporting Companies: </th>
+		<td> CenturyLink, Qualcomm Inc., MediaExcel, Harmonic, Bitmovin, Hulu, Microsoft, Unified Streaming, AWS Elemental, Huawei Technologies </td>
+	</tr>
+	<tr>
+		<td> Category </td>
+      <TD> [ A = addition of feature ] </td>
+		<td> Date </td>
+      <TD> [  ] </td>
+      <td> manifest manipulation, transmission, storage</td>
+	</tr>
+</table>
+
 # Specification: Live Media Ingest # {#IngestSpec}
 
 
@@ -1782,6 +1836,8 @@ Revision: 1.0
 
 Title: Specification of Live Media Ingest
 Status: LS
+Group: 
+Deadline: 2019-07-31
 Status Text: Specification for Community Review
 Shortname: ingest
 URL: https://dashif.org/guidelines/
