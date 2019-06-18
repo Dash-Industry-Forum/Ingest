@@ -157,9 +157,9 @@
                     </td>
                     <td colspan="16" valign="top" bgcolor="#FFEE58">
                         <p>
-                            This document specifies the protocol interfaces for live ingest/egress of media content.
-	                        A well defined protocol interface between live ABR encoder and downstream packager 
-                            and origin is present, that includes timed metadata, spice information, redundancy and failover support.
+                            This document specifies protocol interfaces for live ingest/egress of media content.
+	                    It can be used between live ABR encoders, streaming origins, packagers and content delivery networks.
+			    It features support for redundant workflows with failover support and timed metadata.
                         </p>
                     </td>
                 </tr>
@@ -172,7 +172,7 @@
                     </td>
                     <td colspan="16" valign="top" bgcolor="#FFEE58">
                         <p>
-                            Inconsistent implementations, Poor interoperability in live workflows, less rich metadata and ad insertion support
+                            Inconsistent implementations, Poor interoperability, less rich metadata and ad insertion support
                         </p>
                     </td>
                 </tr>
