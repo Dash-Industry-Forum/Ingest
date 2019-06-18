@@ -1,6 +1,6 @@
-#Specification: Live Media Ingest # {#IngestSpec}
-
 #include "00-CommunityReview.inc.md"
+
+#Specification: Live Media Ingest # {#IngestSpec}
 
 ## Abstract ## {#Abstract}
 
