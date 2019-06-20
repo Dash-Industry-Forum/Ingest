@@ -1,0 +1,13 @@
+Liason text ingest specification
+
+DASH IF has published a live media ingest specification for community review. 
+The aim of this new specification is to improve interoperability between server side entities,
+such as live ABR encoders, packager and content delivery networks. It aims to ease 
+this well known interoperability bottleneck in the industry. 
+It envisions ingest/egress using Common Media Application Track Format (CMAF) using HTTP POST based transmission,
+and defines two interfaces for two main use cases. The first, CMAF or fMP4 based ingest can be used for 
+example to ingest to active streaming origins and packagers. The second interface implements a push based DASH 
+protocol for ingest to a passive origin server and/or content delivery network that need not repackage the content. 
+Particular attention was paid to  support of timed metadata, such as SCTE-35 based splice points or program 
+information in CMAF based tracks, and redundancy and failover support. The specification is available for 
+public feedback up to the 31st of July.
