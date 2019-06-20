@@ -224,7 +224,7 @@
                             comments on the document, please submit comments by one of
                             the following means: 
                             <ul>
-                                <li> at the github repository: <a href="https://github.com/Dash-Industry-Forum/Ingest/issues">https://github.com/Dash-Industry-Forum/Events/issues</a>, or </li>
+                                <li> at the github repository: <a href="https://github.com/Dash-Industry-Forum/Ingest/issues">https://github.com/Dash-Industry-Forum/Ingest/issues</a>, or </li>
                                 <li> dashif+iop@groupspaces.com with a subject tag [Ingest] </li>
                             </ul>
                         </p>
