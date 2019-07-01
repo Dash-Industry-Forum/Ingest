@@ -1,14 +1,34 @@
-Liason text ingest specification
-
 DASH IF published a live media ingest protocol specification for community review. 
+
 The aim of this new specification is to improve interoperability between server side entities,
-such as live ABR encoders, packager and content delivery networks. It aims to ease 
+
+such as live ABR encoders, packagers and content delivery networks. It aims to ease 
+
 this well known interoperability bottleneck in the industry. 
+
 It envisions ingest/egress using Common Media Application Track Format (CMAF) using HTTP POST based transmission,
+
 and defines two interfaces for two main use cases. The first, CMAF or fMP4 based ingest can be used for 
-example to ingest to active streaming origins and packagers. The second interface implements a push based DASH 
+
+example to ingest to active streaming origins and packagers, these entities can then do media 
+processing of the content. The second interface implements a push based DASH 
+
 protocol for ingest to a passive origin server and/or content delivery network that need not repackage the content. 
+
 Particular attention was paid to  support of timed metadata, such as SCTE-35 based splice points or program 
+
 information in CMAF based tracks, and redundancy and failover support. The specification will help live 
+
 encoders to implement a consistent output format, and downstream entities a consistent input format.  
-The specification is available for public feedback up to the 31st of July, and available under https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html.
+
+The specification is available for public feedback up to the 31st of July, and available under 
+https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.html.
+
+We think this specification is of particular interest to MPEG considering 
+
+- interoperability between Media processing entities defined in MPEG Network based media processing 
+- Technology under consideration in Common Media Application Track Format (CMAF), in particular the singalling 
+  of broadcast related metadata in fmp4 or cmaf track files, DASH-IF spec would benefit from further standardization
+  of timed metadata tracks 
+- DASH, a push based version of dash introduces some constraints to the manifest and push based protocol operation 
+  these modes might be of interest to the DASH group for technologies under consideration. 
