@@ -1428,9 +1428,9 @@ send inband emsg box and the receiver SHOULD ignore it.
     3. To avoid delay associated with the TCP handshake, the Ingest Source SHOULD use Persistent TCP connections.
     4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections 
         to transfer the streaming presentation that it is generating. For example, the Ingest Source SHOULD POST each representation in a Media Presentation over a different TCP  connection.
-    5. The [=Ingest source=]  SHOULD use the chunked transfer
+    5. The [=Ingest source=] SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC2626]]
-        when the content length of the Media object unknown at the start of transmission
+        when the content length of the request is unknown at the start of transmission
         or to support use cases that require low latency.
 	
    ### Unique segment and manifest naming ### {#DASH_Ingest_naming}
