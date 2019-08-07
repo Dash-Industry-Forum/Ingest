@@ -130,7 +130,7 @@ DASH-IF makes no any warranty whatsoever for such third party material.
    timeline discontinuities must be avoided as much as
    possible during normal operation. Further, when
    using redundant ingest sources, the ingested streams 
-   must be accurately synchronized.
+   must be accurately synchronized in a sample accurate manner.
    Last, streams may need to be started at the same
    time so as to avoid misalignment between audio and video
    tracks.
