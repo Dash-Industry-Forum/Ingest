@@ -62,7 +62,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    streaming protocol, with a preference for [[!MPEGDASH]]
 
    Live media ingest happens between an [=Ingest source=], such as a [=Live encoder=] and a [=Receiving entity=].
-   Examples of such a [=Receiving entity=] could be a media packager, streaming origin or a content delivery network.
+   Examples of such a [=Receiving entity=] could be a media packager, streaming origin or a Content Delivery Network.
    The combination of ingest sources and receiving entities  
    is common in practical video streaming deployments.  
    In such deployments, media processing functionality is distributed between the ingest source and receiving entities.
@@ -159,7 +159,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    The first, CMAF Ingest, mainly functions as an ingest format to a packager
    or active media processor, while the second works mainly
    to ingest media streaming presentations to origin servers,
-   cloud storage or content delivery networks.
+   cloud storage or Content Deliery Networks.
 
    The section on interfaces and profiles provides more
    background and motivation around these two interfaces
@@ -388,7 +388,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    based on [[!MPEGDASH]] or HLS [[!RFC8216]] based on information in the ingested stream.
 
    The second workflow, constitutes ingest to a passive delivery system such
-   as a cloud storage or a content delivery network. In this case the stream needs
+   as a cloud storage or a Content Deliery Network. In this case the stream needs
    to be formatted as closely as possible to the final stream for consumption by an end client.
    This interface is defined in the second part, interface 2 [=DASH Ingest=] or [=HLS Ingest=].
    It enables a HTTP POST based version of these commonly used streaming protocols.
@@ -415,7 +415,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
     Diagram 2 shows an example in workflow where content  
     is ingested directly by a Content Delivery Network.  
-    The content delivery network enables the delivery to the client,
+    The Content Deliery Network enables the delivery to the client,
     but does not generate the manifests.    
 
     A legacy example of a media ingest protocol for the first workflow  
@@ -1658,7 +1658,7 @@ send inband emsg box and the receiver SHOULD ignore it.
              is received using HTTP chunked transfer encoding.
            - The packager may also have a proprietary API similar to the live source, for configuration of aspects
              like the segmentTimeBuffer, DVR window, encryption modes enabled etc.    
-           - The packager uses DASH or HLS ingest (as specified in Section 6) to push content to the origin server of a content delivery network.
+           - The packager uses DASH or HLS ingest (as specified in Section 6) to push content to the origin server of a Content Deliery Network.
               Alternatively, it could also make content directly available as an origin server. In this 
               case DASH/HLS ingest is avoided, and the packager also serves as the origin server.
            - The packager converts the timed metadata track and uses it to convert to either MPD Events or in-band events.
@@ -1667,7 +1667,7 @@ send inband emsg box and the receiver SHOULD ignore it.
            - In case the packager crashes or fails, it will restart itself and wait for the ingest.
              source to perform the actions as detailed in the section on failover.
 
-         The content delivery network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client.
+         The Content Deliery Network (CDN) consumes a DASH/HLS ingest, or serves as a proxy for content delivered to a client.
          The CDN, in case it is consuming the POST based DASH/HLS ingest performs the following tasks
            - it stores all posted content and makes them available for HTTP GET requests from locations
              corresponding to the paths signalled in the manifest
