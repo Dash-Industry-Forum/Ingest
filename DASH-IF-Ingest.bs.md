@@ -48,7 +48,7 @@ technologies controlled by third parties.
 Those third party documents and technologies may be subject to third party   
 rules and licensing terms. No intellectual property license, either implied or express,
 to any third party material is granted to you by this document or DASH-IF.   
-DASH-IF makes no any warranty whatsoever for such third party material.
+DASH-IF makes no warranty whatsoever for such third party material.
 
 
 # Introduction # {#Introduction}
