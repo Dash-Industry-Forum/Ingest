@@ -804,7 +804,7 @@ box to close the connection and [=Publishing point=].
 This is then followed with a zero length
 chunk, allowing the receiver to send a response, the encoder can
 follow up by closing the TCP connection using a FIN command as
-defined in HTTP RFC2616.
+defined in HTTP RFC7235.
 This last step is especially important in long runing posts
 using chunked transfer encoding, as in this case the receiver 
 may not know that the connection needs to be closed or that the 
@@ -841,7 +841,7 @@ session to receive live encoded content.
         a media ingest connection by posting the
         [=CMAF header=] after step 1
      3. The [=Ingest source=]  SHOULD use the chunked transfer
-        encoding option of the HTTP POST command [[!RFC2616]]
+        encoding option of the HTTP POST command [[!RFC7235]]
         when the content length is unknown at the start of transmission
         or to support use cases that require low latency.
      4. If the HTTP POST request terminates or times out with a TCP
@@ -861,7 +861,7 @@ session to receive live encoded content.
         towards the Receiving entity.
         After that it SHALL send an empty HTTP chunk,
         Wait for the HTTP response before closing
-        TCP session RFC2616
+        TCP session RFC7235
         when this response is received. 
      7. The [=Ingest source=] SHOULD use a separate, parallel TCP
         connection for ingest of each different CMAF track
@@ -1413,7 +1413,7 @@ send inband emsg box and the receiver SHOULD ignore it.
     4. To avoid head of line blocking, the Ingest Source SHOULD use Multiple Parallel TCP connections 
         to transfer the streaming presentation that it is generating. For example, the Ingest Source SHOULD POST each representation in a Media Presentation over a different TCP  connection.
     5. The [=Ingest source=] SHOULD use the chunked transfer
-        encoding option of the HTTP POST command [[!RFC2616]]
+        encoding option of the HTTP POST command [[!RFC7235]]
         when the content length of the request is unknown at the start of transmission
         or to support use cases that require low latency.
 	
