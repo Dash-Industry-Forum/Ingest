@@ -267,7 +267,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    <dfn dfn>**Ingest Stream**</dfn>:
           The stream of media pushed from the ingest source to the Receiving entity  
     
-   <dfn dfn>**ISOBMFF**</dfn>: 
+   **ISOBMFF**: 
    
          the ISO Base Media File Format specified in [[!ISOBMFF]]
 
