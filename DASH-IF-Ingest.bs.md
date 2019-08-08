@@ -290,10 +290,6 @@ DASH-IF makes no warranty whatsoever for such third party material.
            these are CMAF addressable media objects such as
            CMAF chunks, fragments or segments.
 
-   <dfn dfn>**Receiving entity**</dfn>:
-            Entity used to process the media content,  
-            receives/consumes a media [=Ingest stream].  
-
    <dfn dfn> **Media fragment** </dfn>
              Media fragment, combination of "moof" and "mdat" in
              ISOBMFF structure (MovieFragmentBox and mediaDataBox),
