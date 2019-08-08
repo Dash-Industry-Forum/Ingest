@@ -941,9 +941,9 @@ session to receive live encoded content.
         average and maximum bitrate of the fragments
         in the sample entry container in the CMAF Header.
      7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. , in this 
-        case they SHOULD be signalled using SegmentTypeBox 'styp' to make it 
+        case they SHOULD be signalled using SegmentTypeBox styp to make it 
         easy for the Receiving Entity to differentiate them from CMAF fragments.
-        The brand type of a chunk is 'cmfl'. CMAF chunks should only 
+        The brand type of a chunk is cmfl. CMAF chunks should only 
         be signalled if they are not co-inciding with 
         the start of a CMAF fragment.
      8. In Video tracks, profiles like avc1 and hvc1 MAY be used
@@ -1053,8 +1053,8 @@ based on webVTT, TTML XML, TTML Images, CTA-608.
 We provide a few additional guidelines and best practices for 
 formatting timed text and subtitle tracks.
 
-      1. CMAF Tracks carrying WebVTT signalled by 'cwvt' brand 
-         or TTML Text signalled by 'im1t' brand are preferred.
+      1. CMAF Tracks carrying WebVTT signalled by cwvt brand 
+         or TTML Text signalled by *im1t* brand are preferred.
          [[!MPEG4-30] defines the track format selected in [[!MPEGCMAF]]  
       2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL
          be set to "text" for WebVTT and "subt" for TTML following
