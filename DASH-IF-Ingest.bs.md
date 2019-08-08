@@ -529,7 +529,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
   Figure 3:
   workflow with redundant Ingest sources and receiving entities
    <figure>
-	  <img src="Images/Diagram3.png" />
+	  <img src="Images/Diagram6.png" />
    </figure>
 
 
