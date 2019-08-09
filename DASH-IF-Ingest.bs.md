@@ -1031,14 +1031,13 @@ session to receive live encoded content.
   NOTE 1: Track width and height can differ, but picture aspect ratio is the same for all CMAF tracks.
   NOTE 2: Sample entry constraints for CMAF switching sets are defined by each CMAF media profile 
   
-  Aligned swtiching sets may also be signalled. Aligned switching sets follow the same constraints, 
+  Aligned switching sets may also be signalled. Aligned switching sets follow the same constraints, 
   yet the codec string in stsd may be different. 
   
   For additional signalling of CMAF tracks belonging to the same switching set, the ingest source MAY set the alternate_group value
   in the TrackHeaderBox tkhd to a value that is the same for tracks belonging to the same switching set.
   This allows explicit signalling of tracks that do apply to switchingset constraints but do not belong to the same switching set.
-  Alternatively, this may enable easy identification of a switchingse
-  t.
+  Alternatively, this may enable easy identification of a switchingset.
   Alternatively one could signal switching explicitly by means outside of this specification.   
   An example could be as 
 
@@ -1055,7 +1054,7 @@ formatting timed text and subtitle tracks.
 
       1. CMAF Tracks carrying WebVTT signalled by cwvt brand 
          or TTML Text signalled by *im1t* brand are preferred.
-         [[!MPEG4-30] defines the track format selected in [[!MPEGCMAF]]  
+         [[!MPEG4-30]] defines the track format selected in [[!MPEGCMAF]]  
       2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL
          be set to "text" for WebVTT and "subt" for TTML following
          [[!MPEG4-30]] (note this is not explicitly referred in the 
@@ -1127,7 +1126,7 @@ Additionally, another example for explicitly signalling roles could be DVB DASH 
 One could use schemeiduri@value and role as defined there.
 e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="Alternate"`.
 
-## Requirements for Timed Metadata ## {#timed_metadata}
+## Requirements for Timed Metadata Tracks ## {#timed_metadata}
 
   This section discusses the specific formatting requirements  
   for [=CMAF Ingest=] of timed metadata related to events and markers for  
