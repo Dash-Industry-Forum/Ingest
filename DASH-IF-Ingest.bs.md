@@ -1221,32 +1221,32 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         Such filler data SHALL be defined by the metadatascheme signalled in URIMetaSampleEntry.
      7.  CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined in [!MPEGDASH] clause 5.10.3.3 
          in the metadata samples.
-     7a. In that case, version 1 SHOULD be used
-     7b.  In that case, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
-          or an equivalent urn to signal the presence of DashEventMessageBoxes.
-     7c.  In that case, the timescale of the metadata (e.g. EventMessageBoxes) SHOULD match the value
-          specified in the media header box "mdhd" of the metadata track. 
-     7d.  In that case A metadata sample MAY contain multiple DASHEventMessageBoxes, 
-          for example if they have the same Event Presentation Time. 
-     7f.  In that case, the schemeIdUri in the DASHEventMessageBox can be used 
-          to signal the scheme of the data embedded in the message 
-          data field of the DASHEventMessageBox 
-     7g.  For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
-          MUST be urn:scte:scte35:2013:bin  as defined 
-          in [[!SCTE214-1]], a binary scte-35 payload in a
-          DASHEventMessageBox. The DASHEventMessageBox 
-          must conform to [[!SCTE214-1]] and the messageData 
-          field SHALL contain a binary SCTE-35 payload. 
-          In this case, media tracks MUST insert an IDR (intra decoder refresh frame)
-          at time corresponding to the event presentation time. 
-     7h.  In some cases, the duration of the metadata may not
-          be known, in this case the sample duration could
-          be set to 0 0xFFFFFFFF unkown duration and updated later when the timestamp
-          of the next metadata sample is received. AS per [!MPEGDASH] clause 
-     7i.  In case it is necessary to add filler samples to avoid gaps in the timeline, 
-          a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue MAY be used.
-          The duration and timescale SHOULD correspond to the duration and timescale of the 
-          sample enclosing the filler.  
+        7a.  In that case, version 1 SHOULD be used
+        7b.  In that case, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
+             or an equivalent urn to signal the presence of DashEventMessageBoxes.
+        7c.  In that case, the timescale of the metadata (e.g. EventMessageBoxes) SHOULD match the value
+             specified in the media header box "mdhd" of the metadata track. 
+        7d.  In that case A metadata sample MAY contain multiple DASHEventMessageBoxes, 
+             for example if they have the same Event Presentation Time. 
+        7f.  In that case, the schemeIdUri in the DASHEventMessageBox can be used 
+             to signal the scheme of the data embedded in the message 
+             data field of the DASHEventMessageBox 
+        7g.  For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
+             MUST be urn:scte:scte35:2013:bin  as defined 
+             in [[!SCTE214-1]], a binary scte-35 payload in a
+             DASHEventMessageBox. The DASHEventMessageBox 
+             must conform to [[!SCTE214-1]] and the messageData 
+             field SHALL contain a binary SCTE-35 payload. 
+             In this case, media tracks MUST insert an IDR (intra decoder refresh frame)
+             at time corresponding to the event presentation time. 
+        7h.  In some cases, the duration of the metadata may not
+             be known, in this case the sample duration could
+             be set to 0 0xFFFFFFFF unkown duration and updated later when the timestamp
+             of the next metadata sample is received. AS per [!MPEGDASH] clause 
+        7i.  In case it is necessary to add filler samples to avoid gaps in the timeline, 
+             a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue MAY be used.
+             The duration and timescale SHOULD correspond to the duration and timescale of the 
+             sample enclosing the filler.  
      8. The [=Ingest source=] SHOULD not embed inband event message
          boxes emsg in the timed metadata track or media tracks, however 
          it is not strictly prohibited when conforming to this specification. 
