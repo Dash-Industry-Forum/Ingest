@@ -975,14 +975,13 @@ session to receive live encoded content.
   steps could be implemented by the Live ingest source.
   
   1. a Live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
-     live streaming session and can be used to group CMAF tracks. Tracks with the same [=Switching Set ID=] b
-     belong to the same switching set. 
+     live streaming session. Tracks with the same [=Switching Set ID=] belong to the same switching set. 
   2. The [=Switching Set ID=] MAY be added in a relative path to the POST_URL using the Switching() keyword. 
      In this case, a CMAF chunk is send from the live ingest source as POST chunk.cmfv 
      POST_URL/Switching([=Switching Set ID=])/Streams(stream_name) if a stream_name is included, 
-     or POST_URL/Switching([=Switching Set ID=]) if this is not the case. 
-  3. The live ingest source MAY add a kind box in the udta box in the track to signal the switching set. 
-     The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
+     or POST_URL/Switching([=Switching Set ID=])/ if this is not the case. 
+  3. The live ingest source MAY add a kind box in the udta box in each track to signal the switching set 
+     it belongs to. The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
      value field of the kind box SHALL be the [=Switching Set ID=]. 
   
     NOTE: this text was added to address comments from the community review to support explicit signalling of switching sets, this     needs to be reviewed and discussed more.
@@ -994,15 +993,15 @@ session to receive live encoded content.
                 <th>  Requirement      </th>
 	</tr>
 	<tr>
-		<td> Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
+		<td> Implicit based on Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
 		<td> Mandatory </td>
 	</tr>
 	<tr>
-		<td> Signalling in post URI path using Switching() keyword </td>
+		<td> Signalling using [=Switching Set ID=] in post URI path using Switching() keyword and  </td>
 		<td> Optional </td>
 	</tr>
    <tr>
-		<td>Signalling in the track using kind box and urn:dashif:ingest:switchingset_id </td>
+		<td>Signalling using [=Switching Set ID=] in the track using kind box with schemeIdUri urn:dashif:ingest:switchingset_id </td>
 		<td>Optional</td>
    </tr>
 </table>
