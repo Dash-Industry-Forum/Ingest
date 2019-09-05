@@ -1119,7 +1119,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
   By embedding the DashEventMessageBox structure in timed metadata samples some of the 
   benefit of its usages in DASH and CMAF are kept. In addition it enables signalling 
   of gaps, overlapping events and multiple events starting at the same time.
-  This timed metadata track format is described in clause 8. In addition, the parsing 
+  This timed metadata track format is described in clause 9. In addition, the parsing 
   and processing of DashEventMessageBoxes is supported in many players.
   
   Table 4 illustrates some example URN schemes to be carried in timed metadata tracks, 
@@ -1222,7 +1222,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         active cue occurs. Other schemes could define empty cues amongst similar lines.
      8. CMAF track files do not support overlapping, multiple concurrently active 
         or zero duration samples. In case metadata or events are concurrent, overlapping or of zero duration, 
-	such semantics must be defined by the scheme signalled in the URIMetasampleEntry. The timed metadata
+        such semantics must be defined by the scheme signalled in the URIMetasampleEntry. The timed metadata
         track MUST conform to [[!MPEGCMAF]] clause 7.3.
 
      9. CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined 
@@ -1290,7 +1290,7 @@ Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media
 and metadata by interleaving them. The [=Ingest source=] SHOULD NOT
 send inband emsg box and the receiver SHOULD ignore it. Instead DashEventMessageBox 
-can be carried in samples of the timed metadata track as described in clause 8.
+can be carried in samples of the timed metadata track as described in clause 9.
 
 ##  Requirements for Receiving and ingest source Entity Failover and Connection Error Handling ## {#failover}
 
