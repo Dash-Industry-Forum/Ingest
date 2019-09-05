@@ -575,7 +575,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
      5. In case HTTP over TLS  [[!RFC2818]] is used,
         basic authentication HTTP AUTH [[!RFC7617]]
         , TLS client certificates MUST be supported, 
-        HTTP Digest authentication [!RFC7616] MUST be supported.
+        HTTP Digest authentication [[!RFC7616]] MUST be supported.
      6. Mutual authentication SHALL be supported.
         TLS Client certificates SHALL chain to a trusted CA
         , or be self signed. Self signed certificates MAY 
