@@ -1215,10 +1215,10 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
          not be present.
      5. The CMAF fragments in the timed metadata track MAY not be of a constant duration. 
         The fragments should be of durations that allow effective and in advance delivery
-	to the receiving entity. CMAF fragments MAY contain a single sample. 
+        to the receiving entity. CMAF fragments MAY contain a single sample. 
      6. To fullfill CMAF track requirements [[!MPEGCMAF]] clause 7.3, such as not 
         having gaps on the media timeline, filler data may need to be added to avoid timeline gaps. 
-	Such filler data SHALL be defined by the metadatascheme signalled in URIMetaSampleEntry.
+        Such filler data SHALL be defined by the metadatascheme signalled in URIMetaSampleEntry.
      7.  CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined in [!MPEGDASH] clause 5.10.3.3 
          in the metadata samples.
      7a. In that case, version 1 SHOULD be used
@@ -1245,14 +1245,13 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
           of the next metadata sample is received. AS per [!MPEGDASH] clause 
      7i.  In case it is necessary to add filler samples to avoid gaps in the timeline, 
           a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue MAY be used.
-	  The duration and timescale SHOULD correspond to the duration and timescale of the 
-	  sample enclosing the filler.
-	  
+          The duration and timescale SHOULD correspond to the duration and timescale of the 
+          sample enclosing the filler.  
      8. The [=Ingest source=] SHOULD not embed inband event message
          boxes emsg in the timed metadata track or media tracks, however 
-	 it is not strictly prohibited when conforming to this specification. 
-	 It will result in loss of performance. In some setups, inband event 
-	 messages may be used in media tracks.
+         it is not strictly prohibited when conforming to this specification. 
+         It will result in loss of performance. In some setups, inband event 
+         messages may be used in media tracks.
 	 
 
 
