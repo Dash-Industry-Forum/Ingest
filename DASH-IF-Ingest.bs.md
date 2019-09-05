@@ -993,7 +993,7 @@ session to receive live encoded content.
                 <th>  Requirement      </th>
 	</tr>
 	<tr>
-		<td> Implicit based on Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
+		<td> Implicit signalling, based on Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
 		<td> Mandatory </td>
 	</tr>
 	<tr>
@@ -1001,7 +1001,7 @@ session to receive live encoded content.
 		<td> Optional </td>
 	</tr>
    <tr>
-		<td>Signalling using [=Switching Set ID=] in the track using kind box with schemeIdUri urn:dashif:ingest:switchingset_id </td>
+		<td>Signalling using [=Switching Set ID=] in the track using kind box with schemeIdUri urn:dashif:ingest:switchingset_id and value set to [=Switching Set ID=]</td>
 		<td>Optional</td>
    </tr>
 </table>
