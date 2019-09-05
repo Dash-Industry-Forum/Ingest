@@ -1100,11 +1100,9 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
   ad insertion or other timed metadata such a program information. An example of  
   these are opportunities for splice points and program information  
   signalled by SCTE-35 markers. This type of event signalling  
-  is different from regular audio/video information  
-  because of its sparse nature. In this case,  
-  the signalling data usually does not  
-  happen continuously, and the intervals can  
-  be hard to predict.
+  is different from regular audio/video information because of its sparse nature. 
+  In this case, the signalling data usually does not  
+  happen continuously, and the intervals may  be hard to predict.
 
   Examples of timed metadata are ID3 tags  
   [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBoxes
@@ -1123,7 +1121,9 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
 
   By embedding the DashEventMessageBox structure in timed metadata samples some of the 
   benefit of its usages in DASH and CMAF are kept. The timed metadata track format 
-  is described in clause 7. 
+  is described in clause 8. Simple timed metadata tracks do not contain such 
+  additional encapsulation.
+  
   Table 4 illustrates some example URN schemes to be carried in timed metadata tracks, 
   while table 5 illustrates examples of metadata embedded in a 
   DASHEventMessageBox.
@@ -1191,67 +1191,72 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 	</tr>
  </table>
 
-  The following steps are recommended for timed metadata  
-  ingest related to events, tags, ad markers and  
-  program information:
+  The following are requirements and recommendations for timed metadata  
+  ingest related to events, tags, ad markers and program information:
 
-     1. Metadata SHALL be conveyed in a Timed metadata CMAF track, where
+     1. Metadata SHALL be conveyed in a CMAF track, where
         the media handler (hdlr) is "meta", the track handler box is 
-        a null media header box [=nmhd=] as defined by [[!ISOBMFF]] clause 12.3
-     2. The CMAF timed metadata track applies to the media streams
-        ingested to a [=Publishing point=] entry at the media
-        processing entity or origin server.
+        a null media header box [=nmhd=] as defined for 
+        timed metadata tracks in [[!ISOBMFF]] clause 12.3
+     2. The CMAF timed metadata track applies to the media tracks
+        ingested to a [=Publishing point=] at the Receiving Entity.
      3. The URIMetaSampleEntry entry SHALL contain,
         in a URIbox, the URI following the URI syntax in
-        [[!RFC3986]] defining the form  of the metadata
+        [[!RFC3986]] defining the scheme of the metadata
         (see the ISO Base media file format
-         specification [[!ISOBMFF]]) clause 12.3.
-     4.  All Timed Metadata samples SHOULD
+         specification [[!ISOBMFF]] clause 12.3).
+     4.  All Timed Metadata samples SHALL
          be sync samples [[!ISOBMFF]],
          defining the entire set of
          metadata for the time interval
-         they cover. Hence, the sync
-         sample table box SHOULD
-         not be present.
-     5. The CMAF fragments in the timed metadata track MAY not be of a constant duration. 
-        The fragments should be of durations that allow effective and in advance delivery
-        to the receiving entity. CMAF fragments MAY contain a single sample. 
-     6. To fullfill CMAF track requirements [[!MPEGCMAF]] clause 7.3, such as not 
-        having gaps on the media timeline, filler data may need to be added to avoid timeline gaps. 
-        Such filler data SHALL be defined by the metadatascheme signalled in URIMetaSampleEntry.
-     7.  CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined in [!MPEGDASH] clause 5.10.3.3 
-         in the metadata samples.
-        7a.  In that case, version 1 SHOULD be used
-        7b.  In that case, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
+         they cover. 
+     5. The CMAF fragments in the timed metadata track 
+        MAY not be of a constant duration. 
+        The fragments should be of durations that 
+        allow effective and in advance delivery
+        of metadata to the receiving entity. 
+     6. CMAF fragments carryring timed metadata MAY contain a single sample. 
+     7. To fullfill CMAF track requirements [[!MPEGCMAF]] in clause 7.3, such as not 
+        having gaps on the media timeline, filler data may needed. 
+        Such filler data SHALL be defined by the metadata scheme signalled
+        in URIMetaSampleEntry. For example, webvtt tracks define a VTTEmptyCueBox 
+        was defined in [[!MPEG4-30]] clause 6.6 to be carried in samples in which no 
+        active cue occurs. Other schemes could define similar empty cues.
+     8.  CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined 
+         in [!MPEGDASH] clause 5.10.3.3 in the metadata samples.
+     8a.  In that case, version 1 SHOULD be used
+     8b.  In that case, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
              or an equivalent urn to signal the presence of DashEventMessageBoxes.
-        7c.  In that case, the timescale of the metadata (e.g. EventMessageBoxes) SHOULD match the value
-             specified in the media header box "mdhd" of the metadata track. 
-        7d.  In that case A metadata sample MAY contain multiple DASHEventMessageBoxes, 
-             for example if they have the same Event Presentation Time. 
-        7f.  In that case, the schemeIdUri in the DASHEventMessageBox can be used 
-             to signal the scheme of the data embedded in the message 
-             data field of the DASHEventMessageBox 
-        7g.  For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
-             MUST be urn:scte:scte35:2013:bin  as defined 
-             in [[!SCTE214-1]], a binary scte-35 payload in a
-             DASHEventMessageBox. The DASHEventMessageBox 
-             must conform to [[!SCTE214-1]] and the messageData 
-             field SHALL contain a binary SCTE-35 payload. 
-             In this case, media tracks MUST insert an IDR (intra decoder refresh frame)
-             at time corresponding to the event presentation time. 
-        7h.  In some cases, the duration of the metadata may not
-             be known, in this case the sample duration could
-             be set to 0 0xFFFFFFFF unkown duration and updated later when the timestamp
-             of the next metadata sample is received. AS per [!MPEGDASH] clause 
-        7i.  In case it is necessary to add filler samples to avoid gaps in the timeline, 
-             a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue MAY be used.
-             The duration and timescale SHOULD correspond to the duration and timescale of the 
-             sample enclosing the filler.  
-     8. The [=Ingest source=] SHOULD not embed inband event message
+     8c.  In that case, the timescale of the metadata (e.g. EventMessageBoxes) SHOULD match the value
+          specified in the media header box "mdhd" of the metadata track. 
+     8d.  In that case Aametadata sample MAY contain multiple DASHEventMessageBoxes, 
+          for example if they have the same Event Presentation Time. 
+     8f.  In that case, the schemeIdUri in the DASHEventMessageBox can be used 
+           to signal the scheme of the data embedded in the message 
+           data field of the DASHEventMessageBox, enabling multiple metadata 
+           schemes per track.
+     8g.  For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
+           MUST be urn:scte:scte35:2013:bin  as defined 
+           in [[!SCTE214-1]]. A binary scte-35 payload is carried in 
+           the message_data field of a
+           DASHEventMessageBox. The DASHEventMessageBox 
+           must conform to [[!SCTE214-1]]. 
+           In this case, media tracks MUST insert an 
+           IDR (intra decoder refresh frame)
+           at time corresponding to the event presentation time. 
+      8h.  In some cases, the duration of the metadata may not
+           be known, in this case the sample duration could
+           be set to 0 0xFFFFFFFF unkown duration and updated later when the timestamp
+           of the next metadata sample is received. AS per [!MPEGDASH] clause 
+      8i.  In case it is necessary to add filler samples to avoid gaps in the CMAF track timeline, 
+           a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue MAY be used.
+           The duration and timescale SHOULD correspond to the duration and timescale of the 
+           sample enclosing the DashEventMessageBox.  
+      9. The [=Ingest source=] SHOULD not embed inband event message
          boxes emsg in the timed metadata track or media tracks, however 
          it is not strictly prohibited when conforming to this specification. 
-         It will result in loss of performance. In some setups, inband event 
-         messages may be used in media tracks.
+         In some setups, inband event messages may be used in media tracks, 
+         but it may result in a loss of performance.
 	 
 
 
@@ -1262,7 +1267,7 @@ Advantages include avoiding sending duplicate information
 in multiple tracks, and avoiding a strong dependency between media
 and metadata by interleaving them. The [=Ingest source=] SHOULD NOT
 send inband emsg box and the receiver SHOULD ignore it. Instead DashEventMessageBox 
-can be carried in samples of the timed metadata track as described in clause 7.
+can be carried in samples of the timed metadata track as described in clause 8.
 
 ##  Requirements for Receiving and ingest source Entity Failover and Connection Error Handling ## {#failover}
 
