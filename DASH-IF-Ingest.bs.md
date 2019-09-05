@@ -1221,16 +1221,15 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         was defined in [[!MPEG4-30]] clause 6.6 to be carried in samples in which no 
         active cue occurs. Other schemes could define empty cues amongst similar lines.
      8. CMAF track files do not support overlapping, multiple concurrently active 
-        or zero duration samples. 
-	In case metadata is concurrent, overlapping or of zero duration, such semantics
-	must be defined by the scheme signalled in the URIMetasampleEntry. The timed metadata
-	track MUST conform to [[!MPEGCMAF]] clause 7.3.
+        or zero duration samples. In case metadata is concurrent, overlapping or of zero duration, such semantics
+        must be defined by the scheme signalled in the URIMetasampleEntry. The timed metadata
+        track MUST conform to [[!MPEGCMAF]] clause 7.3.
 
      9. CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined 
         in [!MPEGDASH] clause 5.10.3.3 in the metadata samples.
      
         9a.  In the case of 9, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
-	     refers to the BaseMediaDecodeTime signalled in the tfdt of the CMAF fragment enclosing the timed metadata sample.
+            refers to the BaseMediaDecodeTime signalled in the tfdt of the CMAF fragment enclosing the timed metadata sample.
      
         9b.  In the case of 9, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
              or an equivalent urn to signal the presence of DashEventMessageBoxes.
@@ -1267,17 +1266,13 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              In this case, media tracks MUST insert an 
              IDR frame at the time corresponding 
              to the event presentation time. 
-     
-        9i.  In the case of 9, if the duration of the metadata is not
-             known, the duration of the DashEventMessageBox can be 
-	     set to 0xFFFFFFFF.
  
-        9j.  In case of 9, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
+        9i.  In case of 9, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
              a DashEventMessageBox with schemeIdUri urn:dash:event:2019:empty_cue SHOULD be used.
              The duration and timescale of this DashEventMessageBox MUST correspond to the 
              duration and timescale of the sample.  
-	     
-        9k.  In the case of 9, if id3 tags are carried, the DashEventMessageBox MUST be formatted as defined in [=aomid3=]
+     
+        9j.  In the case of 9, if id3 tags are carried, the DashEventMessageBox MUST be formatted as defined in [=aomid3=]
     
       10.  The [=Ingest source=] SHOULD not embed inband event message
           boxes emsg in the timed metadata track or media tracks, however 
