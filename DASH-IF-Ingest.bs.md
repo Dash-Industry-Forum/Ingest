@@ -1226,7 +1226,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         track MUST conform to [[!MPEGCMAF]] clause 7.3.
 
      9. CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined 
-        in [!MPEGDASH] clause 5.10.3.3 in the metadata samples.
+        in [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples.
      
         9a.  In the case of 9, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
             refers to the BaseMediaDecodeTime signalled in the tfdt of the CMAF fragment enclosing the timed metadata sample.
