@@ -1197,7 +1197,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 
      1. Metadata SHALL be conveyed in a Timed metadata CMAF track, where
         the media handler (hdlr) is "meta", the track handler box is 
-	a null media header box [=nmhd=] as defined by [[!ISOBMFF]] clause 12.3
+        a null media header box [=nmhd=] as defined by [[!ISOBMFF]] clause 12.3
      2. The CMAF timed metadata track applies to the media streams
         ingested to a [=Publishing point=] entry at the media
         processing entity or origin server.
