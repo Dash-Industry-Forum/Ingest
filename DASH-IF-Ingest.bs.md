@@ -825,7 +825,7 @@ session to receive live encoded content.
         [=CMAF header=] after step 1
      3.	The [=Ingest source=] SHALL transmit the CMAF fragments 
         comprising the track to the Receiving Entity once they 
-	become available. 
+        become available. 
      4. The [=Ingest source=]  SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC7235]]
         when the content length is unknown at the start of transmission
