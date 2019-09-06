@@ -1270,7 +1270,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         9j.  In the case of 9, if id3 tags are carried, the DashEventMessageBox 
              MUST be formatted as defined in [=aomid3=]
 	     
-	9k.  In the case of 9, the value and id field of the DashEventMessageBox can be used 
+        9k.  In the case of 9, the value and id field of the DashEventMessageBox can be used 
              by the [=Receiving Entity=] to detect duplicate events. 
     
       10.  The [=Ingest source=] SHOULD not embed inband top level DashEventMessage
