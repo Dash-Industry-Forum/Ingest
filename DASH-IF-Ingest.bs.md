@@ -220,9 +220,6 @@ DASH-IF makes no warranty whatsoever for such third party material.
    <dfn dfn> **CMAF chunk** </dfn>:
              CMAF chunk defined in [[!MPEGCMAF]] clause 7.3.2.3
 
-   <dfn dfn> **CMAF segment** </dfn>:
-             CMAF addressable media object defined in [[!MPEGCMAF]] 7.3.3.1
-
    <dfn dfn> **CMAF Presentation** </dfn>
              logical grouping of CMAF tracks corresponding to a media presentation as
              defined in [[!MPEGCMAF]] clause 6
@@ -691,7 +688,7 @@ such as a packager or active origin server. However,
 it can also be used for simple transport of media to an archive, 
 as the combination of CMAF header and CMAF fragments will 
 result in a valid archived CMAF track file when an ingest 
-is stored on disk.
+is stored on disk by a receiving entity.
 
 CMAF Ingest advances over the ingest  
 part of the Smooth ingest protocol [=MS-SSTR=] by only using  
@@ -803,11 +800,11 @@ Figure 8: CMAF ingest flow
 ## General Protocol and Track Format Requirements ## {#general_Protocol_Requirements_p1}
 
 The ingest source transmits media content to the receiving entity using HTTP POST or HTTP PUT. The receiving 
-entity listens fo content on a [=POST_URL=] that is known by both the ingest source and receiving entity. 
+entity listens for content on a [=POST_URL=] that is known by both the ingest source and receiving entity. 
 The [=POST_URL=] may contain a basepath corresponding to a domain name and relative path, as setup 
 by the receiving entity and a domain naming system.  An extended path to identify the stream name or fragment
 may be added by the ingest source. It is assumed that the ingest source can retrieve 
-these paths and resolve them to IP adresses. The [=POST_URL=] setup by a receiving
+these paths and resolve them to IP addresses. The [=POST_URL=] setup by a receiving
 entity can be referred to as a [=Publishing point=] and is used during a live stream 
 session to receive live encoded content.
 
@@ -825,7 +822,8 @@ session to receive live encoded content.
         [=CMAF header=] after step 1
      3.	The [=Ingest source=] SHALL transmit the CMAF fragments 
         comprising the track to the Receiving Entity once they 
-        become available. 
+        become available. In this case, a single POST request message body
+        MUST contain at least one or more CMAF fragments carried as the body of that request.
      4. The [=Ingest source=]  SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC7235]]
         when the content length is unknown at the start of transmission
@@ -881,8 +879,8 @@ session to receive live encoded content.
          enabling the receiver to group the tracks in the respective
          switching sets.
      14. Ingested tracks MUST conform to CMAF track structure defined
-         in [[!MPEGCMAF]]. Additional constaints on the CMAF track 
-         structure are defined in the next sections.
+         in [[!MPEGCMAF]]. Additional constraints on the CMAF track 
+         structure are defined in later sections.
      15. CMAF Tracks MAY use segmentTypeBox to signal [=CMAF Media object=]
            brands like chunk, fragment, segment. Such signalling may also 
            be inserted in a later stage by the receiving entity. A smart
@@ -967,12 +965,11 @@ session to receive live encoded content.
   In addition, optional explicit signalling are defined in this clause. This would mean the following 
   steps could be implemented by the Live ingest source.
   
-  1. a Live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
+  1. A Live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
      live streaming session. Tracks with the same [=Switching Set ID=] belong to the same switching set. 
   2. The [=Switching Set ID=] MAY be added in a relative path to the POST_URL using the Switching() keyword. 
      In this case, a CMAF chunk is send from the live ingest source as POST chunk.cmfv 
-     POST_URL/Switching([=Switching Set ID=])/Streams(stream_id) if a stream_name is included, 
-     or POST_URL/Switching([=Switching Set ID=])/ if this is not the case. 
+     POST_URL/Switching([=Switching Set ID=])/Streams(stream_id). 
   3. The live ingest source MAY add a kind box in the udta box in each track to signal the switching set 
      it belongs to. The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
      value field of the kind box SHALL be the [=Switching Set ID=]. 
@@ -1004,10 +1001,9 @@ session to receive live encoded content.
 
 The live media ingest specification follows requirements for ingesting
 a track with timed text, captions and/or subtitle streams. The
-recommendations for formatting subtitle and timed text track
-are defined in [[!MPEGCMAF]] and [[!MPEG4-30]]. These define 
-a sparse fragmented structure for subtitles and timed text 
-based on webVTT, TTML XML, TTML Images. 
+recommendations for formatting subtitle and timed text tracks
+are defined in [[!MPEGCMAF]] and [[!MPEG4-30]]. 
+
 We provide a few additional guidelines and best practices for 
 formatting timed text and subtitle tracks.
 
@@ -1088,7 +1084,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
 ## Requirements for Timed Metadata Tracks ## {#timed_metadata}
 
   This section discusses the specific formatting requirements  
-  for [=CMAF Ingest=] of timed metadata. An example of  
+  for [=CMAF Ingest=] of timed metadata. Examples of  
   timed metadata are opportunities for splice points and program information  
   signalled by SCTE-35 markers. Such event signalling  
   is different from regular audio/video information because of its sparse nature. 
@@ -1101,7 +1097,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
 
   Table 4 provides some example urn schemes to be signalled
   Table 5 illustrates an example of a SCTE-35 marker stored  
-  in a DASH EventMessageBox, that is in turn stored as a metadata sample 
+  in a DASHEventMessageBox, that is in turn stored as a metadata sample 
   in a metadata track.  
 
   The presented approach enables ingest of  
@@ -1116,7 +1112,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
   By embedding the DashEventMessageBox structure in timed metadata samples some of the 
   benefits of its usages in DASH and CMAF are kept. In addition it enables signalling 
   of gaps, overlapping events and multiple events starting at the same time in a single 
-  timed metadata track. In addition, the parsing and processing of DashEventMessageBoxes 
+  timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
   is supported in many players.Tho support this DashEventMessageBox embedded timed metadata 
   track instantiation it is described in clause 9. 
  
@@ -1189,25 +1185,21 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 	</tr>
  </table>
 
-  The following are requirements and recommendations apply to timed metadata  
+  The following are requirements and recommendations that apply to timed metadata 
   ingest of information related to events, tags, ad markers and program information and others:
 
      1. Metadata SHALL be conveyed in a CMAF track, where
         the media handler (hdlr) is "meta", the track handler box is 
         a null media header box [=nmhd=] as defined for 
         timed metadata tracks in [[!ISOBMFF]] clause 12.3
-     2. The CMAF timed metadata track applies to the media tracks
+     2. The CMAF timed metadata track applies to the [=CMAF Presentation=]
         ingested to a [=Publishing point=] at the Receiving Entity.
      3. The URIMetaSampleEntry entry SHALL contain,
         in a URIbox, the URI following the URI syntax in
         [[!RFC3986]] defining the scheme of the metadata
-        (see the ISO Base media file format
-         specification [[!ISOBMFF]] clause 12.3).
+        (see the [[!ISOBMFF]] clause 12.3).
      4.  All Timed Metadata samples SHALL
-         be sync samples [[!ISOBMFF]],
-         defining the entire set of
-         metadata for the time interval
-         they cover. 
+         be sync samples [[!ISOBMFF]]. 
      5. The CMAF fragments in the timed metadata track 
         MAY NOT be of a constant duration. 
         The fragments should be of durations that 
@@ -1219,11 +1211,11 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         Such filler data SHALL be defined by the metadata scheme signalled
         in URIMetaSampleEntry. For example, webvtt tracks define a VTTEmptyCueBox 
         in [[!MPEG4-30]] clause 6.6. this cue is to be carried in samples in which no 
-        active cue occurs. Other schemes could define empty cues amongst similar lines.
+        active cue occurs. Other schemes could define empty fillers amongst similar lines.
      8. CMAF track files do not support overlapping, multiple concurrently active 
         or zero duration samples. In case metadata or events are concurrent, overlapping or of zero duration, 
         such semantics MUST be defined by the scheme signalled in the URIMetasampleEntry. The timed metadata
-        track MUST conform to [[!MPEGCMAF]] clause 7.3.
+        track MUST still conform to [[!MPEGCMAF]] clause 7.3.
 
      9. CMAF Timed metadata tracks MAY carry DashEventMessageBoxes as defined 
         in [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples.
@@ -1245,15 +1237,14 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      
         9e.  In the case of 9, a single metadata sample MAY contain multiple DASHEventMessageBoxes. 
              This happens if multiple DashEventMessageBoxes have the same Presentation Time or if 
-             an an earlier event is still active in a sample containing a new overlapping event. 
+             an an earlier event is still active in a sample containing a newly started overlapping event. 
              
         9f.  In the case of 9, the duration of the metadata sample SHOULD correspond to the duration signalled 
-             in the DashEventMessageBox. If this is not possible due to track constraints, 
+             in the DashEventMessageBox. If this is not possible due to CMAF or ISOBMFF track constraints, 
              the duration of the sample  MUST be the duration upto the next metadata sample.
-             If the duration of a DashEventMessageBox is unknown, 
-             and the presentation time of the next DASHEventMessageBox is unknown, the metadata sample 
+             If the duration of a DashEventMessageBox is unknown, the metadata sample 
              MAY have a duration of zero. Once the duration becomes known, it SHALL be updated in the track file to the correct 
-	     non zero duration value. This is only allowed for the last available sample in a timed metadata track.
+             non zero duration value. This is only allowed for the last available sample in a timed metadata track.
      
         9g.  In the case of 9, the schemeIdUri in the DASHEventMessageBox can be used 
              to signal the scheme of the data embedded in the message 
@@ -1266,7 +1257,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              DASHEventMessageBox. The DASHEventMessageBox 
              must conform to [[!SCTE214-1]]. 
              If a splice point is signalled, the SpliceInsert 
-             command must be used.
+             command SHALL be used.
              In this case, media tracks MUST insert an 
              IDR frame at the time corresponding 
              to the event presentation time.
@@ -1280,10 +1271,10 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              MUST be formatted as defined in [=aomid3=]
     
       10.  The [=Ingest source=] SHOULD not embed inband top level DashEventMessage
-          Boxes emsg in the timed metadata track or media tracks, however 
-          it is not strictly prohibited when conforming to this specification. 
-          In some setups, inband event messages may be used in media tracks, 
-          but it may result in a loss of performance for just in time packaging.
+           Boxes emsg in the timed metadata track or media tracks, however 
+           it is not strictly prohibited when conforming to this specification. 
+           In some setups, inband event messages may be used in media tracks, 
+           but it may result in a loss of performance for just-in-time packaging.
 	 
 
 
@@ -1317,10 +1308,10 @@ can be carried in samples of the timed metadata track as described in clause 9.
 
   [=Live encoder=] or [=Ingest source=] failover is the second type  
   of failover. In this scenario, the error condition  
-  occurs on the [=Ingest source=] side. The following expectations apply:  
+  occurs on the [=Ingest source=] side. The following recommendations apply:  
 
       2. A new [=Ingest source=] instance SHOULD be instantiated
-         to continue the ingest
+         to continue the ingest for the live streaming session
       3. The [=Ingest source=] MUST use
          the same URL for HTTP POST requests as the failed instance.
       4. The new  [=Ingest source=] POST request
