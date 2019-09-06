@@ -341,10 +341,6 @@ DASH-IF makes no warranty whatsoever for such third party material.
           The FileTypeBox "ftyp" box as defined
           in the ISOBMFF [[!ISOBMFF]]
 
-   <dfn dfn>**moov**</dfn>:
-           The container box for all metadata MovieBox "moov" defined in the  
-           ISOBMFF base media file format [[!ISOBMFF]]
-
    <dfn dfn> **mdat**  </dfn>:
            The mediaDataBox "mdat" box defined in
             ISOBMFF [[!ISOBMFF]].
@@ -714,7 +710,7 @@ Figures 5-7 detail some of the concepts and structures defined in [[!MPEGCMAF]].
 Figure 5 shows the data format structure of the [=CMAF Track=]. In this format media samples 
 and media indexes are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] 
 is used to signal the information to playback and decode properties of the samples stored in the mdat box.   
-The [=ftyp=] and moov box contain the track specific information   
+The CMAF Header contains the track specific information   
 and is referred  to as a [=CMAF Header=] in [[!MPEGCMAF]].  
 The combination of  [=moof=] [=mdat=] can be referred   
 as a [=CMAF fragment=] or [=CMAF chunk=] or a [=CMAF segment=]
@@ -1030,7 +1026,7 @@ formatting timed text and subtitle tracks.
            3c.TTML IMSC1 Image Specified in 11.3.4 [[!MPEG4-30]]
              IMSC1 Image Profile  *im1i*
 
-      4.    The BitRateBox btrt SHOULD be used to signal the average and
+      4.   The BitRateBox btrt SHOULD be used to signal the average and
            maximum bitrate in the sample entry box, this is
            most relevant for bitmap or xml based timed text subtitles
            that may consume significant bandwidths (e.g. im1i im1t)
@@ -1274,7 +1270,8 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              The duration and timescale of this DashEventMessageBox MUST correspond to the 
              duration and timescale of the sample to fill the timeline.  
      
-        9j.  In the case of 9, if id3 tags are carried, the DashEventMessageBox MUST be formatted as defined in [=aomid3=]
+        9j.  In the case of 9, if id3 tags are carried, the DashEventMessageBox 
+             MUST be formatted as defined in [=aomid3=]
     
       10.  The [=Ingest source=] SHOULD not embed inband top level DashEventMessage
           Boxes emsg in the timed metadata track or media tracks, however 
