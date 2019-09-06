@@ -1244,11 +1244,11 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              the duration of the sample  MUST be the duration upto the next metadata sample.
              If the duration of a DashEventMessageBox is unknown, the metadata sample 
              MAY have a duration of zero. Once the duration becomes known, it SHALL be updated in the track file to the correct 
-             non zero duration value. This is only allowed for the last available sample in a timed metadata track.
+             non zero duration value. This behavior is only allowed for the last available sample in a timed metadata track.
      
         9g.  In the case of 9, the schemeIdUri in the DASHEventMessageBox can be used 
-             to signal the scheme of the data embedded in the message 
-             data field. This enables carriage of multiple metadata schemes.
+             to signal the scheme of the data carried in the message 
+             data field. This enables carriage of multiple metadata schemes in a track.
      
         9h.  In the case of 9, For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
              MUST be urn:scte:scte35:2013:bin  as defined 
@@ -1256,7 +1256,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              the message_data field of a
              DASHEventMessageBox. The DASHEventMessageBox 
              must conform to [[!SCTE214-1]]. 
-             If a splice point is signalled, the SpliceInsert 
+             If a splice point is signalled, the SCTE-35 SpliceInsert 
              command SHALL be used.
              In this case, media tracks MUST insert an 
              IDR frame at the time corresponding 
