@@ -1,5 +1,3 @@
-#include "00-CommunityReview.inc.md"
-
 #Specification: Live Media Ingest # {#IngestSpec}
 
 ## Abstract ## {#Abstract}
@@ -563,7 +561,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
         the hostname to adapt to changes in the IP to Hostname mapping
         such as for example by using the domain naming system
         DNS [[!RFC1035]] or any other system that is in place.
-     4. The [=Ingest source=] MUST update the IP to hostname
+     4. In the case of 3, [=Ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
         query responses, this will enable better resilience
         to changes of the IP address in large scale deployments
@@ -804,7 +802,7 @@ entity listens for content on a [=POST_URL=] that is known by both the ingest so
 The [=POST_URL=] may contain a basepath corresponding to a domain name and relative path, as setup 
 by the receiving entity and a domain naming system.  An extended path to identify the stream name or fragment
 may be added by the ingest source. It is assumed that the ingest source can retrieve 
-these paths and resolve them to IP addresses. The [=POST_URL=] setup by a receiving
+these paths and resolve them. The [=POST_URL=] setup by a receiving
 entity can be referred to as a [=Publishing point=] and is used during a live stream 
 session to receive live encoded content.
 
@@ -818,12 +816,12 @@ session to receive live encoded content.
         and if there are any authentication
         or other conditions required.
      2. The [=Ingest source=]  MUST initiate
-        a media ingest connection by posting the
+        a media ingest connection by posting at least one
         [=CMAF header=] after step 1
-     3.	The [=Ingest source=] SHALL transmit the CMAF fragments 
+     3.	The [=Ingest source=] SHALL transmit the one or more CMAF fragments 
         comprising the track to the Receiving Entity once they 
         become available. In this case, a single POST request message body
-        MUST contain at least one or more CMAF fragments carried as the body of that request.
+        MUST contain at least one or more CMAF fragments in the body of that request.
      4. The [=Ingest source=]  SHOULD use the chunked transfer
         encoding option of the HTTP POST command [[!RFC7235]]
         when the content length is unknown at the start of transmission
@@ -873,7 +871,8 @@ session to receive live encoded content.
      12. The average and maximum bitrate of each
          track SHOULD be signalled
          in the "btrt" box in the sample
-         entry of the CMAF header.
+         entry of the CMAF header. These can be used 
+         to signal the bit-rate later on, such as in the manifest. 
      13. In case a track is part of a [=Switching set=], all
          properties section 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied,
          enabling the receiver to group the tracks in the respective
@@ -973,8 +972,6 @@ session to receive live encoded content.
   3. The live ingest source MAY add a kind box in the udta box in each track to signal the switching set 
      it belongs to. The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
      value field of the kind box SHALL be the [=Switching Set ID=]. 
-  
-    NOTE: this text was added to address comments from the community review to support explicit signalling of switching sets, this     needs to be reviewed and discussed more.
   
   Table 2: Switching set signalling options 
   <table class="def">
@@ -1113,7 +1110,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
   benefits of its usages in DASH and CMAF are kept. In addition it enables signalling 
   of gaps, overlapping events and multiple events starting at the same time in a single 
   timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
-  is supported in many players.Tho support this DashEventMessageBox embedded timed metadata 
+  is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
   track instantiation it is described in clause 9. 
  
   
