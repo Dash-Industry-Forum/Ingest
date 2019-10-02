@@ -165,7 +165,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    We further motivate the specification  
    in this document supporting    
-   HTTP 1.1 [[!RFC7235]]  and [[!ISOBMFF]].   
+   HTTP/1.1 [[!RFC7235]]  and [[!ISOBMFF]].   
    We believe that Smooth streaming [=MS-SSTR=]   
    and HLS [[!RFC8216]] have shown that HTTP usage
    can survive the Internet ecosystem for   
@@ -181,7 +181,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    Regarding the transport protocol, in future versions,  
    alternative transport protocols could be considered  
-   advancing over HTTP 1.1 or TCP.
+   advancing over HTTP/1.1 or TCP.
    We believe the proposed media format and protocol interfaces
    will provide the same benefits with other transport
    protocols. Our view is that for current and near future  
@@ -547,7 +547,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
   The media ingest follows the following  
   general requirements for both targetted interfaces.  
-  The ingest interface uses exising media formats 
+  The ingest interface uses existing media formats 
   in combination with the HTTP POST method.
 
      1. The [=Ingest source=]  SHALL communicate
@@ -577,7 +577,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
         be used, for example, when the ingest source 
         and receiving entity fall under common administration.
      7. As compatibility profile for the TLS encryption
-        the ingest source SHOULD support the mozzilla
+        the ingest source SHOULD support the Mozilla
         intermediate compatibility profile [=MozillaTLS=].
      8. In case of an authentication error confirmed by an HTTP 403 response, 
         the ingest source SHALL retry establishing the [=Connection=]
@@ -1361,7 +1361,7 @@ can be carried in samples of the timed metadata track as described in clause 9.
    ### HTTP sessions ### {#DASH_Ingest_HTTP}
 
     1. The Ingest Source MUST transfer [=Manifest objects=] and [=Media objects=] to the Receiving entity via individual 
-         HTTP 1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
+         HTTP/1.1  [[!RFC7235]] PUT or POST operations to the configured path. This specification does not imply any functional differentiation between a PUT or a POST operation. Either may be used to transfer content to the [=Receiving entity=]. Unless indicated otherwise, the use of the term POST can be interpreted as PUT or POST.
     2. The Ingest Source SHOULD remove [=Media objects=] from the Receiving entity which are no longer referenced in the corresponding [=Manifest objects=] via     an HTTP DELETE operation. How long the Ingest Source waits to remove unreferenced content MAY be configurable. Upon receipt of a DELETE request, the        Receiving entity should:   
 
          2a. delete the referenced content and return a 200 OK HTTP Response code
