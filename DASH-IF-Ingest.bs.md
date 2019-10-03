@@ -557,10 +557,11 @@ DASH-IF makes no warranty whatsoever for such third party material.
         use HTTP over TLS, if TLS is used it SHALL support atleast
         TLS version 1.2, higher version
         may also be supported additionally [[!RFC2818]]
-     3. The [=Ingest source=]  SHOULD repeatedly resolve
-        the hostname to adapt to changes in the IP to Hostname mapping
-        such as for example by using the domain naming system
+     3. The [=Ingest source=]  SHOULD us a domain name system for
+        reolving hostnames to ip addresses such as
         DNS [[!RFC1035]] or any other system that is in place.
+        If this is not the case, the domain names the ip adress mapping 
+        must be known and static, such as configured in the operating system.
      4. In the case of 3, [=Ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
         query responses, this will enable better resilience
@@ -799,12 +800,12 @@ Figure 8: CMAF ingest flow
 
 The ingest source transmits media content to the receiving entity using HTTP POST or HTTP PUT. The receiving 
 entity listens for content on a [=POST_URL=] that is known by both the ingest source and receiving entity. 
-The [=POST_URL=] may contain a basepath corresponding to a domain name and relative path, as setup 
-by the receiving entity and a domain naming system.  An extended path to identify the stream name or fragment
+The [=POST_URL=] may contain a basepath corresponding to a domain name and a relative path, as setup 
+by the receiving entity and a domain name system.  An extended path to identify the stream name, switching set or fragment
 may be added by the ingest source. It is assumed that the ingest source can retrieve 
-these paths and resolve them. The [=POST_URL=] setup by a receiving
+these paths and und use them. The [=POST_URL=] setup by a receiving
 entity can be referred to as a [=Publishing point=] and is used during a live stream 
-session to receive live encoded content.
+session to receive the live content.
 
      1. The [=Ingest source=] SHALL start
         by sending an HTTP POST request with the
@@ -868,6 +869,7 @@ session to receive live encoded content.
          timestamp baseMediaDecodeTime and seq_num
          based indexing will help the Receiving
          entities identify discontinuities.
+         In this case sequence numbers SHOULD increase by one.	 
      12. The average and maximum bitrate of each
          track SHOULD be signalled
          in the "btrt" box in the sample
@@ -965,7 +967,9 @@ session to receive live encoded content.
   steps could be implemented by the Live ingest source.
   
   1. A Live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
-     live streaming session. Tracks with the same [=Switching Set ID=] belong to the same switching set. 
+     live streaming session. Tracks with the same [=Switching Set ID=] belong to the same switching set.
+     The switching set ID can be a string or (small) integer number. Characters in switching set shall 
+     be unreserved i.e. A-Za-z0-9_.-~ in order to avoid introducing delimiters.     
   2. The [=Switching Set ID=] MAY be added in a relative path to the POST_URL using the Switching() keyword. 
      In this case, a CMAF chunk is send from the live ingest source as POST chunk.cmfv 
      POST_URL/Switching([=Switching Set ID=])/Streams(stream_id). 
