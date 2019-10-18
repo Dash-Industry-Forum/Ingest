@@ -166,7 +166,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    We further motivate the specification  
    in this document supporting    
    HTTP/1.1 [[!RFC7235]]  and [[!ISOBMFF]].   
-   We believe that Smooth streaming [=MS-SSTR=]   
+   We believe that Smooth streaming [=MS-SSTR=]    
    and HLS [[!RFC8216]] have shown that HTTP usage
    can survive the Internet ecosystem for   
    media delivery. In addition, HTTP-based   
@@ -1291,6 +1291,37 @@ and metadata by not interleaving them. The [=Ingest source=] SHOULD NOT
 send inband emsg box and the receiver SHOULD ignore it. Instead DashEventMessageBox 
 can be carried in samples of the timed metadata track as described in clause 9.
 
+##  Requirements for signalling and conditioning splice points  ## {#splicing}
+
+Splicing is important to use cases like ad insertion or clipping of content.
+The requirements for signalling splice points and content conditioning at 
+resective splice points are as follows. 
+
+1. The preferred method for signalling splice point uses the timed metadata track sample
+   with a presentation time corresponding to the splice point. The timed metadata track sample is carrying a DASHEventMessageBox carrying binary SCTE-35 based on the scheme urn:scte:scte35:2013:bin. The command carried in the binary SCTE-35 shall carry a spliceInsert command with out of network indicator set to 1. 
+NOTE: this corresponds to clause 9h in  [#timed_metadata]
+
+2. The media tracks in the CMAF presentation shall contain a sync sample
+    at the presentation time signalled by the metadata sample / event message box in 1)
+
+3. Sync samples shall be signalled according to the semantics
+    of a Movie Fragment (i.e. using per sample flags in track run box if needed flagging sync samples) instead of default sample flags.  
+
+The conditioning follows [=DASH-IFad=] shown in Figure 9:
+
+Figure 9: splice point conditioning
+<figure>
+	  <img src="Images/splice_ingest.png" />
+</figure>
+
+The splice point conditioning in [=DASH-IFad=] are defined as follows: 
+
+1. option 1: splice conditioned packaging: both a fragment boundary and IDR frame at splice point
+2. option 2: splice conditioned encoding: an IDR frame at the boundary 
+3. option 3: splice point signalling: specific content conditioning at the splice point
+
+This specification requires option 1 or 2 to be applied. 
+
 ##  Requirements for Receiving and ingest source Entity Failover and Connection Error Handling ## {#failover}
 
   Given the nature of live streaming, good failover support is  
@@ -1554,10 +1585,10 @@ can be carried in samples of the timed metadata track as described in clause 9.
   defined in DASH-IF live Task Force using the emerging MPEG DASH CMAF profile. 
   
   ## Example 1 with CMAF ingest and a just-in-time packager ##{##Example_1}
-  Figure 9 shows an example where a separate packager and origin server are used.
+  Figure 10 shows an example where a separate packager and origin server are used.
 
 
- Figure 9: Example setup schema with CMAF ingest and DASH/HLS ingest
+ Figure 10: Example setup schema with CMAF ingest and DASH/HLS ingest
  <figure>
 	  <img src="Images/DiagramX.png" />
   </figure>
@@ -1636,7 +1667,7 @@ can be carried in samples of the timed metadata track as described in clause 9.
 
 ## Example 2 low latency dash with an open source encoder and packager and a combination of interface 1 and 2 ##{##Example_2}
 
-      A second example can be seen in Figure 10. It constitutes the reference workflow for chunked DASH CMAF
+      A second example can be seen in Figure 11. It constitutes the reference workflow for chunked DASH CMAF
       under development by DASH-IF and DVB. In this workflow a contribution encoder produces an [=RTP=] mezzanine stream
       that is transmitted to FFmpeg, an example open source encoder/packager running on a server. Alternatively, a file resource 
       may be used. In this workflow the open source encoder functions as the ingest source. FFmpeg produces the ingest stream with 
@@ -1670,7 +1701,7 @@ can be carried in samples of the timed metadata track as described in clause 9.
 
       To receive the stream as a DASH Ingest in this workflow, the steps described in DASH Ingest may be applied.
 
-      Figure 10: DASH-IF Reference DASH-IF Live Chunked CMAF Production Workflow
+      Figure 11: DASH-IF Reference DASH-IF Live Chunked CMAF Production Workflow
    <figure>
 	  <img src="Images/DiagramXI.png" />
   </figure>
@@ -1700,6 +1731,8 @@ can be carried in samples of the timed metadata track as described in clause 9.
               https://msdn.microsoft.com/en-us/library/ff469518.aspx
                 last updated March 16 2018 (last acessed June 11 2018)
 
+    <dfm dfn>DASH-IFad</dfn> Ad Insertion in DASH (under community review)
+               https://dash-industry-forum.github.io/docs/CR-Ad-Insertion-r4.pdf
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 
