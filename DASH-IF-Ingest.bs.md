@@ -1734,7 +1734,7 @@ This specification requires option 1 or 2 to be applied.
               https://msdn.microsoft.com/en-us/library/ff469518.aspx
                 last updated March 16 2018 (last acessed June 11 2018)
 
-    <dfm dfn>DASH-IFad</dfn> Ad Insertion in DASH (under community review)
+    <dfn dfn>DASH-IFad</dfn> Ad Insertion in DASH (under community review)
                https://dash-industry-forum.github.io/docs/CR-Ad-Insertion-r4.pdf
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
