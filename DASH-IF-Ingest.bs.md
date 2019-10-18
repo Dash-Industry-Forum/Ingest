@@ -1295,14 +1295,14 @@ can be carried in samples of the timed metadata track as described in clause 9.
 
 Splicing is important to use cases like ad insertion or clipping of content.
 The requirements for signalling splice points and content conditioning at 
-resective splice points are as follows. 
+respective splice points are as follows. 
 
 1. The preferred method for signalling splice point uses the timed metadata track sample
      with a presentation time corresponding to the splice point. The timed metadata track       
      sample is carrying a DASHEventMessageBox carrying binary SCTE-35 based on the scheme urn:scte:scte35:2013:bin. The command carried 
      in the binary SCTE-35 shall carry a spliceInsert command with out of network indicator set to 1. 
      
-NOTE: this corresponds to clause 9h in  [#timed_metadata]
+NOTE: this corresponds to clause 9h in  [[#timed_metadata]]
 
 2. The media tracks in the CMAF presentation shall contain a sync sample
      at the presentation time signalled by the metadata sample / event message box in 1)
