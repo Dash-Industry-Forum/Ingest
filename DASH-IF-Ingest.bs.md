@@ -1742,7 +1742,7 @@ This specification requires option 1 or 2 to be applied.
 <pre class="metadata">
 Revision: 1.0
 
-Title: DASH-IF Live Media Ingest and Uplink Protocol
+Title: DASH-IF Live Media Ingest Protocol
 Status: iso/TS
 Deadline: 2019-07-31
 Status Text: IOP Approved Technical Specification
