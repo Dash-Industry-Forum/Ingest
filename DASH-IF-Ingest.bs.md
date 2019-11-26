@@ -1742,15 +1742,15 @@ This specification requires option 1 or 2 to be applied.
 <pre class="metadata">
 Revision: 1.0
 
-Title: Specification of Live Media Ingest
+Title: DASH-IF Live Media Ingest Protocol
 Status: iso/TS
 Deadline: 2019-07-31
-Status Text: Specification for Community Review
-Shortname: ingest
+Status Text: IOP Approved Technical Specification
+Shortname: live ingest
 URL: https://dashif.org/guidelines/
 Issue Tracking: GitHub https://github.com/Dash-Industry-Forum/Ingest/issues
 Repository: https://github.com/Dash-Industry-Forum/Ingest GitHub
-Editor: DASH-IF IOP Ingest TF
+Editor: DASH-IF IOP Ingest TF (Rufael Mekuria)
 
 Default Highlight: text
 <!-- Enabling line numbers breaks code blocks in PDF! (2018-10-02) -->
