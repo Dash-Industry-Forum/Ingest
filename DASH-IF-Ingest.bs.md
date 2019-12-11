@@ -1072,7 +1072,7 @@ Table 3: Roles for subtitle and Audio tracks and HLS Characteristics
 		<td>describtion   </td>
 	</tr>
 	<tr>
-		<td>descripes-music-and-sound  </td>
+		<td>describes-music-and-sound  </td>
 		<td>caption   </td>
 	</tr>
 </table>
