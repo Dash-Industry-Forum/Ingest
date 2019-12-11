@@ -1319,8 +1319,8 @@ Figure 9: splice point conditioning
 
 The splice point conditioning in [=DASH-IFad=] are defined as follows: 
 
-1. option 1: splice conditioned packaging: both a fragment boundary and SAP 1 or SAP 2 access at splice point
-2. option 2: splice conditioned encoding: an SAP 1 SAP 2 frame at the boundary 
+1. option 1: splice conditioned packaging: both a fragment boundary and a SAP 1 or SAP 2 (stream access point) at the splice point
+2. option 2: splice conditioned encoding: a SAP 1 or SAP 2 stream access point at the frame at the boundary 
 3. option 3: splice point signalling: specific content conditioning at the splice point
 
 This specification requires option 1 or 2 to be applied. 
