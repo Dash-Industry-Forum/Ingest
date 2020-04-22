@@ -862,11 +862,10 @@ session to receive the live content.
         for each of the fragments in the different
         tracks/streams that are ingested.
      11. The fragment sequence numbers
-         seq_num of fragments in the
-         [=CMAFstream=] signalled in the tfhd
+         in the [=CMAFstream=] signalled in the mfhd
          SHOULD arrive in increasing order for each of the different
          tracks/streams that are ingested. Using both
-         timestamp baseMediaDecodeTime and seq_num
+         timestamp baseMediaDecodeTime and sequence number
          based indexing will help the Receiving
          entities identify discontinuities.
          In this case sequence numbers SHOULD increase by one.	 
