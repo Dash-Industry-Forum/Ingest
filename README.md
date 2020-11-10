@@ -11,10 +11,3 @@ Most recent output from the **master** branch:
 * [Download PDF + HTML as archive](https://dashif-documents.azurewebsites.net/Ingest/master/DASH-IF-Ingest.zip)
 
 ![Build status of master branch](https://dev.azure.com/dashif/Automation/_apis/build/status/Ingest?branchName=master) [Build history](https://dev.azure.com/dashif/Automation/_build?definitionId=7)
-
-
-https://github.com/RufaelDev/Ingest/blob/master/README.md 
-
-# Additional information 
-for the history of this project see:
-https://github.com/unifiedstreaming/fmp4-ingest  
