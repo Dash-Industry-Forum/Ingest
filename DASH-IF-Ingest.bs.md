@@ -545,38 +545,28 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
 # General Ingest Protocol Behavior # {#general}
 
-  The media ingest follows the following  
-  general requirements for both targetted interfaces.  
-  The ingest interface uses existing media formats 
-  in combination with the HTTP POST method.
+  Live media ingest follows the following  
+  general requirements. It is recommended that 
+  a conforming implementation fullfills these requirements.
 
-     1. The [=Ingest source=]  SHALL communicate
-        using the HTTP POST method as defined in
+     1. The [=Ingest source=] SHALL communicate
+        using the HTTP POST or PUT method as defined in
         the HTTP protocol, version 1.1 [[!RFC7235]]
-     2. The [=Ingest source=]  SHOULD
+     2. The [=Ingest source=] SHOULD
         use HTTP over TLS, if TLS is used it SHALL support atleast
-        TLS version 1.2, higher version
-        may also be supported additionally [[!RFC2818]]
-     3. The [=Ingest source=]  SHOULD us a domain name system for
-        reolving hostnames to ip addresses such as
-        DNS [[!RFC1035]] or any other system that is in place.
-        If this is not the case, the domain names the ip adress mapping 
-        must be known and static, such as configured in the operating system.
+        TLS version 1.2 [[!RFC2818]]
+     3. The [=Ingest source=] and [=Receiving entity=]  SHOULD use 
+        a domain name system
      4. In the case of 3, [=Ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
-        query responses, this will enable better resilience
-        to changes of the IP address in large scale deployments
-        where the IP address of the  media
-        processing entities may change frequently.
+        query responses
      5. In case HTTP over TLS  [[!RFC2818]] is used,
         basic authentication HTTP AUTH [[!RFC7617]]
         , TLS client certificates MUST be supported, 
         HTTP Digest authentication [[!RFC7616]] MUST be supported.
      6. Mutual authentication SHALL be supported.
         TLS Client certificates SHALL chain to a trusted CA
-        , or be self signed. Self signed certificates MAY 
-        be used, for example, when the ingest source 
-        and receiving entity fall under common administration.
+        , or be self-signed.
      7. As compatibility profile for the TLS encryption
         the ingest source SHOULD support the Mozilla
         intermediate compatibility profile [=MozillaTLS=].
@@ -589,33 +579,31 @@ DASH-IF makes no warranty whatsoever for such third party material.
         ingest source SHOULD stop and log an error.
         The number of retries N MAY be configurable in the [=Ingest Source=].
      9. The [=Ingest source=] SHOULD terminate
-        the [=HTTP POST=] request if data is not being sent
+        the request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
         prevent the [=Receiving entity=]
         from quickly disconnecting from the ingest source
         in the event of a service update.
-     10. The HTTP POST for sparse
+     10. The HTTP Request for sparse
          data SHOULD be short-lived,
          terminating as soon as the data of a fragment is sent.
-     11. The POST request uses a [=POST_URL=] to the basepath of the
+     11. The HTTP request uses a [=POST_URL=] to the basepath of the
          publishing point at the [=Receiving entity=] and
-         SHOULD use an additional relative path when posting
-         different streams and fragments, for example,
-         to signal the stream or fragment name.
+         SHOULD use an additional relative path to signal 
+	 the stream and media object names 
      12. Both the [=Ingest source=] and [=Receiving entity=]
-	      MUST support IPv4 and IPv6 transport.
+	 MUST support IPv4 and IPv6 transport.
      13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
-    	   for establishing the TCP connection. If an attempt to establish
-         the connection takes longer than the timeout,
-		   abort the operation and try again.
+    	   for establishing the TCP connection. In case of timeout 
+	   abort the operation and try again.
      14. The [=Ingest source=] SHOULD resend [=Objects=] for which a
          connection was terminated early, or when an error 
          response was received such as HTTP 400 or 403 
-         if the connection was down
-		   for less than 3 average segments durations. For connections
-		   that were down longer, ingest source can resume sending [=Objects=] at the live edge
-		   of the live media presentation instead.
+         if the connection was down for less than 3 average 
+         segments durations. For connections
+         that were down longer, ingest source can resume sending [=Objects=] at the live edge 
+         of the live media presentation instead.
      15. The [=Ingest source=] MAY limit the number 
          of retries to establish a new
          connection or resume streaming after a TCP error occurs to N.
@@ -632,9 +620,8 @@ DASH-IF makes no warranty whatsoever for such third party material.
           POST request due to authentication or permission
           problems, or incorrect path, 
           then it SHALL return a permission denied HTTP 403 
-          with error reason
      18.  In case the Receiving entity can process
-          the fragment in the POST request body but finds
+          the fragment in the request body but finds
           the media type cannot be supported it MAY return an HTTP 415
           unsupported media type, otherwise 400 bad request
           MUST be returned.
@@ -644,11 +631,11 @@ DASH-IF makes no warranty whatsoever for such third party material.
          by the Receiving entity
      20. In case the receiving entity cannot
          process a fragment posted
-         due to missing or incorrect init fragment, an HTTP 412
+         due to missing or incorrect initialization, an HTTP 412
          unfulfilled condition MAY be returned, otherwise, in case 
          this is not supported by the system,
          a HTTP 400 bad request response MUST be returned.
-     21. The[=Receiving entity=] MAY return 50x HTTP response in case
+     21. The [=Receiving entity=] MAY return 50x HTTP response in case
          of other errors at the server, not particularly relating
          to the request from the Ingest Source, but due to an 
          error at the receiving entity. 
