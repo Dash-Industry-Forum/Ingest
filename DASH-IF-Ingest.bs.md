@@ -591,12 +591,12 @@ DASH-IF makes no warranty whatsoever for such third party material.
      11. The HTTP request uses a [=POST_URL=] to the basepath of the
          publishing point at the [=Receiving entity=] and
          SHOULD use an additional relative path to signal 
-	 the stream and media object names 
+         the stream and media object names 
      12. Both the [=Ingest source=] and [=Receiving entity=]
-	 MUST support IPv4 and IPv6 transport.
+         MUST support IPv4 and IPv6 transport.
      13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
     	   for establishing the TCP connection. In case of timeout 
-	   abort the operation and try again.
+         abort the operation and try again.
      14. The [=Ingest source=] SHOULD resend [=Objects=] for which a
          connection was terminated early, or when an error 
          response was received such as HTTP 400 or 403 
