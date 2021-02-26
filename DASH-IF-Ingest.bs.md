@@ -492,11 +492,11 @@ DASH-IF makes no warranty whatsoever for such third party material.
    
     This specification does not
     provide guidance on which workflow is best to use in a given scenario. However, the live ingest specification
-    covers the two most suitable interfaces most suitable for workflow ingest.
+    covers the two interfaces most suitable for workflow ingest.
 
     The best choice for a specific platform depends  
     on many of the use case specific requirements,
-    circumstances  and the available technologies.  
+    circumstances and the available technologies.
 
    Table 1: different ingest use cases
    <!-- class=def is a built-in style. It is optional but looks nice. -->
@@ -558,32 +558,32 @@ DASH-IF makes no warranty whatsoever for such third party material.
         TLS version 1.2, higher version
         may also be supported additionally [[!RFC2818]]
      3. The [=Ingest source=]  SHOULD us a domain name system for
-        reolving hostnames to ip addresses such as
+        resolving hostnames to IP addresses such as
         DNS [[!RFC1035]] or any other system that is in place.
-        If this is not the case, the domain names the ip adress mapping 
+        If this is not the case, the domain names the IP adress mapping
         must be known and static, such as configured in the operating system.
      4. In the case of 3, [=Ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time to live) from DNS
-        query responses, this will enable better resilience
+        query responses. This will enable better resilience
         to changes of the IP address in large scale deployments
         where the IP address of the  media
         processing entities may change frequently.
      5. In case HTTP over TLS  [[!RFC2818]] is used,
-        basic authentication HTTP AUTH [[!RFC7617]]
-        , TLS client certificates MUST be supported, 
+        at least one of basic authentication HTTP AUTH [[!RFC7617]],
+        TLS client certificates, and
         HTTP Digest authentication [[!RFC7616]] MUST be supported.
      6. Mutual authentication SHALL be supported.
-        TLS Client certificates SHALL chain to a trusted CA
-        , or be self signed. Self signed certificates MAY 
+        TLS Client certificates SHALL chain to a trusted CA,
+        or be self signed. Self signed certificates MAY
         be used, for example, when the ingest source 
         and receiving entity fall under common administration.
      7. As compatibility profile for the TLS encryption
         the ingest source SHOULD support the Mozilla
         intermediate compatibility profile [=MozillaTLS=].
      8. In case of an authentication error confirmed by an HTTP 403 response, 
-        the ingest source SHALL retry establishing the [=Connection=]
+        the ingest source SHALL retry to establish the [=Connection=]
         within a fixed time period
-        with updated authentication credentials, when 
+        with updated authentication credentials. When
         that also results in error the ingest source
         can retry N times, after this the 
         ingest source SHOULD stop and log an error.
@@ -611,14 +611,14 @@ DASH-IF makes no warranty whatsoever for such third party material.
 		   abort the operation and try again.
      14. The [=Ingest source=] SHOULD resend [=Objects=] for which a
          connection was terminated early, or when an error 
-         response was received such as HTTP 400 or 403 
+         response was received such as HTTP 400 or 403
          if the connection was down
 		   for less than 3 average segments durations. For connections
 		   that were down longer, ingest source can resume sending [=Objects=] at the live edge
 		   of the live media presentation instead.
-     15. The [=Ingest source=] MAY limit the number 
-         of retries to establish a new
-         connection or resume streaming after a TCP error occurs to N.
+     15. The [=Ingest source=] MAY limit N, the number
+         of retries, to establish a new
+         connection or resume streaming after a TCP error occurs.
          This number N MAY be configurable.
      16. After a TCP error, the [=Ingest source=] should 
          perform the following:
@@ -648,7 +648,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
          unfulfilled condition MAY be returned, otherwise, in case 
          this is not supported by the system,
          a HTTP 400 bad request response MUST be returned.
-     21. The[=Receiving entity=] MAY return 50x HTTP response in case
+     21. The [=Receiving entity=] MAY return 50x HTTP response in case
          of other errors at the server, not particularly relating
          to the request from the Ingest Source, but due to an 
          error at the receiving entity. 
@@ -894,12 +894,12 @@ session to receive the live content.
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
    [[!MPEGCMAF]] has the notion of [=CMAF Track=] which are composed of 
-    [=CMAF fragment=] and [=CMAF chunk=]s .
+    [=CMAF fragment=] and [=CMAF chunk=]s.
    A fragment can be composed of one or more chunks. 
    The [=Media fragment=] defined in ISOBMFF 
    predates the definition in CMAF. It is assumed that the ingest source 
    uses HTTP POST to transmit a CMAF fragments to the receiving entity. 
-   The following are additional requirements are imposed to the formatting of CMAF media tracks.
+   The following are additional requirements imposed to the formatting of CMAF media tracks.
 
      1. Media tracks SHALL be formatted using boxes
         according to section 7 of [[!MPEGCMAF]]. 
@@ -1114,7 +1114,7 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
   of gaps, overlapping events and multiple events starting at the same time in a single 
   timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
   is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
-  track instantiation it is described in clause 9. 
+  track instantiation is described in clause 9.
  
   
   
@@ -1267,7 +1267,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              The duration and timescale of this DashEventMessageBox MUST correspond to the 
              duration and timescale of the sample to fill the timeline.  
      
-        9j.  In the case of 9, if id3 tags are carried, the DashEventMessageBox 
+        9j.  In the case of 9, if ID3 tags are carried, the DashEventMessageBox 
              MUST be formatted as defined in [=aomid3=]
 	     
         9k.  In the case of 9, the value and id field of the DashEventMessageBox can be used 
@@ -1462,6 +1462,7 @@ This specification requires option 1 or 2 to be applied.
       <th> audio/mp4  </th>
 	</tr>
    <tr>
+   	<th> .cmft [[!MPEGCMAF]]</th>
       <th> application/mp4   </th>
 	</tr>
    <tr>
@@ -1509,18 +1510,18 @@ This specification requires option 1 or 2 to be applied.
 
    ### Additional Failure behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
 
-   The following items defins additional behavior of an ingest source when encountering certain error responses from the receiving entity.
+   The following items defines additional behavior of an ingest source when encountering certain error responses from the receiving entity.
 
     1. When the ingest source receives a TCP connection attempt timeout, abort midstream, response timeout, TCP send/receive timeout or 
          5xx response when attempting to POST content to the [=Receiving entity=], it MUST
 
          1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and retry as defined in [general](#general).
 
-         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, [=Ingest source] MUST continue with the next media object, updating the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. The reason for this is to maintain an archive without discontinuity in case the stream is played back at a later time. 
+         1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and continue uploading for n seconds, where n is the segment duration. After it reaches the media object duration value, the [=Ingest source=] MUST continue with the next media object, and update the manifest object with a discontinuity marker appropriate for the protocol format. To maintain continuity of the time-line, the ingest source SHOULD continue to upload the missing media object with a lower priority. The reason for this is to maintain an archive without discontinuity in case the stream is played back at a later time.
          Once a media object is successfully uploaded, the ingest source SHOULD update the corresponding manifest object to reflect the now available media object. Note that many HLS clients do not like changes to manifest files, such as removing a previously present discontinuity, so this should only be applied for MPEG DASH manifests.
 
     2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured to NOT retry sending the fragments, hence
-          N will be 0, as descrbed in  [general](#general) 
+          N will be 0, as descrbed in [general](#general).
 
    ## HLS specific requirements ##{#HLS_Ingest_specific_requirements}
 
