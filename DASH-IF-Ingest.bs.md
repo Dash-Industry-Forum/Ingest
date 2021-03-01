@@ -896,10 +896,10 @@ session to receive the live content.
      17.  In case the [=Ingest source=] loses its own input or input is absent, it SHALL insert filler 
           or replacement content, and output these as valid CMAF segments. Examples 
           may be black frames, silent audio, or empty timed text segments. Such segments,
-          SHOULD be labelled by using a SegmentType Box (styp) with the brand 'slat'. This 
+          SHOULD be labelled by using a SegmentType Box (styp) with the brand *slat*. This 
           allows a receiver to still replace those segments with valid content segments.
      18.  The last segment in a CMAF track, SHOULD be labelled with a SegmentType box (styp) 
-          with the 'lmsg' brand, this way the receiver knows that no more media segments are 
+          with the *lmsg* brand, this way the receiver knows that no more media segments are 
           expected for this track. In case the track is restarted, a request with a [=CMAF Header=] 
           with identical properties must be issued to the same POST_URL
       
@@ -1268,7 +1268,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              to the event presentation time.
  
         5h.  In case of 5, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
-             This may be done using EventMessageEmptyBox 'emeb' or 'embe', 8 embe
+             This may be done using EventMessageEmptyBox wiht 4cc code emeb or embe 8 embe
      
         5i.  In the case of 5, if ID3 tags are carried, the DashEventMessageBox 
              MUST be formatted as defined in [=aomid3=]
