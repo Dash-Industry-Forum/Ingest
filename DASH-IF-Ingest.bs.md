@@ -5,8 +5,8 @@
    This document presents the DASH-IF Live Media Ingest Protocol Specification. 
    Two protocol interfaces are defined. The first, interface 1, CMAF ingest, 
    is based on fragmented MPEG-4 as defined in the common media application track format (CMAF). 
-   The second interface is based on MPEG DASH and HLS as defined by ISO SC29 WG 11 and IETF.
-   Both Interfaces use the HTTP POST Method to transmit media objects 
+   The second interface is based on DASH and HLS as specified by the MPEG and IETF, respectively.
+   Both interfaces use the HTTP POST method to transmit media objects 
    from the ingest source to the receiving entity. Examples of live streaming workflows using these
    protocol interfaces are also presented. The protocol interfaces also support carriage of timed metadata and timed text. 
    Guidelines for redundancy and failover are also included.
@@ -15,10 +15,10 @@
 
 Please review these documents  
 carefully, as they describe your rights and restrictions with  
-respect to this document.  Code Components extracted from this  
+respect to this document. Code Components extracted from this  
 document must include Simplified BSD License text as described  
 in Section 4.e of the Trust Legal Provisions and are provided  
-without warranty as described in the Simplified BSD License  
+without warranty as described in the Simplified BSD License.  
 
 This is a document made available by DASH-IF. The technology
 embodied in this document may involve the use of intellectual
@@ -33,9 +33,7 @@ rights and DASH-IF disclaims any duty to do so. The rights and obligations
  rights and obligations. A copy of the DASH-IF Bylaws and IPR Policy
  can be obtained at http://dashif.org/.
 
-The material contained herein is provided on an AS IS basis and to the   
-maximum extent permitted by applicable law, this material is provided   
-AS IS, and the authors and developers of this material and DASH-IF   
+The material contained herein is provided on an AS IS basis. The authors and developers of this material and DASH-IF   
 hereby disclaim all other warranties and conditions, either express,
 implied or statutory, including, but not limited to, any (if any) implied  
 warranties, duties or conditions of merchantability,
@@ -57,13 +55,13 @@ DASH-IF makes no warranty whatsoever for such third party material.
    in the cloud or the network. This specification does
    not impose any new constraints or requirements to clients
    that consume streams using any defined
-   streaming protocol, with a preference for [[!MPEGDASH]]
+   streaming protocol, although the preferred streaming protocol is [[!MPEGDASH]].
 
    Live media ingest happens between an [=Ingest source=], such as a [=Live encoder=] and a [=Receiving entity=].
-   Examples of such a [=Receiving entity=] could be a media packager, streaming origin or a Content Delivery Network.
+   Examples of such a [=Receiving entity=] could be a media packager, streaming origin or a content delivery network.
    The combination of ingest sources and receiving entities  
    is common in practical video streaming deployments.  
-   In such deployments, media processing functionality is distributed between the ingest source and receiving entities.
+   In such deployments, media processing functionality is distributed between the ingest sources and receiving entities.
 
    Nevertheless, in such deployments, interoperability between  
    ingest sources and downstream processing  
@@ -83,34 +81,34 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    A second level of interoperability lies  
    with the media container and coded media formats.  
-   The Moving Picture Experts Group defines several media  
-   container formats such as [[!ISOBMFF]] and [[!MPEG2TS]]
+   The Moving Picture Experts Group (MPEG) defines several media  
+   container formats such as [[!ISOBMFF]] and [[!MPEG2TS]],
    which are widely adopted and well supported.  
    However, these are general purpose formats,  
    targeting several different application areas.  
    To do so, they provide many different profiles and options.  
    Detailed interoperability is often achieved through  
    other application standards such as those for  
-   broadcast, storage, or video on demand. For interoperable
+   broadcast, storage or video-on-demand. For interoperable
    live media ingest, this document provides
    guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF]] for 
    formatting the media content.  
 
    In addition, the codec and profile used,
-   e.g. [[!MPEGHEVC]] are important  
+   e.g., [[!MPEGHEVC]], are important  
    interoperability points that themselves also  
    have different profiles and different
    configurations. This specification
    provides some guidance on how encoded
    media should be represented and transmitted.
 
-   A third level of interoperability, lies in the way metadata is  
+   A third level of interoperability lies in the way metadata is  
    inserted in streams. Live  
    content often needs such metadata to signal  
    opportunities for ad insertion, program information,  
    or other attributes like timed graphics or general
    information relating to the broadcast. Examples  
-   of such metadata formats include [[!SCTE35]] markers which  
+   of such metadata formats include [[!SCTE35]] markers, which  
    are often found in broadcast streams and other  
    metadata such as ID3 tags [[!ID3v2]] containing information
    relating to the media presentation.
@@ -128,23 +126,17 @@ DASH-IF makes no warranty whatsoever for such third party material.
    timeline discontinuities must be avoided as much as
    possible during normal operation. Further, when
    using redundant ingest sources, the ingested streams 
-   must be accurately synchronized in a sample accurate manner.
+   must be synchronized in a sample accurate manner.
    Last, streams may need to be started at the same
    time so as to avoid misalignment between audio and video
    tracks.
-
-   Fifth, in streaming workflows it is important  
-   to have support for failovers of both the ingest sources  
-   and Receiving entities. This is important  
-   to avoid interruptions of 24/7 live services such  
-   as Internet television where components may fail occasionally.
-
-   In practical deployments, multiple ingest sources  
-   and Receiving entities are often used. This requires  
-   that multiple ingest sources and receiving processing
-   entities work together in a redundant workflow where  
-   some of the components might fail. Well defined
-   failover behavior will help interoperability.
+   
+   Fifth, in practice multiple ingest sources  
+   and receiving entities are often used. This requires  
+   that multiple ingest sources and receiving
+   entities work together in a redundant workflow to avoid interruptions when  
+   some of the components fail. Well defined
+   failover behavior is important for interoperability.
 
    This document provides a specification
    for establishing these interoperability points.
@@ -152,16 +144,16 @@ DASH-IF makes no warranty whatsoever for such third party material.
    technologies that have been tested and deployed  
    in several large-scale streaming deployments.
 
-   To address this interoperability point, two key interfaces 
-   and their protocol specification have been identified.
+   To address these interoperability points, two key interfaces 
+   and their protocol specifications have been identified.
    The first, CMAF Ingest, mainly functions as an ingest format to a packager
    or active media processor, while the second works mainly
    to ingest media streaming presentations to origin servers,
-   cloud storage or Content Deliery Networks.
+   cloud storage or content deliery networks.
 
-   The section on interfaces and profiles provides more
-   background and motivation around these two interfaces
-   that both use HTTP POST.   
+   Section [[!workflow_and_use_cases]] provides more
+   background and motivation around these two interfaces. Both interfaces 
+   use HTTP POST.   
 
    We further motivate the specification  
    in this document supporting    
