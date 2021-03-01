@@ -1389,7 +1389,7 @@ and to avoid variation of the segment durations.
          missing segments. The additional signalling for this is out of 
          scope.
 
-##  Requirements for Media Ingest Source synchronisation (dual encoder synchronisation)
+##  Requirements for Media Ingest Source synchronisation (dual encoder synchronisation) ## {#DualSync}
 
 In the case of more than one redundant ingest sources, synchronization between them can be achieved as follows. 
 A fixed segment duration is chosen such as based on the fixed GoP duration e.g. 2 seconds that is used by all media sources.
