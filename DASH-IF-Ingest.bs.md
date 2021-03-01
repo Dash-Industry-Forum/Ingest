@@ -819,7 +819,7 @@ session to receive the live content.
      2. The [=Ingest source=]  MUST initiate
         a media ingest connection by posting at least one
         [=CMAF header=] after step 1 and an optional MPEG-DASH manifest, 
-	restricted as in clause  16 of this section
+        restricted as in clause  16 of this section
      3.	The [=Ingest source=] SHALL transmit one or more CMAF segments 
         comprising the track to the Receiving Entity once they 
         become available. In this case, a single POST request message body
@@ -892,7 +892,7 @@ session to receive the live content.
      16.  The MPEG-DASH manifest should use SegmentTemplate with SegmentTimeline, 
           preferably with $Time based naming that can be automatically extended. 
           Only relative BaseURL are used. In addition, the period availability start time 
-	  should be set to 1-1-1970 (unix epoch) and the period start to 0. 
+          should be set to 1-1-1970 (unix epoch) and the period start to 0. 
      17.  In case the [=Ingest source=] loses its own input or input is absent, it SHALL insert filler 
           or replacement content, and output these as valid CMAF segments. Examples 
           may be black frames, silent audio, or empty timed text segments. Such segments,
@@ -900,8 +900,8 @@ session to receive the live content.
           allows a receiver to still replace those segments with valid content segments.
      18.  The last segment in a CMAF track, SHOULD be labelled with a SegmentType box (styp) 
           with the 'lmsg' brand, this way the receiver knows that no more media segments are 
-	  expected for this track. In case the track is restarted, a request with a [=CMAF Header=] 
-	  with identical properties must be issued to the same POST_URL
+          expected for this track. In case the track is restarted, a request with a [=CMAF Header=] 
+          with identical properties must be issued to the same POST_URL
 	  
          Note, in case a Receiving entity cannot process a request from an ingest source
          correctly, it can send a HTTP error code. Please see the section
@@ -999,18 +999,18 @@ session to receive the live content.
   
   Table 2: Switching set signalling options 
   <table class="def">
-	<tr>
-		<th>Signalling option</th>
+         <tr>
+         	<th>Signalling option</th>
                 <th>  Requirement      </th>
-	</tr>
-	<tr>
+        </tr>
+        <tr>
 		<td> Implicit signalling, based on Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
 		<td> Mandatory </td>
 	</tr>
 	<tr>
 		<td> Signalling using [=Switching Set ID=] in post URI path using Switching() keyword and  </td>
 		<td> Optional </td>
-	</tr>
+        </tr>
 	<tr>
 		<td> Signalling using MPEG-DASH AdaptationSet and defined naming structure based on SegmentTemplate and SegmentTimeline </td>
 		<td> Optional </td>
@@ -1108,45 +1108,45 @@ e.g. 	`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="
 
 ## Requirements for Timed Metadata Tracks ## {#timed_metadata}
 
-  This section discusses the specific formatting requirements  
-  for [=CMAF Ingest=] of timed metadata. Examples of  
-  timed metadata are opportunities for splice points and program information  
-  signalled by SCTE-35 markers. Such event signalling  
-  is different from regular audio/video information because of its sparse nature. 
-  In this case, the signalling data usually does not  
-  happen continuously, and the intervals may  be hard to predict.
+ This section discusses the specific formatting requirements  
+ for [=CMAF Ingest=] of timed metadata. Examples of  
+ timed metadata are opportunities for splice points and program information  
+ signalled by SCTE-35 markers. Such event signalling  
+ is different from regular audio/video information because of its sparse nature. 
+ In this case, the signalling data usually does not  
+ happen continuously, and the intervals may  be hard to predict.
 
-  Other examples of timed metadata are ID3 tags  
-  [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBoxes
-  defined in section 5.10.3.3 of [[!MPEGDASH]].  
+ Other examples of timed metadata are ID3 tags  
+ [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBoxes
+ defined in section 5.10.3.3 of [[!MPEGDASH]].  
 
-  Table 4 provides some example urn schemes to be signalled
-  Table 5 illustrates an example of a SCTE-35 marker stored  
-  in a DASHEventMessageBox, that is in turn stored as a metadata sample 
-  in a metadata track.  
+ Table 4 provides some example urn schemes to be signalled
+ Table 5 illustrates an example of a SCTE-35 marker stored  
+ in a DASHEventMessageBox, that is in turn stored as a metadata sample 
+ in a metadata track.  
 
-  The presented approach enables ingest of  
-  timed metadata from different sources, because data are not 
-  interleaved with the media.
+ The presented approach enables ingest of  
+ timed metadata from different sources, because data are not 
+ interleaved with the media.
   
-  By using CMAF timed metadata tack, the same track 
-  and presentation formatting are applied for metadata as 
-  for other tracks ingested, and the metadata is part 
-  of the [=CMAF Presentation=].
+ By using CMAF timed metadata tack, the same track 
+ and presentation formatting are applied for metadata as 
+ for other tracks ingested, and the metadata is part 
+ of the [=CMAF Presentation=].
 
-  By embedding the DashEventMessageBox structure in timed metadata samples some of the 
-  benefits of its usages in DASH and CMAF are kept. In addition it enables signalling 
-  of gaps, overlapping events and multiple events starting at the same time in a single 
-  timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
-  is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
-  track instantiation is described in clause 9.
+ By embedding the DashEventMessageBox structure in timed metadata samples some of the 
+ benefits of its usages in DASH and CMAF are kept. In addition it enables signalling 
+ of gaps, overlapping events and multiple events starting at the same time in a single 
+ timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
+ is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
+ track instantiation is described in clause 9.
  
   
   
-  Table 4 illustrates some example URN schemes to be carried in timed metadata tracks. 
-  Table 5 illustrates examples of metadata embedded in a DASHEventMessageBox.
+ Table 4 illustrates some example URN schemes to be carried in timed metadata tracks. 
+ Table 5 illustrates examples of metadata embedded in a DASHEventMessageBox.
   
-  An example of adding an id3 tag in a DashEventMessageBox can be found in [=aomid3=]
+ An example of adding an id3 tag in a DashEventMessageBox can be found in [=aomid3=]
 
 Table 4: Example URN schemes for timed metadata tracks
 <table class="def">
@@ -1235,27 +1235,27 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
         create such a track is based on MPEG-B part 10 as define in ISO/IEC 23001-18. 
         Some deprecated implementations may use DASHEventMessageBoxes as defined in ISO/IEC 23009-1	
      
-        9a.  In the case of 9, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
+        5a.  In the case of 5, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
             refers to presntation time of the sample enclosing the DASHEventMessageBox.
      
-        9b.  In the case of 9, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
+        5b.  In the case of 5, the URIMetaSampleEntry SHOULD contain the URN "urn:mpeg:dash:event:2012"
              or an equivalent urn to signal the presence of DashEventMessageBoxes.
      
-        9c.  In the case of 9, the timescale of the DashEventMessageBox SHOULD match the value
+        5c.  In the case of 5, the timescale of the DashEventMessageBox SHOULD match the value
              specified in the media header box "mdhd" of the timed metadata track. 
           
-        9d.  In the case of 9, the sample should contain all DASHEventMessageBoxes that are active in during the presentation
+        5d.  In the case of 5, the sample should contain all DASHEventMessageBoxes that are active in during the presentation
              time of the sample.	
      
-        9e.  In the case of 9, a single metadata sample MAY contain multiple DASHEventMessageBoxes. 
+        5e.  In the case of 5, a single metadata sample MAY contain multiple DASHEventMessageBoxes. 
              This happens if multiple DashEventMessageBoxes have the same Presentation Time or if 
              an an earlier event is still active in a sample containing a newly started overlapping event. 
      
-        9f.  In the case of 9, the schemeIdUri in the DASHEventMessageBox can be used 
+        5f.  In the case of 5, the schemeIdUri in the DASHEventMessageBox can be used 
              to signal the scheme of the data carried in the message 
              data field. This enables carriage of multiple metadata schemes in a track.
      
-        9g.  In the case of 9, For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
+        5g.  In the case of 5, For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
              MUST be urn:scte:scte35:2013:bin  as defined 
              in [[!SCTE214-1]]. A binary scte-35 payload is carried in 
              the message_data field of a
@@ -1267,16 +1267,16 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              IDR frame at the time corresponding 
              to the event presentation time.
  
-        9h.  In case of 9, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
+        5h.  In case of 5, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
              This may be done using EventMessageEmptyBox 'emeb' or 'embe', 8 embe
      
-        9i.  In the case of 9, if ID3 tags are carried, the DashEventMessageBox 
+        5i.  In the case of 5, if ID3 tags are carried, the DashEventMessageBox 
              MUST be formatted as defined in [=aomid3=]
 	     
-        9j.  In the case of 9, the value and id field of the DashEventMessageBox can be used 
+        5j.  In the case of 5, the value and id field of the DashEventMessageBox can be used 
              by the [=Receiving Entity=] to detect duplicate events. 
     
-      10.  The [=Ingest source=] SHOULD NOT embed inband top level DashEventMessage
+      6.  The [=Ingest source=] SHOULD NOT embed inband top level DashEventMessage
            Boxes emsg in the timed metadata track or media tracks, however 
            it is not strictly prohibited when conforming to this specification. 
            In some setups, inband event messages may be used in media tracks, 
@@ -1312,10 +1312,10 @@ respective splice points are as follows.
     should match the announced break duration in the CUE-OUT (the initial spliceInsert) command, or the 
     corresponding segmentation duration in case a segmentation descriptor was used .
  
-5  In case segmentation descriptors are used, and multiple descriptors are present, a separate Event Message 
+5.  In case segmentation descriptors are used, and multiple descriptors are present, a separate Event Message 
     with a duration corrsponding to each of the descriptors should be used. 
 
-6 Sync samples shall be signalled in the corresponding media tracks according to the semantics
+6. Sync samples shall be signalled in the corresponding media tracks according to the semantics
     of a Movie Fragment (i.e. using per sample flags in track run box instead of default flags if needed), 
     in the corresponding media tracks.
 
@@ -1389,7 +1389,7 @@ and to avoid variation of the segment durations.
          missing segments. The additional signalling for this is out of 
          scope.
 
-##  Requirements for Media Ingest Source synchornization (dual encoder synchronisation)
+##  Requirements for Media Ingest Source synchronisation (dual encoder synchronisation)
 
 In the case of more than one redundant ingest sources, synchronization between them can be achieved as follows. 
 A fixed segment duration is chosen such as based on the fixed GoP duration e.g. 2 seconds that is used by all media sources.
