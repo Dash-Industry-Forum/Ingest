@@ -196,76 +196,74 @@ DASH-IF makes no warranty whatsoever for such third party material.
    [[RFC2119]].   
 
    <dfn dfn> **ABR** </dfn>:
-          Adaptive Bit-Rate
+          Adaptive Bit-Rate.
 
    <dfn dfn> **CMAF Header** </dfn>:
-             CMAF track header defined in [[!MPEGCMAF]] clause 7.3.2.1
+             CMAF track header defined in [[!MPEGCMAF]] clause 7.3.2.1.
 
    <dfn dfn> **CMAF Media object** </dfn>: 
-             CMAF media object defined in [[!MPEGCMAF]], a cmaf chunk, segment, fragment or track
+             CMAF media object defined in [[!MPEGCMAF]], a cmaf chunk, segment, fragment or track.
 
    <dfn dfn> **CMAF fragment** </dfn>:
-             CMAF fragment defined in [[!MPEGCMAF]] clause 7.3.2.4
+             CMAF fragment defined in [[!MPEGCMAF]] clause 7.3.2.4.
 
    <dfn dfn> **CMAF chunk** </dfn>:
-             CMAF chunk defined in [[!MPEGCMAF]] clause 7.3.2.3
+             CMAF chunk defined in [[!MPEGCMAF]] clause 7.3.2.3.
 
-   <dfn dfn> **CMAF Presentation** </dfn>
-             logical grouping of CMAF tracks corresponding to a media presentation as
-             defined in [[!MPEGCMAF]] clause 6
+   <dfn dfn> **CMAF presentation** </dfn>
+             Logical grouping of CMAF tracks corresponding to a media presentation as
+             defined in [[!MPEGCMAF]] clause 6.
    
    <dfn dfn> **CMAFstream**  </dfn>:
-             byte-stream that follows the CMAF track format structure format
+             Byte-stream that follows the CMAF track format structure format
              defined in [[!MPEGCMAF]] between ingest source and receiving entity.
              Due to error control behavior such as retransmission of CMAF fragments 
-             and Headers a cmaf stream may not fully conforming CMAF track file. 
+             and headers, a CMAFstream may not fully conform to a CMAF track file. 
              The receiving entity can filter out retransmitted fragments and 
-             headers and restore a valid CMAF track file from the cmaf stream.
+             headers and restore a valid CMAF track file from the CMAFstream.
 
    <dfn dfn>**CMAF Track**</dfn>
-             CMAF Track defined in [[!MPEGCMAF]] clause 7.3.2.2
+             CMAF Track defined in [[!MPEGCMAF]] clause 7.3.2.2.
 
    <dfn dfn>**CMAF Ingest**</dfn>:
-            Ingest interface defined in this specification for push based [[!MPEGCMAF]]
+            Ingest interface defined in this specification for push based [[!MPEGCMAF]].
    
    <dfn dfn>**Connection**</dfn>:
               A connection setup between two hosts, typically the  
               media [=Ingest source=] and [=Receiving entity=]. 
 
    <dfn dfn>**DASH Ingest**</dfn>:
-            Ingest interface defined in this specification for push based [[!MPEGDASH]]
+            Ingest interface defined in this specification for push based [[!MPEGDASH]].
 
    <dfn dfn>**HLS Ingest**</dfn>:
-          Ingest interface defined in this specification for push based [[!RFC8216]]
+          Ingest interface defined in this specification for push based [[!RFC8216]].
 
    <dfn dfn> **HTTP POST** </dfn>:  
              Command used in the Hyper Text Transfer Protocol for  
-             sending data from a source to a destination [[!RFC7235]]
+             sending data from a source to a destination [[!RFC7235]].
    
    <dfn dfn>**Ingest source**</dfn>:  
-            A media source ingesting live media content to a receiving entity  
-            , it is typically a live encoder but not restricted  
-            to this, e.g. it could be a stored media resource.
+            A media source ingesting live media content to a receiving entity, it is typically a live encoder but not restricted  
+            to this, e.g., it could be a stored media resource.
 
-   <dfn dfn>**Ingest Stream**</dfn>:
-          The stream of media pushed from the ingest source to the Receiving entity  
+   <dfn dfn>**Ingest stream**</dfn>:
+          The stream of media pushed from the ingest source to the receiving entity.
     
-   **ISOBMFF**: 
-   
-         the ISO Base Media File Format specified in [[!ISOBMFF]]
+   <dfn dfn>**ISOBMFF**</dfn>: 
+           The ISO Base Media File Format specified in [[!ISOBMFF]].
 
    <dfn dfn>**Live stream session**</dfn>:  
-           The total live stream for the ingest relating to a broadcast event.
+           The entire live stream for the ingest relating to a broadcast event.
 
    <dfn dfn>**Live encoder**</dfn>:
            Entity performing live  
            encoding of a high quality
-           Ingest stream,  
-           can serve as ingest source  
+           ingest stream,  
+           can serve as an ingest source. 
 
    <dfn dfn>**Manifest objects**</dfn>
-           Objects ingested that represent streaming manifest
-            e.g. .mpd in MPEG DASH, .m3u8 in HLS
+           Objects ingested that represent streaming manifest,
+            e.g., .mpd in MPEG DASH, .m3u8 in HLS.
 
    <dfn dfn> **Media objects** </dfn>
            Objects ingested that represent the media, and or
@@ -275,18 +273,18 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    <dfn dfn> **Media fragment** </dfn>
              Media fragment, combination of "moof" and "mdat" in
-             ISOBMFF structure (MovieFragmentBox and mediaDataBox),
+             ISOBMFF structure (MovieFragmentBox and MediaDataBox),
              could be a CMAF fragment or chunk. A media fragment may include 
              top level boxes defined in CMAF fragments such as emsg, prft and 
-             styp. Used for backward compatibility with fragmented mp4
+             styp. Used for backward compatibility with fragmented mp4.
 
    <dfn dfn> **Objects** </dfn>
-           [=Manifest objects] or [=Media objects=]
+           [=Manifest objects] or [=Media objects=].
 
    <dfn dfn>**Publishing point**</dfn>:
               Entry point used to receive an ingest stream,  
               consumes/receives the incoming media [=ingest stream=],
-              typically via a publishing URL setup to receive the stream
+              typically via a publishing URL setup to receive the stream.
    
    <dfn dfn> **POST_URL**  </dfn>:
             Target URL of a POST command in the HTTP protocol  
@@ -298,46 +296,46 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    <dfn dfn>**Receiving entity**</dfn>:
           Entity used to receive the media content,  
-          receives/consumes an [=Ingest stream].
+          receives/consumes an [=ingest stream=].
 
    <dfn dfn>**Streaming presentation**</dfn>
-           set of [=Objects=] composing
-            a Streaming presentation based on a streaming protocol such
-           as for example [[!MPEGDASH]]
+           Set of [=Objects=] composing
+            a streaming presentation based on a streaming protocol such
+           as [[!MPEGDASH]].
 
    <dfn dfn>**Switching set**</dfn>:
            Group of tracks corresponding to a switching set defined in
-           [[!MPEGCMAF]] or an adaptation-set in [[!MPEGDASH]]
+           [[!MPEGCMAF]] or an adaptation set in [[!MPEGDASH]].
     
-   <dfn dfn>**Switching Set ID**</dfn>
+   <dfn dfn>**Switching set ID**</dfn>
           Identifier generated by a live ingest source to group CMAF tracks
-      in a switchingset. The Switching Set ID is unique for each switchingset 
+      in a switching set. The Switching Set ID is unique for each switching set 
       in a live streaming session.
     
    <dfn dfn>**TCP**</dfn>:
-           Transmission Control Protocol (TCP) as defined in [[!RFC793]]  
+           Transmission Control Protocol (TCP) as specified in [[!RFC793]].  
 
    <dfn dfn>**RTP** </dfn>:
-         Real Time Protocol
+         Real-time Transport Protocol as specified in [[!RFC3550]].
 
    <dfn dfn>**OTT** </dfn>:
-         Over the top transmission, i.e. HTTP based video streaming  
+         Over-the-top transmission.  
 
    <dfn dfn>**moof**</dfn>:
            The MovieFragmentBox "moof" box as defined in the  
-           ISOBMFF  base media file format [[!ISOBMFF]] that defines
+           ISOBMFF [[!ISOBMFF]] that defines
            the index information of samples in a fragment.  
 
    <dfn dfn>**ftyp**</dfn>:
           The FileTypeBox "ftyp" box as defined
-          in the ISOBMFF [[!ISOBMFF]]
+          in the ISOBMFF [[!ISOBMFF]].
 
    <dfn dfn> **mdat**  </dfn>:
            The mediaDataBox "mdat" box defined in
             ISOBMFF [[!ISOBMFF]].
 
    <dfn dfn>**mfra**</dfn>:
-            The movieFragmentRandomAccessBox "mfra" box defined in  
+            The MovieFragmentRandomAccessBox "mfra" box defined in  
             the ISOBMFF [[!ISOBMFF]] to signal random access samples  
             (these are samples that require no prior  
             or other samples for decoding) [[!ISOBMFF]].  
@@ -349,22 +347,22 @@ DASH-IF makes no warranty whatsoever for such third party material.
             fragment signalled in the [=moof=] box.  
 
    <dfn dfn> **basemediadecodetime** </dfn>:
-            Decode time of first sample as signalled in the [=tfdt=] box
+            Decode time of the first sample as signalled in the [=tfdt=] box.
 
    <dfn dfn> **mdhd**  </dfn>:
-             The MediaHeaderBox "mdhd" as defined in [[!ISOBMFF]],  
-             this box contains information about the media such  
+             The MediaHeaderBox "mdhd" as defined in [[!ISOBMFF]] that  
+             contains information about the media such  
              as timescale, duration, language using ISO 639-2/T [[!iso-639-2]] codes  
-             [[!ISOBMFF]]
+             [[!ISOBMFF]].
 
    <dfn dfn> **elng** </dfn>:  
              Extended language tag box "elng" defined in [[!ISOBMFF]] that  
-             can override the language information  
+             can override the language information.
 
    <dfn dfn> **nmhd** </dfn>:  
              The nullMediaHeaderBox "nmhd" as defined in [[!ISOBMFF]]  
              to signal a track for which no specific  
-             media header is defined, used for metadata tracks  
+             media header is defined, used for metadata tracks.
 
 
 
