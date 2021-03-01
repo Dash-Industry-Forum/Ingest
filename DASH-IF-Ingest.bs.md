@@ -14,11 +14,11 @@
 ## Copyright Notice and Disclaimer ## {#CopyRights}
 
 Please review these documents  
-   carefully, as they describe your rights and restrictions with  
-   respect to this document.  Code Components extracted from this  
-   document must include Simplified BSD License text as described  
-   in Section 4.e of the Trust Legal Provisions and are provided  
-   without warranty as described in the Simplified BSD License  
+carefully, as they describe your rights and restrictions with  
+respect to this document.  Code Components extracted from this  
+document must include Simplified BSD License text as described  
+in Section 4.e of the Trust Legal Provisions and are provided  
+without warranty as described in the Simplified BSD License  
 
 This is a document made available by DASH-IF. The technology
 embodied in this document may involve the use of intellectual
@@ -959,7 +959,7 @@ session to receive the live content.
         hev1 that signal the parameter sets (PPS, SPS, VPS) in
         in the media samples. This allows inband signalling
         of parameter changes. This is because in live content, 
-    codec configuration may change slightly over time.
+        codec configuration may change slightly over time.
      10. In case the language of a track changes, a new CMAF Header
          with updated [=mdhd=] and or [=elng=] SHOULD be send. The 
          CMAF Header MUST be identical, except the elng tag.
