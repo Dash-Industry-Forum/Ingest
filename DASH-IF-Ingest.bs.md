@@ -890,7 +890,7 @@ session to receive the live content.
           receiving entity can detect what type of media object is received
           from the information in the MovieFragmentBox.
      16.  The MPEG-DASH manifest should use SegmentTemplate with SegmentTimeline, 
-          preferably with $Time based naming that can be automatically extended. 
+          preferably with $Time$ based naming that can be automatically extended. 
           Only relative BaseURL are used. In addition, the period availability start time 
           should be set to 1-1-1970 (unix epoch) and the period start to 0. 
      17.  In case the [=Ingest source=] loses its own input or input is absent, it SHALL insert filler 
@@ -901,7 +901,7 @@ session to receive the live content.
      18.  The last segment in a CMAF track, SHOULD be labelled with a SegmentType box (styp) 
           with the *lmsg* brand, this way the receiver knows that no more media segments are 
           expected for this track. In case the track is restarted, a request with a [=CMAF Header=] 
-          with identical properties must be issued to the same POST_URL
+          with (identical properties) must be issued to the same POST_URL
       
          Note, in case a Receiving entity cannot process a request from an ingest source
          correctly, it can send a HTTP error code. Please see the section
@@ -919,9 +919,11 @@ session to receive the live content.
 
      1. Media tracks SHALL be formatted using boxes
         according to section 7 of [[!MPEGCMAF]]. 
-        Media track SHOULD not use common encryption.
-        In case common encryption 
-        is used the decryption key shall be made available out of band 
+        Media track SHOULD not use common encryption,
+        as HTTP over TLS (HTTPS) should provide sufficient 
+        transport layer security.
+        However, in case common encryption 
+        is used, the decryption key shall be made available out of band 
         by supported means such as CPIX defined by DASH-IF. 
      2. The [=CMAF fragment=] durations SHOULD be constant,
         the duration MAY fluctuate to compensate
@@ -992,9 +994,9 @@ session to receive the live content.
   3. The live ingest source MAY add a kind box in the udta box in each track to signal the switching set 
      it belongs to. The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
      value field of the kind box SHALL be the [=Switching Set ID=]. 
-  4. The switching sets are grouped as adaptationSets present in the MPEG-DASH manifest in a POST request 
-     issued earlier before the segments of that swtiching set are transmitted. in this case, the naming of the segment URI's 
-     follows the naming defined in the MPEG-DASH manifest based on a SegmentTemplate and SegmentTimeline 
+  4. The switching sets are grouped as adaptation sets present in the MPEG-DASH manifest in a POST request 
+     issued earlier, i.e. before the segments of that switching set are transmitted. in this case, the naming of the segment URI's 
+     follows the naming defined in the MPEG-DASH manifest based on a SegmentTemplate and SegmentTimeline elements
      with a relative BaseURL
   
   Table 2: Switching set signalling options 
@@ -1139,7 +1141,7 @@ e.g.    `kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value
  of gaps, overlapping events and multiple events starting at the same time in a single 
  timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
  is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
- track instantiation is described in clause 9.
+ track instantiation is described.
  
   
   
@@ -1232,8 +1234,9 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 
      5. CMAF Timed metadata tracks MAY carry EventMessageBoxes as defined 
         in [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to 
-        create such a track is based on MPEG-B part 10 as define in ISO/IEC 23001-18. 
-        Some deprecated implementations may use DASHEventMessageBoxes as defined in ISO/IEC 23009-1 
+        create such a track is based on MPEG-B part 18 as define in ISO/IEC 23001-18. 
+        Some deprecated implementations may use DASHEventMessageBoxes as defined in ISO/IEC 23009-1,
+        Using DASHEventMessage boxes directly in samples may be implemented as follows. 
      
         5a.  In the case of 5, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
             refers to presntation time of the sample enclosing the DASHEventMessageBox.
@@ -1249,7 +1252,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      
         5e.  In the case of 5, a single metadata sample MAY contain multiple DASHEventMessageBoxes. 
              This happens if multiple DashEventMessageBoxes have the same Presentation Time or if 
-             an an earlier event is still active in a sample containing a newly started overlapping event. 
+             an earlier event is still active in a sample containing a newly started and overlapping event. 
      
         5f.  In the case of 5, the schemeIdUri in the DASHEventMessageBox can be used 
              to signal the scheme of the data carried in the message 
@@ -1257,18 +1260,16 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      
         5g.  In the case of 5, For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
              MUST be urn:scte:scte35:2013:bin  as defined 
-             in [[!SCTE214-1]]. A binary scte-35 payload is carried in 
+             in [[!SCTE214-3]]. A binary scte-35 payload is carried in 
              the message_data field of a
-             DASHEventMessageBox. The DASHEventMessageBox 
-             must conform to [[!SCTE214-1]]. 
-             If a splice point is signalled, the SCTE-35 SpliceInsert 
-             command SHALL be used.
-             In this case, media tracks MUST insert an 
+             DASHEventMessageBox.
+             If a splice point is signalled, 
+             media tracks MUST insert an 
              IDR frame at the time corresponding 
              to the event presentation time.
  
         5h.  In case of 5, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
-             This may be done using EventMessageEmptyBox wiht 4cc code emeb or embe 8 embe
+             This may be done using EventMessageEmptyBox (8 bytes) with 4cc code of emeb or embe
      
         5i.  In the case of 5, if ID3 tags are carried, the DashEventMessageBox 
              MUST be formatted as defined in [=aomid3=]
@@ -1277,47 +1278,46 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              by the [=Receiving Entity=] to detect duplicate events. 
     
       6.  The [=Ingest source=] SHOULD NOT embed inband top level DashEventMessage
-          Boxes emsg in the timed metadata track or media tracks, however 
-          it is not strictly prohibited when conforming to this specification. 
+          Boxes (emsg) in the timed metadata track or media tracks, however 
+          it is not prohibited when conforming to this specification. 
           In some setups, inband event messages may be used in media tracks, 
           but it may result in a loss of performance for just-in-time packaging. 
-          Also in DASH 4th edition, all DASHEventMessageBoxes must have presenation_time,
-          later as the segment earlies presentation time, this makes re-signalling of 
-          continuation events (events still active) troublesome
+          Also in DASH 4th edition, all DASHEventMessageBoxes must have presentation_time,
+          later as compared to the segment earliest presentation time, this makes re-signalling of 
+          continuation events (events still active) troublesome, as they started earlier.
      
 
 ##  Requirements for signalling and conditioning splice points  ## {#splicing}
 
-Splicing is important to use cases like ad insertion or clipping of content.
+Splicing is important for use cases like ad insertion or clipping of content.
 The requirements for signalling splice points and content conditioning at 
 respective splice points are as follows. 
 
 1. The preferred method for signalling splice point uses the timed metadata track sample
      with a presentation time corresponding to the splice point. The timed metadata track       
-     sample is carrying a DASHEventMessageBox carrying binary SCTE-35 based 
+     sample is carrying events carrying binary SCTE-35 based 
      on the scheme urn:scte:scte35:2013:bin. The command carried 
      in the binary SCTE-35 shall carry a splice info section with 
      spliceInsert command with out of network indicator set to 1 and a break_duration 
      matching the actual break duration. 
 
-2.  Information related to splicing, wether SCTE-35 based or by other means, wether iin an Event Message Box or timed
-    metadata track sample MUST be available to the receiver at least 4 seconds before the media segment with the intended 
+2.  Information related to splicing, wether SCTE-35 based or by other means, wether in an Event Message Box or timed
+    metadata track sample or event MUST be available to the receiver at least 4 seconds before the media segment with the intended 
     splice point.
 
-3 The splice time shall equal the presentation time of the metadata sample or event message box, as the  
+3 The splice time shall equal the presentation time of the metadata sample or event message, as the  
     SCTE-35 timing is based on MPEG-2 TS and has no meaning in CMAF or DASH. The media ingest source is responsible
     for the frame accurate conversion of this time, similar as for the media segments.
     
-4.  In case a separate CUE-IN is used, the actual duration of the break 
-    should match the announced break duration in the CUE-OUT (the initial spliceInsert) command, or the 
-    corresponding segmentation duration in case a segmentation descriptor was used .
+4.  In case a separate SCTE-35 command is used as a CUE-IN, the actual duration of the break 
+    shall match the announced break duration in the CUE-OUT, in the initial SCTE-35 command.
  
 5.  In case segmentation descriptors are used, and multiple descriptors are present, a separate Event Message 
     with a duration corrsponding to each of the descriptors should be used. 
 
 6.  Sync samples shall be signalled in the corresponding media tracks according to the semantics
-    of a Movie Fragment (i.e. using per sample flags in track run box instead of default flags if needed), 
-    in the corresponding media tracks.
+    of ISO-BMFF, for example, using per sample flags in track run box if needed. In case dual encoder synchronisation 
+    is required, inserting IDR frames inside segments is preferable over introducing segment boundary.
 
 The conditioning follows [=DASH-IFad=] shown in Figure 9:
 
@@ -1332,8 +1332,8 @@ The splice point conditioning in [=DASH-IFad=] are defined as follows:
 2. option 2: splice conditioned encoding: a SAP 1 or SAP 2 stream access point at the frame at the boundary 
 3. option 3: splice point signalling: specific content conditioning at the splice point
 
-This specification requires option 1 or 2 to be applied. Otption 2 is required for dual encoder synchronisation
-and to avoid variation of the segment durations.
+This specification requires option 1 or 2 to be applied. Option 2 is required for dual encoder synchronisation
+ to avoid variation of the segment durations.
 
 ##  Requirements for Receiving and ingest source Entity Failover and Connection Error Handling ## {#failover}
 
