@@ -714,27 +714,27 @@ Figure 5: [=CMAF Track=] stream:
 
 Figure 6 illustrates the presentation timing model, 
 defined in [[!MPEGCMAF]] clause 6.6.
-Different bit-rate tracks and/or media streams are conveyed
+Different bitrate tracks and/or media streams are conveyed
 in separate CMAF tracks. By having fragment boundaries
 time aligned for tracks and applying constraints on tracks, 
 seamless switching can be achieved. By using a common timeline  
 different streams can be synchronized at the receiver,  
 while they are in a separate [=CMAF Track=],
-send over a separate connection, possibly from a different  
+sent over a separate connection, possibly from a different  
 [=Ingest source=]. 
 
 For more information on the synchronization
-model we refer to section 6 of [[!MPEGCMAF]]. For synchronization
-of tracks coming from different encoders, sample time accuracy
-is required. i.e. samples with identical timestamp contain identical
+model, we refer the readers to Section 6 of [[!MPEGCMAF]]. For synchronization
+of tracks coming from different encoders, sample-time accuracy
+is required, i.e., the samples with identical timestamp contain identical
 content.
 
-In Figure 7 another advantage of this synchronization model   
-is illustrated, i.e. the concept of late binding. In the case   
+In Figure 7, another advantage of this synchronization model   
+is illustrated, which is the concept of late binding. In the case   
 of late binding, streams are combined on playout/streaming
-in a presentation (see [[!MPEGCMAF]] 7.3.6). 
+in a presentation (see Section 7.3.6 of [[!MPEGCMAF]]). 
 
-Note that it is important, as defined in MPEG CMAF,
+Note that as defined in [[!MPEGCMAF]],
 that different CMAF Tracks have the same starting time
 sharing an implicit timeline. A stream becoming available
 from a different source needs to be synchronized
@@ -753,7 +753,7 @@ Diagram 7: CMAF late binding:
       <img src="Images/Diagram10.png" />
 </figure>
 
-Figure 8 shows the sequence Figure of the protocol. It starts with a   
+Figure 8 shows the flow diagram of the protocol. It starts with a   
 DNS resolution (if needed) and an authentication step (using Authy,   
 or TLS certificates or HTTP Digest Authentication) to establish a secure [=TCP=] connection.
 
@@ -761,22 +761,22 @@ In some private datacenter deployments where nodes
 are not reachable from outside, a non authenticated connection   
 may also be used. The ingest source then issues a POST   
 to test that the [=Receiving entity=] is listening. This
-POST sends the [=CMAF Header=] or could be empty.
-In case this is successful this is followed by a CMAF Header and the
+POST may send the [=CMAF Header=] or could be empty.
+In case this is successful, it is followed by a CMAF Header and the
 fragments comprising the [=CMAFstream=]. At the end of
 the session, for tear down the source may send an empty [=mfra=]
 box to close the connection and [=Publishing point=]. 
 
 This is then followed with a zero length
 chunk, allowing the receiver to send a response, the encoder can
-follow up by closing the TCP connection using a FIN command as
-defined in HTTP RFC7235.
+follow up by closing the TCP connection using a FIN packet as
+defined in [[!RFC7235]].
 
-This last step is especially important in long runing posts
+This last step is especially important in long running posts
 using chunked transfer encoding, as in this case the receiver 
 may not know that the connection needs to be closed or that the 
 HTTP POST command is over. Note that CMAF ingest may use either 
-long running or short running post commands.
+long running or short running POST commands.
 
 
 Figure 8: CMAF ingest flow
@@ -792,7 +792,7 @@ entity listens for content on a [=POST_URL=] that is known by both the ingest so
 The [=POST_URL=] may contain a basepath corresponding to a domain name and a relative path, as setup 
 by the receiving entity and a domain name system.  An extended path to identify the stream name, switching set or fragment
 may be added by the ingest source. It is assumed that the ingest source can retrieve 
-these paths and und use them. The [=POST_URL=] setup by a receiving
+these paths and use them. The [=POST_URL=] setup by a receiving
 entity can be referred to as a [=Publishing point=] and is used during a live stream 
 session to receive the live content.
 
@@ -801,45 +801,45 @@ session to receive the live content.
         CMAF Header, or an empty request,
         to the POST_URL.
         This can help the ingest source
-        to quickly detect whether the
+        quickly detect whether the
         publishing point is valid,
         and if there are any authentication
         or other conditions required.
      2. The [=Ingest source=]  MUST initiate
         a media ingest connection by posting at least one
         [=CMAF header=] after step 1 and an optional MPEG-DASH manifest, 
-        restricted as in clause  16 of this section
+        restricted as in clause 16 of this section.
      3. The [=Ingest source=] SHALL transmit one or more CMAF segments 
-        comprising the track to the Receiving Entity once they 
+        comprising the track to the receiving entity once they 
         become available. In this case, a single POST request message body
         MUST contain one CMAF segment in the body of that request. 
-        This specification, assumes equivalence between CMAF segment and fragment, 
-        i.e. a single CMAF fragment per CMAF segment,  a CMAF segment/fragment may 
+        This specification assumes equivalence between a CMAF segment and fragment, 
+        i.e., a single CMAF fragment per CMAF segment. A CMAF segment/fragment may 
         nevertheless be composed by one or more CMAF chunks.
-     4. The [=Ingest source=]  MAY use the chunked transfer
+     4. The [=Ingest source=] MAY use the chunked transfer
         encoding option of the HTTP POST command [[!RFC7235]]
         when the content length is unknown at the start of transmission
         or to support use cases that require low latency.
      5. If the HTTP POST request terminates or times out with a TCP
-        error, the [=Ingest source=]  MUST establish
+        error, the [=Ingest source=] MUST establish
         a new connection, and follow the
         preceding requirements. Additionally, the [=Ingest source=] MAY resend
         the segment in which the timeout or TCP error occurred.
      6. The [=Ingest source=]  MUST handle
         any error responses
-        received from the Receiving entity, 
+        received from the receiving entity, 
         as described in general requirements, 
         and by retransmitting
         the [=CMAF Header=].
      7. *(deprecated)* In case the [=Live stream session=] is over the
         ingest source MAY signal
         the stop by transmitting an empty [=mfra=] box
-        towards the Receiving entity.
-        After that it SHALL send an empty HTTP chunk,
-        and wait for the HTTP response before closing. 
-        TCP session RFC7235 when this response is received. 
+        towards the receiving entity.
+        After that it SHALL send an empty HTTP chunk
+        and wait for the HTTP response before closing 
+        TCP connection. 
      8. The [=Ingest source=] SHOULD use a separate, parallel TCP
-        connection for ingest of each different CMAF track
+        connection for ingest of each different CMAF track.
      9. The [=Ingest source=] MAY use a separate relative path
         in the [=POST_URL=] for ingesting each different track or
         track segment by appending it to the [=POST_URL=]. 
@@ -858,16 +858,16 @@ session to receive the live content.
          SHOULD arrive in increasing order for each of the different
          tracks/streams that are ingested. Using both
          timestamp baseMediaDecodeTime and sequence number
-         based indexing will help the Receiving
+         based indexing helps the receiving
          entities identify discontinuities.
          In this case sequence numbers SHOULD increase by one.   
      12. The average and maximum bitrate of each
          track SHOULD be signalled
-         in the "btrt" box in the sample
+         in the btrt box in the sample
          entry of the CMAF header. These can be used 
-         to signal the bit-rate later on, such as in the manifest. 
+         to signal the bitrate later on, such as in the manifest. 
      13. In case a track is part of a [=Switching set=], all
-         properties section 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied,
+         properties in Sections 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied,
          enabling the receiver to group the tracks in the respective
          switching sets.
      14. Ingested tracks MUST conform to CMAF track structure defined
@@ -880,25 +880,25 @@ session to receive the live content.
           from the information in the MovieFragmentBox.
      16.  The MPEG-DASH manifest should use SegmentTemplate with SegmentTimeline, 
           preferably with $Time$ based naming that can be automatically extended. 
-          Only relative BaseURL are used. In addition, the period availability start time 
+          Only relative BaseURL is used. In addition, the period availability start time 
           should be set to 1-1-1970 (unix epoch) and the period start to 0. 
      17.  In case the [=Ingest source=] loses its own input or input is absent, it SHALL insert filler 
           or replacement content, and output these as valid CMAF segments. Examples 
           may be black frames, silent audio, or empty timed text segments. Such segments,
           SHOULD be labelled by using a SegmentType Box (styp) with the brand *slat*. This 
-          allows a receiver to still replace those segments with valid content segments.
+          allows a receiver to still replace those segments with valid content segments at a later time.
      18.  The last segment in a CMAF track, SHOULD be labelled with a SegmentType box (styp) 
-          with the *lmsg* brand, this way the receiver knows that no more media segments are 
+          with the *lmsg* brand. This way the receiver knows that no more media segments are 
           expected for this track. In case the track is restarted, a request with a [=CMAF Header=] 
-          with (identical properties) must be issued to the same POST_URL
+          with (identical properties) must be issued to the same POST_URL.
       
-         Note, in case a Receiving entity cannot process a request from an ingest source
-         correctly, it can send a HTTP error code. Please see the section
-         for the usage of these codes in [Failover and error handling](#failover)] or in [general](#general).
+         Note, in case a receiving entity cannot process a request from an ingest source
+         correctly, it can send a HTTP error code. See
+         [Failover and error handling](#failover)] or [general](#general) for details.
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
-   [[!MPEGCMAF]] has the notion of [=CMAF Track=] which are composed of 
+   [[!MPEGCMAF]] has the notion of [=CMAF Track=], which are composed of 
     [=CMAF fragment=] and [=CMAF chunk=]s.
    A fragment can be composed of one or more chunks. 
    The [=Media fragment=] defined in ISOBMFF 
@@ -907,8 +907,8 @@ session to receive the live content.
    The following are additional requirements imposed to the formatting of CMAF media tracks.
 
      1. Media tracks SHALL be formatted using boxes
-        according to section 7 of [[!MPEGCMAF]]. 
-        Media track SHOULD not use common encryption,
+        according to Section 7 of [[!MPEGCMAF]]. 
+        Media track SHOULD not use media-level encryption (e.g., common encryption),
         as HTTP over TLS (HTTPS) should provide sufficient 
         transport layer security.
         However, in case common encryption 
@@ -921,30 +921,29 @@ session to receive the live content.
         this issue should be avoided.
      3. The [=CMAF fragment=] durations SHOULD be between
         approximately 1 and 6 seconds.
-     4. Media Tracks SHOULD use
+     4. Media tracks SHOULD use
         a timescale for video streams based on the framerate
         and 44.1 KHz or 48 KHz for audio streams
         or any another timescale that enables integer
         increments of the decode times of
-        fragments signalled in the "tfdt" box based on this scale.
+        fragments signalled in the tfdt box based on this scale.
         If necessary, integer multiples of these timescales
         could be used.
      5. The language of the CMAF Track SHOULD be signalled in the
         [=mdhd=] box or [=elng=] boxes in the
-        CMAF Header
+        CMAF Header.
      6. Media tracks SHOULD
-        contain the bitrate btrt box specifying the target
+        contain the btrt box specifying the target
         average and maximum bitrate of the CMAF fragments
         in the sample entry container in the CMAF Header.
-     7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. , in this 
+     7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this 
         case they SHOULD be signalled using SegmentTypeBox styp to make it 
-        easy for the Receiving Entity to differentiate them from CMAF fragments.
+        easy for the receiving entity to differentiate them from CMAF fragments.
         The brand type of a chunk is cmfl. CMAF chunks should only 
-        be signalled if they are not co-inciding with 
-        the start of a CMAF fragment.
-     8. In Video tracks, profiles like avc1 and hvc1 MAY be used
+        be signalled if they are not the first chunk in a CMAF fragment.
+     8. In video tracks, profiles like avc1 and hvc1 MAY be used
         that signal the sequence parameter set in the CMAF Header.
-        In this case these codec parameters do not change
+        In this case, these codec parameters do not change
         dynamically during the live session in the media track.
      9. However, video tracks SHOULD use profiles like avc3 or
         hev1 that signal the parameter sets (PPS, SPS, VPS) in
@@ -952,41 +951,41 @@ session to receive the live content.
         of parameter changes. This is because in live content, 
         codec configuration may change slightly over time.
      10. In case the language of a track changes, a new CMAF Header
-         with updated [=mdhd=] and or [=elng=] SHOULD be send. The 
+         with updated [=mdhd=] and/or [=elng=] SHOULD be sent. The 
          CMAF Header MUST be identical, except the elng tag.
      11. Track roles SHOULD be signalled in the ingest by using a kind box
          in userData udta box. The kind box MUST contain a schemeIdUri
          urn:mpeg:dash:role:2011 and a value containing a Role
          as defined in [[!MPEGDASH]]. In case this signalling
-         does not occur processing entity can define the role for
+         does not occur, the processing entity can define the role for
          the track independently.
 
 
 
 ## Requirements for Signalling Switching Sets ## {#Requirements_for_switchingsets}
 
-  In live streaming a [=CMAF presentation=] of streams corresponding to a channel is ingested by posting
+  In live streaming, a [=CMAF presentation=] of streams corresponding to a channel is ingested by posting
   to a [=Publishing point=] at the [=Receiving entity=]. CMAF has the notion of Switching Sets [[!MPEGCMAF]] 
   that map to similar streaming protocol concepts like Adaptation Set in [[!MPEGDASH]]. To signal a switching set
-  in a [=CMAF Presentation=], CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] clause 7.3.4 .
+  in a [=CMAF Presentation=], CMAF media tracks MUST correspond to the constraints defined in [[!MPEGCMAF]] clause 7.3.4.
   
-  In addition, optional explicit signalling are defined in this clause. This would mean the following 
-  steps could be implemented by the Live ingest source.
+  In addition, optional explicit signalling is defined in this clause. This would mean the following 
+  steps could be implemented by the live ingest source.
   
-  1. A Live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
+  1. A live ingest source MAY generate a [=Switching Set ID=]  that is unique for each switching set in a 
      live streaming session. Tracks with the same [=Switching Set ID=] belong to the same switching set.
      The switching set ID can be a string or (small) integer number. Characters in switching set shall 
-     be unreserved i.e. A-Za-z0-9_.-~ in order to avoid introducing delimiters.     
+     be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing delimiters.     
   2. The [=Switching Set ID=] MAY be added in a relative path to the POST_URL using the Switching() keyword. 
-     In this case, a CMAF chunk is send from the live ingest source as POST chunk.cmfv 
+     In this case, a CMAF chunk is sent from the live ingest source as POST chunk.cmfv 
      POST_URL/Switching([=Switching Set ID=])/Streams(stream_id). 
   3. The live ingest source MAY add a kind box in the udta box in each track to signal the switching set 
      it belongs to. The schemeIdUri of this kind box SHALL be urn:dashif:ingest:switchingset_id and the 
      value field of the kind box SHALL be the [=Switching Set ID=]. 
   4. The switching sets are grouped as adaptation sets present in the MPEG-DASH manifest in a POST request 
-     issued earlier, i.e. before the segments of that switching set are transmitted. in this case, the naming of the segment URI's 
+     issued earlier, i.e., before the segments of that switching set are transmitted. In this case, the naming of the segment URIs 
      follows the naming defined in the MPEG-DASH manifest based on a SegmentTemplate and SegmentTimeline elements
-     with a relative BaseURL
+     with a relative BaseURL.
   
   Table 2: Switching set signalling options 
   <table class="def">
@@ -995,11 +994,11 @@ session to receive the live content.
                 <th>  Requirement      </th>
         </tr>
         <tr>
-        <td> Implicit signalling, based on Switchingset constraints [[!MPEGCMAF]] clause 7.3.4 </td>
+        <td> Implicit signalling, based on switching set constraints [[!MPEGCMAF]] clause 7.3.4 </td>
         <td> Mandatory </td>
     </tr>
     <tr>
-        <td> Signalling using [=Switching Set ID=] in post URI path using Switching() keyword and  </td>
+        <td> Signalling using [=Switching Set ID=] in post URI path using Switching() keyword </td>
         <td> Optional </td>
         </tr>
     <tr>
