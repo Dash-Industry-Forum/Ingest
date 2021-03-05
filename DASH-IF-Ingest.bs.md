@@ -372,26 +372,26 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    The first workflow uses a separate live encoder as [=Ingest source=]
    and packager as [=Receiving entity=]. In this case, interface 1,
-   [[!MPEGCMAF]] (CMAF) Ingest may be used. This interface uses
+   [[!MPEGCMAF]] (CMAF) ingest may be used. This interface uses
    [[!MPEGCMAF]] to ingest a live encoded stream to the packager. The
    [=Receiving entity=] in this case may do the packaging, encryption, or other active media processing. 
    This interface is defined in a way that it will be possible to generate streaming presentation
    based on [[!MPEGDASH]] or HLS [[!RFC8216]] based on information in the ingested stream.
 
    The second workflow, constitutes ingest to a passive delivery system such
-   as a cloud storage or a Content Deliery Network. In this case the stream needs
+   as a cloud storage or a content deliery network (CDN). In this case the stream needs
    to be formatted as closely as possible to the final stream for consumption by an end client.
-   This interface is defined in the second part, interface 2 [=DASH Ingest=] or [=HLS Ingest=].
-   It enables a HTTP POST based version of these commonly used streaming protocols.
+   This interface is defined in the second part, interface 2 [=DASH ingest=] or [=HLS ingest=].
+   It enables an HTTP POST based version of these commonly used streaming protocols.
    In this case, besides the media objects, also manifest objects are ingested by the
    [=Receiving entity=].
 
-    Figure 1: Example with [=CMAF Ingest=]
+    Figure 1: Example with [=CMAF ingest=]
     <figure>
        <img src="Images/Diagram1.png" />
     </figure>
 
-    Figure 2: Example with DASH Ingest
+    Figure 2: Example with DASH ingest
     <figure>
       <img src="Images/Diagram2.png" />
     </figure>
@@ -399,14 +399,14 @@ DASH-IF makes no warranty whatsoever for such third party material.
     Figure 1 shows an example workflow with live media ingest from an    
     ingest source towards a Receiving entity.  
     In the example, the Receiving entity  
-    prepares the final media presentation for the client  .
+    prepares the final media presentation for the client.
     The Receiving entity could be a live packager for
     DASH or HLS streams. The segments of the stream may 
     be requested via a CDN that acts as an intermediate proxy.
 
     Figure 2 shows an example in workflow where content  
-    is ingested directly by a Content Delivery Network.  
-    The Content Delivery Network enables the delivery to the client,
+    is ingested directly by a CDN.  
+    The CDN enables the delivery to the client,
     but does not generate the manifests.    
 
     A legacy example of a media ingest protocol for the first workflow  
@@ -418,9 +418,9 @@ DASH-IF makes no warranty whatsoever for such third party material.
     This protocol has shown to be robust, flexible and   
     easy to implement in live encoders. In addition, it   
     provided features for high availability and   
-    server side redundancy.   
+    server-side redundancy.   
 
-    The DASH-IF [=CMAF Ingest=] protocol, interface 1, defined in Section 5, advances over the Smooth
+    The DASH-IF [=CMAF ingest=] protocol, interface 1, defined in Section 5, improves the Smooth
     ingest protocol including lessons learned over the last   
     ten years after the initial deployment of    
     Smooth Streaming in 2009 and several advances   
@@ -428,10 +428,10 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
     In addition, the current specification incorporates 
     the latest media formats and protocols, making it ready for current and   
-    next generation media codecs such as [[!MPEGHEVC]]   
+    next-generation media codecs such as [[!MPEGHEVC]]   
     and protocols like MPEG-DASH [[!MPEGDASH]].  
 
-    The second interface referred
+    The second interface referred to
     as DASH and HLS ingest
     is included for ingest of media   
     streaming presentations to entities where    
@@ -446,7 +446,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
     and [[!MPEGCMAF]] formats. In this   
     interface, naming and content type identification via MIME types 
     is important to enable direct   
-    processing and storage of the presentation.   
+    processing and storage of the presentation. 
 
     The two interfaces are presented separately.
     This reduces the overhead of the   
@@ -461,7 +461,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
     Table 1 highlights some of the key  
     differences and practical considerations of
-    the interfaces. In [=CMAF Ingest=] Interface 1,
+    the interfaces. In [=CMAF ingest=] Interface 1,
     the ingest source can be  
     simple as the [=Receiving entity=] can  
     do many of the operations related to the  
@@ -494,22 +494,22 @@ DASH-IF makes no warranty whatsoever for such third party material.
     <tr>
         <th>Profile</th>
         <th>Ingest source</th>
-      <th>Receiving Entity</th>
+      <th>Receiving entity</th>
     </tr>
     <tr>
-        <td>CMAF Ingest</td>
+        <td>CMAF ingest</td>
         <td>Limited overview, simpler encoder, multiple sources </td>
       <td> re-encryption, transcoding, stitching, watermarking, packaging</td>
     </tr>
     <tr>
-        <td>DASH/HLS Ingest</td>
+        <td>DASH/HLS ingest</td>
         <td>Global overview, targets duplicate presentations, limited flexibility no redundancy</td>
       <td> manifest manipulation, transmission, storage</td>
     </tr>
 </table>
 
   Figure 3:
-  workflow with redundant Ingest sources and receiving entities
+  workflow with redundant ingest sources and receiving entities
    <figure>
       <img src="Images/Diagram6.png" />
    </figure>
@@ -521,12 +521,12 @@ DASH-IF makes no warranty whatsoever for such third party material.
    for large scale systems with many users. Often content owners would like to run multiple
    ingest sources, multiple receiving entities and make them available to the clients
    in a seamless fashion. This approach is already common when serving web pages,
-   and this architecture also applies to video streaming over HTTP. In Figure 3
-   it is highlighted how one or more Ingest Sources can be sending data to one or
+   and this architecture also applies to media streaming over HTTP. In Figure 3
+   it is highlighted how one or more ingest sources can be sending data to one or
    more receiving entities. In such a workflow it is important to handle the case
-   when one ingest source or Receiving entity fails. Both the system and client
-   behavior is an important consideration in practical video streaming systems that need
-   to run 24/7 such as Internet Television. Failovers must be handled robustly and without
+   when one ingest source or receiving entity fails. Both the system and client
+   behavior is an important consideration in practical streaming systems that need
+   to run 24/7. Failovers must be handled robustly and without
    causing service interruption.
    This specification details how this failover and redundancy support can be achieved.
 
@@ -542,11 +542,11 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
      1. The [=Ingest source=]  SHALL communicate
         using the HTTP POST method as defined in
-        the HTTP protocol, version 1.1 [[!RFC7235]]
+        the HTTP protocol, version 1.1 [[!RFC7235]].
      2. The [=Ingest source=]  SHOULD
-        use HTTP over TLS, if TLS is used it SHALL support atleast
-        TLS version 1.2, higher version
-        may also be supported additionally [[!RFC2818]]
+        use HTTP over TLS, if TLS is used it SHALL support at least
+        TLS version 1.2, a higher version
+        may also be supported additionally [[!RFC2818]].
      3. The [=Ingest source=]  SHOULD us a domain name system for
         resolving hostnames to IP addresses such as
         DNS [[!RFC1035]] or any other system that is in place.
@@ -556,34 +556,34 @@ DASH-IF makes no warranty whatsoever for such third party material.
         resolution respecting the TTL (time to live) from DNS
         query responses. This will enable better resilience
         to changes of the IP address in large scale deployments
-        where the IP address of the  media
+        where the IP address of the media
         processing entities may change frequently.
      5. In case HTTP over TLS  [[!RFC2818]] is used,
         at least one of basic authentication HTTP AUTH [[!RFC7617]],
         TLS client certificates, and
         HTTP Digest authentication [[!RFC7616]] MUST be supported.
      6. Mutual authentication SHALL be supported.
-        TLS Client certificates SHALL chain to a trusted CA,
-        or be self signed. Self signed certificates MAY
+        TLS client certificates SHALL chain to a trusted CA,
+        or be self-signed. Self-signed certificates MAY
         be used, for example, when the ingest source 
         and receiving entity fall under common administration.
-     7. As compatibility profile for the TLS encryption
-        the ingest source SHOULD support the Mozilla
+     7. As compatibility profile for the TLS encryption,
+        the [=Ingest source=] SHOULD support the Mozilla
         intermediate compatibility profile [=MozillaTLS=].
      8. In case of an authentication error confirmed by an HTTP 403 response, 
         the ingest source SHALL retry to establish the [=Connection=]
         within a fixed time period
         with updated authentication credentials. When
-        that also results in error the ingest source
+        that also results in error, the [=Ingest source=]
         can retry N times, after this the 
-        ingest source SHOULD stop and log an error.
-        The number of retries N MAY be configurable in the [=Ingest Source=].
+        [=Ingest source=] SHOULD stop and log an error.
+        The number of retries N MAY be configurable in the [=Ingest source=].
      9. The [=Ingest source=] SHOULD terminate
         the [=HTTP POST=] request if data is not being sent
         at a rate commensurate with the MP4 fragment duration.
         An HTTP POST request that does not send data can
         prevent the [=Receiving entity=]
-        from quickly disconnecting from the ingest source
+        from quickly disconnecting from the [=Ingest source=]
         in the event of a service update.
      10. The HTTP POST for sparse
          data SHOULD be short-lived,
@@ -595,7 +595,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
          to signal the stream or fragment name.
      12. Both the [=Ingest source=] and [=Receiving entity=]
           MUST support IPv4 and IPv6 transport.
-     13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (1-6 seconds)
+     13. The [=Ingest source=] SHOULD use a timeout in order of segment duration (e.g., 1-6 seconds)
            for establishing the TCP connection. If an attempt to establish
          the connection takes longer than the timeout,
            abort the operation and try again.
@@ -603,15 +603,15 @@ DASH-IF makes no warranty whatsoever for such third party material.
          connection was terminated early, or when an error 
          response was received such as HTTP 400 or 403
          if the connection was down
-         for less than 3 average segments durations. For connections
-         that were down longer, ingest source can resume sending [=Objects=] at the live edge
+         for less than three average segments durations. For connections
+         that were down longer, the [=Ingest source=] can resume sending [=Objects=] at the live edge
          of the live media presentation instead.
      15. The [=Ingest source=] MAY limit N, the number
          of retries, to establish a new
          connection or resume streaming after a TCP error occurs.
-         This number N MAY be configurable.
-     16. After a TCP error, the [=Ingest source=] should 
-         perform the following:
+         This number N should be configurable.
+     16. After a TCP error, the [=Ingest source=]  
+         performs the following:
          a. The current connection MUST be closed,
           and a new connection MUST be created
           for a new HTTP POST request.
@@ -621,48 +621,47 @@ DASH-IF makes no warranty whatsoever for such third party material.
      17.  In case the [=Receiving entity=] cannot process the
           POST request due to authentication or permission
           problems, or incorrect path, 
-          then it SHALL return a permission denied HTTP 403 
-          with error reason
+          it SHALL return an HTTP 403 Forbidden error.
      18.  In case the Receiving entity can process
           the fragment in the POST request body but finds
-          the media type cannot be supported it MAY return an HTTP 415
-          unsupported media type, otherwise 400 bad request
+          the media type is not supported, it MAY return an HTTP 415
+          Unsupported Media Type error. Otherwise, an HTTP 400 Bad Request error
           MUST be returned.
      19. In case an unknown error happened during
          the processing of the HTTP
-         POST request a HTTP 400 Bad request SHALL be returned
-         by the Receiving entity
+         POST request, an HTTP 400 Bad Request SHALL be returned
+         by the receiving entity.
      20. In case the receiving entity cannot
          process a fragment posted
          due to missing or incorrect init fragment, an HTTP 412
-         unfulfilled condition MAY be returned, otherwise, in case 
+         Precondition Failed error MAY be returned, otherwise, in case 
          this is not supported by the system,
-         a HTTP 400 bad request response MUST be returned.
-     21. The [=Receiving entity=] MAY return 50x HTTP response in case
+         an HTTP 400 Bad Request error MUST be returned.
+     21. The [=Receiving entity=] MAY return an HTTP 50x response in case
          of other errors at the server, not particularly relating
-         to the request from the Ingest Source, but due to an 
+         to the request from the [=Ingest source=], but due to an 
          error at the receiving entity. 
      22. In case the receiving entity or publishing point 
-         receiving the HTTP POST body is not setup or available 
-         an HTTP 404 not found SHOULD be returned to the ingest source. 
-     23. The ingest source SHOULD support the handling of 30x redirect 
+         receiving the HTTP POST body is not setup or available, 
+         an HTTP 404 Not Found error SHOULD be returned to the [=Ingest source=]. 
+     23. The [=Ingest source=] SHOULD support the handling of 30x redirect 
          responses. 
-     24. The ingest source and receiving entity SHOULD support 
-         gzip based content encoding
+     24. The [=Ingest source=] and receiving entity SHOULD support 
+         gzip based content encoding.
 
       
 
 # Ingest Interface 1:  CMAF Ingest Protocol Behavior # {#profile_1}
 
 This section describes the protocol behavior specific to  
-interface 1: [=CMAF Ingest=]. Operation of this  
+interface 1: [=CMAF ingest=]. Operation of this  
 profile MUST also adhere to the general requirements specified in Section 4 [[#general]].
 
 ## CMAF Ingest General Considerations (informative) ## {#profile_1_general}
 
 The media format is based on CMAF, conforming to track constraints as  
 specified in [[!MPEGCMAF]] clause 7.
-A key benefit of this  format is that it
+A key benefit of this format is that it
 allows easy identification  
 of stream boundaries, enabling switching, redundancy,  
 re-transmission resulting in a good fit with current  
@@ -672,21 +671,21 @@ and that the industry is already heading
 in this direction following recent specifications  
 like [[!MPEGCMAF]] and HLS  [[!RFC8216]].
 
-[=CMAF Ingest=] assumes ingest to an active Receiving entity,
+[=CMAF ingest=] assumes ingest to an active Receiving entity,
 such as a packager or active origin server. However, 
 it can also be used for simple transport of media to an archive, 
 as the combination of CMAF header and CMAF fragments will 
 result in a valid archived CMAF track file when an ingest 
-is stored on disk by a receiving entity.
+is stored on disk by the receiving entity.
 
-CMAF Ingest advances over the ingest  
+[=CMAF ingest=] advances over the ingest  
 part of the Smooth ingest protocol [=MS-SSTR=] by only using  
 standardized media container formats
 and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].  
 
 Many new techologies like MPEG HEVC, AV1, HDR have CMAF bindings. 
 Using CMAF will make it easier to adopt such technogies.
-This project started as multi vendor interop project, some 
+This project started as a multi vendor interop project, some 
 discussions on the early development of the specification 
 have been documentedin  [=fmp4git=].
 
@@ -697,14 +696,14 @@ have been documentedin  [=fmp4git=].
 
 
 Figures 5-7 detail some of the concepts and structures defined in [[!MPEGCMAF]].   
-Figure 5 shows the data format structure of the [=CMAF Track=]. In this format media samples 
+Figure 5 shows the data format structure of the [=CMAF Track=]. In this format, media samples 
 and media indexes are interleaved. The MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] 
-is used to signal the information to playback and decode properties of the samples stored in the mdat box.   
+is used to signal the information to playback and decode properties of the samples stored in the [=mdat=] box.   
 The CMAF Header contains the track specific information   
-and is referred  to as a [=CMAF Header=] in [[!MPEGCMAF]].  
+and is referred to as a [=CMAF Header=] in [[!MPEGCMAF]].  
 The combination of  [=moof=] [=mdat=] can be referred   
 as a [=CMAF fragment=] or [=CMAF chunk=]
-depending on the structure content and the number of moof mdat structures in the addressable object. 
+depending on the structure content and the number of moof-mdat pairs in the addressable object. 
 
 Figure 5: [=CMAF Track=] stream:
 
