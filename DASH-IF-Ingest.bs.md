@@ -1019,58 +1019,58 @@ a track with timed text, captions and/or subtitle streams. The
 recommendations for formatting subtitle and timed text tracks
 are defined in [[!MPEGCMAF]] and [[!MPEG4-30]]. 
 
-We provide a few additional guidelines and best practices for 
+We provide additional guidelines and best practices for 
 formatting timed text and subtitle tracks.
 
       1. CMAF Tracks carrying WebVTT signalled by cwvt brand 
          or TTML Text signalled by *im1t* brand are preferred.
-         [[!MPEG4-30]] defines the track format selected in [[!MPEGCMAF]]  
+         [[!MPEG4-30]] defines the track format selected in [[!MPEGCMAF]].  
       2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL
          be set to "text" for WebVTT and "subt" for TTML following
-         [[!MPEG4-30]]
+         [[!MPEG4-30]].
       3. The [=ftyp=] box in the CMAF Header for the track
-         containing timed text, images, captions and sub-titles
-         MAY use signalling using CMAF profiles based on [[!MPEGCMAF]]
+         containing timed text, images, captions and subtitles
+         MAY use signalling using CMAF profiles based on [[!MPEGCMAF]].
 
-         3a. WebVTT   Specified in 11.2 ISO/IEC 14496-30
+         3a. WebVTT specified in Section 11.2 of ISO/IEC 14496-30
             [[!MPEG4-30]] *cwvt*
 
-         3b.TTML IMSC1 Text  Specified in 11.3.3 [[!MPEG4-30]]
-            IMSC1 Text Profile   *im1t*
+         3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEG4-30]]
+            IMSC1 Text Profile *im1t*
 
-         3c.TTML IMSC1 Image Specified in 11.3.4 [[!MPEG4-30]]
-           IMSC1 Image Profile  *im1i*
+         3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEG4-30]]
+           IMSC1 Image Profile *im1i*
 
       4.   The BitRateBox btrt SHOULD be used to signal the average and
            maximum bitrate in the sample entry box, this is
-           most relevant for bitmap or xml based timed text subtitles
-           that may consume significant bandwidths (e.g. im1i im1t)
+           most relevant for bitmap or XML based timed text subtitles
+           that may consume significant bandwidth (e.g., im1i or im1t).
       5.   In case the language of a track changes, a new 
-           CMAF Header with updated [=mdhd=] and/or [=elng=] SHOULD be send from the
-           ingest source to the Receiving entity.
+           CMAF Header with updated [=mdhd=] and/or [=elng=] SHOULD be sent from the
+           ingest source to the receiving entity.
       6.   Track roles can be signalled in the ingest, by using a kind box
-           in udta box. The kind box MUST contain a schemeIdUri MPEG
+           in udta box. The kind box MUST contain a schemeIdUri
            urn:mpeg:dash:role:2011 and a value containing a Role
-           as defined in [[!MPEGDASH]]
+           as defined in [[!MPEGDASH]].
 
-Note: [[!MPEGCMAF]] allows multiple kind boxes, hence multiple roles
-can be signalled. By default one should signal the DASH role
+Note: [[!MPEGCMAF]] allows multiple kind boxes, hence, multiple roles
+can be signalled. By default, one should signal the DASH role
 urn:mpeg:dash:role:2011. A receiver may derive corresponding configuration
 for other streaming protocols such as HLS [[!RFC8216]]. In case this
 is not desired, additional kind boxes with corresponding schemeIdUri
 and values can be used to explicitly signal this information for other 
-protocol schemes is allowed. Subschemes can be signalled in the 
+protocol schemes. Subschemes can be signalled in the 
 schemeIdURI as schemeIdURI@value.
 
 An informative scheme of defined roles in MPEG DASH and respective
 corresponding roles in HLS [[!RFC8216]] can be found below,
 additionally the forced subtitle in HLS might be derived from
-a DASH forced subtitle role aswell by a [=Receiving Entity=]
+a DASH forced subtitle role as well by a [=Receiving entity=].
 
-Table 3: Roles for subtitle and Audio tracks and HLS Characteristics
+Table 3: Roles for subtitle and audio tracks and HLS characteristics
 <table class="def">
     <tr>
-        <th>Characteristic [[!RFC8216]] </th>
+        <th>HLS characteristic [[!RFC8216]] </th>
       <th> urn:mpeg:dash:role:2011     </th>
     </tr>
     <tr>
@@ -1091,32 +1091,32 @@ Table 3: Roles for subtitle and Audio tracks and HLS Characteristics
     </tr>
 </table>
 
-MPEG DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]].
+MPEG-DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]].
 Additionally, another example for explicitly signalling roles could be DVB DASH [[!DVB-DASH]]. 
 One could use schemeiduri@value and role as defined there.
-e.g.    `kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="Alternate"`.
+e.g.,    `kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="Alternate"`.
 
 ## Requirements for Timed Metadata Tracks ## {#timed_metadata}
 
  This section discusses the specific formatting requirements  
- for [=CMAF Ingest=] of timed metadata. Examples of  
+ for [=CMAF ingest=] of timed metadata. Examples of  
  timed metadata are opportunities for splice points and program information  
  signalled by SCTE-35 markers. Such event signalling  
  is different from regular audio/video information because of its sparse nature. 
  In this case, the signalling data usually does not  
- happen continuously, and the intervals may  be hard to predict.
+ happen continuously, and the intervals may be hard to predict.
 
  Other examples of timed metadata are ID3 tags  
  [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBoxes
- defined in section 5.10.3.3 of [[!MPEGDASH]].  
+ defined in Section 5.10.3.3 of [[!MPEGDASH]].
 
- Table 4 provides some example urn schemes to be signalled
+ Table 4 provides some example urn schemes to be signalled.
  Table 5 illustrates an example of a SCTE-35 marker stored  
  in a DASHEventMessageBox, that is in turn stored as a metadata sample 
  in a metadata track.  
 
  The presented approach enables ingest of  
- timed metadata from different sources, because data are not 
+ timed metadata from different sources, because data is not 
  interleaved with the media.
   
  By using CMAF timed metadata tack, the same track 
@@ -1124,19 +1124,14 @@ e.g.    `kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value
  for other tracks ingested, and the metadata is part 
  of the [=CMAF Presentation=].
 
- By embedding the DashEventMessageBox structure in timed metadata samples some of the 
+ By embedding the DashEventMessageBox structure in timed metadata samples, some of the 
  benefits of its usages in DASH and CMAF are kept. In addition it enables signalling 
  of gaps, overlapping events and multiple events starting at the same time in a single 
  timed metadata track for this scheme. In addition, the parsing and processing of DashEventMessageBoxes 
  is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
  track instantiation is described.
- 
   
-  
- Table 4 illustrates some example URN schemes to be carried in timed metadata tracks. 
- Table 5 illustrates examples of metadata embedded in a DASHEventMessageBox.
-  
- An example of adding an id3 tag in a DashEventMessageBox can be found in [=aomid3=]
+ An example of adding an id3 tag in a DashEventMessageBox can be found in [=aomid3=].
 
 Table 4: Example URN schemes for timed metadata tracks
 <table class="def">
@@ -1196,7 +1191,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
    </tr>
      <tr>
         <td> message_data </td>
-        <td> splice info section including CRC   </td>
+        <td> splice info section including CRC  </td>
     </tr>
  </table>
 
@@ -1222,9 +1217,9 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
 
      5. CMAF Timed metadata tracks MAY carry EventMessageBoxes as defined 
         in [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to 
-        create such a track is based on MPEG-B part 18 as define in ISO/IEC 23001-18. 
-        Some deprecated implementations may use DASHEventMessageBoxes as defined in ISO/IEC 23009-1,
-        Using DASHEventMessage boxes directly in samples may be implemented as follows. 
+        create such a track is based on MPEG-B part 18 as defined in ISO/IEC 23001-18. 
+        Some deprecated implementations may use DASHEventMessageBoxes as defined in ISO/IEC 23009-1.
+        Using DASHEventMessage boxes directly in samples may be implemented as follows: 
      
         5a.  In the case of 5, version 1 SHOULD be used, in case version 0 is used, the presentation_time_delta 
             refers to presntation time of the sample enclosing the DASHEventMessageBox.
@@ -1239,7 +1234,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              time of the sample.    
      
         5e.  In the case of 5, a single metadata sample MAY contain multiple DASHEventMessageBoxes. 
-             This happens if multiple DashEventMessageBoxes have the same Presentation Time or if 
+             This happens if multiple DashEventMessageBoxes have the same presentation time or if 
              an earlier event is still active in a sample containing a newly started and overlapping event. 
      
         5f.  In the case of 5, the schemeIdUri in the DASHEventMessageBox can be used 
@@ -1248,7 +1243,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
      
         5g.  In the case of 5, For SCTE-35 ingest the schemeIdURI in the DASHEventMessageBox 
              MUST be urn:scte:scte35:2013:bin  as defined 
-             in [[!SCTE214-3]]. A binary scte-35 payload is carried in 
+             in [[!SCTE214-3]]. A binary SCTE-35 payload is carried in 
              the message_data field of a
              DASHEventMessageBox.
              If a splice point is signalled, 
@@ -1257,10 +1252,10 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH eventmessagebox
              to the event presentation time.
  
         5h.  In case of 5, it may be necessary to add filler samples to avoid gaps in the CMAF track timeline, 
-             This may be done using EventMessageEmptyBox (8 bytes) with 4cc code of emeb or embe
+             This may be done using EventMessageEmptyBox (8 bytes) with 4cc code of emeb or embe.
      
         5i.  In the case of 5, if ID3 tags are carried, the DashEventMessageBox 
-             MUST be formatted as defined in [=aomid3=]
+             MUST be formatted as defined in [=aomid3=].
          
         5j.  In the case of 5, the value and id field of the DashEventMessageBox can be used 
              by the [=Receiving Entity=] to detect duplicate events. 
@@ -1289,7 +1284,7 @@ respective splice points are as follows.
      spliceInsert command with out of network indicator set to 1 and a break_duration 
      matching the actual break duration. 
 
-2.  Information related to splicing, wether SCTE-35 based or by other means, wether in an Event Message Box or timed
+2.  Information related to splicing, wether SCTE-35 based or by other means, wether in an EventMessageBox or timed
     metadata track sample or event MUST be available to the receiver at least 4 seconds before the media segment with the intended 
     splice point.
 
@@ -1320,7 +1315,7 @@ The splice point conditioning in [=DASH-IFad=] are defined as follows:
 2. option 2: splice conditioned encoding: a SAP 1 or SAP 2 stream access point at the frame at the boundary 
 3. option 3: splice point signalling: specific content conditioning at the splice point
 
-This specification requires option 1 or 2 to be applied. Option 2 is required for dual encoder synchronisation
+This specification requires option 1 or 2 to be applied. Option 2 is required for dual encoder synchronization
  to avoid variation of the segment durations.
 
 ##  Requirements for Receiving and ingest source Entity Failover and Connection Error Handling ## {#failover}
@@ -1347,12 +1342,12 @@ This specification requires option 1 or 2 to be applied. Option 2 is required fo
   occurs on the [=Ingest source=] side. The following recommendations apply:  
 
       2. A new [=Ingest source=] instance SHOULD be instantiated
-         to continue the ingest for the live streaming session
+         to continue the ingest for the live streaming session.
       3. The [=Ingest source=] MUST use
          the same URL for HTTP POST requests as the failed instance.
       4. The new  [=Ingest source=] POST request
          MUST include the same [=CMAF Header=] or
-         CMAF Header as the failed instance
+         CMAF Header as the failed instance.
       5. The [=Ingest source=]
          MUST be properly synced with all other running ingest sources
          for the same live presentation to generate synced audio/video  
