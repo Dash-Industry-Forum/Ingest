@@ -739,7 +739,7 @@ to test that the [=receiving entity=] is listening. This
 POST may send the [=CMAF header=] or could be empty.
 In case this is successful, it is followed by a CMAF header and the
 fragments comprising the [=CMAFstream=]. At the end of
-the session, for tear down the source may send an empty "mfra"
+the session, for tear down the source may send an empty [=mfra (deprecated)=]
 box to close the connection and [=publishing point=]. 
 
 This is then followed with a zero length
@@ -808,7 +808,7 @@ session to receive the live content.
         the [=CMAF header=].
      7. *(deprecated)* In case the [=live stream session=] is over the
         ingest source MAY signal
-        the stop by transmitting an empty "mfra" box
+        the stop by transmitting an empty [=mfra (deprecated)=] box
         towards the receiving entity.
         After that it SHALL send an empty HTTP chunk
         and wait for the HTTP response before closing 
