@@ -91,9 +91,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    broadcast, storage or video-on-demand. For interoperable
    live media ingest, this document provides
    guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF]] for 
-   formatting the media content.  
-
-   In addition, the codec and codec profile used
+   formatting the media content. In addition, the codec and codec profile used
    are important  
    interoperability points that themselves also  
    have different profiles and different
@@ -110,9 +108,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    of such metadata formats include [[!SCTE35]] markers, which  
    are often found in broadcast streams and other  
    metadata such as ID3 tags [[!ID3v2]] containing information
-   relating to the media presentation.
-
-   In fact, many more types of metadata relating
+   relating to the media presentation. In fact, many more types of metadata relating
    to the live event might be ingested and passed
    on to an over-the-top (OTT) streaming workflow.  
 
@@ -187,17 +183,20 @@ DASH-IF makes no warranty whatsoever for such third party material.
    <dfn dfn>**ABR**</dfn>:
           Adaptive bitrate.
 
+   <dfn dfn>**CMAF chunk**</dfn>:
+             [=CMAF media object=] defined in [[!MPEGCMAF]] clause 7.3.2.3.
+             
+   <dfn dfn>**CMAF fragment**</dfn>:
+             [=CMAF media object=] defined in [[!MPEGCMAF]] clause 7.3.2.4.             
+
    <dfn dfn>**CMAF header**</dfn>:
-             CMAF track header defined in [[!MPEGCMAF]] clause 7.3.2.1.
+             Defined in [[!MPEGCMAF]] clause 7.3.2.1.
+
+   <dfn dfn>**CMAF Ingest**</dfn>:
+             Ingest interface defined in this specification for push-based [[!MPEGCMAF]].
 
    <dfn dfn>**CMAF media object**</dfn>: 
-             CMAF media object defined in [[!MPEGCMAF]], a CMAF chunk, segment, fragment or track.
-
-   <dfn dfn>**CMAF fragment**</dfn>:
-             CMAF fragment defined in [[!MPEGCMAF]] clause 7.3.2.4.
-
-   <dfn dfn>**CMAF chunk**</dfn>:
-             CMAF chunk defined in [[!MPEGCMAF]] clause 7.3.2.3.
+             Defined in [[!MPEGCMAF]]: a CMAF chunk, segment, fragment or track.
 
    <dfn dfn>**CMAF presentation**</dfn>:
              Logical grouping of CMAF tracks corresponding to a media presentation as
@@ -212,49 +211,43 @@ DASH-IF makes no warranty whatsoever for such third party material.
              headers and restore a valid CMAF track file from the CMAFstream.
 
    <dfn dfn>**CMAF track**</dfn>:
-             CMAF track defined in [[!MPEGCMAF]] clause 7.3.2.2.
-
-   <dfn dfn>**CMAF Ingest**</dfn>:
-            Ingest interface defined in this specification for push-based [[!MPEGCMAF]].
+             [=CMAF media object=] defined in [[!MPEGCMAF]] clause 7.3.2.2.
    
    <dfn dfn>**connection**</dfn>:
-              A connection setup between two hosts, typically the  
-              media [=ingest source=] and [=receiving entity=]. 
+             A connection setup between two hosts, typically the  
+             media [=ingest source=] and [=receiving entity=].              
 
    <dfn dfn>**DASH Ingest**</dfn>:
-            Ingest interface defined in this specification for push-based [[!MPEGDASH]].
+            Ingest interface defined in this specification for push-based DASH.
 
    <dfn dfn>**HLS Ingest**</dfn>:
-          Ingest interface defined in this specification for push-based HLS [[!RFC8216]].
+            Ingest interface defined in this specification for push-based HLS.
 
    <dfn dfn>**HTTP POST**</dfn>:  
-             HTTP command for  
-             sending data from a source to a destination [[!RFC7235]].
+            HTTP command for sending data from a source to a destination.
    
    <dfn dfn>**ingest source**</dfn>:  
             A media source ingesting live media content to a receiving entity. It is typically a live encoder but not restricted  
             to this, e.g., it could be a stored media resource.
 
    <dfn dfn>**ingest stream**</dfn>:
-          The stream of media pushed from the ingest source to the receiving entity.
+            The stream of media pushed from the ingest source to the receiving entity.
 
    <dfn dfn>**live stream session**</dfn>:  
-           The entire live stream for the ingest relating to a broadcast event.
+            The entire live stream for the ingest relating to a broadcast event.
 
    <dfn dfn>**live encoder**</dfn>:
-           Entity performing live  
-           encoding of a high quality
-           ingest stream. This can serve as an ingest source. 
+            Entity performing live encoding of a high quality ingest stream. This can serve as an ingest source. 
 
    <dfn dfn>**manifest objects**</dfn>:
            Objects ingested that represent streaming manifest,
-            e.g., .mpd in DASH and .m3u8 in HLS.
+           e.g., .mpd in DASH and .m3u8 in HLS.
 
    <dfn dfn>**media objects**</dfn>:
            Objects ingested that represent the media,
-            timed text or other non-manifest objects. Typically,
+           timed text or other non-manifest objects. Typically,
            these are CMAF addressable media objects such as
-           CMAF chunks, fragments or segments.
+           CMAF chunks, segments or tracks.
 
    <dfn dfn>**media fragment**</dfn>:
              Media fragment, combination of MovieFragmentBox ("moof") and MediaDataBox ("mdat") in
@@ -269,11 +262,6 @@ DASH-IF makes no warranty whatsoever for such third party material.
    <dfn dfn>**OTT**</dfn>:
          Over-the-top.  
 
-   <dfn dfn>**publishing point**</dfn>:
-              Entry point used to receive an ingest stream,  
-              consumes/receives the incoming media [=ingest stream=],
-              typically via a publishing URL setup to receive the stream.
-   
    <dfn dfn>**POST_URL**</dfn>:
             Target URL of a POST command in the HTTP protocol  
              for posting data from a source to a destination. 
@@ -281,6 +269,11 @@ DASH-IF makes no warranty whatsoever for such third party material.
              receiving entity. The POST_URL basepath is setup by the receiving 
              entity. The ingest source may add extended paths to signal 
              track names, fragment names or segment names.
+
+   <dfn dfn>**publishing point**</dfn>:
+              Entry point used to receive an ingest stream,  
+              consumes/receives the incoming media [=ingest stream=],
+              typically via a publishing URL setup to receive the stream.
 
    <dfn dfn>**receiving entity**</dfn>:
           Entity used to receive the media content,  
@@ -292,7 +285,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    <dfn dfn>**streaming presentation**</dfn>:
            Set of [=objects=] composing
             a streaming presentation based on a streaming protocol such
-           as DASH [[!MPEGDASH]].
+           as DASH.
 
    <dfn dfn>**switching set**</dfn>:
            Group of tracks corresponding to a switching set defined in
