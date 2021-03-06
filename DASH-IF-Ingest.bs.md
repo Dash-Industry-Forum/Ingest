@@ -150,7 +150,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    to ingest media presentations to origin servers,
    cloud storage or CDNs.
 
-   Section [[!workflow_and_use_cases]] provides more
+   Section 3 [[#workflow_and_use_cases]] provides more
    background and motivation around these two interfaces. We further motivate the specification  
    in this document supporting    
    HTTP/1.1 [[!RFC7235]] and [[!ISOBMFF]].   
@@ -237,9 +237,6 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
    <dfn dfn>**ingest stream**</dfn>:
           The stream of media pushed from the ingest source to the receiving entity.
-    
-   <dfn dfn>**ISOBMFF**</dfn>: 
-           The ISO Base Media File Format specified in [[!ISOBMFF]].
 
    <dfn dfn>**live stream session**</dfn>:  
            The entire live stream for the ingest relating to a broadcast event.
