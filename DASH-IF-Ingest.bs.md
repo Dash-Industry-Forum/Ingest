@@ -154,7 +154,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    background and motivation around these two interfaces. We further motivate the specification  
    in this document supporting    
    HTTP/1.1 [[!RFC7235]] and [[!ISOBMFF]].   
-   We believe that Smooth streaming [=[MS-SSTR]=]    
+   We believe that Smooth streaming [[=MS-SSTR=]]    
    and HLS [[!RFC8216]] have shown that HTTP usage
    can survive the Internet ecosystem for   
    media delivery.
@@ -391,7 +391,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
 
     A legacy example of a media ingest protocol for the first workflow  
     is the ingest part of the Microsoft Smooth   
-    Streaming protocol [=[MS-SSTR]=]. This protocol   
+    Streaming protocol [[=MS-SSTR=]]. This protocol   
     connects live encoders/ingest sources
     to the Microsoft Smooth Streaming server
     and to the Microsoft Azure cloud.   
@@ -544,7 +544,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
         and receiving entity fall under common administration.
      7. As compatibility profile for the TLS encryption,
         the [=ingest source=] SHOULD support the Mozilla
-        intermediate compatibility profile [=[Mozilla-TLS]=].
+        intermediate compatibility profile [[=Mozilla-TLS=]].
      8. In case of an authentication error confirmed by an HTTP 403 response, 
         the ingest source SHALL retry to establish the [=connection=]
         within a fixed time period
@@ -654,7 +654,7 @@ result in a valid archived CMAF track file when an ingest
 is stored on disk by the receiving entity.
 
 [=CMAF Ingest=] advances over the ingest  
-part of the Smooth ingest protocol [=[MS-SSTR]=] by only using  
+part of the Smooth ingest protocol [[=MS-SSTR=]] by only using  
 standardized media container formats
 and boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]].  
 
@@ -662,7 +662,7 @@ Many new technologies like MPEG HEVC, AV1, HDR have CMAF bindings.
 Using CMAF will make it easier to adopt such technologies.
 This project started as a multi-vendor interop project, some 
 discussions on the early development of the specification 
-have been documented in [=[fmp4git]=].
+have been documented in [[=fmp4git=]].
 
  Figure 4: CMAF Ingest with multiple ingest sources.
    <figure>
@@ -1104,7 +1104,7 @@ e.g.,    `kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.valu
  is supported in many players. The support for this DashEventMessageBox embedded timed metadata 
  track instantiation is described.
   
- An example of adding an id3 tag in a DashEventMessageBox can be found in [=[aomid3]=].
+ An example of adding an id3 tag in a DashEventMessageBox can be found in [[=aomid3=]].
 
 Table 4: Example URN schemes for timed metadata tracks.
 <table class="def">
@@ -1228,7 +1228,7 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH EventMessageBox.
              This may be done using EventMessageEmptyBox (8 bytes) with 4cc code of "emeb" or "embe".
      
         5i.  In the case of 5, if ID3 tags are carried, the DASHEventMessageBox 
-             MUST be formatted as defined in [=[aomid3]=].
+             MUST be formatted as defined in [[=aomid3=]].
          
         5j.  In the case of 5, the value and id field of the DASHEventMessageBox can be used 
              by the [=receiving entity=] to detect duplicate events. 
@@ -1273,14 +1273,14 @@ respective splice points are as follows.
     of ISO-BMFF, for example, using per sample flags in track run box if needed. In case dual encoder synchronization 
     is required, inserting IDR frames inside segments is preferable over introducing segment boundary.
 
-The conditioning follows [=[DASH-IFad]=] shown in Figure 9:
+The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
 Figure 9: Splice point conditioning.
 <figure>
       <img src="Images/splice_ingest.png" />
 </figure>
 
-The splice point conditioning in [=[DASH-IFad]=] are defined as follows: 
+The splice point conditioning in [[=DASH-IFad=]] are defined as follows: 
 
 1. option 1: splice conditioned packaging: both a fragment boundary and a SAP 1 or SAP 2 (stream access point) at the splice point
 2. option 2: splice conditioned encoding: a SAP 1 or SAP 2 stream access point at the frame at the boundary 
@@ -1700,20 +1700,25 @@ In case of splicing, it is important that the ingest source inserts an IDR frame
 
 #  URL References # {#references-url}
 
-    <dfn dfn>\[fmp4git\]</dfn> Unified Streaming fmp4-ingest:
-                https://github.com/unifiedstreaming/fmp4-ingest
+    <dfn dfn>fmp4git</dfn>: 
+    Unified Streaming fmp4-ingest:
+    https://github.com/unifiedstreaming/fmp4-ingest
     
-    <dfn dfn>\[aomid3\]</dfn> Carriage of ID3 Timed Metadata in the Common Media Application Format (CMAF): 
-                 https://aomediacodec.github.io/id3-emsg/
+    <dfn dfn>aomid3</dfn>: 
+    Carriage of ID3 Timed Metadata in the Common Media Application Format (CMAF): 
+    https://aomediacodec.github.io/id3-emsg/
     
-    <dfn dfn>\[Mozilla-TLS\]</dfn> Mozilla Wiki Security/Server Side TLS: 
-                https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29
+    <dfn dfn>Mozilla-TLS</dfn>:
+    Mozilla Wiki Security/Server Side TLS: 
+    https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29
 
-    <dfn dfn>\[MS-SSTR\]</dfn> Smooth Streaming Protocol:  
-              https://msdn.microsoft.com/en-us/library/ff469518.aspx
+    <dfn dfn>MS-SSTR</dfn>:
+    Smooth Streaming Protocol:  
+    https://msdn.microsoft.com/en-us/library/ff469518.aspx
           
-    <dfn dfn>\[DASH-IFad\]</dfn> Advanced Ad Insertion in DASH (under community review):
-               https://dashif.org/docs/CR-Ad-Insertion-r4.pdf
+    <dfn dfn>DASH-IFad</dfn>:
+    Advanced Ad Insertion in DASH (under community review):
+    https://dashif.org/docs/CR-Ad-Insertion-r4.pdf
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 
