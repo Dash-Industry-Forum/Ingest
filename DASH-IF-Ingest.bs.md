@@ -1495,23 +1495,30 @@ document, allowing for failover, redundancy and many of the other features
 related to the content tracks. The live encoder source performs the following
 tasks:
 
-- It demuxes and receives the MPEG-2 Transport Stream and/or SDI signal.
-- It formats the metadata in these streams such as SCTE-35 or SCTE-104 to timed
-  metadata tracks.
-- It performs a high quality ABR encoding in different bit-rates with aligned
-  switching points.
-- It packages all media and timed text tracks as CMAF-compliant tracks and
-  signals track roles in kind boxes.
-- It POSTs the addressable media objects composing the tracks to the live
-  packager according to the CMAF Ingest specification interface defined in
-  Section 5 of this document.
-- The CMAF Ingest allows multiple live encoder sources and packagers to be
-  deployed benefiting. from redundant stream creation, avoiding timeline
-  discontinuities due to failures as much as possible.
-- In case the receiver entity fails, it will reconnect and resend as defined in
-  [[#general]] and [[#failover]].
-- In case the live encoder ingest source fails it will restart and perform the
-  steps as in [[#failover]].
+   - It demuxes and receives the MPEG-2 Transport Stream and/or SDI signal.
+
+   - It formats the metadata in these streams such as SCTE-35 or SCTE-104 to
+     timed metadata tracks.
+
+   - It performs a high quality ABR encoding in different bit-rates with aligned
+     switching points.
+
+   - It packages all media and timed text tracks as CMAF-compliant tracks and
+     signals track roles in kind boxes.
+
+   - It POSTs the addressable media objects composing the tracks to the live
+     packager according to the CMAF Ingest specification interface defined in
+     Section 5 of this document.
+
+   - The CMAF Ingest allows multiple live encoder sources and packagers to be
+     deployed benefiting. from redundant stream creation, avoiding timeline
+     discontinuities due to failures as much as possible.
+
+   - In case the receiver entity fails, it will reconnect and resend as defined
+     in [[#general]] and [[#failover]].
+
+   - In case the live encoder ingest source fails it will restart and perform
+     the steps as in [[#failover]].
 
 The live encoder ingest source can be deployed in the cloud or on a bare metal
 server or even as a dedicated hardware. The live encoder source may have some
@@ -1519,50 +1526,68 @@ tools or configuration APIs to author the CMAF tracks and feed
 instruction/properties from the original SDI or broadcast into the CMAF tracks.
 The packager receives the ingested streams, and performs the following tasks.
 
-- It receives the CMAF tracks, grouping switching sets based on switching set
-  constraints.
-- When packaging to DASH, an adaptation set is created for each switching set
-  ingested.
-- The near constant fragment duration is used to generate segment template based
-  presentation using either $Number$ or $Time$.
-- In case changes happen, the packager can update the manifest and embed inband
-  events to trigger manifest updates in the fragments.
-- The DASH Packager encrypts media segments according to key information
-  available. This key information is typically exchanged by protocols defined in
-  CPIX. This allows configuration of the content keys, initialization vectors
-  and embedding encryption information in the manifest
-- The DASH packager signals subtitles in the manifest based on received CMAF
-  streams and roles signaled in kind box.
-- In case a fragment is missing and SegmentTimeline is used, the packager may
-  signal a discontinuity in the MPD.
-- In case a low latency mode is used, the packager may make output available
-  before the entire fragment is received using HTTP chunked transfer encoding.
-- The packager may also have a proprietary API similar to the live source, for
-  configuration of aspects like the segmentTimeBuffer, DVR window, encryption
-  modes enabled, etc.
-- The packager uses DASH or HLS Ingest (as specified in Section 6) to push
-  content to the origin server of a CDN. Alternatively, it could also make
-  content directly available as an origin server. In this case DASH/HLS Ingest
-  is avoided, and the packager also serves as the origin server.
-- The packager converts the timed metadata track and uses it to convert to
-  either MPD events or inband events signaled in the manifest.
-- The packager may also generate HLS or other streaming media presentations
-  based on the input.
-- In case the packager crashes or fails, it will restart itself and wait for the
-  ingest. source to perform the actions as detailed in the section on failover.
+   - It receives the CMAF tracks, grouping switching sets based on switching set
+     constraints.
+
+   - When packaging to DASH, an adaptation set is created for each switching set
+     ingested.
+
+   - The near constant fragment duration is used to generate segment template
+     based presentation using either $Number$ or $Time$.
+
+   - In case changes happen, the packager can update the manifest and embed
+     inband events to trigger manifest updates in the fragments.
+
+   - The DASH Packager encrypts media segments according to key information
+     available. This key information is typically exchanged by protocols defined
+     in CPIX. This allows configuration of the content keys, initialization
+     vectors and embedding encryption information in the manifest
+
+   - The DASH packager signals subtitles in the manifest based on received CMAF
+     streams and roles signaled in kind box.
+
+   - In case a fragment is missing and SegmentTimeline is used, the packager may
+     signal a discontinuity in the MPD.
+
+   - In case a low latency mode is used, the packager may make output available
+     before the entire fragment is received using HTTP chunked transfer
+     encoding.
+
+   - The packager may also have a proprietary API similar to the live source,
+     for configuration of aspects like the segmentTimeBuffer, DVR window,
+     encryption modes enabled, etc.
+
+   - The packager uses DASH or HLS Ingest (as specified in Section 6) to push
+     content to the origin server of a CDN. Alternatively, it could also make
+     content directly available as an origin server. In this case DASH/HLS
+     Ingest is avoided, and the packager also serves as the origin server.
+
+   - The packager converts the timed metadata track and uses it to convert to
+     either MPD events or inband events signaled in the manifest.
+
+   - The packager may also generate HLS or other streaming media presentations
+     based on the input.
+
+   - In case the packager crashes or fails, it will restart itself and wait for
+     the ingest. source to perform the actions as detailed in the section on
+     failover.
 
 The CDN consumes a DASH/HLS Ingest, or serves as a proxy for content delivered
 to a client. The CDN, in case it is consuming the POST based DASH/HLS Ingest
 performs the following tasks:
 
-- It stores all posted content and makes them available for HTTP GET requests
-  from locations corresponding to the paths signaled in the manifest.
-- It occasionally deletes content based on instructions from the ingest source,
-  in this setup the packager.
-- In case low-latency mode is used, content could be made available before the
-  entire pieces of content are available.
-- It updates the manifest accordingly when a manifest update is received.
-- It serves as a cache proxy for HTTP get requests forwarded to the packager.
+   - It stores all posted content and makes them available for HTTP GET requests
+     from locations corresponding to the paths signaled in the manifest.
+
+   - It occasionally deletes content based on instructions from the ingest
+     source, in this setup the packager.
+
+   - In case low-latency mode is used, content could be made available before
+     the entire pieces of content are available.
+
+   - It updates the manifest accordingly when a manifest update is received.
+
+   - It serves as a cache proxy for HTTP get requests forwarded to the packager.
 
 In case the CDN serves as a proxy, it only forwards requests for content to the
 packager to receive the content,and caches relevant segments for a duration N
