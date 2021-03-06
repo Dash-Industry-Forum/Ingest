@@ -149,11 +149,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    The first, CMAF Ingest, mainly functions as an ingest format to a packager
    or active media processor, while the second works mainly
    to ingest media streaming presentations to origin servers,
-   cloud storage or content deliery networks.
-
-   Section [[!workflow_and_use_cases]] provides more
-   background and motivation around these two interfaces. Both interfaces 
-   use HTTP POST.   
+   cloud storage or content delivery networks. 
 
    We further motivate the specification  
    in this document supporting    
