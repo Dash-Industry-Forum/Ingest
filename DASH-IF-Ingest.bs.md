@@ -91,7 +91,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
    other application standards such as those for  
    broadcast, storage or video-on-demand. For interoperable
    live media ingest, this document provides
-   guidance on how to use [[!ISOBMFF]] and [[!MPEGCMAF]] for 
+   guidance on how to use [=ISOBMFF=] and [[!MPEGCMAF]] for 
    formatting the media content.  
 
    In addition, the codec and profile used,
@@ -438,7 +438,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
     and HLS [[!RFC8216]] protocols   
     to enable a simultaneous ingest of media   
     presentations of these two formats using   
-    common media fragments such as based on [[!ISOBMFF]]   
+    common media fragments such as based on [=ISOBMFF=]   
     and [[!MPEGCMAF]] formats. In this   
     interface, naming and content type identification via MIME types 
     is important to enable direct   
