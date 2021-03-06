@@ -333,7 +333,7 @@ DASH-IF makes no warranty whatsoever for such third party material.
             fragment signalled in the "moof" box.  
 
    <dfn dfn> **baseMediaDecodeTime** </dfn>:
-            Decode time of the first sample as signalled in the "tfdt" box.
+            Decode time of the first sample as signalled in the "[=tfdt=]" box.
 
    <dfn dfn> **mdhd**  </dfn>:
              The MediaHeaderBox ("mdhd") as defined in [[!ISOBMFF]] that  
