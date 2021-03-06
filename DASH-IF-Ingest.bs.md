@@ -264,8 +264,8 @@
    ("mfra") defined in ISOBMFF [[!ISOBMFF]] to signal random access samples  
    (these are samples that require no prior or other samples for decoding).  
   
-  <dfn dfn>**moof**</dfn>: The MovieFragmentBox ("moof") as defined in ISOBMFF
-  [[!ISOBMFF]] that defines the index information of samples in a fragment.
+   <dfn dfn>**moof**</dfn>: The MovieFragmentBox ("moof") as defined in ISOBMFF
+   [[!ISOBMFF]] that defines the index information of samples in a fragment.
 
    <dfn dfn>**nmhd**</dfn>: The NullMediaHeaderBox ("nmhd") as defined in
    [[!ISOBMFF]] to signal a track for which no specific media header is defined.
@@ -472,12 +472,12 @@
          HTTP [=POST_URL=] MUST be the same as the initial [=POST_URL=] for the
          object to be ingested.
      17. In case the [=receiving entity=] cannot process the POST request due to
-          authentication or permission problems, or incorrect path, it SHALL
-          return an HTTP 403 Forbidden error.
+         authentication or permission problems, or incorrect path, it SHALL
+         return an HTTP 403 Forbidden error.
      18. In case the receiving entity can process the fragment in the POST
-          request body but finds the media type is not supported, it MAY return
-          an HTTP 415 Unsupported Media Type error. Otherwise, an HTTP 400 Bad
-          Request error MUST be returned.
+         request body but finds the media type is not supported, it MAY return
+         an HTTP 415 Unsupported Media Type error. Otherwise, an HTTP 400 Bad
+         Request error MUST be returned.
      19. In case an unknown error happened during the processing of the HTTP
          POST request, an HTTP 400 Bad Request SHALL be returned by the
          receiving entity.
@@ -614,87 +614,81 @@ them. The [=POST_URL=] setup by a receiving entity can be referred to as a
 [=publishing point=] and is used during a live stream session to receive the
 live content.
 
-     1. The [=ingest source=] SHALL start by an HTTP POST request with the CMAF
-        header, or an empty request, to the POST_URL. This can help the ingest
-        source quickly detect whether the publishing point is valid, and if
-        there are any authentication or other conditions required.
-     2. The [=ingest source=] MUST initiate a media ingest connection by posting
-        at least one [=CMAF header=] after step 1 and an optional DASH manifest,
-        restricted as in clause 16 of this section.
-     3. The [=ingest source=] SHALL transmit one or more CMAF segments
-        comprising the track to the receiving entity once they become available.
-        In this case, a single POST request message body MUST contain one CMAF
-        segment in the body of that request. This specification assumes
-        equivalence between a CMAF segment and fragment, i.e., a single CMAF
-        fragment per CMAF segment. A CMAF segment/fragment may nevertheless be
-        composed by one or more CMAF chunks.
-     4. The [=ingest source=] MAY use the chunked transfer encoding option of
-        the HTTP POST command [[!RFC7235]] when the content length is unknown at
-        the start of transmission or to support use cases that require low
-        latency.
-     5. If the HTTP POST request terminates or times out with a TCP error, the
-        [=ingest source=] MUST establish a new connection, and follow the
-        preceding requirements. Additionally, the [=ingest source=] MAY resend
-        the segment in which the timeout or TCP error occurred.
-     6. The [=ingest source=] MUST handle any error responses received from the
-        receiving entity, as described in general requirements, and by
-        retransmitting the [=CMAF header=].
-     7. *(deprecated)* In case the [=live stream session=] is over the ingest
-        source MAY signal the stop by transmitting an empty
-        [=mfra (deprecated)=] box towards the receiving entity. After that it
-        SHALL send an empty HTTP chunk and wait for the HTTP response before
-        closing TCP connection.
-     8. The [=ingest source=] SHOULD use a separate, parallel TCP connection for
-        ingest of each different CMAF track.
-     9. The [=ingest source=] MAY use a separate relative path in the
-        [=POST_URL=] for ingesting each different track or track segment by
-        appending it to the [=POST_URL=]. This can make it easy to detect
-        redundant streams from different ingest sources. The
-        Streams(stream_name) keyword may be used to signal the name of a stream.
-     10. The [=baseMediaDecodeTime=] timestamps in "tfdt" of fragments in the
-         [=CMAFstream=] SHOULD arrive in increasing order for each of the
-         fragments in the different tracks/streams that are ingested.
-     11. The fragment sequence numbers in the [=CMAFstream=] signaled in the
-         mfhd SHOULD arrive in increasing order for each of the different
-         tracks/streams that are ingested. Using both [=baseMediaDecodeTime=]
-         and sequence number based indexing helps the receiving entities
-         identify discontinuities. In this case sequence numbers SHOULD increase
-         by one.  
-     12. The average and maximum bitrate of each track SHOULD be signaled in the
-         btrt box in the sample entry of the CMAF header. These can be used to
-         signal the bitrate later on, such as in the manifest.
-     13. In case a track is part of a [=switching set=], all properties in
-         Sections 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied, enabling the
-         receiver to group the tracks in the respective switching sets.
-     14. Ingested tracks MUST conform to CMAF track structure defined in
-         [[!MPEGCMAF]]. Additional constraints on the CMAF track structure are
-         defined in later sections.
-     15. CMAF tracks MAY use SegmentTypeBox to signal brands like chunk,
-         fragment or segment. Such signaling may also be inserted in a later
-         stage by the receiving entity. A smart receiving entity can detect what
-         type of media object is received from the information in the
-         MovieFragmentBox.
-     16. The DASH manifest should use SegmentTemplate with SegmentTimeline,
-         preferably with $Time$ based naming that can be automatically extended.
-         Only relative BaseURL is used. In addition, the period availability
-         start time should be set to 1-1-1970 (Unix epoch) and the period start
-         to 0.
-     17. In case the [=ingest source=] loses its own input or input is absent,
-         it SHALL insert filler or replacement content, and output these as
-         valid CMAF segments. Examples may be black frames, silent audio, or
-         empty timed text segments. Such segments SHOULD be labelled by using a
-         SegmentTypeBox ("styp") with the brand *"slat"*. This allows a receiver
-         to still replace those segments with valid content segments at a later
-         time.
-     18. The last segment in a CMAF track, SHOULD be labelled with a
-         SegmentTypeBox ("styp") with the *"lmsg"* brand. This way the receiver
-         knows that no more media segments are expected for this track. In case
-         the track is restarted, a request with a [=CMAF header=] with
-         (identical properties) must be issued to the same POST_URL.
-      
-         Note, in case a receiving entity cannot process a request from an
-         ingest source correctly, it can send an HTTP error code. See
-         [[#failover]] or [[#general]] for details.
+   1. The [=ingest source=] SHALL start by an HTTP POST request with the CMAF
+      header, or an empty request, to the POST_URL. This can help the ingest
+      source quickly detect whether the publishing point is valid, and if there
+      are any authentication or other conditions required.
+   2. The [=ingest source=] MUST initiate a media ingest connection by posting
+      at least one [=CMAF header=] after step 1 and an optional DASH manifest,
+      restricted as in clause 16 of this section.
+   3. The [=ingest source=] SHALL transmit one or more CMAF segments comprising
+      the track to the receiving entity once they become available. In this
+      case, a single POST request message body MUST contain one CMAF segment in
+      the body of that request. This specification assumes equivalence between a
+      CMAF segment and fragment, i.e., a single CMAF fragment per CMAF segment.
+      A CMAF segment/fragment may nevertheless be composed by one or more CMAF
+      chunks.
+   4. The [=ingest source=] MAY use the chunked transfer encoding option of the
+      HTTP POST command [[!RFC7235]] when the content length is unknown at the
+      start of transmission or to support use cases that require low latency.
+   5. If the HTTP POST request terminates or times out with a TCP error, the
+      [=ingest source=] MUST establish a new connection, and follow the
+      preceding requirements. Additionally, the [=ingest source=] MAY resend the
+      segment in which the timeout or TCP error occurred.
+   6. The [=ingest source=] MUST handle any error responses received from the
+      receiving entity, as described in general requirements, and by
+      retransmitting the [=CMAF header=].
+   7. *(deprecated)* In case the [=live stream session=] is over the ingest
+      source MAY signal the stop by transmitting an empty [=mfra (deprecated)=]
+      box towards the receiving entity. After that it SHALL send an empty HTTP
+      chunk and wait for the HTTP response before closing TCP connection.
+   8. The [=ingest source=] SHOULD use a separate, parallel TCP connection for
+      ingest of each different CMAF track.
+   9. The [=ingest source=] MAY use a separate relative path in the
+      [=POST_URL=] for ingesting each different track or track segment by
+      appending it to the [=POST_URL=]. This can make it easy to detect
+      redundant streams from different ingest sources. The Streams(stream_name)
+      keyword may be used to signal the name of a stream.
+   10. The [=baseMediaDecodeTime=] timestamps in "tfdt" of fragments in the
+       [=CMAFstream=] SHOULD arrive in increasing order for each of the
+       fragments in the different tracks/streams that are ingested.
+   11. The fragment sequence numbers in the [=CMAFstream=] signaled in the mfhd
+       SHOULD arrive in increasing order for each of the different
+       tracks/streams that are ingested. Using both [=baseMediaDecodeTime=] and
+       sequence number based indexing helps the receiving entities identify
+       discontinuities. In this case sequence numbers SHOULD increase by one.  
+   12. The average and maximum bitrate of each track SHOULD be signaled in the
+       btrt box in the sample entry of the CMAF header. These can be used to
+       signal the bitrate later on, such as in the manifest.
+   13. In case a track is part of a [=switching set=], all properties in
+       Sections 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied, enabling the
+       receiver to group the tracks in the respective switching sets.
+   14. Ingested tracks MUST conform to CMAF track structure defined in
+       [[!MPEGCMAF]]. Additional constraints on the CMAF track structure are
+       defined in later sections.
+   15. CMAF tracks MAY use SegmentTypeBox to signal brands like chunk, fragment
+       or segment. Such signaling may also be inserted in a later stage by the
+       receiving entity. A smart receiving entity can detect what type of media
+       object is received from the information in the MovieFragmentBox.
+   16. The DASH manifest should use SegmentTemplate with SegmentTimeline,
+       preferably with $Time$ based naming that can be automatically extended.
+       Only relative BaseURL is used. In addition, the period availability start
+       time should be set to 1-1-1970 (Unix epoch) and the period start to 0.
+   17. In case the [=ingest source=] loses its own input or input is absent, it
+       SHALL insert filler or replacement content, and output these as valid
+       CMAF segments. Examples may be black frames, silent audio, or empty timed
+       text segments. Such segments SHOULD be labelled by using a SegmentTypeBox
+       ("styp") with the brand *"slat"*. This allows a receiver to still replace
+       those segments with valid content segments at a later time.
+   18. The last segment in a CMAF track, SHOULD be labelled with a
+       SegmentTypeBox ("styp") with the *"lmsg"* brand. This way the receiver
+       knows that no more media segments are expected for this track. In case
+       the track is restarted, a request with a [=CMAF header=] with (identical
+       properties) must be issued to the same POST_URL.
+
+   Note, in case a receiving entity cannot process a request from an ingest
+   source correctly, it can send an HTTP error code. See [[#failover]] or
+   [[#general]] for details.
 
 ## Requirements for Formatting Media Tracks ## {#Requirements_for_formatting_Media_Tracks}
 
@@ -705,83 +699,83 @@ live content.
    transmit a CMAF fragments to the receiving entity. The following are
    additional requirements imposed to the formatting of CMAF media tracks.
 
-     1. Media tracks SHALL be formatted using boxes according to Section 7 of
-        [[!MPEGCMAF]]. Media track SHOULD not use media-level encryption (e.g.,
-        common encryption), as HTTP over TLS (HTTPS) should provide sufficient
-        transport layer security. However, in case common encryption is used,
-        the decryption key shall be made available out of band by supported
-        means such as CPIX defined by DASH-IF.
-     2. The [=CMAF fragment=] durations SHOULD be constant, the duration MAY
-        fluctuate to compensate for non-integer frame rates. By choosing an
-        appropriate timescale (a multiple of the frame rate is recommended) this
-        issue should be avoided.
-     3. The [=CMAF fragment=] durations SHOULD be between approximately 1 and 6
-        seconds.
-     4. Media tracks SHOULD use a timescale for video streams based on the
-        framerate and 44.1 KHz or 48 KHz for audio streams or any another
-        timescale that enables integer increments of the decode times of
-        fragments signaled in the tfdt box based on this scale. If necessary,
-        integer multiples of these timescales could be used.
-     5. The language of the CMAF track SHOULD be signaled in the [=mdhd=] box or
-        [=elng=] boxes in the CMAF header.
-     6. Media tracks SHOULD contain the btrt box specifying the target average
-        and maximum bitrate of the CMAF fragments in the sample entry container
-        in the CMAF header.
-     7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this
-        case they SHOULD be signaled using SegmentTypeBox styp to make it easy
-        for the receiving entity to differentiate them from CMAF fragments. The
-        brand type of a chunk is cmfl. CMAF chunks should only be signaled if
-        they are not the first chunk in a CMAF fragment.
-     8. In video tracks, profiles like avc1 and hvc1 MAY be used that signal the
-        sequence parameter set in the CMAF header. In this case, these codec
-        parameters do not change dynamically during the live session in the
-        media track.
-     9. However, video tracks SHOULD use profiles like avc3 or hev1 that signal
-        the parameter sets (PPS, SPS, VPS) in in the media samples. This allows
-        inband signaling of parameter changes. This is because in live content,
-        codec configuration may change slightly over time.
-     10. In case the language of a track changes, a new CMAF header with updated
-         [=mdhd=] and/or [=elng=] SHOULD be sent. The CMAF header MUST be
-         identical, except the elng tag.
-     11. Track roles SHOULD be signaled in the ingest by using a kind box in
-         UserDataBox ("udta"). The kind box MUST contain a schemeIdUri
-         urn:mpeg:dash:role:2011 and a value containing a Role as defined in
-         [[!MPEGDASH]]. In case this signaling does not occur, the processing
-         entity can define the role for the track independently.
+   1. Media tracks SHALL be formatted using boxes according to Section 7 of
+      [[!MPEGCMAF]]. Media track SHOULD not use media-level encryption (e.g.,
+      common encryption), as HTTP over TLS (HTTPS) should provide sufficient
+      transport layer security. However, in case common encryption is used, the
+      decryption key shall be made available out of band by supported means such
+      as CPIX defined by DASH-IF.
+   2. The [=CMAF fragment=] durations SHOULD be constant, the duration MAY
+      fluctuate to compensate for non-integer frame rates. By choosing an
+      appropriate timescale (a multiple of the frame rate is recommended) this
+      issue should be avoided.
+   3. The [=CMAF fragment=] durations SHOULD be between approximately 1 and 6
+      seconds.
+   4. Media tracks SHOULD use a timescale for video streams based on the
+      framerate and 44.1 KHz or 48 KHz for audio streams or any another
+      timescale that enables integer increments of the decode times of fragments
+      signaled in the tfdt box based on this scale. If necessary, integer
+      multiples of these timescales could be used.
+   5. The language of the CMAF track SHOULD be signaled in the [=mdhd=] box or
+      [=elng=] boxes in the CMAF header.
+   6. Media tracks SHOULD contain the btrt box specifying the target average and
+      maximum bitrate of the CMAF fragments in the sample entry container in the
+      CMAF header.
+   7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this case
+      they SHOULD be signaled using SegmentTypeBox styp to make it easy for the
+      receiving entity to differentiate them from CMAF fragments. The brand type
+      of a chunk is cmfl. CMAF chunks should only be signaled if they are not
+      the first chunk in a CMAF fragment.
+   8. In video tracks, profiles like avc1 and hvc1 MAY be used that signal the
+      sequence parameter set in the CMAF header. In this case, these codec
+      parameters do not change dynamically during the live session in the media
+      track.
+   9. However, video tracks SHOULD use profiles like avc3 or hev1 that signal
+      the parameter sets (PPS, SPS, VPS) in in the media samples. This allows
+      inband signaling of parameter changes. This is because in live content,
+      codec configuration may change slightly over time.
+   10. In case the language of a track changes, a new CMAF header with updated
+       [=mdhd=] and/or [=elng=] SHOULD be sent. The CMAF header MUST be
+       identical, except the elng tag.
+   11. Track roles SHOULD be signaled in the ingest by using a kind box in
+       UserDataBox ("udta"). The kind box MUST contain a schemeIdUri
+       urn:mpeg:dash:role:2011 and a value containing a Role as defined in
+       [[!MPEGDASH]]. In case this signaling does not occur, the processing
+       entity can define the role for the track independently.
 
 ## Requirements for Signaling Switching Sets ## {#Requirements_for_switchingsets}
 
-  In live streaming, a [=CMAF presentation=] of streams corresponding to a
-  channel is ingested by posting to a [=publishing point=] at the
-  [=receiving entity=]. CMAF has the notion of switching sets [[!MPEGCMAF]] that
-  map to similar streaming protocol concepts like adaptation set in DASH. To
-  signal a switching set in a [=CMAF presentation=], CMAF media tracks MUST
-  correspond to the constraints defined in [[!MPEGCMAF]] clause 7.3.4.
+In live streaming, a [=CMAF presentation=] of streams corresponding to a channel
+is ingested by posting to a [=publishing point=] at the [=receiving entity=].
+CMAF has the notion of switching sets [[!MPEGCMAF]] that map to similar
+streaming protocol concepts like adaptation set in DASH. To signal a switching
+set in a [=CMAF presentation=], CMAF media tracks MUST correspond to the
+constraints defined in [[!MPEGCMAF]] clause 7.3.4.
   
-  In addition, optional explicit signaling is defined in this clause. This would
-  mean the following steps could be implemented by the live ingest source.
+In addition, optional explicit signaling is defined in this clause. This would
+mean the following steps could be implemented by the live ingest source.
   
-  1. A live ingest source MAY generate a [=switching set ID=] that is unique for
-     each switching set in a live streaming session. Tracks with the same
-     [=switching set ID=] belong to the same switching set. The switching set ID
-     can be a string or (small) integer number. Characters in switching set
-     shall be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing
-     delimiters.
-  2. The [=switching set ID=] MAY be added in a relative path to the POST_URL
-     using the Switching() keyword. In this case, a CMAF chunk is sent from the
-     live ingest source as POST chunk.cmfv
-     POST_URL/Switching([=switching set ID=])/Streams(stream_id).
-  3. The live ingest source MAY add a kind box in the "udta" box in each track
-     to signal the switching set it belongs to. The schemeIdUri of this kind box
-     SHALL be urn:dashif:ingest:switchingset_id and the value field of the kind
-     box SHALL be the [=switching set ID=].
-  4. The switching sets are grouped as adaptation sets present in the DASH
-     manifest in a POST request issued earlier, i.e., before the segments of
-     that switching set are transmitted. In this case, the naming of the segment
-     URIs follows the naming defined in the DASH manifest based on a
-     SegmentTemplate and SegmentTimeline elements with a relative BaseURL.
+   1. A live ingest source MAY generate a [=switching set ID=] that is unique
+      for each switching set in a live streaming session. Tracks with the same
+      [=switching set ID=] belong to the same switching set. The switching set
+      ID can be a string or (small) integer number. Characters in switching set
+      shall be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing
+      delimiters.
+   2. The [=switching set ID=] MAY be added in a relative path to the POST_URL
+      using the Switching() keyword. In this case, a CMAF chunk is sent from the
+      live ingest source as POST chunk.cmfv
+      POST_URL/Switching([=switching set ID=])/Streams(stream_id).
+   3. The live ingest source MAY add a kind box in the "udta" box in each track
+      to signal the switching set it belongs to. The schemeIdUri of this kind
+      box SHALL be urn:dashif:ingest:switchingset_id and the value field of the
+      kind box SHALL be the [=switching set ID=].
+   4. The switching sets are grouped as adaptation sets present in the DASH
+      manifest in a POST request issued earlier, i.e., before the segments of
+      that switching set are transmitted. In this case, the naming of the
+      segment URIs follows the naming defined in the DASH manifest based on a
+      SegmentTemplate and SegmentTimeline elements with a relative BaseURL.
   
-  Table 2: Switching set signaling options.
+Table 2: Switching set signaling options.
   <table class="def"> <tr>
   <th>Signaling option</th> <th> Requirement </th> </tr> <tr> <td> Implicit
   signaling, based on switching set constraints [[!MPEGCMAF]] clause 7.3.4 </td>
@@ -804,35 +798,35 @@ formatting subtitle and timed text tracks are defined in [[!MPEGCMAF]] and
 We provide additional guidelines and best practices for formatting timed text
 and subtitle tracks.
 
-      1. CMAF tracks carrying WebVTT signaled by cwvt brand or TTML Text
-         signaled by *im1t* brand are preferred. [[!MPEG4-30]] defines the track
-         format selected in [[!MPEGCMAF]].  
-      2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL be set to
-         "text" for WebVTT and "subt" for TTML following [[!MPEG4-30]].
-      3. The [=ftyp=] box in the CMAF header for the track containing timed
-         text, images, captions and subtitles MAY use signaling using CMAF
-         profiles based on [[!MPEGCMAF]].
+   1. CMAF tracks carrying WebVTT signaled by cwvt brand or TTML Text signaled
+      by *im1t* brand are preferred. [[!MPEG4-30]] defines the track format
+      selected in [[!MPEGCMAF]].  
+   2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL be set to "text"
+      for WebVTT and "subt" for TTML following [[!MPEG4-30]].
+   3. The [=ftyp=] box in the CMAF header for the track containing timed text,
+      images, captions and subtitles MAY use signaling using CMAF profiles based
+      on [[!MPEGCMAF]].
 
-         3a. WebVTT specified in Section 11.2 of ISO/IEC 14496-30 [[!MPEG4-30]]
-         *cwvt*
+      3a. WebVTT specified in Section 11.2 of ISO/IEC 14496-30 [[!MPEG4-30]]
+      *cwvt*
 
-         3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEG4-30]] IMSC1
-         Text Profile *im1t*
+      3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEG4-30]] IMSC1
+      Text Profile *im1t*
 
-         3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEG4-30]] IMSC1
-         Image Profile *im1i*
+      3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEG4-30]] IMSC1
+      Image Profile *im1i*
 
-      4. The BitRateBox btrt SHOULD be used to signal the average and maximum
-         bitrate in the sample entry box, this is most relevant for bitmap or
-         XML based timed text subtitles that may consume significant bandwidth
-         (e.g., im1i or im1t).
-      5. In case the language of a track changes, a new CMAF header with updated
-         [=mdhd=] and/or [=elng=] SHOULD be sent from the ingest source to the
-         receiving entity.
-      6. Track roles can be signaled in the ingest, by using a kind box in the
-         "udta" box. The kind box MUST contain a schemeIdUri
-         urn:mpeg:dash:role:2011 and a value containing a role as defined in
-         [[!MPEGDASH]].
+   4. The BitRateBox btrt SHOULD be used to signal the average and maximum
+      bitrate in the sample entry box, this is most relevant for bitmap or XML
+      based timed text subtitles that may consume significant bandwidth (e.g.,
+      im1i or im1t).
+   5. In case the language of a track changes, a new CMAF header with updated
+      [=mdhd=] and/or [=elng=] SHOULD be sent from the ingest source to the
+      receiving entity.
+   6. Track roles can be signaled in the ingest, by using a kind box in the
+      "udta" box. The kind box MUST contain a schemeIdUri
+      urn:mpeg:dash:role:2011 and a value containing a role as defined in
+      [[!MPEGDASH]].
 
 Note: [[!MPEGCMAF]] allows multiple kind boxes, hence, multiple roles can be
 signaled. By default, one should signal the DASH role urn:mpeg:dash:role:2011. A
@@ -971,87 +965,84 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH EventMessageBox.
     </tr>
  </table>
 
-  The following are requirements and recommendations that apply to timed
-  metadata ingest of information related to events, tags, ad markers and program
-  information and others:
+The following are requirements and recommendations that apply to timed metadata
+ingest of information related to events, tags, ad markers and program
+information and others:
 
-     1. Metadata SHALL be conveyed in a CMAF track, where the media handler
-        (hdlr) is "meta", the track handler box is a NullMediaHeaderBox
-        ("[=nmhd=]") as defined for timed metadata tracks in [[!ISOBMFF]] clause
-        12.3.
-     2. The CMAF timed metadata track applies to the [=CMAF presentation=]
-        ingested to a [=publishing point=] at the receiving entity.
-     3. To fulfill CMAF track requirements in clause 7.3. of [[!MPEGCMAF]], such
-        as not having gaps in the media timeline, filler data may be needed.
-        Such filler data SHALL be defined by the metadata scheme signaled in
-        URIMetaSampleEntry. For example, WebVTT tracks define a VTTEmptyCueBox
-        in [[!MPEG4-30]] clause 6.6. This cue is to be carried in samples in
-        which no active cue occurs. Other schemes could define empty fillers
-        amongst similar lines.
-     4. CMAF track files do not support overlapping, multiple concurrently
-        active or zero duration samples. In case metadata or events are
-        concurrent, overlapping or of zero duration, such semantics MUST be
-        defined by the scheme signaled in the URIMetasampleEntry. The timed
-        metadata track MUST still conform to [[!MPEGCMAF]] clause 7.3.
-     5. CMAF timed metadata tracks MAY carry EventMessageBoxes as defined in
-        [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to
-        create such a track is based on MPEG-B part 18 as defined in ISO/IEC
-        23001-18. Some deprecated implementations may use DASHEventMessageBoxes
-        as defined in ISO/IEC 23009-1. Using DASHEventMessageBoxes directly in
-        samples may be implemented as follows:
-     
-        5a. In the case of 5, version 1 SHOULD be used, in case version 0 is
-        used, the presentation_time_delta refers to presentation time of the
-        sample enclosing the DASHEventMessageBox.
-     
-        5b. In the case of 5, the URIMetaSampleEntry SHOULD contain the URN
-        "urn:mpeg:dash:event:2012" or an equivalent urn to signal the presence
-        of DASHEventMessageBoxes.
-     
-        5c. In the case of 5, the timescale of the DASHEventMessageBox SHOULD
-        match the value specified in the media header box "mdhd" of the timed
-        metadata track.
-          
-        5d. In the case of 5, the sample should contain all
-        DASHEventMessageBoxes that are active in during the presentation time of
-        the sample.  
-     
-        5e. In the case of 5, a single metadata sample MAY contain multiple
-        DASHEventMessageBoxes. This happens if multiple DASHEventMessageBoxes
-        have the same presentation time or if an earlier event is still active
-        in a sample containing a newly started and overlapping event.
-     
-        5f. In the case of 5, the schemeIdUri in the DASHEventMessageBox can be
-        used to signal the scheme of the data carried in the message data field.
-        This enables carriage of multiple metadata schemes in a track.
-     
-        5g. In the case of 5, For SCTE-35 ingest the schemeIdURI in the
-        DASHEventMessageBox MUST be urn:scte:scte35:2013:bin as defined in
-        [[!SCTE214-3]]. A binary SCTE-35 payload is carried in the message_data
-        field of a DASHEventMessageBox. If a splice point is signaled, media
-        tracks MUST insert an IDR frame at the time corresponding to the event
-        presentation time.
- 
-        5h. In case of 5, it may be necessary to add filler samples to avoid
-        gaps in the CMAF track timeline. This may be done using
-        EventMessageEmptyBox (8 bytes) with 4cc code of "emeb" or "embe".
-     
-        5i. In the case of 5, if ID3 tags are carried, the DASHEventMessageBox
-        MUST be formatted as defined in [[=aomid3=]].
-         
-        5j. In the case of 5, the value and id field of the DASHEventMessageBox
-        can be used by the [=receiving entity=] to detect duplicate events.
-    
-      6. The [=ingest source=] SHOULD NOT embed inband top-level
-         DASHEventMessageBoxes ("emsg") in the timed metadata track or media
-         tracks, however, it is not prohibited when conforming to this
-         specification. In some setups, inband event messages may be used in
-         media tracks, but it may result in a loss of performance for
-         just-in-time packaging. Also in DASH 4th edition, all
-         DASHEventMessageBoxes must have presentation_time, later as compared to
-         the segment earliest presentation time, this makes re-signaling of
-         continuation events (events still active) troublesome, as they started
-         earlier.
+   1. Metadata SHALL be conveyed in a CMAF track, where the media handler (hdlr)
+      is "meta", the track handler box is a NullMediaHeaderBox ("[=nmhd=]") as
+      defined for timed metadata tracks in [[!ISOBMFF]] clause 12.3.
+   2. The CMAF timed metadata track applies to the [=CMAF presentation=]
+      ingested to a [=publishing point=] at the receiving entity.
+   3. To fulfill CMAF track requirements in clause 7.3. of [[!MPEGCMAF]], such
+      as not having gaps in the media timeline, filler data may be needed. Such
+      filler data SHALL be defined by the metadata scheme signaled in
+      URIMetaSampleEntry. For example, WebVTT tracks define a VTTEmptyCueBox in
+      [[!MPEG4-30]] clause 6.6. This cue is to be carried in samples in which no
+      active cue occurs. Other schemes could define empty fillers amongst
+      similar lines.
+   4. CMAF track files do not support overlapping, multiple concurrently active
+      or zero duration samples. In case metadata or events are concurrent,
+      overlapping or of zero duration, such semantics MUST be defined by the
+      scheme signaled in the URIMetasampleEntry. The timed metadata track MUST
+      still conform to [[!MPEGCMAF]] clause 7.3.
+   5. CMAF timed metadata tracks MAY carry EventMessageBoxes as defined in
+      [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to
+      create such a track is based on MPEG-B part 18 as defined in ISO/IEC
+      23001-18. Some deprecated implementations may use DASHEventMessageBoxes as
+      defined in ISO/IEC 23009-1. Using DASHEventMessageBoxes directly in
+      samples may be implemented as follows:
+
+      5a. In the case of 5, version 1 SHOULD be used, in case version 0 is used,
+      the presentation_time_delta refers to presentation time of the sample
+      enclosing the DASHEventMessageBox.
+
+      5b. In the case of 5, the URIMetaSampleEntry SHOULD contain the URN
+      "urn:mpeg:dash:event:2012" or an equivalent urn to signal the presence of
+      DASHEventMessageBoxes.
+
+      5c. In the case of 5, the timescale of the DASHEventMessageBox SHOULD
+      match the value specified in the media header box "mdhd" of the timed
+      metadata track.
+
+      5d. In the case of 5, the sample should contain all DASHEventMessageBoxes
+      that are active in during the presentation time of the sample.  
+
+      5e. In the case of 5, a single metadata sample MAY contain multiple
+      DASHEventMessageBoxes. This happens if multiple DASHEventMessageBoxes have
+      the same presentation time or if an earlier event is still active in a
+      sample containing a newly started and overlapping event.
+
+      5f. In the case of 5, the schemeIdUri in the DASHEventMessageBox can be
+      used to signal the scheme of the data carried in the message data field.
+      This enables carriage of multiple metadata schemes in a track.
+
+      5g. In the case of 5, For SCTE-35 ingest the schemeIdURI in the
+      DASHEventMessageBox MUST be urn:scte:scte35:2013:bin as defined in
+      [[!SCTE214-3]]. A binary SCTE-35 payload is carried in the message_data
+      field of a DASHEventMessageBox. If a splice point is signaled, media
+      tracks MUST insert an IDR frame at the time corresponding to the event
+      presentation time.
+
+      5h. In case of 5, it may be necessary to add filler samples to avoid gaps
+      in the CMAF track timeline. This may be done using EventMessageEmptyBox (8
+      bytes) with 4cc code of "emeb" or "embe".
+
+      5i. In the case of 5, if ID3 tags are carried, the DASHEventMessageBox
+      MUST be formatted as defined in [[=aomid3=]].
+
+      5j. In the case of 5, the value and id field of the DASHEventMessageBox
+      can be used by the [=receiving entity=] to detect duplicate events.
+
+   6. The [=ingest source=] SHOULD NOT embed inband top-level
+      DASHEventMessageBoxes ("emsg") in the timed metadata track or media
+      tracks, however, it is not prohibited when conforming to this
+      specification. In some setups, inband event messages may be used in media
+      tracks, but it may result in a loss of performance for just-in-time
+      packaging. Also in DASH 4th edition, all DASHEventMessageBoxes must have
+      presentation_time, later as compared to the segment earliest presentation
+      time, this makes re-signaling of continuation events (events still active)
+      troublesome, as they started earlier.
 
 ## Requirements for Signaling and Conditioning Splice Points  ## {#splicing}
 
@@ -1059,36 +1050,37 @@ Splicing is important for use cases like ad insertion or clipping of content.
 The requirements for signaling splice points and content conditioning at
 respective splice points are as follows.
 
-1. The preferred method for signaling splice point uses the timed metadata track
-   sample with a presentation time corresponding to the splice point. The timed
-   metadata track sample is carrying events carrying binary SCTE-35 based on the
-   scheme urn:scte:scte35:2013:bin. The command carried in the binary SCTE-35
-   shall carry a splice info section with spliceInsert command with out of
-   network indicator set to 1 and a break_duration matching the actual break
-   duration.
+   1. The preferred method for signaling splice point uses the timed metadata
+      track sample with a presentation time corresponding to the splice point.
+      The timed metadata track sample is carrying events carrying binary SCTE-35
+      based on the scheme urn:scte:scte35:2013:bin. The command carried in the
+      binary SCTE-35 shall carry a splice info section with spliceInsert command
+      with out of network indicator set to 1 and a break_duration matching the
+      actual break duration.
 
-2. Information related to splicing, whether SCTE-35 based or by other means,
-   whether in an EventMessageBox or timed metadata track sample or event MUST be
-   available to the receiver at least four seconds before the media segment with
-   the intended splice point.
+   2. Information related to splicing, whether SCTE-35 based or by other means,
+      whether in an EventMessageBox or timed metadata track sample or event MUST
+      be available to the receiver at least four seconds before the media
+      segment with the intended splice point.
 
-3. The splice time shall equal the presentation time of the metadata sample or
-   event message, as the SCTE-35 timing is based on MPEG-2 TS and has no meaning
-   in CMAF or DASH. The media ingest source is responsible for the frame
-   accurate conversion of this time, similar as for the media segments.
+   3. The splice time shall equal the presentation time of the metadata sample
+      or event message, as the SCTE-35 timing is based on MPEG-2 TS and has no
+      meaning in CMAF or DASH. The media ingest source is responsible for the
+      frame accurate conversion of this time, similar as for the media segments.
 
-4. In case a separate SCTE-35 command is used as a CUE-IN, the actual duration
-   of the break shall match the announced break duration in the CUE-OUT, in the
-   initial SCTE-35 command.
+   4. In case a separate SCTE-35 command is used as a CUE-IN, the actual
+      duration of the break shall match the announced break duration in the
+      CUE-OUT, in the initial SCTE-35 command.
 
-5. In case segmentation descriptors are used, and multiple descriptors are
-   present, a separate Event Message with a duration corresponding to each of
-   the descriptors should be used.
+   5. In case segmentation descriptors are used, and multiple descriptors are
+      present, a separate Event Message with a duration corresponding to each of
+      the descriptors should be used.
 
-6. Sync samples shall be signaled in the corresponding media tracks according to
-   the semantics of ISO-BMFF, for example, using per sample flags in track run
-   box if needed. In case dual encoder synchronization is required, inserting
-   IDR frames inside segments is preferable over introducing segment boundary.
+   6. Sync samples shall be signaled in the corresponding media tracks according
+      to the semantics of ISO-BMFF, for example, using per sample flags in track
+      run box if needed. In case dual encoder synchronization is required,
+      inserting IDR frames inside segments is preferable over introducing
+      segment boundary.
 
 The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
@@ -1098,12 +1090,12 @@ src="Images/splice_ingest.png" /> </figure>
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
 
-1. Option 1 Slice conditioned packaging: Both a fragment boundary and a SAP 1 or
-   SAP 2 (stream access point) at the splice point.
-2. Option 2 Splice conditioned encoding: A SAP 1 or SAP 2 stream access point at
-   the frame at the boundary.
-3. Option 3 Splice point signaling: Specific content conditioning at the splice
-   point.
+   1. Option 1 Slice conditioned packaging: Both a fragment boundary and a SAP 1
+      or SAP 2 (stream access point) at the splice point.
+   2. Option 2 Splice conditioned encoding: A SAP 1 or SAP 2 stream access point
+      at the frame at the boundary.
+   3. Option 3 Splice point signaling: Specific content conditioning at the
+      splice point.
 
 This specification requires option 1 or 2 to be applied. Option 2 is required
 for dual encoder synchronization to avoid variation of the segment durations.
@@ -1121,34 +1113,36 @@ required for an [=ingest source=] to deal with a failing receiving entity.
 The [=CMAF Ingest=] source and [=receiving entity=] should implement the
 following recommendation to achieve failover support of the receiving entity.
 
-1. In case the receiving entity failed, a new instance SHOULD be created,
-   listening on the same [=publishing point=] for the ingest stream.
+   1. In case the receiving entity failed, a new instance SHOULD be created,
+      listening on the same [=publishing point=] for the ingest stream.
 
 Live encoder or [=ingest source=] failover is the second type of failover. In
 this scenario, the error condition occurs on the [=ingest source=] side. The
 following recommendations apply:
 
-1. A new [=ingest source=] instance SHOULD be instantiated to continue the
-   ingest for the live streaming session.
-2. The [=ingest source=] MUST use the same URL for HTTP POST requests as the
-   failed instance.
-3. The new [=ingest source=] POST request MUST include the same [=CMAF header=]
-   or CMAF header as the failed instance.
-4. The [=ingest source=] MUST be properly synced with all other running ingest
-   sources for the same live presentation to generate synced audio/video samples
-   with aligned fragment boundaries in the track. This implies that UTC
-   timestamps for fragments in the "tfdt" match between decoders, and encoders.
-5. The new stream MUST be semantically equivalent with the previous stream, and
-   interchangeable at the header and media fragment levels.
-6. The new instance of [=ingest source=] SHOULD try to minimize data loss. The
-   [=baseMediaDecodeTime=] of fragments SHOULD increase from the point where the
-   encoder last stopped. The [=baseMediaDecodeTime=] in the "tfdt" box SHOULD
-   increase in a continuous manner, but it is permissible to introduce a
-   discontinuity, if necessary. Receiving entities can ignore fragments that it
-   has already received and processed, so it is better to error on the side of
-   resending fragments than to introduce discontinuities in the media timeline.
-7. In some cases a third server may be used by receiver, to request missing
-   segments. The additional signaling for this is out of scope.
+   1. A new [=ingest source=] instance SHOULD be instantiated to continue the
+      ingest for the live streaming session.
+   2. The [=ingest source=] MUST use the same URL for HTTP POST requests as the
+      failed instance.
+   3. The new [=ingest source=] POST request MUST include the same
+      [=CMAF header=] or CMAF header as the failed instance.
+   4. The [=ingest source=] MUST be properly synced with all other running
+      ingest sources for the same live presentation to generate synced
+      audio/video samples with aligned fragment boundaries in the track. This
+      implies that UTC timestamps for fragments in the "tfdt" match between
+      decoders, and encoders.
+   5. The new stream MUST be semantically equivalent with the previous stream,
+      and interchangeable at the header and media fragment levels.
+   6. The new instance of [=ingest source=] SHOULD try to minimize data loss.
+      The [=baseMediaDecodeTime=] of fragments SHOULD increase from the point
+      where the encoder last stopped. The [=baseMediaDecodeTime=] in the "tfdt"
+      box SHOULD increase in a continuous manner, but it is permissible to
+      introduce a discontinuity, if necessary. Receiving entities can ignore
+      fragments that it has already received and processed, so it is better to
+      error on the side of resending fragments than to introduce discontinuities
+      in the media timeline.
+   7. In some cases a third server may be used by receiver, to request missing
+      segments. The additional signaling for this is out of scope.
 
 ## Requirements for Media Ingest Source Synchronization ## {#DualSync}
 
@@ -1210,37 +1204,40 @@ Interface-1.
 
 ### Industry Compliance ###{#Industry_compliance}
 
-1. The [=ingest source=] MUST be able to create a compliant
-   [=streaming presentation=] for DASH and/or HLS. The ingest source MAY create
-   both DASH and HLS streaming presentations using common media objects (e.g.,
-   CMAF), but the ingest source MUST generate format-specific manifest objects
-   which describe the common media objects as a [=streaming presentation=].
-2. The [=ingest source=] MUST support the configuration and use of Fully
-   Qualified Domain Names (per RFC8499) to identify the [=receiving entity=].
-3. The [=ingest source=] MUST support the configuration of the path which it
-   will POST or PUT all the [=objects=] to.
-4. The [=ingest source=] SHOULD support the configuration of the delivery path
-   which clients will use to retrieve the content. When provided, the
-   [=ingest source=] MUST use this path to build absolute URLs in the manifest
-   files it generates. When absent, relative pathing is assumed and the ingest
-   source MUST build the manifest files accordingly.
+   1. The [=ingest source=] MUST be able to create a compliant
+      [=streaming presentation=] for DASH and/or HLS. The ingest source MAY
+      create both DASH and HLS streaming presentations using common media
+      objects (e.g., CMAF), but the ingest source MUST generate format-specific
+      manifest objects which describe the common media objects as a
+      [=streaming presentation=].
+   2. The [=ingest source=] MUST support the configuration and use of Fully
+      Qualified Domain Names (per RFC8499) to identify the
+      [=receiving entity=].
+   3. The [=ingest source=] MUST support the configuration of the path which it
+      will POST or PUT all the [=objects=] to.
+   4. The [=ingest source=] SHOULD support the configuration of the delivery
+      path which clients will use to retrieve the content. When provided, the
+      [=ingest source=] MUST use this path to build absolute URLs in the
+      manifest files it generates. When absent, relative pathing is assumed and
+      the ingest source MUST build the manifest files accordingly.
 
 These capabilities are further illustrated in the examples sections, and may be
 defined outside the scope of this specification.
 
 ### HTTP Sessions ### {#DASH_Ingest_HTTP}
 
-1. The ingest source MUST transfer [=manifest objects=] and [=media objects=] to
-   the receiving entity via individual HTTP/1.1 [[!RFC7235]] PUT or POST
-   operations to the configured path. This specification does not imply any
-   functional differentiation between a PUT or a POST operation. Either may be
-   used to transfer content to the [=receiving entity=]. Unless indicated
-   otherwise, the use of the term POST can be interpreted as PUT or POST.
-2. The ingest source SHOULD remove [=media objects=] from the receiving entity
-   that are no longer referenced in the corresponding [=manifest objects=] via
-   an HTTP DELETE operation. How long the ingest source waits to remove
-   unreferenced content can be configurable. Upon receipt of a DELETE request,
-   the receiving entity should:
+   1. The ingest source MUST transfer [=manifest objects=] and
+      [=media objects=] to the receiving entity via individual HTTP/1.1
+      [[!RFC7235]] PUT or POST operations to the configured path. This
+      specification does not imply any functional differentiation between a PUT
+      or a POST operation. Either may be used to transfer content to the
+      [=receiving entity=]. Unless indicated otherwise, the use of the term POST
+      can be interpreted as PUT or POST.
+   2. The ingest source SHOULD remove [=media objects=] from the receiving
+      entity that are no longer referenced in the corresponding
+      [=manifest objects=] via an HTTP DELETE operation. How long the ingest
+      source waits to remove unreferenced content can be configurable. Upon
+      receipt of a DELETE request, the receiving entity should:
 
       2a. delete the referenced content and return an HTTP 200 OK response code,
 
@@ -1248,58 +1245,57 @@ defined outside the scope of this specification.
       deleted and it is not a root folder and not necessarily recursively
       deleting empty folders.
 
-3. To avoid delay associated with the TCP handshake, the ingest source SHOULD
-   use persistent TCP connections.
-4. To avoid head of line blocking, the ingest source SHOULD use multiple
-   parallel TCP connections to transfer the streaming presentation that it is
-   generating. For example, the ingest source SHOULD POST each representation in
-   a media presentation over a different TCP connection.
-5. The [=ingest source=] SHOULD use the chunked transfer encoding option of the
-   HTTP POST command [[!RFC7235]] when the content length of the request is
-   unknown at the start of transmission or to support use cases that require low
-   latency.
+   3. To avoid delay associated with the TCP handshake, the ingest source SHOULD
+      use persistent TCP connections.
+   4. To avoid head of line blocking, the ingest source SHOULD use multiple
+      parallel TCP connections to transfer the streaming presentation that it is
+      generating. For example, the ingest source SHOULD POST each representation
+      in a media presentation over a different TCP connection.
+   5. The [=ingest source=] SHOULD use the chunked transfer encoding option of
+      the HTTP POST command [[!RFC7235]] when the content length of the request
+      is unknown at the start of transmission or to support use cases that
+      require low latency.
 
 ### Unique Segment and Manifest Naming ### {#DASH_Ingest_naming}
 
-1. The ingest source MUST ensure all [=media objects=] (video segments, audio
-   segments, initialization segments and caption segments) have unique paths.
-   This uniqueness applies across all ingested content in previous sessions as
-   well as the current session. This requirement ensures previously cached
-   content (i.e., by a CDN) is not inadvertently served instead of newer content
-   of the same name.
-2. The ingest source MUST ensure all objects in a [=live stream session=] are
-   contained within the configured path. Should the receiving entity receive
-   media objects outside of the allowed path, it SHOULD return an HTTP 403
-   Forbidden response.
-3. For each live stream session, the ingest source MUST provide unique paths for
-   the [=manifest objects=]. One suggested method of achieving this is to
-   introduce a timestamp of the start of the live stream session into the
-   manifest path. A session is defined by the explicit start and stop of the
-   encoding process.
-4. When receiving objects with the same path as an existing object, the
-   receiving entity MUST over-write the existing objects with the newer objects
-   of the same path.
-5. To support unique naming and support consistency, the ingest source SHOULD
-   include a number which is monotonically increasing with each new media object
-   at the end of media object's name, separated by a non-numeric character. This
-   way it will be possible to retrieve this numeric suffix via a regular
-   expression.
-6. The ingest source MUST identify media objects containing initialization
-   fragments by using the .init file extension.
-7. The ingest source MUST include a file extension and a MIME type for all media
-   objects. The following file extensions and MIME types are the only
-   permissible combinations to be used:
+   1. The ingest source MUST ensure all [=media objects=] (video segments, audio
+      segments, initialization segments and caption segments) have unique paths.
+      This uniqueness applies across all ingested content in previous sessions
+      as well as the current session. This requirement ensures previously cached
+      content (i.e., by a CDN) is not inadvertently served instead of newer
+      content of the same name.
+   2. The ingest source MUST ensure all objects in a [=live stream session=] are
+      contained within the configured path. Should the receiving entity receive
+      media objects outside of the allowed path, it SHOULD return an HTTP 403
+      Forbidden response.
+   3. For each live stream session, the ingest source MUST provide unique paths
+      for the [=manifest objects=]. One suggested method of achieving this is to
+      introduce a timestamp of the start of the live stream session into the
+      manifest path. A session is defined by the explicit start and stop of the
+      encoding process.
+   4. When receiving objects with the same path as an existing object, the
+      receiving entity MUST over-write the existing objects with the newer
+      objects of the same path.
+   5. To support unique naming and support consistency, the ingest source SHOULD
+      include a number which is monotonically increasing with each new media
+      object at the end of media object's name, separated by a non-numeric
+      character. This way it will be possible to retrieve this numeric suffix
+      via a regular expression.
+   6. The ingest source MUST identify media objects containing initialization
+      fragments by using the .init file extension.
+   7. The ingest source MUST include a file extension and a MIME type for all
+      media objects. The following file extensions and MIME types are the only
+      permissible combinations to be used:
 
-   Table 6 outlines the formats that media and manifest objects are expected to
-   follow based on their file extension. Segments may be formatted as MPEG4
-   (.mp4, .m4v, m4a), [[!MPEGCMAF]] (.cmfv, .cmfa, .cmfm, .cmft) or
-   [[!MPEG2TS]] .ts (HLS only). Manifests may be formatted as DASH (.mpd) or HLS
-   (.m3u8).
+Table 6 outlines the formats that media and manifest objects are expected to
+follow based on their file extension. Segments may be formatted as MPEG4 (.mp4,
+.m4v, m4a), [[!MPEGCMAF]] (.cmfv, .cmfa, .cmfm, .cmft) or [[!MPEG2TS]] .ts (HLS
+only). Manifests may be formatted as DASH (.mpd) or HLS (.m3u8).
 
-  NOTE: Using MPEG-2 TS will break consistency with Interface-1, which uses a
-  CMAF container format structure.
+NOTE: Using MPEG-2 TS will break consistency with Interface-1, which uses a CMAF
+container format structure.
 
-  Table 6:
+Table 6:
    <table class="def">
     <tr>
         <th> File Extension </th>
@@ -1366,41 +1362,41 @@ DNS lookup requirements are defined in the general protocol requirements
 
 ### Ingest Source Identification ###{#DASH_Ingest_Publisher_Identification}
 
-1. The [=ingest source=] SHOULD include a User-Agent header (which provides
-   information about brand name, version number, and build number in a readable
-   format) in all allowed HTTP messages. The receiving entity can log the
-   received User-Agent, along with other relevant HTTP header data to facilitate
-   troubleshooting.
+   1. The [=ingest source=] SHOULD include a User-Agent header (which provides
+      information about brand name, version number, and build number in a
+      readable format) in all allowed HTTP messages. The receiving entity can
+      log the received User-Agent, along with other relevant HTTP header data to
+      facilitate troubleshooting.
 
 ### Additional Failure Behaviors ###{#DASH_Ingest_Common_Failure_Behaviors}
 
 The following items defines additional behavior of an ingest source when
 encountering certain error responses from the receiving entity.
 
-1. When the ingest source receives a TCP connection attempt timeout, abort
-   midstream, response timeout, TCP send/receive timeout or 5xx response when
-   attempting to POST content to the [=receiving entity=], it MUST
+   1. When the ingest source receives a TCP connection attempt timeout, abort
+      midstream, response timeout, TCP send/receive timeout or 5xx response when
+      attempting to POST content to the [=receiving entity=], it MUST
 
-   1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL) and
-   retry as defined in [[#general]].
+      1a. For manifest objects: re-resolve DNS on each retry (per the DNS TTL)
+      and retry as defined in [[#general]].
 
-   1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and
-   continue uploading for n seconds, where n is the segment duration. After it
-   reaches the media object duration value, the [=ingest source=] MUST continue
-   with the next media object, and update the manifest object with a
-   discontinuity marker appropriate for the protocol format. To maintain
-   continuity of the timeline, the ingest source SHOULD continue to upload the
-   missing media object with a lower priority. The reason for this is to
-   maintain an archive without discontinuity in case the stream is played back
-   at a later time. Once a media object is successfully uploaded, the ingest
-   source SHOULD update the corresponding manifest object to reflect the now
-   available media object. Note that many HLS clients do not like changes to
-   manifest files, such as removing a previously present discontinuity, so this
-   should only be applied for DASH manifests.
+      1b. For media objects: re-resolve DNS on each retry (per the DNS TTL) and
+      continue uploading for n seconds, where n is the segment duration. After
+      it reaches the media object duration value, the [=ingest source=] MUST
+      continue with the next media object, and update the manifest object with a
+      discontinuity marker appropriate for the protocol format. To maintain
+      continuity of the timeline, the ingest source SHOULD continue to upload
+      the missing media object with a lower priority. The reason for this is to
+      maintain an archive without discontinuity in case the stream is played
+      back at a later time. Once a media object is successfully uploaded, the
+      ingest source SHOULD update the corresponding manifest object to reflect
+      the now available media object. Note that many HLS clients do not like
+      changes to manifest files, such as removing a previously present
+      discontinuity, so this should only be applied for DASH manifests.
 
-2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be configured
-   to not retry sending the fragments, hence, N will be 0, as described in
-   [[#general]].
+   2. Upon receipt of an HTTP 403 or 400 error, the ingest source MAY be
+      configured to not retry sending the fragments, hence, N will be 0, as
+      described in [[#general]].
 
 ## DASH-Specific Requirements ## {#DASH_requirements}
 
@@ -1408,14 +1404,14 @@ encountering certain error responses from the receiving entity.
 
 When ingesting prepared DASH content, the ingest source MUST:
 
-1. Use an ".mpd" file extension for manifest objects.
-2. Use one of the allowed file extensions (see Table 6) for media objects. It
-   MUST NOT use a ".ts" file extension.
+   1. Use an ".mpd" file extension for manifest objects.
+   2. Use one of the allowed file extensions (see Table 6) for media objects. It
+      MUST NOT use a ".ts" file extension.
 
 ### Relative Paths ### {#DASH_Relative_paths_and_extensions}
 
-1. The ingest source SHOULD use relative URL paths to address each segment
-   within the manifest object.
+   1. The ingest source SHOULD use relative URL paths to address each segment
+      within the manifest object.
 
 ## HLS-Specific Requirements ## {#HLS_Ingest_specific_requirements}
 
@@ -1423,14 +1419,14 @@ When ingesting prepared DASH content, the ingest source MUST:
 
 When ingesting prepared HLS content, the ingest source:
 
-1. MUST use a .m3u8 file extension for master and variant playlists.
-2. SHOULD use a .key file extension for any keyfiles posted to the receiving
-   entity for client delivery.
-3. MUST use a ".ts" file extension for segments encapsulated in a MPEG Transport
-   Stream (TS) File Format.
-4. MUST use one of the allowed file extensions (per the table above) appropriate
-   for the MIME type of the content encapsulated using [[!MPEGCMAF]], it MUST
-   NOT use a ".ts" file extension.
+   1. MUST use a .m3u8 file extension for master and variant playlists.
+   2. SHOULD use a .key file extension for any keyfiles posted to the receiving
+      entity for client delivery.
+   3. MUST use a ".ts" file extension for segments encapsulated in a MPEG
+      Transport Stream (TS) File Format.
+   4. MUST use one of the allowed file extensions (per the table above)
+      appropriate for the MIME type of the content encapsulated using
+      [[!MPEGCMAF]], it MUST NOT use a ".ts" file extension.
 
 ### Upload Order ###{#Upload_order}
 
@@ -1443,9 +1439,9 @@ encoder MUST only move to the next segment after the previous segment has been
 successfully uploaded or after the segment duration time has elapsed. The order
 of operation should be:
 
-1. Upload media segment,
-2. Optionally upload key file, if required,
-3. Upload the .m3u8.
+   1. Upload media segment,
+   2. Optionally upload key file, if required,
+   3. Upload the .m3u8.
 
 If there is a problem with any of the steps, retry. Do not proceed to step 3
 until step 1 succeeds or times out as described in common failure behaviors
@@ -1454,24 +1450,24 @@ above. Failed uploads MUST result in a stream manifest discontinuity per
 
 ### Encryption ###{#HLS_Ingest_Encryption}
 
-1. The ingest source MAY choose to encrypt the media segments and publish the
-   corresponding keyfile to the [=receiving entity=].
+   1. The ingest source MAY choose to encrypt the media segments and publish the
+      corresponding keyfile to the [=receiving entity=].
 
 ### Relative Paths  ###{#HLS_Ingest_relative_paths}
 
-1. The ingest source SHOULD use relative URL paths to address each segment
-   within the stream-level manifest.
-2. The ingest source SHOULD use relative URL paths to address each variant
-   playlist within the master playlist.
+   1. The ingest source SHOULD use relative URL paths to address each segment
+      within the stream-level manifest.
+   2. The ingest source SHOULD use relative URL paths to address each variant
+      playlist within the master playlist.
 
 ### Resiliency ###{#HLS_Ingest_Resiliency}
 
-1. When ingesting media objects to multiple receiving entities, the ingest
-   source MUST send identical media objects with identical names.
-2. When multiple ingest sources are used, they MUST use consistent media object
-   names including when reconnecting due to any application or transport error.
-   A common approach is to use (epoch time)/(segment duration) as the object
-   name.
+   1. When ingesting media objects to multiple receiving entities, the ingest
+      source MUST send identical media objects with identical names.
+   2. When multiple ingest sources are used, they MUST use consistent media
+      object names including when reconnecting due to any application or
+      transport error. A common approach is to use (epoch time)/(segment
+      duration) as the object name.
 
 # Examples (informative) # {#Example_ingest}
 
@@ -1619,10 +1615,10 @@ Interface-2 are used interchangeably, hence the live encoder can either ingest
 to an origin that supports Interface-2 with CMAF formatting, including the
 requirements from Interface-1.
 
-1. Ignore the DASH manifest
-2. Ignore the segment names, only look at the relative path to identify the
-   stream names
-3. Ignore the HTTP Delete commands
+   1. Ignore the DASH manifest
+   2. Ignore the segment names, only look at the relative path to identify the
+      stream names
+   3. Ignore the HTTP Delete commands
 
 The approaches for authentication and DNS resolution are similar for the two
 profiles/interfaces, as are the track formatting in case CMAF based media is
