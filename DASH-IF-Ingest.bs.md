@@ -29,7 +29,7 @@
    are set forth and defined in the DASH-IF Bylaws and IPR Policy including, but
    not limited to, patent and other intellectual property license rights and
    obligations. A copy of the DASH-IF Bylaws and IPR Policy can be obtained at
-   <http://dashif.org/>.
+   http://dashif.org/.
 
    The material contained herein is provided on an AS IS basis. The authors and
    developers of this material and DASH-IF hereby disclaim all other warranties
