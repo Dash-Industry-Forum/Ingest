@@ -277,40 +277,28 @@
 
 # Media Ingest Workflows and Interfaces (Informative) # {#workflows}
 
-   Two workflows have been identified mapping to the two protocol interfaces.
+   Two workflows have been identified mapping to two protocol interfaces. The
+   first workflow uses a live encoder as the [=ingest source=] and a separate
+   packager as the [=receiving entity=]. In this case, Interface-1
+   ([=CMAF Ingest=]) is used to ingest a live encoded stream to the packager,
+   which can perform packaging, encryption or other active media processing.
+   Interface-1 is defined in a way that it will be possible to generate DASH or
+   HLS presentations based on information in the ingested stream. Figure 1 shows
+   an example for Interface-1.
 
-   The first workflow uses a separate live encoder as [=ingest source=] and
-   packager as [=receiving entity=]. In this case, Interface-1
-   ([=CMAF Ingest=]) is used to ingest a live encoded stream to the packager.
-   The [=receiving entity=] in this case may do the packaging, encryption or
-   other active media processing. This interface is defined in a way that it
-   will be possible to generate streaming presentation based on DASH or HLS
-   based on information in the ingested stream.
+   Figure 1: Example with [=CMAF Ingest=]. <figure>
+   <img src="Images/Diagram1.png" /> </figure>
 
    The second workflow constitutes ingest to a passive delivery system such as a
-   cloud storage or a CDN. In this case the stream needs to be formatted as
-   closely as possible to the final stream for consumption by an end client.
-   This interface is called Interface-2 ([=DASH Ingest=] or [=HLS Ingest=]). In
-   this case, besides the media objects, manifest objects are also ingested by
-   the [=receiving entity=].
-
-   Figure 1: Example with [=CMAF Ingest=].
-   <figure> <img
-   src="Images/Diagram1.png" /> </figure>
-
-   Figure 1 shows an example workflow with live media ingest from an ingest
-   source towards a receiving entity. In the example, the receiving entity
-   prepares the final media presentation for the client. The receiving entity
-   could be a live packager for DASH or HLS streams. The segments of the stream
-   may be requested via a CDN that acts as an intermediate proxy.
+   cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
+   [=HLS Ingest=]) is used to ingest a stream already formatted to be ready for
+   delivery to an end client. Besides the media objects, manifest objects are
+   also ingested by the [=receiving entity=]. Figure 2 shows an example for
+   Interface-2.
 
    Figure 2: Example with [=DASH Ingest=].
    <figure> <img
    src="Images/Diagram2.png" /> </figure>
-
-   Figure 2 shows an example workflow where content is ingested directly by a
-   CDN. The CDN enables the delivery to the client but does not generate the
-   manifests.
 
    A legacy example of a media ingest protocol for the first workflow is the
    ingest part of the Microsoft Smooth Streaming protocol [[=MS-SSTR=]]. This
@@ -319,7 +307,7 @@
    be robust, flexible and easy to implement in live encoders. In addition, it
    provided features for high availability and server-side redundancy.
 
-   The [=CMAF Ingest=], Interface-1 defined in Section 5, improves the Smooth
+   Interface-1 ([=CMAF Ingest=], detailed in Section 5) improves the Smooth
    Streaming's ingest protocol including lessons learned over the last ten years
    after the initial deployment of Smooth Streaming in 2009 and several advances
    on signaling metadata and timed text. In addition, the current specification
@@ -328,15 +316,17 @@
    like DASH [[!MPEGDASH]].  
 
    Interface-2 (DASH/HLS Ingest) is included for ingest of media streaming
-   presentations to entities where the media is not altered actively (the second
-   workflow).
+   presentations to a passive receiving entity that provides a pass-through
+   functionality. In this case, [=manifest objects=] and other client-specific
+   information also need to be ingested. In Interface-2, naming and content type
+   identification via MIME types is important to enable direct processing and
+   storage of the presentation. Interface-2 could also be used as an output
+   format of a packager.
 
    A key idea of this part of the specification is to re-use the similarities of
-   DASH and HLS protocols to enable a simultaneous ingest of media presentations
-   of these two formats using common media fragments such as based on
-   [[!ISOBMFF]] and [[!MPEGCMAF]] formats. In this interface, naming and content
-   type identification via MIME types is important to enable direct processing
-   and storage of the presentation.
+   the DASH and HLS protocols to enable a simultaneous ingest of media
+   presentations of these two formats using common media fragments based on
+   [[!ISOBMFF]] and [[!MPEGCMAF]].
 
    The two interfaces are presented separately. This reduces the overhead of the
    information that needs to be signaled compared to having both interfaces
@@ -346,27 +336,13 @@
    examples section.
 
    Table 1 highlights some of the key differences and practical considerations
-   of the interfaces. In Interface-1, the ingest source can be simple as the
+   of the interfaces. In Interface-1, the ingest source can be simple since the
    [=receiving entity=] can do many of the operations related to the delivery
    such as encryption or generating the streaming manifests. In addition, the
    distribution of functionalities can make it easier to scale a deployment with
-   many live media sources and receiving entities.  
-
-   In some cases, an encoder has sufficient capabilities to prepare the final
-   presentation for the client. In that case, content can be ingested directly  
-   by a more passive receiving entity that provides a pass-through
-   functionality. In this case also [=manifest objects=] and other
-   client-specific information needs to be ingested. Besides these factors,
+   concurrent (redundant) live media sources and receiving entities. Besides these factors,
    choosing a workflow for a video streaming platform depends on many other
-   factors. Note that Interface-2 could also be used as an output format of a
-   packager.
-
-   This specification does not provide guidance on which workflow is best to use
-   in a given scenario. However, the live ingest specification covers the two
-   interfaces most suitable for workflow ingest.
-
-   The best choice for a specific platform depends on many of the use case
-   specific requirements, circumstances and the available technologies.
+   factors.
 
    Table 1: Different ingest use cases.
    <!-- class=def is a built-in style. It is optional but looks nice. -->
@@ -396,14 +372,13 @@
    run multiple ingest sources, multiple receiving entities and make them
    available to the clients in a seamless fashion. This approach is already
    common when serving web pages, and this architecture also applies to media
-   streaming over HTTP. In Figure 3 it is highlighted how one or more ingest
+   streaming over HTTP. In Figure 3, it is highlighted how one or more ingest
    sources can be sending data to one or more receiving entities. In such a
-   workflow it is important to handle the case when one ingest source or
+   workflow, it is important to handle the case when one ingest source or
    receiving entity fails. Both the system and client behavior are an important
-   consideration in practical streaming systems that need to run 24/7. Failovers
-   must be handled robustly and without causing service interruption. This
-   specification details how this failover and redundancy support can be
-   achieved.
+   consideration in systems that need to run 24/7. Failovers must be handled
+   robustly and without causing service interruption. This specification details
+   how this failover and redundancy support can be achieved.
 
 # Common Requirements for Interface-1 and Interface-2 # {#interface-1-2}
 
@@ -479,13 +454,13 @@
          an HTTP 415 Unsupported Media Type error. Otherwise, an HTTP 400 Bad
          Request error MUST be returned.
      19. In case an unknown error happened during the processing of the HTTP
-         POST request, an HTTP 400 Bad Request SHALL be returned by the
+         POST request, an HTTP 400 Bad Request error SHALL be returned by the
          receiving entity.
      20. In case the receiving entity cannot process a fragment posted due to
          missing or incorrect init fragment, an HTTP 412 Precondition Failed
          error MAY be returned, otherwise, in case this is not supported by the
          system, an HTTP 400 Bad Request error MUST be returned.
-     21. The [=receiving entity=] MAY return an HTTP 50x response in case of
+     21. The [=receiving entity=] MAY return an HTTP 5xx response in case of
          other errors at the server, not particularly relating to the request
          from the [=ingest source=] but due to an error at the receiving entity.
      22. In case the receiving entity or publishing point receiving the HTTP
@@ -918,7 +893,7 @@ Table 4: Example URN schemes for timed metadata tracks.
 <table class="def">
    <tr>
       <th>SchemeIdURI</th>
-      <th> Reference</th>
+      <th>Reference</th>
    </tr>
    <tr>
       <td>urn:mpeg:dash:event:2012</td>
@@ -1312,56 +1287,56 @@ Table 6: List of the permissible combinations of file extensions and MIME types.
       <th>MIME type</th>
    </tr>
    <tr>
-      <th>.m3u8 [[!RFC8216]]</th>
-      <th>application/x-mpegURL or vnd.apple.mpegURL</th>
+      <td>.m3u8 [[!RFC8216]]</td>
+      <td>application/x-mpegURL or vnd.apple.mpegURL</td>
    </tr>
    <tr>
-      <th>.mpd [[!MPEGDASH]]</th>
-      <th>application/dash+xml</th>
+      <td>.mpd [[!MPEGDASH]]</td>
+      <td>application/dash+xml</td>
    </tr>
    <tr>
-      <th>.cmfv [[!MPEGCMAF]]</th>
-      <th>video/mp4</th>
+      <td>.cmfv [[!MPEGCMAF]]</td>
+      <td>video/mp4</td>
    </tr>
    <tr>
-      <th>.cmfa [[!MPEGCMAF]]</th>
-      <th>audio/mp4</th>
+      <td>.cmfa [[!MPEGCMAF]]</td>
+      <td>audio/mp4</td>
    </tr>
    <tr>
-      <th>.cmft [[!MPEGCMAF]]</th>
-      <th>application/mp4</th>
+      <td>.cmft [[!MPEGCMAF]]</td>
+      <td>application/mp4</td>
    </tr>
    <tr>
-      <th>.cmfm [[!MPEGCMAF]]</th>
-      <th>application/mp4</th>
+      <td>.cmfm [[!MPEGCMAF]]</td>
+      <td>application/mp4</td>
    </tr>
    <tr>
-      <th>.mp4 [[!ISOBMFF]]</th>
-      <th>video/mp4 or application/mp4</th>
+      <td>.mp4 [[!ISOBMFF]]</td>
+      <td>video/mp4 or application/mp4</td>
    </tr>
    <tr>
-      <th>.m4v [[!ISOBMFF]]</th>
-      <th>video/mp4</th>
+      <td>.m4v [[!ISOBMFF]]</td>
+      <td>video/mp4</td>
    </tr>
    <tr>
-      <th>.m4a [[!ISOBMFF]]</th>
-      <th>audio/mp4</th>
+      <td>.m4a [[!ISOBMFF]]</td>
+      <td>audio/mp4</td>
    </tr>
    <tr>
-      <th>.m4s [[!ISOBMFF]]</th>
-      <th>video/iso.segment</th>
+      <td>.m4s [[!ISOBMFF]]</td>
+      <td>video/iso.segment</td>
    </tr>
    <tr>
-      <th>.init</th>
-      <th>video/mp4</th>
+      <td>.init</td>
+      <td>video/mp4</td>
    </tr>
    <tr>
-      <th>.header[[!ISOBMFF]]</th>
-      <th>video/mp4</th>
+      <td>.header[[!ISOBMFF]]</td>
+      <td>video/mp4</td>
    </tr>
    <tr>
-      <th>.key</th>
-      <th>TBD</th>
+      <td>.key</td>
+      <td>TBD</td>
    </tr>
 </table>
 
