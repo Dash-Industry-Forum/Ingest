@@ -919,7 +919,7 @@ Table 4: Example URN schemes for timed metadata tracks.
     </tr>
    <tr>
         <td>urn:scte:scte35:2013:bin </td>
-        <td>[[!SCTE214-1]]] SCTE-35  </td>
+        <td>[[!SCTE214-1]] SCTE-35  </td>
     </tr>
    <tr>
         <td>www.nielsen.com:id3:v1  </td>
@@ -1717,5 +1717,6 @@ Abstract: None
 }
 </pre>
 
-<pre boilerplate="logo"> <a href="https://dashif.org/"><img
-src="Images/DASH-IF.png" /></a> </pre>
+<pre boilerplate="logo">
+<a href="https://dashif.org/"><img src="Images/DASH-IF.png" /></a>
+</pre>
