@@ -382,93 +382,94 @@
 
 # Common Requirements for Interface-1 and Interface-2 # {#interface-1-2}
 
-   The media ingest follows the following common requirements for both interfaces.  
+   The media ingest follows the following common requirements for both  
+   interfaces.
 
-     1. The [=ingest source=] SHALL communicate using the HTTP POST method as
+     1. The [=ingest source=] SHALL communicate using the HTTP POST command as
         defined in the HTTP protocol, version 1.1 [[!RFC7235]].
+
+        NOTE: This specification does not imply any functional differentiation
+        between a POST and PUT command. Either may be used to transfer content
+        to the [=receiving entity=]. Unless indicated otherwise, the use of the
+        term POST can be interpreted as POST or PUT.
      2. The [=ingest source=] SHOULD use HTTP over TLS, if TLS is used it SHALL
         support at least TLS version 1.2, a higher version may also be supported
         additionally [[!RFC2818]].
      3. The [=ingest source=] SHOULD us a domain name system for resolving
         hostnames to IP addresses such as DNS [[!RFC1035]] or any other system
         that is in place. If this is not the case, the domain names the IP
-        address mapping must be known and static, such as configured in the
-        operating system.
+        address mapping must be known and static.
      4. In the case of 3, [=ingest source=] MUST update the IP to hostname
-        resolution respecting the TTL (time to live) from DNS query responses.
-        This will enable better resilience to IP address changes in large scale
+        resolution respecting the TTL (time-to-live) from DNS query responses.
+        This enables better resilience to IP address changes in large scale
         deployments where the IP address of the media processing entities may
         change frequently.
-     5. In case HTTP over TLS [[!RFC2818]] is used, at least one of basic
-        authentication HTTP AUTH [[!RFC7617]], TLS client certificates, and HTTP
+     5. In case HTTP over TLS [[!RFC2818]] is used, at least one of the basic
+        authentication HTTP AUTH [[!RFC7617]], TLS client certificates or HTTP
         Digest authentication [[!RFC7616]] MUST be supported.
      6. Mutual authentication SHALL be supported. TLS client certificates SHALL
         chain to a trusted CA or be self-signed. Self-signed certificates MAY be
         used, for example, when the ingest source and receiving entity fall
-        under common administration.
+        under the same administration.
      7. As compatibility profile for the TLS encryption, the [=ingest source=]
-        SHOULD support the Mozilla intermediate compatibility profile
+        SHOULD support the Mozilla's intermediate compatibility profile
         [[=Mozilla-TLS=]].
      8. In case of an authentication error confirmed by an HTTP 403 response,
         the ingest source SHALL retry to establish the [=connection=] within a
         fixed time period with updated authentication credentials. When that
         also results in error, the [=ingest source=] can retry N times, after
-        this the [=ingest source=] SHOULD stop and log an error. The number of
-        retries N MAY be configurable in the [=ingest source=].
+        which the [=ingest source=] SHOULD stop and log an error. The number of
+        retries N can be configurable in the [=ingest source=].
      9. The [=ingest source=] SHOULD terminate the [=HTTP POST=] request if data
         is not being sent at a rate commensurate with the MP4 fragment duration.
-        An HTTP POST request that does not send data can prevent the
+        An HTTP POST command that does not send data can prevent the
         [=receiving entity=] from quickly disconnecting from the
         [=ingest source=] in the event of a service update.
      10. The HTTP POST for sparse data SHOULD be short-lived, terminating as
          soon as the data of a fragment is sent.
-     11. The POST request uses a [=POST_URL=] to the basepath of the publishing
-         point at the [=receiving entity=] and SHOULD use an additional relative
-         path when posting different streams and fragments, for example, to
-         signal the stream or fragment name.
+     11. The HTTP POST command uses a [=POST_URL=] to the basepath of the
+         publishing point at the [=receiving entity=] and SHOULD use an
+         additional relative path when posting different streams and fragments,
+         for example, to signal the stream or fragment name.
      12. Both the [=ingest source=] and [=receiving entity=] MUST support IPv4
          and IPv6 transport.
-     13. The [=ingest source=] SHOULD use a timeout in order of segment duration
-         (e.g., 1-6 seconds) for establishing the TCP connection. If an attempt
-         to establish the connection takes longer than the timeout, abort the
-         operation and try again.
-     14. The [=ingest source=] SHOULD resend [=objects=] for which a connection
-         was terminated early, or when an error response was received such as
-         HTTP 400 or 403 if the connection was down for less than three average
-         segments durations. For connections that were down longer, the
+     13. The [=ingest source=] SHOULD use a timeout in the order of a segment
+         duration (e.g., 1-6 seconds) for establishing the TCP connection. If an
+         attempt to establish the connection takes longer than the timeout, the
+         ingest source aborts the operation and tries again.
+     14. The [=ingest source=] SHOULD resend [the =objects=] for which a
+         connection was terminated early or when an HTTP 400 or 403 error
+         response was received if the connection was down for less than three
+         average segments durations. For connections that were down longer, the
          [=ingest source=] can resume sending [=objects=] at the live edge of
-         the live media presentation instead.
-     15. The [=ingest source=] MAY limit N, the number of retries, to establish
-         a new connection or resume streaming after a TCP error occurs. This
-         number N should be configurable.
-     16. After a TCP error, the [=ingest source=]  
-         performs the following: a. The current connection MUST be closed, and a
-         new connection MUST be created for a new HTTP POST request. b. The new
-         HTTP [=POST_URL=] MUST be the same as the initial [=POST_URL=] for the
-         object to be ingested.
-     17. In case the [=receiving entity=] cannot process the POST request due to
+         the media presentation.
+     15. After a TCP error, the [=ingest source=]  
+         performs the following: 
+         a. The current connection MUST be closed and a new connection MUST be
+         created for a new HTTP POST command.
+         b. The new HTTP [=POST_URL=] MUST be the same as the initial
+         [=POST_URL=] for the object to be ingested.
+     16. In case the [=receiving entity=] cannot process the POST request due to
          authentication or permission problems, or incorrect path, it SHALL
          return an HTTP 403 Forbidden error.
-     18. In case the receiving entity can process the fragment in the POST
-         request body but finds the media type is not supported, it MAY return
-         an HTTP 415 Unsupported Media Type error. Otherwise, an HTTP 400 Bad
-         Request error MUST be returned.
-     19. In case an unknown error happened during the processing of the HTTP
-         POST request, an HTTP 400 Bad Request error SHALL be returned by the
-         receiving entity.
-     20. In case the receiving entity cannot process a fragment posted due to
-         missing or incorrect init fragment, an HTTP 412 Precondition Failed
-         error MAY be returned, otherwise, in case this is not supported by the
-         system, an HTTP 400 Bad Request error MUST be returned.
-     21. The [=receiving entity=] MAY return an HTTP 5xx response in case of
-         other errors at the server, not particularly relating to the request
-         from the [=ingest source=] but due to an error at the receiving entity.
-     22. In case the receiving entity or publishing point receiving the HTTP
-         POST body is not setup or available, an HTTP 404 Not Found error SHOULD
-         be returned to the [=ingest source=].
-     23. The [=ingest source=] SHOULD support the handling of 30x redirect
-         responses.
-     24. The [=ingest source=] and receiving entity SHOULD support gzip based
+     17. The following error conditions apply to the receiving entity: 
+         a. If the publishing point receiving the HTTP POST command is not
+         available, it SHOULD return an HTTP 404 Not Found error to the
+         [=ingest source=].
+         b. If the receiving entity can process a fragment in the POST request
+         body but finds the media type is not supported, it may return an HTTP
+         415 Unsupported Media Type error. 
+         c. If the receiving entity cannot process a fragment in the POST
+         request body due to missing or incorrect init fragment, it may return
+         an HTTP 412 Precondition Failed error.
+         d. If there is an error at the receiving entity not particularly
+         relating to the POST command from the [=ingest source=], it may return
+         an appropriate HTTP 5xx error.
+         e. In all other scenarios, the receiving entity MUST return an HTTP 400
+         Bad Request error.
+     18. The [=ingest source=] SHOULD support the handling of HTTP 30x redirect
+         responses from the receiving entitiy.
+     19. The [=ingest source=] and receiving entity SHOULD support gzip based
          content encoding.
 
 # Interface-1: CMAF Ingest # {#interface-1}
@@ -579,7 +580,7 @@ Figure 8: CMAF Ingest flow.
 ## General Protocol and Track Format Requirements ## {#interface-1-requirements}
 
 The ingest source transmits media content to the receiving entity using HTTP
-POST or HTTP PUT. The receiving entity listens for content on a [=POST_URL=]
+POST. The receiving entity listens for content on a [=POST_URL=]
 that is known by both the ingest source and receiving entity. The [=POST_URL=]
 may contain a basepath corresponding to a domain name and a relative path, as
 setup by the receiving entity and a domain name system. An extended path to
@@ -1212,11 +1213,6 @@ These capabilities are further illustrated in [[#examples]].
    1. The ingest source MUST transfer [=manifest objects=] and
       [=media objects=] to the receiving entity via individual HTTP/1.1 POST
       commands to the configured path.
-
-      NOTE: This specification does not imply any functional differentiation
-      between a POST and PUT command. Either may be used to transfer content to
-      the [=receiving entity=]. Unless indicated otherwise, the use of the term
-      POST can be interpreted as POST or PUT.
 
    2. The ingest source SHOULD remove [=media objects=] from the receiving
       entity that are no longer referenced in the corresponding
