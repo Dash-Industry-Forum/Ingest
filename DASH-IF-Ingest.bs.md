@@ -207,7 +207,7 @@
    <dfn dfn>**media fragment**</dfn>: Media fragment, combination of
    MovieFragmentBox ("moof") and MediaDataBox ("mdat") in ISOBMFF structure.
    This could be a CMAF fragment or chunk. A media fragment may include
-   top-level boxes defined in CMAF fragments such as "emsg", "prft" and "styp".
+   top-level boxes defined in CMAF fragments such as "emsg", "prtf" and "styp".
    Used for backward compatibility with fragmented MP4.
 
    <dfn dfn>**objects**</dfn>: [=manifest objects=] or [=media objects=].
@@ -383,7 +383,7 @@
    </tr>
    <tr>
       <td>DASH/HLS Ingest</td>
-      <td>Global overview, targets duplicate presentations, limited flexibility no redundancy</td>
+      <td>Global overview, targets duplicate presentations, limited flexibility, no redundancy</td>
       <td>manifest manipulation, transmission, storage</td>
    </tr>
    </table>
@@ -534,11 +534,11 @@ src="Images/Diagram7.png" /> </figure>
 Figures 5-7 detail some of the concepts and structures defined in
 [[!MPEGCMAF]]. Figure 5 shows the data format structure of the [=CMAF track=].
 In this format, media samples and media indexes are interleaved. The
-MovieFragmentBox [=moof=] box as specified in [[!ISOBMFF]] is used to signal the
+MovieFragmentBox "[=moof=]" box as specified in [[!ISOBMFF]] is used to signal the
 information to playback and decode properties of the samples stored in the
-[=mdat=] box. The CMAF header contains the track specific information and is
-referred to as a [=CMAF header=] in [[!MPEGCMAF]]. The combination of [=moof=]
-[=mdat=] can be referred as a [=CMAF fragment=] or [=CMAF chunk=] depending on
+"[=mdat=]" box. The CMAF header contains the track specific information and is
+referred to as a [=CMAF header=] in [[!MPEGCMAF]]. The combination of "[=moof=]" and
+"[=mdat=]" can be referred as a [=CMAF fragment=] or [=CMAF chunk=] depending on
 the structure content and the number of moof-mdat pairs in the addressable
 object.
 
@@ -714,15 +714,15 @@ live content.
    4. Media tracks SHOULD use a timescale for video streams based on the
       framerate and 44.1 KHz or 48 KHz for audio streams or any another
       timescale that enables integer increments of the decode times of fragments
-      signaled in the tfdt box based on this scale. If necessary, integer
+      signaled in the "tfdt" box based on this scale. If necessary, integer
       multiples of these timescales could be used.
-   5. The language of the CMAF track SHOULD be signaled in the [=mdhd=] box or
-      [=elng=] boxes in the CMAF header.
+   5. The language of the CMAF track SHOULD be signaled in the "[=mdhd=]" box or
+      "[=elng=]" boxes in the CMAF header.
    6. Media tracks SHOULD contain the btrt box specifying the target average and
       maximum bitrate of the CMAF fragments in the sample entry container in the
       CMAF header.
    7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this case
-      they SHOULD be signaled using SegmentTypeBox styp to make it easy for the
+      they SHOULD be signaled using SegmentTypeBox ("styp") to make it easy for the
       receiving entity to differentiate them from CMAF fragments. The brand type
       of a chunk is cmfl. CMAF chunks should only be signaled if they are not
       the first chunk in a CMAF fragment.
@@ -735,8 +735,8 @@ live content.
       inband signaling of parameter changes. This is because in live content,
       codec configuration may change slightly over time.
    10. In case the language of a track changes, a new CMAF header with updated
-       [=mdhd=] and/or [=elng=] SHOULD be sent. The CMAF header MUST be
-       identical, except the elng tag.
+       "[=mdhd=]" and/or "[=elng=]" SHOULD be sent. The CMAF header MUST be
+       identical, except the "elng" tag.
    11. Track roles SHOULD be signaled in the ingest by using a kind box in
        UserDataBox ("udta"). The kind box MUST contain a schemeIdUri
        urn:mpeg:dash:role:2011 and a value containing a Role as defined in
@@ -803,7 +803,7 @@ and subtitle tracks.
       selected in [[!MPEGCMAF]].  
    2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL be set to "text"
       for WebVTT and "subt" for TTML following [[!MPEG4-30]].
-   3. The [=ftyp=] box in the CMAF header for the track containing timed text,
+   3. The "[=ftyp=]" box in the CMAF header for the track containing timed text,
       images, captions and subtitles MAY use signaling using CMAF profiles based
       on [[!MPEGCMAF]].
 
@@ -821,7 +821,7 @@ and subtitle tracks.
       based timed text subtitles that may consume significant bandwidth (e.g.,
       im1i or im1t).
    5. In case the language of a track changes, a new CMAF header with updated
-      [=mdhd=] and/or [=elng=] SHOULD be sent from the ingest source to the
+      "[=mdhd=]" and/or "[=elng=]" SHOULD be sent from the ingest source to the
       receiving entity.
    6. Track roles can be signaled in the ingest, by using a kind box in the
       "udta" box. The kind box MUST contain a schemeIdUri
@@ -938,11 +938,11 @@ Table 5: Example of a SCTE-35 marker embedded in a DASH EventMessageBox.
         <td> urn:scte:scte35:2013:bin    </td>
     </tr>
    <tr>
-        <td>Value </td>
+        <td>value </td>
         <td> value used to signal subscheme </td>
     </tr>
    <tr>
-        <td>Timescale  </td>
+        <td>timescale  </td>
         <td>positive number, ticks per second, similar to track timescale </td>
     </tr>
    <tr>
@@ -1002,7 +1002,7 @@ information and others:
       DASHEventMessageBoxes.
 
       5c. In the case of 5, the timescale of the DASHEventMessageBox SHOULD
-      match the value specified in the media header box "mdhd" of the timed
+      match the value specified in the MediaHeaderBox ("mdhd") of the timed
       metadata track.
 
       5d. In the case of 5, the sample should contain all DASHEventMessageBoxes
@@ -1129,8 +1129,8 @@ following recommendations apply:
    4. The [=ingest source=] MUST be properly synced with all other running
       ingest sources for the same live presentation to generate synced
       audio/video samples with aligned fragment boundaries in the track. This
-      implies that UTC timestamps for fragments in the "tfdt" match between
-      decoders, and encoders.
+      implies that UTC timestamps for fragments in the "tfdt" box match between
+      decoders and encoders.
    5. The new stream MUST be semantically equivalent with the previous stream,
       and interchangeable at the header and media fragment levels.
    6. The new instance of [=ingest source=] SHOULD try to minimize data loss.
