@@ -1674,19 +1674,19 @@ Sony, Arris, Bitmovin, DSR and AWS Elemental.
 # URL References # {#references-url}
 
 <dfn dfn>fmp4git</dfn>: Unified Streaming fmp4-ingest:
-<https://github.com/unifiedstreaming/fmp4-ingest>
+https://github.com/unifiedstreaming/fmp4-ingest
 
 <dfn dfn>aomid3</dfn>: Carriage of ID3 Timed Metadata in the Common Media
-Application Format (CMAF): <https://aomediacodec.github.io/id3-emsg>
+Application Format (CMAF): https://aomediacodec.github.io/id3-emsg
 
 <dfn dfn>Mozilla-TLS</dfn>: Mozilla Wiki Security/Server Side TLS:
-<https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29>
+https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28recommended.29
 
 <dfn dfn>MS-SSTR</dfn>: Smooth Streaming Protocol:
-<https://msdn.microsoft.com/en-us/library/ff469518.aspx>
+https://msdn.microsoft.com/en-us/library/ff469518.aspx
 
 <dfn dfn>DASH-IFad</dfn>: Advanced Ad Insertion in DASH (under community
-review): <https://dashif.org/docs/CR-Ad-Insertion-r4.pdf>
+review): https://dashif.org/docs/CR-Ad-Insertion-r4.pdf
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 
