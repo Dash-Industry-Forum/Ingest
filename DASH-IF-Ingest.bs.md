@@ -57,7 +57,7 @@
    be a media packager, streaming origin or a content delivery network (CDN).
    The combination of ingest sources and receiving entities is common in
    practical video streaming deployments, where media processing functionality
-   isdistributed between the ingest sources and receiving entities.
+   is distributed between the ingest sources and receiving entities.
    Nevertheless, in such deployments, interoperability between  
    ingest sources and downstream processing entities can sometimes be challenging.  
    This challenge comes from the fact that there are multiple levels of
@@ -368,7 +368,7 @@
    <figure> <img src="Images/Diagram6.png" /> </figure>
 
    Finally, Figure 3 highlights another aspect that was taken into consideration
-   for large scale systems with many users. Often content owners would like to
+   for large-scale systems with many users. Often content owners would like to
    run multiple ingest sources, multiple receiving entities and make them
    available to the clients in a seamless fashion. This approach is already
    common when serving web pages, and this architecture also applies to media
@@ -392,6 +392,7 @@
         between a POST and PUT command. Either may be used to transfer content
         to the [=receiving entity=]. Unless indicated otherwise, the use of the
         term POST can be interpreted as POST or PUT.
+
      2. The [=ingest source=] SHOULD use HTTP over TLS, if TLS is used it SHALL
         support at least TLS version 1.2, a higher version may also be supported
         additionally [[!RFC2818]].
@@ -401,7 +402,7 @@
         address mapping must be known and static.
      4. In the case of 3, [=ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time-to-live) from DNS query responses.
-        This enables better resilience to IP address changes in large scale
+        This enables better resilience to IP address changes in large-scale
         deployments where the IP address of the media processing entities may
         change frequently.
      5. In case HTTP over TLS [[!RFC2818]] is used, at least one of the basic
@@ -437,38 +438,46 @@
          duration (e.g., 1-6 seconds) for establishing the TCP connection. If an
          attempt to establish the connection takes longer than the timeout, the
          ingest source aborts the operation and tries again.
-     14. The [=ingest source=] SHOULD resend [the =objects=] for which a
+     14. The [=ingest source=] SHOULD resend the [=objects=] for which a
          connection was terminated early or when an HTTP 400 or 403 error
          response was received if the connection was down for less than three
          average segments durations. For connections that were down longer, the
          [=ingest source=] can resume sending [=objects=] at the live edge of
          the media presentation.
      15. After a TCP error, the [=ingest source=]  
-         performs the following: 
-         a. The current connection MUST be closed and a new connection MUST be
+         performs the following:
+         
+         15a. The current connection MUST be closed and a new connection MUST be
          created for a new HTTP POST command.
-         b. The new HTTP [=POST_URL=] MUST be the same as the initial
+         
+         15b. The new HTTP [=POST_URL=] MUST be the same as the initial
          [=POST_URL=] for the object to be ingested.
+         
      16. In case the [=receiving entity=] cannot process the POST request due to
          authentication or permission problems, or incorrect path, it SHALL
          return an HTTP 403 Forbidden error.
      17. The following error conditions apply to the receiving entity: 
-         a. If the publishing point receiving the HTTP POST command is not
+
+         17a. If the publishing point receiving the HTTP POST command is not
          available, it SHOULD return an HTTP 404 Not Found error to the
          [=ingest source=].
-         b. If the receiving entity can process a fragment in the POST request
+
+         17b. If the receiving entity can process a fragment in the POST request
          body but finds the media type is not supported, it may return an HTTP
-         415 Unsupported Media Type error. 
-         c. If the receiving entity cannot process a fragment in the POST
+         415 Unsupported Media Type error.
+
+         17c. If the receiving entity cannot process a fragment in the POST
          request body due to missing or incorrect init fragment, it may return
          an HTTP 412 Precondition Failed error.
-         d. If there is an error at the receiving entity not particularly
+         17d. If there is an error at the receiving entity not particularly
          relating to the POST command from the [=ingest source=], it may return
          an appropriate HTTP 5xx error.
-         e. In all other scenarios, the receiving entity MUST return an HTTP 400
+
+         17e. In all other scenarios, the receiving entity MUST return an HTTP 400
          Bad Request error.
+
      18. The [=ingest source=] SHOULD support the handling of HTTP 30x redirect
-         responses from the receiving entitiy.
+         responses from the receiving entity.
      19. The [=ingest source=] and receiving entity SHOULD support gzip based
          content encoding.
 
@@ -553,7 +562,7 @@ Figure 7: CMAF late binding.
 </figure>
 
 Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
-(if needed) and an authentication step (using Authy, or TLS certificates or HTTP
+(if needed) and an authentication step (using Authy, TLS certificates or HTTP
 Digest Authentication) to establish a secure [=TCP=] connection.
 
 In private datacenter deployments where nodes are not reachable from outside, a
@@ -608,7 +617,7 @@ live content.
       HTTP POST command [[!RFC7235]] when the content length is unknown at the
       start of transmission or to support use cases that require low latency.
    5. If the HTTP POST request terminates or times out with a TCP error, the
-      [=ingest source=] MUST establish a new connection, and follow the
+      [=ingest source=] MUST establish a new connection and follow the
       preceding requirements. Additionally, the [=ingest source=] MAY resend the
       segment in which the timeout or TCP error occurred.
    6. The [=ingest source=] MUST handle any error responses received from the
@@ -654,10 +663,10 @@ live content.
        SHALL insert filler or replacement content, and output these as valid
        CMAF segments. Examples may be black frames, silent audio, or empty timed
        text segments. Such segments SHOULD be labelled by using a SegmentTypeBox
-       ("styp") with the brand *"slat"*. This allows a receiver to still replace
+       ("styp") with the brand *slat*. This allows a receiver to still replace
        those segments with valid content segments at a later time.
    18. The last segment in a CMAF track, SHOULD be labelled with a
-       SegmentTypeBox ("styp") with the *"lmsg"* brand. This way the receiver
+       SegmentTypeBox ("styp") with the brand *lmsg*. This way the receiver
        knows that no more media segments are expected for this track. In case
        the track is restarted, a request with a [=CMAF header=] with (identical
        properties) must be issued to the same POST_URL.
@@ -681,7 +690,7 @@ live content.
       transport layer security. However, in case common encryption is used, the
       decryption key shall be made available out of band by supported means such
       as CPIX defined by DASH-IF.
-   2. The [=CMAF fragment=] durations SHOULD be constant, the duration MAY
+   2. The [=CMAF fragment=] durations SHOULD be constant; the duration MAY
       fluctuate to compensate for non-integer frame rates. By choosing an
       appropriate timescale (a multiple of the frame rate is recommended) this
       issue should be avoided.
@@ -700,7 +709,7 @@ live content.
    7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this case
       they SHOULD be signaled using SegmentTypeBox ("styp") to make it easy for the
       receiving entity to differentiate them from CMAF fragments. The brand type
-      of a chunk is cmfl. CMAF chunks should only be signaled if they are not
+      of a chunk is *cmfl*. CMAF chunks should only be signaled if they are not
       the first chunk in a CMAF fragment.
    8. In video tracks, profiles like avc1 and hvc1 MAY be used that signal the
       sequence parameter set in the CMAF header. In this case, these codec
@@ -713,8 +722,8 @@ live content.
    10. In case the language of a track changes, a new CMAF header with updated
        "[=mdhd=]" and/or "[=elng=]" SHOULD be sent. The CMAF header MUST be
        identical, except the "elng" tag.
-   11. Track roles SHOULD be signaled in the ingest by using a kind box in
-       UserDataBox ("udta"). The kind box MUST contain a schemeIdUri
+   11. Track roles SHOULD be signaled in the ingest by using a "kind" box in
+       UserDataBox ("udta"). The "kind" box MUST contain a schemeIdUri
        urn:mpeg:dash:role:2011 and a value containing a Role as defined in
        [[!MPEGDASH]]. In case this signaling does not occur, the processing
        entity can define the role for the track independently.
@@ -741,10 +750,10 @@ mean the following steps could be implemented by the live ingest source.
       using the Switching() keyword. In this case, a CMAF chunk is sent from the
       live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id).
-   3. The live ingest source MAY add a kind box in the "udta" box in each track
-      to signal the switching set it belongs to. The schemeIdUri of this kind
+   3. The live ingest source MAY add a "kind" box in the "udta" box in each track
+      to signal the switching set it belongs to. The schemeIdUri of this "kind"
       box SHALL be urn:dashif:ingest:switchingset_id and the value field of the
-      kind box SHALL be the [=switching set ID=].
+      "kind" box SHALL be the [=switching set ID=].
    4. The switching sets are grouped as adaptation sets present in the DASH
       manifest in a POST request issued earlier, i.e., before the segments of
       that switching set are transmitted. In this case, the naming of the
@@ -770,7 +779,7 @@ Table 2: Switching set signaling options.
       <td>Optional</td>
    </tr>
    <tr>
-      <td>Signaling using [=switching set ID=] in the track using kind box with schemeIdUri urn:dashif:ingest:switchingset_id and value set to [=switching set ID=]</td>
+      <td>Signaling using [=switching set ID=] in the track using "kind" box with schemeIdUri urn:dashif:ingest:switchingset_id and value set to [=switching set ID=]</td>
       <td>Optional</td>
    </tr>
 </table>
@@ -785,8 +794,8 @@ formatting subtitle and timed text tracks are defined in [[!MPEGCMAF]] and
 We provide additional guidelines and best practices for formatting timed text
 and subtitle tracks.
 
-   1. CMAF tracks carrying WebVTT signaled by cwvt brand or TTML Text signaled
-      by *im1t* brand are preferred. [[!MPEG4-30]] defines the track format
+   1. CMAF tracks carrying WebVTT signaled by the *cwvt* brand or TTML Text signaled
+      by the *im1t* brand are preferred. [[!MPEG4-30]] defines the track format
       selected in [[!MPEGCMAF]].  
    2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL be set to "text"
       for WebVTT and "subt" for TTML following [[!MPEG4-30]].
@@ -810,15 +819,15 @@ and subtitle tracks.
    5. In case the language of a track changes, a new CMAF header with updated
       "[=mdhd=]" and/or "[=elng=]" SHOULD be sent from the ingest source to the
       receiving entity.
-   6. Track roles can be signaled in the ingest, by using a kind box in the
-      "udta" box. The kind box MUST contain a schemeIdUri
+   6. Track roles can be signaled in the ingest, by using a "kind" box in the
+      "udta" box. The "kind" box MUST contain a schemeIdUri
       urn:mpeg:dash:role:2011 and a value containing a role as defined in
       [[!MPEGDASH]].
 
-Note: [[!MPEGCMAF]] allows multiple kind boxes, hence, multiple roles can be
+Note: [[!MPEGCMAF]] allows multiple "kind" boxes, hence, multiple roles can be
 signaled. By default, one should signal the DASH role urn:mpeg:dash:role:2011. A
 receiver may derive corresponding configuration for other streaming protocols
-such as HLS. In case this is not desired, additional kind boxes with
+such as HLS. In case this is not desired, additional "kind" boxes with
 corresponding schemeIdUri and values can be used to explicitly signal this
 information for other protocol schemes. Subschemes can be signaled in the
 schemeIdURI as schemeIdURI@value.
@@ -862,12 +871,10 @@ This section discusses the specific formatting requirements for [=CMAF Ingest=]
 of timed metadata. Examples of timed metadata are opportunities for splice
 points and program information signaled by SCTE-35 markers. Such event signaling
 is different from regular audio/video information because of its sparse nature.
-In this case, the signaling data usually does not happen continuously, and the
-intervals may be hard to predict.
-
-Other examples of timed metadata are ID3 tags [[!ID3v2]], SCTE-35 markers
-[[!SCTE35]] and DASHEventMessageBoxes defined in Section 5.10.3.3 of
-[[!MPEGDASH]].
+In this case, the signaling data usually does not happen continuously and the
+intervals may be hard to predict. Other examples of timed metadata are ID3 tags
+[[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBox'es defined in
+Section 5.10.3.3 of [[!MPEGDASH]].
 
 Table 4 provides some example urn schemes to be signaled. Table 5 illustrates an
 example of a SCTE-35 marker stored in a DASHEventMessageBox, that is in turn
@@ -883,7 +890,7 @@ By embedding the DASHEventMessageBox structure in timed metadata samples, some
 of the benefits of its usages in DASH and CMAF are kept. In addition, it enables
 signaling of gaps, overlapping events and multiple events starting at the same
 time in a single timed metadata track for this scheme. In addition, the parsing
-and processing of DASHEventMessageBoxes is supported in many players. The
+and processing of DASHEventMessageBox'es is supported in many players. The
 support for this DASHEventMessageBox embedded timed metadata track instantiation
 is described.
   
@@ -969,13 +976,13 @@ information and others:
    4. CMAF track files do not support overlapping, multiple concurrently active
       or zero duration samples. In case metadata or events are concurrent,
       overlapping or of zero duration, such semantics MUST be defined by the
-      scheme signaled in the URIMetasampleEntry. The timed metadata track MUST
+      scheme signaled in the URIMetaSampleEntry. The timed metadata track MUST
       still conform to [[!MPEGCMAF]] clause 7.3.
-   5. CMAF timed metadata tracks MAY carry EventMessageBoxes as defined in
+   5. CMAF timed metadata tracks MAY carry EventMessageBox'es as defined in
       [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to
       create such a track is based on MPEG-B part 18 as defined in ISO/IEC
-      23001-18. Some deprecated implementations may use DASHEventMessageBoxes as
-      defined in ISO/IEC 23009-1. Using DASHEventMessageBoxes directly in
+      23001-18. Some deprecated implementations may use DASHEventMessageBox'es as
+      defined in ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in
       samples may be implemented as follows:
 
       5a. In the case of 5, version 1 SHOULD be used, in case version 0 is used,
@@ -984,17 +991,17 @@ information and others:
 
       5b. In the case of 5, the URIMetaSampleEntry SHOULD contain the URN
       "urn:mpeg:dash:event:2012" or an equivalent urn to signal the presence of
-      DASHEventMessageBoxes.
+      DASHEventMessageBox'es.
 
       5c. In the case of 5, the timescale of the DASHEventMessageBox SHOULD
       match the value specified in the MediaHeaderBox ("mdhd") of the timed
       metadata track.
 
-      5d. In the case of 5, the sample should contain all DASHEventMessageBoxes
+      5d. In the case of 5, the sample should contain all DASHEventMessageBox'es
       that are active in during the presentation time of the sample.  
 
       5e. In the case of 5, a single metadata sample MAY contain multiple
-      DASHEventMessageBoxes. This happens if multiple DASHEventMessageBoxes have
+      DASHEventMessageBox'es. This happens if multiple DASHEventMessageBox'es have
       the same presentation time or if an earlier event is still active in a
       sample containing a newly started and overlapping event.
 
@@ -1020,11 +1027,11 @@ information and others:
       can be used by the [=receiving entity=] to detect duplicate events.
 
    6. The [=ingest source=] SHOULD NOT embed inband top-level
-      DASHEventMessageBoxes ("emsg") in the timed metadata track or media
+      DASHEventMessageBox'es ("emsg") in the timed metadata track or media
       tracks, however, it is not prohibited when conforming to this
       specification. In some setups, inband event messages may be used in media
       tracks, but it may result in a loss of performance for just-in-time
-      packaging. Also in DASH 4th edition, all DASHEventMessageBoxes must have
+      packaging. Also in DASH 4th edition, all DASHEventMessageBox'es must have
       presentation_time, later as compared to the segment earliest presentation
       time, this makes re-signaling of continuation events (events still active)
       troublesome, as they started earlier.
@@ -1136,7 +1143,7 @@ them can be achieved as follows. A fixed segment duration is chosen such as
 based on the fixed GoP duration, e.g., two seconds that is used by all media
 sources. So the segment duration is fixed for all tracks (not only the video
 tracks). The media sources use a fixed anchor T as a timeline origin, this
-should be 1-1-1970 (Unix epoch) or another well known defined time anchor. The
+should be 1-1-1970 (Unix epoch) or another well-known defined time anchor. The
 segment boundaries in this case are K * segment duration (since anchor T) for an
 integer K > 0. Any media source joining or starting can compute the fragment
 boundary and produce segments with equivalent segment boundaries corresponding
@@ -1485,7 +1492,7 @@ the following tasks:
      switching points.
 
    - It packages all media and timed text tracks as CMAF-compliant tracks and
-     signals track roles in kind boxes.
+     signals track roles in "kind" boxes.
 
    - It POSTs the addressable media objects composing the tracks to the packager
      according to the CMAF Ingest interface defined in Section 5.
@@ -1524,7 +1531,7 @@ packager receives the ingested streams and performs the following tasks.
      vectors and embedding encryption information in the manifest.
 
    - The DASH packager signals subtitles in the manifest based on received CMAF
-     streams and roles signaled in the kind box.
+     streams and roles signaled in the "kind" box.
 
    - In case a fragment is missing and SegmentTimeline is used, the packager
      signals a discontinuity in the MPD.
