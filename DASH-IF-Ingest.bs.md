@@ -400,8 +400,8 @@
         additionally [[!RFC2818]].
      3. The [=ingest source=] SHOULD us a domain name system for resolving
         hostnames to IP addresses such as DNS [[!RFC1035]] or any other system
-        that is in place. If this is not the case, the domain names the IP
-        address mapping must be known and static.
+        that is in place. If this is not the case, the domain name<->IP
+        address mapping(s) must be known and static.
      4. In the case of 3, [=ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time-to-live) from DNS query responses.
         This enables better resilience to IP address changes in large-scale
@@ -550,9 +550,9 @@ which is the concept of late binding. In the case of late binding, streams are
 combined on playout/streaming in a presentation (see Section 7.3.6 of
 [[!MPEGCMAF]]).
 
-Note that as defined in [[!MPEGCMAF]], that different CMAF tracks have the same
-starting time sharing an implicit timeline. A stream becoming available from a
-different source needs to be synchronized and time-aligned with other streams.
+NOTE: As defined in [[!MPEGCMAF]], different CMAF tracks have the same starting
+time sharing an implicit timeline. A stream becoming available from a different
+source needs to be synchronized and time-aligned with other streams.
 
 Figure 6: CMAF track synchronization.
 <figure> <img src="Images/Diagram9.png" />
@@ -580,8 +580,9 @@ packet as defined in [[!RFC7230]].
 
 This last step is especially important in long running posts using chunked
 transfer encoding, as in this case the receiver may not know that the connection
-needs to be closed or that the HTTP POST command is over. Note that CMAF Ingest
-may use either long running or short running POST commands.
+needs to be closed or that the HTTP POST command is over. 
+
+NOTE: CMAF Ingest may use either long running or short running POST commands.
 
 Figure 8: CMAF Ingest flow.
 <figure> <img src="Diagrams/media-ingest.png" />
@@ -780,7 +781,7 @@ Table 2: Switching set signaling options.
       <th>Requirement</th>
    </tr>
    <tr>
-      <td>Implicit signaling, based on switching set constraints [[!MPEGCMAF]] clause 7.3.4</td>
+      <td>Implicit signaling based on switching set constraints [[!MPEGCMAF]] clause 7.3.4.</td>
       <td>Mandatory</td>
    </tr>
    <tr>
@@ -979,7 +980,7 @@ information and others:
       defined for timed metadata tracks in [[!ISOBMFF]] clause 12.3.
    2. The CMAF timed metadata track applies to the [=CMAF presentation=]
       ingested to a [=publishing_point_URL=] at the receiving entity.
-   3. To fulfill CMAF track requirements in clause 7.3. of [[!MPEGCMAF]], such
+   3. To fulfill CMAF track requirements in [[!MPEGCMAF]] clause 7.3., such
       as not having gaps in the media timeline, filler data may be needed. Such
       filler data SHALL be defined by the metadata scheme signaled in
       URIMetaSampleEntry. For example, WebVTT tracks define a VTTEmptyCueBox in
@@ -992,7 +993,7 @@ information and others:
       scheme signaled in the URIMetaSampleEntry. The timed metadata track MUST
       still conform to [[!MPEGCMAF]] clause 7.3.
    5. CMAF timed metadata tracks MAY carry EventMessageBox'es as defined in
-      [[!MPEGDASH]] clause 5.10.3.3 in the metadata samples. The best way to
+      [[!MPEGDASH]] clause 5.10.3.3. in the metadata samples. The best way to
       create such a track is based on MPEG-B part 18 as defined in ISO/IEC
       23001-18. Some deprecated implementations may use DASHEventMessageBox'es as
       defined in ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in
