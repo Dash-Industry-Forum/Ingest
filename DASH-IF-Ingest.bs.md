@@ -119,7 +119,7 @@
 
    [[#workflows]] provides more background and motivation for the
    two interfaces. We further motivate the specification in this document
-   supporting HTTP/1.1 [[!RFC7235]] and [[!ISOBMFF]]. We believe that Smooth
+   supporting HTTP/1.1 [[!RFC7230]] and [[!ISOBMFF]]. We believe that Smooth
    Streaming [[=MS-SSTR=]] and HLS have shown that HTTP usage can survive the
    Internet ecosystem for media delivery. The HTTP POST provides a push-based
    method for delivering the live content when it becomes available. Regarding
@@ -127,7 +127,7 @@
    could be considered advancing over HTTP/1.1 or TCP. We believe the proposed
    media format and protocol interfaces will provide the same benefits with
    other transport protocols. Our view is that for current and near future  
-   deployments, using [[!RFC7235]] is still a good approach.
+   deployments, using [[!RFC7230]] is still a good approach.
 
    The document is structured as follows: Section 3 presents the conventions and
    terminology used throughout this document. Section 4 presents the use cases
@@ -207,7 +207,7 @@
    <dfn dfn>**media fragment**</dfn>: Media fragment, combination of
    MovieFragmentBox ("moof") and MediaDataBox ("mdat") in ISOBMFF structure.
    This could be a CMAF fragment or chunk. A media fragment may include
-   top-level boxes defined in CMAF fragments such as "emsg", "prtf" and "styp".
+   top-level boxes defined in CMAF fragments such as "emsg", "prft" and "styp".
    Used for backward compatibility with fragmented MP4.
 
    <dfn dfn>**objects**</dfn>: [=manifest objects=] or [=media objects=].
@@ -215,14 +215,13 @@
    <dfn dfn>**OTT**</dfn>: Over-the-top.  
 
    <dfn dfn>**POST_URL**</dfn>: Target URL of a POST command in the HTTP
-   protocol for posting data from a source to a destination. The POST_URL is
-   known by both the ingest source and receiving entity. The POST_URL basepath
-   is setup by the receiving entity. The ingest source may add extended paths to
-   signal track names, fragment names or segment names.
+   protocol for posting data from a source to a destination (e.g., /ingest1).
+   The POST_URL is known by both the ingest source and receiving entity. The
+   POST_URL is setup by the receiving entity. The ingest source may add extended
+   paths to signal track names, fragment names or segment names.
 
-   <dfn dfn>**publishing point**</dfn>: Entry point used to receive an ingest
-   stream, consumes/receives the incoming media [=ingest stream=], typically via
-   a publishing URL setup to receive the stream.
+   <dfn dfn>**publishing_point_URL**</dfn>: Entry point used to receive an
+   [=ingest stream=] (e.g., https://example.com/ingest1).
 
    <dfn dfn>**receiving entity**</dfn>: Entity used to receive the media
    content, receives/consumes an [=ingest stream=].
@@ -248,31 +247,34 @@
    signaled in the "[=tfdt=]" box.
 
    <dfn dfn>**elng**</dfn>: The ExtendedLanguageTag box ("elng") as defined in
-   [[!ISOBMFF]] that can override the language information.
+   [[!ISOBMFF]] overrides the language information.
 
-   <dfn dfn>**ftyp**</dfn>: The FileTypeBox ("ftyp") as defined in ISOBMFF
+   <dfn dfn>**ftyp**</dfn>: The FileTypeBox ("ftyp") as defined in
    [[!ISOBMFF]].
 
-   <dfn dfn> **mdat**</dfn>: The MediaDataBox ("mdat") defined in ISOBMFF
-   [[!ISOBMFF]].
+   <dfn dfn> **mdat**</dfn>: The MediaDataBox ("mdat") defined in [[!ISOBMFF]].
 
    <dfn dfn>**mdhd**</dfn>: The MediaHeaderBox ("mdhd") as defined in
-   [[!ISOBMFF]] that contains information about the media such  
+   [[!ISOBMFF]] contains information about the media such  
    as timescale, duration, language using ISO 639-2/T [[!iso-639-2]] codes.
 
    <dfn dfn>**mfra (deprecated)**</dfn>: The MovieFragmentRandomAccessBox
-   ("mfra") defined in ISOBMFF [[!ISOBMFF]] to signal random access samples  
+   ("mfra") defined in [[!ISOBMFF]] signals random access samples  
    (these are samples that require no prior or other samples for decoding).  
-  
-   <dfn dfn>**moof**</dfn>: The MovieFragmentBox ("moof") as defined in ISOBMFF
-   [[!ISOBMFF]] that defines the index information of samples in a fragment.
+ 
+   <dfn dfn>**moof**</dfn>: The MovieFragmentBox ("moof") as defined in
+   [[!ISOBMFF]] defines the index information of samples in a fragment.
 
    <dfn dfn>**nmhd**</dfn>: The NullMediaHeaderBox ("nmhd") as defined in
-   [[!ISOBMFF]] to signal a track for which no specific media header is defined.
+   [[!ISOBMFF]] signals a track for which no specific media header is defined.
    This is used for metadata tracks.
 
+   <dfn dfn>**prft**</dfn>: The ProducerReferenceTime ("prft") as defined in
+   [[!ISOBMFF]] supplies times corresponding to the production of associated
+   movie fragments.
+
    <dfn dfn>**tfdt**</dfn>: The TrackFragmentBaseMediaDecodeTimeBox ("tfdt")  
-   defined in [[!ISOBMFF]] used to signal the decode time of the media  
+   defined in [[!ISOBMFF]] signals the decode time of the media  
    fragment signaled in the "moof" box.
 
 # Media Ingest Workflows and Interfaces (Informative) # {#workflows}
@@ -340,9 +342,9 @@
    [=receiving entity=] can do many of the operations related to the delivery
    such as encryption or generating the streaming manifests. In addition, the
    distribution of functionalities can make it easier to scale a deployment with
-   concurrent (redundant) live media sources and receiving entities. Besides these factors,
-   choosing a workflow for a video streaming platform depends on many other
-   factors.
+   concurrent (redundant) live media sources and receiving entities. Besides
+   these factors, choosing a workflow for a video streaming platform depends on
+   many other factors.
 
    Table 1: Different ingest use cases.
    <!-- class=def is a built-in style. It is optional but looks nice. -->
@@ -386,7 +388,7 @@
    interfaces.
 
      1. The [=ingest source=] SHALL communicate using the HTTP POST command as
-        defined in the HTTP protocol, version 1.1 [[!RFC7235]].
+        defined in the HTTP protocol, version 1.1 [[!RFC7230]].
 
         NOTE: This specification does not imply any functional differentiation
         between a POST and PUT command. Either may be used to transfer content
@@ -428,10 +430,10 @@
         [=ingest source=] in the event of a service update.
      10. The HTTP POST for sparse data SHOULD be short-lived, terminating as
          soon as the data of a fragment is sent.
-     11. The HTTP POST command uses a [=POST_URL=] to the basepath of the
-         publishing point at the [=receiving entity=] and SHOULD use an
-         additional relative path when posting different streams and fragments,
-         for example, to signal the stream or fragment name.
+     11. The HTTP POST command uses the [=publishing_point_URL=] at the
+         [=receiving entity=] and SHOULD use an additional relative path when
+         posting different streams and fragments, for example, to signal the
+         stream or fragment name.
      12. Both the [=ingest source=] and [=receiving entity=] MUST support IPv4
          and IPv6 transport.
      13. The [=ingest source=] SHOULD use a timeout in the order of a segment
@@ -444,12 +446,11 @@
          average segments durations. For connections that were down longer, the
          [=ingest source=] can resume sending [=objects=] at the live edge of
          the media presentation.
-     15. After a TCP error, the [=ingest source=]  
-         performs the following:
-         
+     15. After a TCP error, the [=ingest source=] performs the following:
+
          15a. The current connection MUST be closed and a new connection MUST be
          created for a new HTTP POST command.
-         
+
          15b. The new HTTP [=POST_URL=] MUST be the same as the initial
          [=POST_URL=] for the object to be ingested.
          
@@ -458,7 +459,7 @@
          return an HTTP 403 Forbidden error.
      17. The following error conditions apply to the receiving entity: 
 
-         17a. If the publishing point receiving the HTTP POST command is not
+         17a. If the [=publishing_point_URL=] receiving the HTTP POST command is not
          available, it SHOULD return an HTTP 404 Not Found error to the
          [=ingest source=].
 
@@ -489,7 +490,7 @@
 
 ## General Considerations (Informative) ## {#interface-1-general}
 
-The media format is based on CMAF, conforming to track constraints as specified
+The media format is based on CMAF, conforming to the track constraints specified
 in [[!MPEGCMAF]] clause 7. A key benefit of this format is that it allows easy
 identification of stream boundaries, enabling switching, redundancy,
 re-transmission resulting in a good fit with current Internet infrastructures.
@@ -571,11 +572,11 @@ POST to test that the [=receiving entity=] is listening. This POST may send the
 [=CMAF header=] or could be empty. In case this is successful, it is followed by
 a CMAF header and the fragments comprising the [=CMAFstream=]. At the end of the
 session, for tear down the source may send an empty [=mfra (deprecated)=] box to
-close the connection and [=publishing point=].
+close the connection.
 
 This is then followed with a zero-length chunk, allowing the receiver to send a
 response, the encoder can follow up by closing the TCP connection using a FIN
-packet as defined in [[!RFC7235]].
+packet as defined in [[!RFC7230]].
 
 This last step is especially important in long running posts using chunked
 transfer encoding, as in this case the receiver may not know that the connection
@@ -589,20 +590,20 @@ Figure 8: CMAF Ingest flow.
 ## General Protocol and Track Format Requirements ## {#interface-1-requirements}
 
 The ingest source transmits media content to the receiving entity using HTTP
-POST. The receiving entity listens for content on a [=POST_URL=]
+POST. The receiving entity listens for content at the [=publishing_point_URL=]
 that is known by both the ingest source and receiving entity. The [=POST_URL=]
-may contain a basepath corresponding to a domain name and a relative path, as
-setup by the receiving entity and a domain name system. An extended path to
-identify the stream name, switching set or fragment may be added by the ingest
-source. It is assumed that the ingest source can retrieve these paths and use
-them. The [=POST_URL=] setup by a receiving entity can be referred to as a
-[=publishing point=] and is used during a live stream session to receive the
-live content.
+may contain an extended path to identify the stream name, switching set or
+fragment may be added by the ingest source. It is assumed that the ingest source
+can retrieve these paths and use them.
+
+In Interface-1, the container format is based on CMAF, conforming to the track
+constraints specified in [[!MPEGCMAF]] clause 7. Unless stated otherwise, no
+conformance to a specific CMAF media profile is REQUIRED.
 
    1. The [=ingest source=] SHALL start by an HTTP POST request with the CMAF
       header, or an empty request, to the POST_URL. This can help the ingest
-      source quickly detect whether the publishing point is valid, and if there
-      are any authentication or other conditions required.
+      source quickly detect whether the [=publishing_point_URL=] is valid, and
+      if there are any authentication or other conditions required.
    2. The [=ingest source=] MUST initiate a media ingest connection by posting
       at least one [=CMAF header=] after step 1 and an optional DASH manifest,
       restricted as in clause 16 of this section.
@@ -614,7 +615,7 @@ live content.
       A CMAF segment/fragment may nevertheless be composed by one or more CMAF
       chunks.
    4. The [=ingest source=] MAY use the chunked transfer encoding option of the
-      HTTP POST command [[!RFC7235]] when the content length is unknown at the
+      HTTP POST command [[!RFC7230]] when the content length is unknown at the
       start of transmission or to support use cases that require low latency.
    5. If the HTTP POST request terminates or times out with a TCP error, the
       [=ingest source=] MUST establish a new connection and follow the
@@ -631,7 +632,7 @@ live content.
       ingest of each different CMAF track.
    9. The [=ingest source=] MAY use a separate relative path in the
       [=POST_URL=] for ingesting each different track or track segment by
-      appending it to the [=POST_URL=]. This can make it easy to detect
+      appending it to the [=POST_URL=]. This makes it easy to detect
       redundant streams from different ingest sources. The Streams(stream_name)
       keyword may be used to signal the name of a stream.
    10. The [=baseMediaDecodeTime=] timestamps in "tfdt" of fragments in the
@@ -666,13 +667,25 @@ live content.
        ("styp") with the brand *slat*. This allows a receiver to still replace
        those segments with valid content segments at a later time.
    18. The last segment in a CMAF track, SHOULD be labelled with a
-       SegmentTypeBox ("styp") with the brand *lmsg*. This way the receiver
+       SegmentTypeBox ("styp") with the brand *lmsg*. This way, the receiver
        knows that no more media segments are expected for this track. In case
        the track is restarted, a request with a [=CMAF header=] with (identical
-       properties) must be issued to the same POST_URL.
+       properties) must be issued to the same [=POST_URL=].
+   19. CMAF segments may include one or more DASHEventMessageBox'es ("emsg")
+       containing timed metadata.
 
-   Note, in case a receiving entity cannot process a request from an ingest
-   source correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
+       NOTE: In DASH 4th edition, all DASHEventMessageBox'es ("emsg") must have
+       a presentation_time later as compared to the segment's earliest
+       presentation time. This can make re-signaling of continuation events (events
+       that are still active) troublesome.
+
+       NOTE: Including DASHEventMessageBox'es ("emsg") boxes in media segments
+       may result in a loss of performance for just-in-time packaging. In this
+       case, timed metadata [[#interface-1-timed-metadata]] should be
+       considered.
+
+   In case a receiving entity cannot process a request from an ingest source
+   correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
    [[#interface-1-2]] for details.
 
 ## Requirements for Formatting Media Tracks ## {#interface-1-media-tracks}
@@ -694,7 +707,7 @@ live content.
       fluctuate to compensate for non-integer frame rates. By choosing an
       appropriate timescale (a multiple of the frame rate is recommended) this
       issue should be avoided.
-   3. The [=CMAF fragment=] durations SHOULD be between approximately 1 and 6
+   3. The [=CMAF fragment=] durations SHOULD be between approximately one and six
       seconds.
    4. Media tracks SHOULD use a timescale for video streams based on the
       framerate and 44.1 KHz or 48 KHz for audio streams or any another
@@ -703,9 +716,9 @@ live content.
       multiples of these timescales could be used.
    5. The language of the CMAF track SHOULD be signaled in the "[=mdhd=]" box or
       "[=elng=]" boxes in the CMAF header.
-   6. Media tracks SHOULD contain the btrt box specifying the target average and
-      maximum bitrate of the CMAF fragments in the sample entry container in the
-      CMAF header.
+   6. Media tracks SHOULD contain the ("btrt") box specifying the target average
+      and maximum bitrate of the CMAF fragments in the sample entry container in
+      the CMAF header.
    7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this case
       they SHOULD be signaled using SegmentTypeBox ("styp") to make it easy for the
       receiving entity to differentiate them from CMAF fragments. The brand type
@@ -731,7 +744,7 @@ live content.
 ## Requirements for Signaling Switching Sets ## {#interface-1-switchingsets}
 
 In live streaming, a [=CMAF presentation=] of streams corresponding to a channel
-is ingested by posting to a [=publishing point=] at the [=receiving entity=].
+is ingested by posting to a [=publishing_point_URL=] at the [=receiving entity=].
 CMAF has the notion of switching sets [[!MPEGCMAF]] that map to similar
 streaming protocol concepts like adaptation set in DASH. To signal a switching
 set in a [=CMAF presentation=], CMAF media tracks MUST correspond to the
@@ -746,9 +759,9 @@ mean the following steps could be implemented by the live ingest source.
       ID can be a string or (small) integer number. Characters in switching set
       shall be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing
       delimiters.
-   2. The [=switching set ID=] MAY be added in a relative path to the POST_URL
-      using the Switching() keyword. In this case, a CMAF chunk is sent from the
-      live ingest source as POST chunk.cmfv
+   2. The [=switching set ID=] can be added in a relative path to the
+      [=POST_URL=] using the Switching() keyword. In this case, a CMAF chunk is
+      sent from the live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id).
    3. The live ingest source MAY add a "kind" box in the "udta" box in each track
       to signal the switching set it belongs to. The schemeIdUri of this "kind"
@@ -771,7 +784,7 @@ Table 2: Switching set signaling options.
       <td>Mandatory</td>
    </tr>
    <tr>
-      <td>Signaling using [=switching set ID=] in post URI path using Switching() keyword</td>
+      <td>Signaling using [=switching set ID=] in the [=POST_URL=] using Switching() keyword</td>
       <td>Optional</td>
    </tr>
    <tr>
@@ -824,7 +837,7 @@ and subtitle tracks.
       urn:mpeg:dash:role:2011 and a value containing a role as defined in
       [[!MPEGDASH]].
 
-Note: [[!MPEGCMAF]] allows multiple "kind" boxes, hence, multiple roles can be
+NOTE: [[!MPEGCMAF]] allows multiple "kind" boxes, hence, multiple roles can be
 signaled. By default, one should signal the DASH role urn:mpeg:dash:role:2011. A
 receiver may derive corresponding configuration for other streaming protocols
 such as HLS. In case this is not desired, additional "kind" boxes with
@@ -965,7 +978,7 @@ information and others:
       is "meta", the track handler box is a NullMediaHeaderBox ("[=nmhd=]") as
       defined for timed metadata tracks in [[!ISOBMFF]] clause 12.3.
    2. The CMAF timed metadata track applies to the [=CMAF presentation=]
-      ingested to a [=publishing point=] at the receiving entity.
+      ingested to a [=publishing_point_URL=] at the receiving entity.
    3. To fulfill CMAF track requirements in clause 7.3. of [[!MPEGCMAF]], such
       as not having gaps in the media timeline, filler data may be needed. Such
       filler data SHALL be defined by the metadata scheme signaled in
@@ -1027,14 +1040,7 @@ information and others:
       can be used by the [=receiving entity=] to detect duplicate events.
 
    6. The [=ingest source=] SHOULD NOT embed inband top-level
-      DASHEventMessageBox'es ("emsg") in the timed metadata track or media
-      tracks, however, it is not prohibited when conforming to this
-      specification. In some setups, inband event messages may be used in media
-      tracks, but it may result in a loss of performance for just-in-time
-      packaging. Also in DASH 4th edition, all DASHEventMessageBox'es must have
-      presentation_time, later as compared to the segment earliest presentation
-      time, this makes re-signaling of continuation events (events still active)
-      troublesome, as they started earlier.
+      DASHEventMessageBox'es ("emsg") in the timed metadata track. 
 
 ## Requirements for Signaling and Conditioning Splice Points  ## {#interface-1-splicing}
 
@@ -1106,7 +1112,7 @@ The [=CMAF Ingest=] source and [=receiving entity=] should implement the
 following recommendation to achieve failover support of the receiving entity.
 
    1. In case the receiving entity failed, a new instance SHOULD be created,
-      listening on the same [=publishing point=] for the ingest stream.
+      listening on the same [=publishing_point_URL=] for the ingest stream.
 
 Live encoder or [=ingest source=] failover is the second type of failover. In
 this scenario, the error condition occurs on the [=ingest source=] side. The
@@ -1199,19 +1205,16 @@ be similar as defined in Interface-1.
       create both DASH and HLS streaming presentations using common media
       objects (i.e., CMAF), but the ingest source MUST generate format-specific
       manifest objects.
-
    2. The [=ingest source=] MUST support the configuration and use of Fully
       Qualified Domain Names (per RFC 8499) to identify the
       [=receiving entity=].
-
-   3. The [=ingest source=] MUST support the configuration of the path which it
+   3. The [=ingest source=] MUST support the configuration of the path, which it
       will POST all the [=objects=] to.
-
    4. The [=ingest source=] SHOULD support the configuration of the delivery
-      path that clients will use to retrieve the content. When provided, the
-      [=ingest source=] MUST use this path to build absolute URLs in the
-      manifest files it generates. When absent, relative pathing is assumed and
-      the ingest source MUST build the manifest files accordingly.
+      path that the [=receiving entity=] will use to retrieve the content. When
+      provided, the [=ingest source=] MUST use this path to build absolute URLs
+      in the manifest files it generates. When absent, use of relative paths is
+      assumed and the ingest source MUST build the manifest files accordingly.
 
 These capabilities are further illustrated in [[#examples]].
 
@@ -1400,7 +1403,7 @@ When ingesting prepared DASH content, the ingest source:
 
 ### Relative Paths ### {#dash-ingest-relative-paths}
 
-   - The ingest source SHOULD use relative URL paths to address each segment
+   - The ingest source SHOULD use relative URLs to address each segment
      within the manifest.
 
 ## HLS-Specific Requirements ## {#hls-ingest-requirements}
@@ -1444,9 +1447,9 @@ result in a stream manifest discontinuity per [[!RFC8216]].
 
 ### Relative Paths ### {#hls-ingest-relative-paths}
 
-   1. The ingest source SHOULD use relative URL paths to address each segment
+   1. The ingest source SHOULD use relative URLs to address each segment
       within the variant playlist.
-   2. The ingest source SHOULD use relative URL paths to address each variant
+   2. The ingest source SHOULD use relative URLs to address each variant
       playlist within the master playlist.
 
 ### Resiliency ### {#hls-ingest-resiliency}
@@ -1541,10 +1544,10 @@ packager receives the ingested streams and performs the following tasks.
      transfer encoding.
 
    - The packager may have a proprietary API similar to the live encoder source,
-     for configuration of aspects like the segmentTimeBuffer, DVR window,
+     for configuration of aspects like the timeShiftBuffer, DVR window,
      encryption modes enabled, etc.
 
-   - The packager uses DASH or HLS Ingest (as specified in Section 6) to push
+   - The packager uses DASH or HLS Ingest (as specified in [[#interface-1]]) to push
      content to the origin server of a CDN. Alternatively, it could also make
      content directly available as an origin server. In this case, DASH/HLS
      Ingest is avoided and the packager also serves as the origin server.
@@ -1597,7 +1600,7 @@ Alternatively, a file resource may be used. In this workflow, the encoder
 functions as the ingest source. FFmpeg produces the ingest stream with different
 ABR encoded CMAF tracks. In addition, it sends a manifest that complies with
 DASH-IF and DVB low-latency CMAF specification and MPD updates. The CMAF tracks
-also contain respective timing information (i.e., "prft"). In this case, the
+also contain respective timing information (i.e., "[=prft=]"). In this case, the
 ingest source implements Interface-2 DASH Ingest. But, as in this case the DASH
 presentation uses CMAF, the media and track constraints of Interface-1 are also
 satisfied. By also resending CMAF headers in case of failures both interfaces
