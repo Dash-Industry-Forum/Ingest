@@ -470,6 +470,7 @@
          17c. If the receiving entity cannot process a fragment in the POST
          request body due to missing or incorrect init fragment, it may return
          an HTTP 412 Precondition Failed error.
+
          17d. If there is an error at the receiving entity not particularly
          relating to the POST command from the [=ingest source=], it may return
          an appropriate HTTP 5xx error.
@@ -481,6 +482,11 @@
          responses from the receiving entity.
      19. The [=ingest source=] and receiving entity SHOULD support gzip based
          content encoding.
+
+       EDITOR'S NOTE: Encoder vendors are particularly requested to comment on
+       what the receiving entity should return, if anything, in the response
+       body (or header) upon the completion of the POST request. Examples may
+       include size/name/URL of the object posted. Discuss at https://github.com/Dash-Industry-Forum/Ingest/issues/146. 
 
 # Interface-1: CMAF Ingest # {#interface-1}
 
@@ -645,7 +651,7 @@ conformance to a specific CMAF media profile is REQUIRED.
        sequence number based indexing helps the receiving entities identify
        discontinuities. In this case sequence numbers SHOULD increase by one.  
    12. The average and maximum bitrate of each track SHOULD be signaled in the
-       btrt box in the sample entry of the CMAF header. These can be used to
+       "btrt" box in the sample entry of the CMAF header. These can be used to
        signal the bitrate later on, such as in the manifest.
    13. In case a track is part of a [=switching set=], all properties in
        Sections 6.4 and 7.3.4 of [[!MPEGCMAF]] MUST be satisfied, enabling the
@@ -675,7 +681,7 @@ conformance to a specific CMAF media profile is REQUIRED.
    19. CMAF segments may include one or more DASHEventMessageBox'es ("emsg")
        containing timed metadata.
 
-       NOTE: In DASH 4th edition, all DASHEventMessageBox'es ("emsg") must have
+       NOTE: According to [[!MPEGDASH]], all DASHEventMessageBox'es ("emsg") must have
        a presentation_time later as compared to the segment's earliest
        presentation time. This can make re-signaling of continuation events (events
        that are still active) troublesome.
@@ -684,6 +690,15 @@ conformance to a specific CMAF media profile is REQUIRED.
        may result in a loss of performance for just-in-time packaging. In this
        case, timed metadata [[#interface-1-timed-metadata]] should be
        considered.
+
+   20. CMAF media (audio and video) tracks SHALL include the
+       ProducerReferenceTimeBox'es ("[=prft=]") in the ingest. In these media
+       tracks, all segment SHALL include a "[=prft=]" box. The "[=prft=]" box
+       permits the end client to compute the end-to-end latency or the encoding
+       plus distribution latency.
+
+       EDITOR'S NOTE: Encoder vendors are particularly requested to review
+       clause 20.
 
    In case a receiving entity cannot process a request from an ingest source
    correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
@@ -758,12 +773,15 @@ mean the following steps could be implemented by the live ingest source.
       for each switching set in a live streaming session. Tracks with the same
       [=switching set ID=] belong to the same switching set. The switching set
       ID can be a string or (small) integer number. Characters in switching set
-      shall be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing
+      SHALL be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing
       delimiters.
    2. The [=switching set ID=] can be added in a relative path to the
       [=POST_URL=] using the Switching() keyword. In this case, a CMAF chunk is
       sent from the live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id).
+
+      EDITOR'S NOTE: Discuss clause 2 at https://github.com/Dash-Industry-Forum/Ingest/issues/125.
+      
    3. The live ingest source MAY add a "kind" box in the "udta" box in each track
       to signal the switching set it belongs to. The schemeIdUri of this "kind"
       box SHALL be urn:dashif:ingest:switchingset_id and the value field of the
@@ -826,7 +844,7 @@ and subtitle tracks.
       3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEG4-30]] IMSC1
       Image profile *im1i*
 
-   4. The BitRateBox btrt SHOULD be used to signal the average and maximum
+   4. The BitRateBox ("btrt") SHOULD be used to signal the average and maximum
       bitrate in the sample entry box, this is most relevant for bitmap or XML
       based timed text subtitles that may consume significant bandwidth (e.g.,
       im1i or im1t).
@@ -1144,6 +1162,8 @@ following recommendations apply:
       segments. The additional signaling for this is out of scope.
 
 ## Requirements for Media Ingest Source Synchronization ## {#interface-1-dualsync}
+
+EDITOR'S NOTE: Encoder vendors are particularly requested to review this section.
 
 In the case of more than one redundant ingest sources, synchronization between
 them can be achieved as follows. A fixed segment duration is chosen such as
