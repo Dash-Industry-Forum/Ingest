@@ -2,14 +2,13 @@
 
 ## Abstract ## {#abstract}
 
-   This document presents the DASH-IF Live Media Ingest Protocol Specification
-   where two protocol interfaces are defined. Interface-1 (CMAF Ingest) is based
-   on fragmented MP4 as defined in CMAF. Interface-2 is based on DASH and HLS as
-   specified by the MPEG and IETF, respectively. Both interfaces use the HTTP
-   POST (or PUT) method to transmit media objects from the ingest source to the
+   This document presents the DASH-IF Live Media Ingest Protocol Specification.
+   Two closely related protocol interfaces are defined: Interface-1 (CMAF Ingest) is based
+   on fragmented MP4 and Interface-2 (DASH and HLS ingest) based on DASH and HLS. 
+   Both interfaces use the HTTP POST (or PUT) method to transmit media objects from the ingest source to the
    receiving entity. The protocol interfaces also support carriage of timed
    metadata and timed text. Examples workflows using these interfaces, and
-   guidelines for redundancy and failover are also presented.
+   guidelines for multiple source synchronisation, redundancy and failover are also presented.
 
 ## Copyright Notice and Disclaimer ## {#copyrights}
 
@@ -116,6 +115,9 @@
    Ingest) mainly functions as an ingest format to a packager or active media
    processor, while the second interface (DASH/HLS Ingest) works mainly to
    ingest media presentations to an origin server, cloud storage or CDN.
+   Smart implementations could implement both interfaces as one unified
+   interface as illustrated in the examples, but separate interfaces were
+   defined as to reduce overhead.
 
    [[#workflows]] provides more background and motivation for the
    two interfaces. We further motivate the specification in this document
@@ -294,9 +296,7 @@
    The second workflow constitutes ingest to a passive delivery system such as a
    cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
    [=HLS Ingest=]) is used to ingest a stream already formatted to be ready for
-   delivery to an end client. Besides the media objects, manifest objects are
-   also ingested by the [=receiving entity=]. Figure 2 shows an example for
-   Interface-2.
+   delivery to an end client. Figure 2 shows an example for Interface-2.
 
    Figure 2: Example with [=DASH Ingest=].
    <figure> <img
@@ -309,33 +309,34 @@
    be robust, flexible and easy to implement in live encoders. In addition, it
    provided features for high availability and server-side redundancy.
 
-   Interface-1 ([=CMAF Ingest=], detailed in Section 5) improves the Smooth
+ <!--  Interface-1 ([=CMAF Ingest=], detailed in Section 5) improves the Smooth
    Streaming's ingest protocol including lessons learned over the last ten years
    after the initial deployment of Smooth Streaming in 2009 and several advances
    on signaling metadata and timed text. In addition, the current specification
    incorporates the latest media formats and protocols, making it ready for
    current and next-generation media codecs such as [[!MPEGHEVC]] and protocols
-   like DASH [[!MPEGDASH]].  
-
+   like DASH [[!MPEGDASH]].  -->
+<!--
    Interface-2 (DASH/HLS Ingest) is included for ingest of media streaming
    presentations to a passive receiving entity that provides a pass-through
    functionality. In this case, [=manifest objects=] and other client-specific
    information also need to be ingested. In Interface-2, naming and content type
    identification via MIME types is important to enable direct processing and
    storage of the presentation. Interface-2 could also be used as an output
-   format of a packager.
+   format of a packager. -->
 
    A key idea of this part of the specification is to re-use the similarities of
    the DASH and HLS protocols to enable a simultaneous ingest of media
    presentations of these two formats using common media fragments based on
-   [[!ISOBMFF]] and [[!MPEGCMAF]].
+   [[!ISOBMFF]] and [[!MPEGCMAF]]. --!>
 
+<!--
    The two interfaces are presented separately. This reduces the overhead of the
    information that needs to be signaled compared to having both interfaces
    combined into one, as was the case in a draft version of this document.
    Nevertheless, some instantiations, may still consider combining the two
    interfaces. An example of this is given at the end of the document in the
-   examples section.
+   examples section. -->
 
    Table 1 highlights some of the key differences and practical considerations
    of the interfaces. In Interface-1, the ingest source can be simple since the
@@ -502,7 +503,9 @@ identification of stream boundaries, enabling switching, redundancy,
 re-transmission resulting in a good fit with current Internet infrastructures.
 We believe that the CMAF track format will make things easier and that the
 industry is already heading in this direction following recent specifications  
-like [[!MPEGCMAF]] and HLS [[!RFC8216]].
+like [[!MPEGCMAF]] and HLS [[!RFC8216]]. Note that no media profiles of CMAF
+are required by the specification unless stated otherwise, only the structural 
+format based on clause 7 is used.
 
 [=CMAF Ingest=] assumes ingest to an active receiving entity, such as a packager
 or active origin server. However, it can also be used for simple transport of
@@ -578,17 +581,11 @@ POST to test that the [=receiving entity=] is listening. This POST may send the
 [=CMAF header=] or could be empty. In case this is successful, it is followed by
 a CMAF header and the fragments comprising the [=CMAFstream=]. At the end of the
 session, for tear down the source may send an empty [=mfra (deprecated)=] box to
-close the connection.
+close the connection or a segment with the brand "lmsg".
 
-This is then followed with a zero-length chunk, allowing the receiver to send a
-response, the encoder can follow up by closing the TCP connection using a FIN
-packet as defined in [[!RFC7230]].
-
-This last step is especially important in long running posts using chunked
-transfer encoding, as in this case the receiver may not know that the connection
-needs to be closed or that the HTTP POST command is over. 
-
-NOTE: CMAF Ingest may use either long running or short running POST commands.
+This is then followed with a zero-length chunk, in case HTTP chunked transfer encoding was used,
+allowing the receiver to send a response, the encoder can follow 
+up by closing the TCP connection using a FIN packet as defined in [[!RFC7230]].
 
 Figure 8: CMAF Ingest flow.
 <figure> <img src="Diagrams/media-ingest.png" />
@@ -604,7 +601,7 @@ fragment may be added by the ingest source. It is assumed that the ingest source
 can retrieve these paths and use them.
 
 In Interface-1, the container format is based on CMAF, conforming to the track
-constraints specified in [[!MPEGCMAF]] clause 7. Unless stated otherwise, no
+constraints specified in [[!MPEGCMAF]] clause 7. Unless stated otherwise, NO
 conformance to a specific CMAF media profile is REQUIRED.
 
    1. The [=ingest source=] SHALL start by an HTTP POST request with the CMAF
@@ -1523,9 +1520,10 @@ intercepted from a broadcast that need to be re-used in an [=OTT=] distribution
 workflow. The live ABR encoder performs the encoding of the tracks into
 CMAF tracks and functions as the [=ingest source=] in the CMAF Ingest interface.
 Multiple live ABR encoder sources can be used, providing redundant inputs to the
-packager using dual encoder synchronisation. In this case, the segments are all 
-of constant duration and audio and video segment boundaries should be aligned 
-and all should use a timing relative to a shared anchor such as the Unix Epoch.
+packager using dual encoder synchronisation. In this case, the segments are 
+of constant duration and audio and video segment boundaries should be aligned. 
+Segments should use a timing relative to a shared anchor such as the Unix Epoch,
+as to support synchronisation based on epoch locking.
 
 Following the CMAF Ingest specification in this document allows for failover and many
 other features related to the content tracks. The live encoder source performs
@@ -1650,7 +1648,7 @@ for live chunked CMAF developped by DASH-IF and DVB. In this workflow, a
 contribution encoder produces an [=RTP=] mezzanine stream that is transmitted to
 FFmpeg, an example open-source encoder/packager running on a server.
 Alternatively, a file resource may be used. In this workflow, the encoder
-functions as the ingest source. FFmpeg produces the ingest stream with different
+functions as the [=ingest source=]. FFmpeg produces the ingest stream with different
 ABR encoded CMAF tracks. In addition, it sends a manifest that complies with
 DASH-IF and DVB low-latency CMAF specification and MPD updates. The CMAF tracks
 also contain respective timing information (i.e., "[=prft=]"). In this case, the
@@ -1668,8 +1666,8 @@ keywords.
 
 The approaches for authentication and DNS resolution are similar for the two
 interfaces, as are the track formatting in case CMAF is used. This example does
-not use timed metadata. The ingest source may resend the CMAF header or init
-fragment in case of connection failures to conform to the CMAF Ingest
+not use timed metadata. The ingest source may resend the CMAF header or initialisation
+segment in case of connection failures to conform to the CMAF Ingest
 specification. 
 
 Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
@@ -1713,7 +1711,7 @@ Editorial updates completed in v1.1.:
 We thank the contributors from the following companies for their comments and
 support: Huawei, Akamai, BBC R&D, CenturyLink, Microsoft, Unified Streaming,
 Facebook, Hulu, Comcast, ITV, Qualcomm, Tencent, Samsung, MediaExcel, Harmonic,
-Sony, Arris, Bitmovin, DSR and AWS Elemental.
+Sony, Arris, Bitmovin, Ateme, EZDRM, DSR, BroadPeak and AWS Elemental.
 
 # URL References # {#url-references}
 
