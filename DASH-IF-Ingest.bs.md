@@ -2,13 +2,13 @@
 
 ## Abstract ## {#abstract}
 
-   Two closely related protocol interfaces are defined: Interface-1 (CMAF Ingest) based
-   on fragmented MP4 and Interface-2 (DASH and HLS ingest) based on DASH and HLS. 
-   Both interfaces use the HTTP POST (or PUT) method to transmit media objects from the ingest source to the
+   Two closely related protocol interfaces are defined: CMAF Ingest (Interface-1) based
+   on fragmented MP4 and DASH/HLS ingest (Interface-2) based on DASH and HLS. 
+   Both interfaces use the HTTP POST (or PUT) method to transmit media objects from an ingest source to a
    receiving entity. The protocol interfaces support carriage of audiovisual media, timed
    metadata and timed text. Examples of workflows using these interfaces are provided. 
-   In addition, guidelines for multiple ingest source synchronisation, redundant deployment 
-   and component failurover are presented.
+   In addition, guidelines for synchronisation of multiple ingest sources, redundancy and
+   failover are presented.
 
 ## Copyright Notice and Disclaimer ## {#copyrights}
 
