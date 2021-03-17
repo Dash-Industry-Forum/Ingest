@@ -2,13 +2,13 @@
 
 ## Abstract ## {#abstract}
 
-   This document presents the DASH-IF Live Media Ingest Protocol Specification.
-   Two closely related protocol interfaces are defined: Interface-1 (CMAF Ingest) is based
+   Two closely related protocol interfaces are defined: Interface-1 (CMAF Ingest) based
    on fragmented MP4 and Interface-2 (DASH and HLS ingest) based on DASH and HLS. 
    Both interfaces use the HTTP POST (or PUT) method to transmit media objects from the ingest source to the
-   receiving entity. The protocol interfaces also support carriage of timed
-   metadata and timed text. Examples workflows using these interfaces, and
-   guidelines for multiple source synchronisation, redundancy and failover are also presented.
+   receiving entity. The protocol interfaces support carriage of audiovisual media, timed
+   metadata and timed text. Examples of workflows using these interfaces are provided. 
+   In addition, guidelines for multiple ingest source synchronisation, redundant deployment 
+   and component failurover are presented.
 
 ## Copyright Notice and Disclaimer ## {#copyrights}
 
