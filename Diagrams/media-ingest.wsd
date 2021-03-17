@@ -5,19 +5,22 @@ Media_processing_entity --> Ingest_Source: Authentication Response
 Ingest_Source -> Media_processing_entity: HTTP POST CMAF Header
 Media_processing_entity --> Ingest_Source: 200 OK
 
-Ingest_Source -> Media_processing_entity: HTTP POST CMAF Fragment
+Ingest_Source -> Media_processing_entity: HTTP POST CMAF Segment
 Media_processing_entity --> Ingest_Source: 200 OK 
 
-Ingest_Source -> Media_processing_entity: HTTP POST CMAF Fragment
+Ingest_Source -> Media_processing_entity: HTTP POST CMAF Segment
 Media_processing_entity --> Ingest_Source: 200 OK
 
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-
-Media_processing_entity --> Ingest_Source: Error
+Ingest_Source -> Media_processing_entity: CMAF Segment
+Media_processing_entity --> Ingest_Source: 200 OK
+Ingest_Source -> Media_processing_entity: CMAF Segment
+Media_processing_entity --> Ingest_Source: 200 OK
+Ingest_Source -> Media_processing_entity: CMAF Segment
+Media_processing_entity --> Ingest_Source: Error HTTP 412
 Ingest_Source -> Media_processing_entity: CMAF Header
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: mfra
+Media_processing_entity --> Ingest_Source: 200 OK
+Ingest_Source -> Media_processing_entity: CMAF Segment
+Media_processing_entity --> Ingest_Source: 200 OK
+Ingest_Source -> Media_processing_entity: CMAF Segment with lmsg brand
 Media_processing_entity --> Ingest_Source: 200 OK
 @enduml
