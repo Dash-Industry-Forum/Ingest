@@ -328,7 +328,7 @@
    A key idea of this part of the specification is to re-use the similarities of
    the DASH and HLS protocols to enable a simultaneous ingest of media
    presentations of these two formats using common media fragments based on
-   [[!ISOBMFF]] and [[!MPEGCMAF]]. --!>
+   [[!ISOBMFF]] and [[!MPEGCMAF]]. 
 
 <!--
    The two interfaces are presented separately. This reduces the overhead of the
