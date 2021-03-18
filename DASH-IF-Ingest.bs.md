@@ -484,10 +484,11 @@
      19. The [=ingest source=] and receiving entity SHOULD support gzip based
          content encoding.
 
-       EDITOR'S NOTE: Encoder vendors are particularly requested to comment on
-       what the receiving entity should return, if anything, in the response
-       body (or header) upon the completion of the POST request. Examples may
-       include size/name/URL of the object posted. Discuss at https://github.com/Dash-Industry-Forum/Ingest/issues/146. 
+       ISSUE: Encoder vendors are particularly requested to comment on what the
+       receiving entity should return, if anything, in the response body (or
+       header) upon the completion of the POST request. Examples may include
+       size/name/URL of the object posted. Discuss at
+       https://github.com/Dash-Industry-Forum/Ingest/issues/146.
 
 # Interface-1: CMAF Ingest # {#interface-1}
 
@@ -695,8 +696,7 @@ conformance to a specific CMAF media profile is REQUIRED.
        permits the end client to compute the end-to-end latency or the encoding
        plus distribution latency.
 
-       EDITOR'S NOTE: Encoder vendors are particularly requested to review
-       clause 20.
+       ISSUE: Encoder vendors are particularly requested to review clause 20.
 
    21. In case the input to the [=ingest source=] is MPEG-2 TS based, the
        [=ingest source=] is responsible for converting the presentation
@@ -787,7 +787,7 @@ mean the following steps could be implemented by the live ingest source.
       sent from the live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id).
 
-      EDITOR'S NOTE: Discuss clause 2 at https://github.com/Dash-Industry-Forum/Ingest/issues/125.
+      ISSUE: Discuss clause 2 at https://github.com/Dash-Industry-Forum/Ingest/issues/125.
       
    3. The live ingest source MAY add a "kind" box in the "udta" box in each track
       to signal the switching set it belongs to. The schemeIdUri of this "kind"
@@ -902,7 +902,7 @@ Table 3: Roles for subtitle and audio tracks and HLS characteristics.
 DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. Another example
 for explicitly signaling roles could be DVB DASH [[!DVB-DASH]]:
 
-EXAMPLE: kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
+EXAMPLE kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
 kind.value="Alternate".
 
 ## Requirements for Timed Metadata Tracks ## {#interface-1-timed-metadata}
@@ -1020,10 +1020,10 @@ information and others:
       still conform to [[!MPEGCMAF]] clause 7.3.
    5. CMAF timed metadata tracks MAY carry EventMessageBox'es as defined in
       [[!MPEGDASH]] clause 5.10.3.3. in the metadata samples. The best way to
-      create such a track is based on MPEG-B part 18 as defined in ISO/IEC
-      23001-18. Some deprecated implementations may use DASHEventMessageBox'es as
-      defined in ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in
-      samples may be implemented as follows:
+      create such a track is based on ISO/IEC 23001-18 (under development). Some
+      deprecated implementations may use DASHEventMessageBox'es as defined in
+      ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in samples may be
+      implemented as follows:
 
       5a. In the case of 5, version 1 SHOULD be used, in case version 0 is used,
       the presentation_time_delta refers to presentation time of the sample
@@ -1187,7 +1187,7 @@ following recommendations apply:
 
 ## Requirements for Media Ingest Source Synchronization ## {#interface-1-dualsync}
 
-EDITOR'S NOTE: Encoder vendors are particularly requested to review this section.
+ISSUE: Encoder vendors are particularly requested to review this section.
 
 In the case of more than one redundant ingest sources, synchronization between
 them can be achieved as follows. A fixed segment duration is chosen such as
