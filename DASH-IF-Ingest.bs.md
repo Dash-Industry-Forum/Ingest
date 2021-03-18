@@ -577,17 +577,19 @@ Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
 Digest Authentication) to establish a secure [=TCP=] connection.
 
 In private datacenter deployments where nodes are not reachable from outside, a
-non-authenticated connection may also be used. The ingest source then issues a
-POST to test that the [=receiving entity=] is listening. This POST may send the
-[=CMAF header=] or could be empty. In case this is successful, it is followed by
-a CMAF header and the fragments composing the [=CMAFstream=]. At the end of the
-session, the source may send an empty [=mfra (deprecated)=] box or a segment
-with the *lmsg* brand to close the connection.
+non-authenticated connection may also be used. The ingest source then issues an
+HTTP POST command to test that the [=receiving entity=] is listening. This POST
+may send the [=CMAF header=] or could be empty. In case the test is successful,
+it is followed by the CMAF header and fragments composing the [=CMAFstream=]. At
+the end of the session, the source may send an empty [=mfra (deprecated)=] box
+or a segment with the *lmsg* brand to conclude the POST command. Then, the
+[=ingest source=] can follow up by closing the TCP connection using a TCP FIN
+packet.
 
-??? This is then followed with a zero-length chunk, in case HTTP chunked transfer
-encoding is used, allowing the receiver to send a response. Then, the encoder
-can follow up by closing the TCP connection using a FIN packet as defined in
-[[!RFC7230].
+Note that if the HTTP POST is using the chunked transfer encoding option, the
+[=ingest source=] sends a zero-length terminating chunk per [[!RFC7230]] after
+sending the *lmsg* brand letting the [=receiving entity=] know that the POST
+command has been concluded.
 
 Figure 8: CMAF Ingest flow.
 <figure> <img src="Diagrams/media-ingest.png" />
