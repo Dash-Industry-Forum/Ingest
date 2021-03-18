@@ -134,9 +134,9 @@
 
    The document is structured as follows: Section 3 presents the conventions and
    terminology used throughout this document. Section 4 presents the use cases
-   and workflows related to media ingest and the two interfaces. Sections 5 and
-   6 detail Interface-1 and Interface-2, respectively. Section 7 provides
-   examples.
+   and workflows related to media ingest and the two interfaces. Section 5 lists
+   the common requirements for both interfaces. Sections 6 and 7 detail
+   Interface-1 and Interface-2, respectively. Section 8 provides examples.
 
 # Conventions and Terminology # {#conventions}
 
@@ -500,12 +500,12 @@
 The media format is based on CMAF, conforming to the track constraints specified
 in [[!MPEGCMAF]] clause 7. A key benefit of this format is that it allows easy
 identification of stream boundaries, enabling switching, redundancy,
-re-transmission resulting in a good fit with current Internet infrastructures.
+retransmission resulting in a good fit with current Internet infrastructures.
 We believe that the CMAF track format will make things easier and that the
 industry is already heading in this direction following recent specifications  
-like [[!MPEGCMAF]] and HLS [[!RFC8216]]. Note that no media profiles of CMAF
-are required by the specification unless stated otherwise, only the structural 
-format based on clause 7 is used. ???
+like [[!MPEGCMAF]] and HLS [[!RFC8216]]. Note that no CMAF media profile is
+needed by this specification unless stated otherwise; only the structural format
+based on [[!MPEGCMAF]] clause 7 is used.
 
 [=CMAF Ingest=] assumes ingest to an active receiving entity, such as a packager
 or active origin server. However, it can also be used for simple transport of
@@ -579,7 +579,7 @@ In private datacenter deployments where nodes are not reachable from outside, a
 non-authenticated connection may also be used. The ingest source then issues a
 POST to test that the [=receiving entity=] is listening. This POST may send the
 [=CMAF header=] or could be empty. In case this is successful, it is followed by
-a CMAF header and the fragments comprising the [=CMAFstream=]. At the end of the
+a CMAF header and the fragments composing the [=CMAFstream=]. At the end of the
 session, the source may send an empty [=mfra (deprecated)=] box or a segment
 with the *lmsg* brand to close the connection.
 
@@ -612,7 +612,7 @@ conformance to a specific CMAF media profile is REQUIRED.
    2. The [=ingest source=] MUST initiate a media ingest connection by posting
       at least one [=CMAF header=] after step 1 and an optional DASH manifest,
       restricted as in clause 16 of this section.
-   3. The [=ingest source=] SHALL transmit one or more CMAF segments comprising
+   3. The [=ingest source=] SHALL transmit one or more CMAF segments composing
       the track to the receiving entity once they become available. In this
       case, a single POST request message body MUST contain one CMAF segment in
       the body of that request. This specification assumes equivalence between a
@@ -742,11 +742,11 @@ conformance to a specific CMAF media profile is REQUIRED.
    6. Media tracks SHOULD contain the ("btrt") box specifying the target average
       and maximum bitrate of the CMAF fragments in the sample entry container in
       the CMAF header.
-   7. Media tracks MAY comprise CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this case
-      they SHOULD be signaled using SegmentTypeBox ("styp") to make it easy for the
-      receiving entity to differentiate them from CMAF fragments. The brand type
-      of a chunk is *cmfl*. CMAF chunks should only be signaled if they are not
-      the first chunk in a CMAF fragment.
+   7. Media tracks MAY be composed of CMAF chunks [[!MPEGCMAF]] 7.3.2.3. In this
+      case, they SHOULD be signaled using SegmentTypeBox ("styp") to make it
+      easy for the receiving entity to differentiate them from CMAF fragments.
+      The brand type of a chunk is *cmfl*. CMAF chunks should only be signaled
+      if they are not the first chunk in a CMAF fragment.
    8. In video tracks, profiles like avc1 and hvc1 MAY be used that signal the
       sequence parameter set in the CMAF header. In this case, these codec
       parameters do not change dynamically during the live session in the media
@@ -1072,16 +1072,16 @@ information and others:
       segment duration. As actual timed metadata durations may vary in practice,
       timed metadata schemes should support schemes for re-signaling all active
       timed metadata in each segment. This way, constant duration segments
-      (e.g., two-second segments) can still be used, and metadata that is still
-      active is repeated in later segments. ISO/IEC 23001-18 has explicit
-      support for this feature by repeating the event message boxes. ???
+      (e.g., two-second segments) can still be used and metadata that is still
+      active ca be repeated in later segments. ISO/IEC 23001-18 has explicit
+      support for this feature by repeating the event message boxes.
 
    8. In case the timed metadata track is also signaled in the manifest, the
       @codecs string should be set to the 4cc code of the sample entry, e.g.,
-      "urim" for URIMetaSampleEntry. The @contentType field is "meta" and
-      mimeType field is "application/mp4". Additonal descriptors such as
-      Supplemental or Essential Property may be used to further describe the
-      content of the metadata track in the manifest. ???
+      "urim" for URIMetaSampleEntry. The contentType field should be set to
+      "meta" and mimeType field to "application/mp4". Additonal supplemental or
+      essential property descriptors may be used to further describe the content
+      of the metadata track in the manifest.
 
 ## Requirements for Signaling and Conditioning Splice Points  ## {#interface-1-splicing}
 
@@ -1658,15 +1658,15 @@ complies with DASH-IF and DVB low-latency CMAF specification and MPD updates.
 The CMAF tracks also contain respective timing information (i.e., "[=prft=]").
 In this case, the ingest source implements Interface-1 and Interface-2 based
 ingest at once. By also resending CMAF headers in case of failures both
-interfaces may be satisfied.
+interfaces may be satisfied. In some cases, URI rewrite rules are needed to
+achieve the compatibility between Interface-1 and Interface-2. For example, the
+DASH segment naming structure can be used to derive the explicit Streams()
+keywords.
 
 The origin server is used to pass the streams to the client and may in some
 cases also perform a re-encryption or re-packaging of the streaming presentation
 as needed by the clients. The example client is DASH.js and a maximum end-to-end
-latency of 3500 ms is targeted. In some cases URI rewrite rules are needed to
-achieve the compatibility between Interface-1 and Interface-2. For example, the
-DASH segment naming structure can be used to derive the explicit Streams()
-keywords. ???
+latency of 3500 ms is targeted.
 
 The approaches for authentication and DNS resolution are similar for the two
 interfaces, as are the track formatting in case CMAF is used. This example does
@@ -1685,30 +1685,30 @@ v1.1: April 2021
 
 Technical updates completed for CMAF Ingest (Interface-1) in v1.1:
 
-    1. section on encoder synchronization added see issues 126 and 140
-    2. restriction single segment per post restriction see issue 112
-    3. text on encoder input loss issue 113
-    4. guidance on the manifest formatting see issue 111
-    5. reference to MPEG-B part 18 for timed metadata track see issue 31
-    6. emsg time is leading clarification see issue 129
-    7. brand for last segment see issue 114
-    8. deprecate the usage of mfra to close ingest #124
-    9. allow common encryption of media tracks #117
-    10. text on requesting segments from third server #119
-    11. swap priority preferred sample entry to hev1/avc3 #115
-    12. additional clarification on SCTE-35 carriage #128 #133 #130 #121 #127
-    13. prft box text added and made a requirement #116
-    14. guidelines for constant duration timed metadata #145
-    15. text on conversion MPEG-2 TS to DASH timeline #131
+    1. section on encoder synchronization added (issues #126 and #140)
+    2. restriction single segment per post restriction (issue #112)
+    3. text on encoder input loss (issue #113)
+    4. guidance on the manifest formatting (issue #111)
+    5. reference to MPEG-B part 18 for timed metadata track (issue #31)
+    6. emsg time is leading clarification (issue #129)
+    7. brand for last segment (issue #114)
+    8. deprecate the usage of mfra to close ingest (issue #124)
+    9. allow common encryption of media tracks (issue #117)
+    10. text on requesting segments from third server (issue #119)
+    11. swap priority preferred sample entry to hev1/avc3 (issue #115)
+    12. additional clarification on SCTE-35 carriage (issues #128, #133, #130, #121 and #127)
+    13. prft box text added and made a requirement (issue #116)
+    14. guidelines for constant duration timed metadata (issue #145)
+    15. text on conversion MPEG-2 TS to DASH timeline (issue #131)
 
 Editorial updates completed in v1.1:
 
-    1. Capitalization errors, cross references fixed, replaced some terms
-    2. for consistency, change references to IETF specifications
-    3. POST_URL vs publishing url
-    4. clean up the informative sections a bit
-    5. update the diagrams including fixes
-    6. some text from the examples removed to be inline with the current version
+    1. Fixed capitalization errors, cross reference errors and some terms
+    2. Updated the references
+    3. Clarified POST_URL vs publishing_URL
+    4. Cleaned up the informative sections
+    5. Updated the diagrams including the fixes
+    6. Updated/simplified the text for the examples
 
 # Acknowledgements # {#contributors}
 
