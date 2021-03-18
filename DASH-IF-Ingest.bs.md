@@ -335,8 +335,8 @@
    information that needs to be signaled compared to having both interfaces
    combined into one, as was the case in a draft version of this document.
    Nevertheless, some instantiations, may still consider combining the two
-   interfaces. An example of this is given at the end of the document in the
-   examples section.
+   interfaces. An example of this is given at the end of the document in
+   [[#examples]].
 
    Table 1 highlights some of the key differences and practical considerations
    of the interfaces. In Interface-1, the ingest source can be simple since the
@@ -899,10 +899,11 @@ Table 3: Roles for subtitle and audio tracks and HLS characteristics.
    </tr>
 </table>
 
-DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. Additionally,
-another example for explicitly signaling roles could be DVB DASH [[!DVB-DASH]].
-One could use schemeiduri@value and role as defined there, e.g.,
-`kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1" kind.value="Alternate"`.
+DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. Another example
+for explicitly signaling roles could be DVB DASH [[!DVB-DASH]]:
+
+EXAMPLE: kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
+kind.value="Alternate".
 
 ## Requirements for Timed Metadata Tracks ## {#interface-1-timed-metadata}
 
@@ -1180,8 +1181,9 @@ following recommendations apply:
       fragments that it has already received and processed, so it is better to
       error on the side of resending fragments than to introduce discontinuities
       in the media timeline.
-   7. In some cases a third server may be used by receiver, to request missing
-      segments. The additional signaling for this is out of scope.
+   7. In some cases, an alternative server may be used by the
+      [=receiving entity=] to request missing segments. The additional signaling
+      for this is out of the scope of this specification.
 
 ## Requirements for Media Ingest Source Synchronization ## {#interface-1-dualsync}
 
@@ -1681,31 +1683,32 @@ src="Images/DiagramXI.png" /> </figure>
 # List of Changes # {#changes}
 
 v1: April 2020 
+
 v1.1: April 2021 
 
-Technical updates completed for CMAF Ingest (Interface-1) in v1.1:
+Technical updates completed in v1.1:
 
-    1. section on encoder synchronization added (issues #126 and #140)
-    2. restriction single segment per post restriction (issue #112)
-    3. text on encoder input loss (issue #113)
-    4. guidance on the manifest formatting (issue #111)
-    5. reference to MPEG-B part 18 for timed metadata track (issue #31)
-    6. emsg time is leading clarification (issue #129)
-    7. brand for last segment (issue #114)
-    8. deprecate the usage of mfra to close ingest (issue #124)
-    9. allow common encryption of media tracks (issue #117)
-    10. text on requesting segments from third server (issue #119)
-    11. swap priority preferred sample entry to hev1/avc3 (issue #115)
-    12. additional clarification on SCTE-35 carriage (issues #128, #133, #130, #121 and #127)
-    13. prft box text added and made a requirement (issue #116)
-    14. guidelines for constant duration timed metadata (issue #145)
-    15. text on conversion MPEG-2 TS to DASH timeline (issue #131)
+    1. Added a section on encoder synchronization (issues #126 and #140)
+    2. Added restriction for single segment per post (issue #112)
+    3. Added text on encoder input loss (issue #113)
+    4. Added guidance on the manifest formatting (issue #111)
+    5. Added reference to MPEG-B part 18 for timed metadata track (issue #31)
+    6. Clarified emsg time is leading (issue #129)
+    7. Added the brand for the last segment (issue #114)
+    8. Deprecated the usage of mfra to close the ingest (issue #124)
+    9. Allowed common encryption of media tracks (issue #117)
+    10. Added text on requesting segments from an alternative server (issue #119)
+    11. Swapped priority preferred sample entry to hev1/avc3 (issue #115)
+    12. Clarified SCTE-35 carriage (issues #128, #133, #130, #121 and #127)
+    13. Added text for the prft box and made it a requirement (issue #116)
+    14. Added guidelines for constant segment duration for timed metadata (issue #145)
+    15. Added text on conversion of MPEG-2 TS to DASH timeline (issue #131)
 
 Editorial updates completed in v1.1:
 
     1. Fixed capitalization errors, cross reference errors and some terms
     2. Updated the references
-    3. Clarified POST_URL vs publishing_URL
+    3. Clarified POST_URL vs publishing_point_URL
     4. Cleaned up the informative sections
     5. Updated the diagrams including the fixes
     6. Updated/simplified the text for the examples
