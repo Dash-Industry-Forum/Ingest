@@ -1684,13 +1684,15 @@ src="Images/DiagramXI.png" /> </figure>
   
 # List of Changes # {#changes}
 
-v1: April 2020 
+## Version 1.0
 
-v1.1: April 2021 
+This initial version was published in April 2020.
 
-Technical updates completed in v1.1:
+## Version 1.1
 
-    1. Added a section on encoder synchronization (issues #126 and #140)
+Technical updates completed:
+
+    1. Added a section on encoder synchronization (Issue(126) and Issue(140))
     2. Added restriction for single segment per post (issue #112)
     3. Added text on encoder input loss (issue #113)
     4. Added guidance on the manifest formatting (issue #111)
@@ -1706,7 +1708,7 @@ Technical updates completed in v1.1:
     14. Added guidelines for constant segment duration for timed metadata (issue #145)
     15. Added text on conversion of MPEG-2 TS to DASH timeline (issue #131)
 
-Editorial updates completed in v1.1:
+Editorial updates completed:
 
     1. Fixed capitalization errors, cross reference errors and some terms
     2. Updated the references
@@ -1740,7 +1742,6 @@ https://msdn.microsoft.com/en-us/library/ff469518.aspx
 review): https://dashif.org/docs/CR-Ad-Insertion-r4.pdf
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
-
 <pre class="metadata">
 Revision: 1.0
 
