@@ -1684,11 +1684,11 @@ src="Images/DiagramXI.png" /> </figure>
   
 # List of Changes # {#changes}
 
-## Version 1.0
+## Version 1.0 ## {#version-1-0}
 
 This initial version was published in April 2020.
 
-## Version 1.1
+## Version 1.1 ## {#version-1-1}
 
 Technical updates completed:
 
