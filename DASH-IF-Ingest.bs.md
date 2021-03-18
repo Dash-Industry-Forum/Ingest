@@ -902,8 +902,10 @@ Table 3: Roles for subtitle and audio tracks and HLS characteristics.
 DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. Another example
 for explicitly signaling roles could be DVB DASH [[!DVB-DASH]]:
 
-EXAMPLE kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
-kind.value="Alternate".
+<div class="example">
+kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
+kind.value="Alternate"
+</div>
 
 ## Requirements for Timed Metadata Tracks ## {#interface-1-timed-metadata}
 
@@ -1761,10 +1763,10 @@ Abstract: None
 </pre>
 
 <!-- Example of custom bibliography entries. Prefer adding your document to SpecRef over maintaining a custom definition. -->
-<pre class="biblio">
-{
-}
-</pre>
+<pre class="biblio">{}</pre>
+
+<!-- This disables the RFC2119 conformance section, as we use custom DASH-IF specific text for this.  -->
+<pre boilerplate="conformance"></pre>
 
 <pre boilerplate="logo">
 <a href="https://dashif.org/"><img src="Images/DASH-IF.png" /></a>
