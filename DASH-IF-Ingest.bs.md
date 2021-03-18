@@ -586,7 +586,7 @@ or a segment with the *lmsg* brand to conclude the POST command. Then, the
 [=ingest source=] can follow up by closing the TCP connection using a TCP FIN
 packet.
 
-Note that if the HTTP POST is using the chunked transfer encoding option, the
+NOTE: If the HTTP POST is using the chunked transfer encoding option, the
 [=ingest source=] sends a zero-length terminating chunk per [[!RFC7230]] after
 sending the *lmsg* brand letting the [=receiving entity=] know that the POST
 command has been concluded.
@@ -1694,7 +1694,7 @@ This initial version was published in April 2020.
 
 Technical updates completed:
 
-    1. Added a section on encoder synchronization (Issue(126) and Issue(140))
+    1. Added a section on encoder synchronization (issues #126 and #140)
     2. Added restriction for single segment per post (issue #112)
     3. Added text on encoder input loss (issue #113)
     4. Added guidance on the manifest formatting (issue #111)
