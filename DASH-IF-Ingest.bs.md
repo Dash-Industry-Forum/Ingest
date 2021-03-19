@@ -496,7 +496,7 @@
 
    ## Other Requirements ## {#interface-1-2-other}
 
-     19. The [=ingest source=] and receiving entity SHOULD support gzip based
+     19. The [=ingest source=] and [=receiving entity=] SHOULD support gzip based
          content encoding.
 
        ISSUE: Encoder vendors are particularly requested to comment on what the
@@ -628,8 +628,9 @@ conformance to a specific CMAF media profile is REQUIRED.
       source quickly detect whether the [=publishing_point_URL=] is valid, and
       if there are any authentication or other conditions required.
    2. The [=ingest source=] MUST initiate a media ingest connection by posting
-      at least one [=CMAF header=] after step 1 and an optional DASH manifest,
-      restricted as in clause 16 of this section.
+      at least one CMAF header after step 1. Then, it SHOULD post a DASH
+      manifest following clause 16 of this section unless the grouping of the
+      CMAF tracks is trivial.
    3. The [=ingest source=] SHALL transmit one or more CMAF segments composing
       the track to the receiving entity once they become available. In this
       case, a single POST request message body MUST contain one CMAF segment in
