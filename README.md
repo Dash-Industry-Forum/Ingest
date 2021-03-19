@@ -2,7 +2,7 @@
 
 See [Document Authoring Kit](https://dashif.org/DocumentAuthoring/) for details on document authoring process.
 
-# Output documents
+# Output Documents
 
 Most recent output from the **master** branch:
 
@@ -14,7 +14,3 @@ Most recent output from the **master** branch:
 
 
 https://github.com/RufaelDev/Ingest/blob/master/README.md 
-
-# Additional information 
-for the history of this project see:
-https://github.com/unifiedstreaming/fmp4-ingest  
