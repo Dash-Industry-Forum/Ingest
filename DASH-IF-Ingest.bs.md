@@ -1282,7 +1282,7 @@ be similar as defined in Interface-1.
 
 These capabilities are further illustrated in [[#examples]].
 
-ISSUE: It is proposed to move this section to [[!interface-1-2]] as these
+ISSUE: It is proposed to move this section to [[#interface-1-2]] as these
 equally apply to both interfaces.
 
 ### HTTP Sessions ### {#interface-2-http-sessions}
@@ -1316,7 +1316,7 @@ equally apply to both interfaces.
       the HTTP POST command when the content length of the request
       is unknown at the start of transmission or to support the low-latency use cases.
 
-ISSUE: It is proposed to move clauses 1, 3, 4 and 5 to [[!interface-1-2]] as
+ISSUE: It is proposed to move clauses 1, 3, 4 and 5 to [[#interface-1-2]] as
 these equally apply to both interfaces.
 
 ### Unique Segment and Manifest Naming ### {#interface-2-naming}
