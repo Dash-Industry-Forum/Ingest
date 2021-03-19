@@ -1,23 +1,26 @@
 @startuml
-Ingest_Source -> Media_processing_entity: Authentication Request
-Media_processing_entity --> Ingest_Source: Authentication Response
+ingest_source -> receiving_entity: Authentication request
+receiving_entity --> ingest_source: Authentication response
 
-Ingest_Source -> Media_processing_entity: HTTP POST CMAF Header
-Media_processing_entity --> Ingest_Source: 200 OK
+ingest_source -> receiving_entity: POST CMAF header
+receiving_entity --> ingest_source: 200 OK
 
-Ingest_Source -> Media_processing_entity: HTTP POST CMAF Fragment
-Media_processing_entity --> Ingest_Source: 200 OK 
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 200 OK 
 
-Ingest_Source -> Media_processing_entity: HTTP POST CMAF Fragment
-Media_processing_entity --> Ingest_Source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 200 OK
 
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-
-Media_processing_entity --> Ingest_Source: Error
-Ingest_Source -> Media_processing_entity: CMAF Header
-Ingest_Source -> Media_processing_entity: CMAF Fragment
-Ingest_Source -> Media_processing_entity: mfra
-Media_processing_entity --> Ingest_Source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 412 Precondition Failed error
+ingest_source -> receiving_entity: POST CMAF header
+receiving_entity --> ingest_source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment
+receiving_entity --> ingest_source: 200 OK
+ingest_source -> receiving_entity: POST CMAF segment with the lmsg brand
+receiving_entity --> ingest_source: 200 OK
 @enduml
