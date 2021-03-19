@@ -388,6 +388,16 @@
    The media ingest follows the following common requirements for both  
    interfaces.
 
+   ## Ingest Source Identification ## {#interface-1-2-user-agent}
+
+   - The [=ingest source=] SHOULD include a User-Agent header (which provides
+     information about brand name, version number and build number in a readable
+     format) in all allowed HTTP messages. The receiving entity can log the
+     received information along with other relevant HTTP header data to
+     facilitate troubleshooting.
+
+   ## General Requirements ## {#interface-1-2-general}
+
      1. The [=ingest source=] SHALL communicate using the HTTP POST command as
         defined in the HTTP protocol, version 1.1 [[!RFC7230]].
 
@@ -402,7 +412,7 @@
      3. The [=ingest source=] SHOULD us a domain name system for resolving
         hostnames to IP addresses such as DNS [[!RFC1035]] or any other system
         that is in place. If this is not the case, the domain name<->IP
-        address mapping(s) must be known and static.
+        address mapping(s) MUST be known and static.
      4. In the case of 3, [=ingest source=] MUST update the IP to hostname
         resolution respecting the TTL (time-to-live) from DNS query responses.
         This enables better resilience to IP address changes in large-scale
@@ -454,7 +464,9 @@
 
          15b. The new HTTP [=POST_URL=] MUST be the same as the initial
          [=POST_URL=] for the object to be ingested.
-         
+
+   ## Failure Behaviors ## {#interface-1-2-failure}
+
      16. In case the [=receiving entity=] cannot process the POST request due to
          authentication or permission problems, or incorrect path, it SHALL
          return an HTTP 403 Forbidden error.
@@ -481,6 +493,9 @@
 
      18. The [=ingest source=] SHOULD support the handling of HTTP 30x redirect
          responses from the receiving entity.
+
+   ## Other Requirements ## {#interface-1-2-other}
+
      19. The [=ingest source=] and receiving entity SHOULD support gzip based
          content encoding.
 
@@ -1267,6 +1282,9 @@ be similar as defined in Interface-1.
 
 These capabilities are further illustrated in [[#examples]].
 
+ISSUE: It is proposed to move this section to [[!interface-1-2]] as these
+equally apply to both interfaces.
+
 ### HTTP Sessions ### {#interface-2-http-sessions}
 
    1. The ingest source MUST transfer [=manifest objects=] and
@@ -1297,6 +1315,9 @@ These capabilities are further illustrated in [[#examples]].
    5. The [=ingest source=] SHOULD use the chunked transfer encoding option for
       the HTTP POST command when the content length of the request
       is unknown at the start of transmission or to support the low-latency use cases.
+
+ISSUE: It is proposed to move clauses 1, 3, 4 and 5 to [[!interface-1-2]] as
+these equally apply to both interfaces.
 
 ### Unique Segment and Manifest Naming ### {#interface-2-naming}
 
@@ -1394,19 +1415,6 @@ Table 6: List of the permissible combinations of file extensions and MIME types.
       <td>TBD</td>
    </tr>
 </table>
-
-### DNS Lookups ### {#interface-2-dns}
-
-DNS lookup requirements are defined in the general protocol requirements
-[[#interface-1-2]].
-
-### Ingest Source Identification ### {#interface-2-user-agent}
-
-   - The [=ingest source=] SHOULD include a User-Agent header (which provides
-     information about brand name, version number and build number in a readable
-     format) in all allowed HTTP messages. The receiving entity can log the
-     received information along with other relevant HTTP header data to
-     facilitate troubleshooting.
 
 ### Additional Failure Behaviors ### {#interface-2-failure-behaviors}
 
