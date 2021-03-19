@@ -292,7 +292,7 @@
    an example for Interface-1.
 
    Figure 1: Example with [=CMAF Ingest=]. <figure>
-   <img src="Images/Diagram1.png" /> </figure>
+   <img src="Images/CMAF-Ingest.png" /> </figure>
 
    The second workflow constitutes ingest to a passive delivery system such as a
    cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
@@ -301,7 +301,7 @@
 
    Figure 2: Example with [=DASH Ingest=].
    <figure> <img
-   src="Images/Diagram2.png" /> </figure>
+   src="Images/DASH-Ingest.png" /> </figure>
 
    A legacy example of a media ingest protocol for the first workflow is the
    ingest part of the Microsoft Smooth Streaming protocol [[=MS-SSTR=]]. This
@@ -368,7 +368,7 @@
    </table>
 
    Figure 3: Workflow with redundant ingest sources and receiving entities.
-   <figure> <img src="Images/Diagram6.png" /> </figure>
+   <figure> <img src="Images/Redundant-Sources.png" /> </figure>
 
    Finally, Figure 3 highlights another aspect that was taken into consideration
    for large-scale systems with many users. Often content owners would like to
@@ -525,7 +525,7 @@ specification have been documented in [[=fmp4git=]].
 
 Figure 4: CMAF Ingest with multiple ingest sources.
 <figure> <img
-src="Images/Diagram7.png" /> </figure>
+src="Images/Multiple-Sources.png" /> </figure>
 
 Figures 5-7 detail some of the concepts and structures defined in
 [[!MPEGCMAF]]. Figure 5 shows the data format structure of the [=CMAF track=].
@@ -539,7 +539,7 @@ the structure content and the number of moof-mdat pairs in the addressable
 object.
 
 Figure 5: CMAF track stream.
-<figure> <img src="Images/Diagram8.png" />
+<figure> <img src="Images/CMAF-Track.png" />
 </figure>
 
 Figure 6 illustrates the presentation timing model, defined in [[!MPEGCMAF]]
@@ -565,11 +565,11 @@ time sharing an implicit timeline. A stream becoming available from a different
 source needs to be synchronized and time-aligned with other streams.
 
 Figure 6: CMAF track synchronization.
-<figure> <img src="Images/Diagram9.png" />
+<figure> <img src="Images/CMAF-Track-Sync.png" />
 </figure>
 
 Figure 7: CMAF late binding.
-<figure> <img src="Images/Diagram10.png" />
+<figure> <img src="Images/Late-Binding.png" />
 </figure>
 
 Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
@@ -1522,7 +1522,7 @@ Figure 10 shows an example where a separate packager and origin server are used.
 
 Figure 10: Example setup with CMAF Ingest and DASH/HLS Ingest.
 <figure>
-<img src="Images/DiagramX.png" /> </figure>
+<img src="Images/Example-1.png" /> </figure>
 
 The broadcast source is used as input to the live [=ABR=] encoder. The broadcast
 sources can be the SDI signals from a broadcast facility or MPEG-2 TS streams
@@ -1682,7 +1682,7 @@ specification.
 
 Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
 <figure> <img
-src="Images/DiagramXI.png" /> </figure>
+src="Images/Example-2.png" /> </figure>
   
 # List of Changes # {#changes}
 
