@@ -292,7 +292,7 @@
    an example for Interface-1.
 
    Figure 1: Example with [=CMAF Ingest=]. <figure>
-   <img src="Images/CMAF-Ingest.png" /> </figure>
+   <img src="Diagrams/CMAF-Ingest.png" /> </figure>
 
    The second workflow constitutes ingest to a passive delivery system such as a
    cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
