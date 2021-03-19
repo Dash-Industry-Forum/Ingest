@@ -1130,7 +1130,7 @@ The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
 Figure 9: Splice point conditioning.
 <figure> <img
-src="Diagrams/splice_ingest.png" /> </figure>
+src="Diagrams/Splice-Ingest.png" /> </figure>
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
 
