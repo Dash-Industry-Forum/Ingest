@@ -592,7 +592,7 @@ sending the *lmsg* brand letting the [=receiving entity=] know that the POST
 command has been concluded.
 
 Figure 8: CMAF Ingest flow.
-<figure> <img src="Diagrams/media-ingest.png" />
+<figure> <img src="Images/Ingest-Flow.png" />
 </figure>
 
 ## General Protocol and Track Format Requirements ## {#interface-1-requirements}
