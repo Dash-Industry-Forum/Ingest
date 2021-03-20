@@ -188,7 +188,7 @@
    a destination.
 
    <dfn dfn>**ingest source**</dfn>: A media source ingesting live media content
-   to a receiving entity. It is typically a live encoder but not restricted  
+   to a receiving entity. It is typically a [=live encoder=] but not restricted  
    to this, e.g., it could be a stored media resource.
 
    <dfn dfn>**ingest stream**</dfn>: The stream of media pushed from the ingest
@@ -198,7 +198,7 @@
    relating to a broadcast event.
 
    <dfn dfn>**live encoder**</dfn>: Entity performing live encoding of a high
-   quality ingest stream. This can serve as an ingest source.
+   quality ingest stream. This can serve as an [=ingest source=].
 
    <dfn dfn>**manifest objects**</dfn>: Objects ingested that represent
    streaming manifest, e.g., .mpd in DASH and .m3u8 in HLS.
@@ -283,7 +283,7 @@
 # Media Ingest Workflows and Interfaces (Informative) # {#workflows}
 
    Two workflows have been identified mapping to two protocol interfaces. The
-   first workflow uses a live encoder as the [=ingest source=] and a separate
+   first workflow uses a [=live encoder=] as the [=ingest source=] and a separate
    packager as the [=receiving entity=]. In this case, Interface-1
    ([=CMAF Ingest=]) is used to ingest a live encoded stream to the packager,
    which can perform packaging, encryption or other active media processing.
@@ -305,9 +305,9 @@
 
    A legacy example of a media ingest protocol for the first workflow is the
    ingest part of the Microsoft Smooth Streaming protocol [[=MS-SSTR=]]. This
-   protocol connects live encoders/ingest sources to the Microsoft Smooth
+   protocol connects [=live encoder=]s/[=ingest source=]s to the Microsoft Smooth
    Streaming server and to the Microsoft Azure cloud. This protocol has shown to
-   be robust, flexible and easy to implement in live encoders. In addition, it
+   be robust, flexible and easy to implement in [=live encoder=]s. In addition, it
    provided features for high availability and server-side redundancy.
 
    Interface-1 ([=CMAF Ingest=], detailed in [[#interface-1]]) improves the
@@ -1150,11 +1150,11 @@ src="Diagrams/Splice-Ingest.png" /> </figure>
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
 
-   1. Option 1 Slice conditioned packaging: Both a fragment boundary and a SAP 1
+   1. Option 1 (splice conditioned packaging): Both a fragment boundary and a SAP 1
       or SAP 2 (stream access point) at the splice point.
-   2. Option 2 Splice conditioned encoding: A SAP 1 or SAP 2 stream access point
+   2. Option 2 (splice conditioned encoding): A SAP 1 or SAP 2 stream access point
       at the frame at the boundary.
-   3. Option 3 Splice point signaling: Specific content conditioning at the
+   3. Option 3 (splice point signaling): Specific content conditioning at the
       splice point.
 
 This specification requires option 1 or 2 to be applied. Option 2 is required
@@ -1176,7 +1176,7 @@ following recommendation to achieve failover support of the receiving entity.
    1. In case the receiving entity failed, a new instance SHOULD be created,
       listening on the same [=publishing_point_URL=] for the ingest stream.
 
-Live encoder or [=ingest source=] failover is the second type of failover. In
+[=Live encoder=] or [=ingest source=] failover is the second type of failover. In
 this scenario, the error condition occurs on the [=ingest source=] side. The
 following recommendations apply:
 
@@ -1533,19 +1533,19 @@ Figure 10: Example setup with CMAF Ingest and DASH/HLS Ingest.
 <figure>
 <img src="Diagrams/Example-1.png" /> </figure>
 
-The broadcast source is used as input to the live [=ABR=] encoder. The broadcast
+The broadcast source is used as input to the [=live encoder=]. The broadcast
 sources can be the SDI signals from a broadcast facility or MPEG-2 TS streams
 intercepted from a broadcast that need to be re-used in an [=OTT=] distribution
-workflow. The live ABR encoder performs the encoding of the tracks into CMAF
+workflow. The [=live encoder=] performs the encoding of the tracks into CMAF
 tracks and functions as the [=ingest source=] in the CMAF Ingest interface.
-Multiple live ABR encoders can be used, providing redundant inputs to the
+Multiple [=live encoder=]s can be used, providing redundant inputs to the
 packager using dual-encoder synchronization. In this case, the segments are of
 constant duration, and audio and video segment boundaries are aligned. Segments
 should use a timing relative to a shared anchor such as the Unix epoch as to
 support synchronization based on epoch locking.
 
 Following the CMAF Ingest specification in this document allows for failover and
-many other features related to the content tracks. The live encoder performs the
+many other features related to the content tracks. The [=live encoder=] performs the
 following tasks:
 
    - It demuxes and receives the MPEG-2 TS and/or SDI signal.
@@ -1563,7 +1563,7 @@ following tasks:
      according to the CMAF Ingest interface defined in [[#interface-1]], and
      optionally a manifest describing the groupings and naming of the inputs.
 
-   - The CMAF Ingest allows multiple live encoders and packagers to be deployed
+   - The CMAF Ingest allows multiple [=live encoder=]s and packagers to be deployed
      benefiting from redundant stream creation avoiding timeline discontinuities
      due to failures as much as possible.
 
@@ -1573,8 +1573,8 @@ following tasks:
    - In case the [=ingest source=] itself fails, it restarts and performs the
      steps as in [[#interface-1-failover]].
 
-The live encoder [=ingest source=] can be deployed in the cloud or on a bare
-metal server or even as a dedicated hardware. The live encoder may have some
+The [=live encoder=] can be deployed in the cloud or on a bare
+metal server or even as a dedicated hardware. The [=live encoder=] may have some
 tools or configuration APIs to author the CMAF tracks and feed
 instructions/properties from the SDI or broadcast feed into the CMAF tracks. The
 packager receives the ingested streams and performs the following tasks.
@@ -1611,7 +1611,7 @@ packager receives the ingested streams and performs the following tasks.
      available before the entire fragment is received using HTTP chunked
      transfer encoding.
 
-   - The packager may have a proprietary API similar to the live encoder for
+   - The packager may have a proprietary API similar to the [=live encoder=] for
      configuration of aspects like the timeShiftBuffer, DVR window, encryption
      modes enabled, etc.
 
@@ -1623,7 +1623,7 @@ packager receives the ingested streams and performs the following tasks.
    - The packager converts the timed metadata track and uses it to convert to
      either MPD events or inband events signaled in the manifest. The packager
      creates a segment boundary in case this was not present in the original
-     ingest and in case a SCTE-35 slice event was received.
+     ingest and in case a SCTE-35 splice event was received.
 
    - The packager may also generate HLS or other streaming media presentations
      based on the input.
@@ -1632,7 +1632,7 @@ packager receives the ingested streams and performs the following tasks.
      source to perform the actions detailed in [[#interface-1-failover]].
 
 The CDN consumes a DASH/HLS Ingest or serves as a proxy for content delivered to
-a client. The CDN in case it is consuming the POST-based DASH/HLS Ingest
+a client. The CDN, in case it is consuming the POST-based DASH/HLS Ingest,
 performs the following tasks:
 
    - It stores all posted content and makes them available for HTTP GET requests
@@ -1685,9 +1685,9 @@ latency of 3500 ms is targeted.
 
 The approaches for authentication and DNS resolution are similar for the two
 interfaces, as are the track formatting in case CMAF is used. This example does
-not use timed metadata. The ingest source may resend the CMAF header or initialization
-segment in case of connection failures to conform to the CMAF Ingest
-specification.
+not use timed metadata. The ingest source may resend the CMAF header or
+initialization segment in case of connection failures to conform to the CMAF
+Ingest specification.
 
 Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
 <figure> <img
