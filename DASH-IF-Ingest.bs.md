@@ -1553,7 +1553,7 @@ following tasks:
    - It translates the metadata in these streams such as SCTE-35 or SCTE-104 to
      timed metadata tracks.
 
-   - It performs a high quality ABR encoding in different bitrates with aligned
+   - It performs a high quality [=ABR=] encoding in different bitrates with aligned
      switching points.
 
    - It packages all media and timed text tracks as CMAF-compliant tracks and
