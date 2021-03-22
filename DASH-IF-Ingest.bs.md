@@ -909,7 +909,7 @@ is different from regular audio/video information because of its sparse nature.
 In this case, the signaling data usually does not happen continuously and the
 intervals may be hard to predict. Other examples of timed metadata are ID3 tags
 [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBox'es defined in
-Section 5.9.8.3.3 of [[!MPEGDASH]].
+Section 5.9.8.3 of [[!MPEGDASH]].
 
 Table 4 provides some example urn schemes to be signaled. Table 5 illustrates an
 example of a SCTE-35 marker stored in a DASHEventMessageBox that is in turn
@@ -1013,7 +1013,7 @@ information and others:
       the URIMetaSampleEntry. The timed metadata track MUST still conform to
       [[!MPEGCMAF]] clause 7.3.
    5. CMAF timed metadata tracks MAY carry DASHEventMessageBox'es as defined in
-      [[!MPEGDASH]] clause 5.9.8.3.3. in the metadata samples. The best way to
+      [[!MPEGDASH]] clause 5.9.8.3 in the metadata samples. The best way to
       create such a track is based on ISO/IEC 23001-18 (under development). Some
       deprecated implementations may use DASHEventMessageBox'es as defined in
       ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in samples may be
