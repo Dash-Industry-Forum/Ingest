@@ -1640,12 +1640,35 @@ Ingest specification.
 
    Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
    <figure> <img src="Diagrams/Example-2.png" /> </figure>
-  
+
+
+# Implementations (Informative) # {#implementations}
+
+## Implementation 1: FFMpeg support for interface 1 and interface 2  ## {##implementation1}
+
+Example of ingesting CMAF live content using ffmpeg (placeholder)
+
+- smpte error bars generation 
+- dual encoder synchronisation
+- epoch locking
+- CMAF ingest 
+- CMAF + DASH and HLS ingest
+
+## Example 4: Ingesting CMAF Track Files example reference implementation based on fmp4 tools ## {##implementatoin2}
+
+Example of ingesting CMAF track files using fmp4tools (placeholder)
+
+- interface 1
+- timed metadata tracks 
+- timed text tracks based on webvtt 
+- conversion to epoch based timing
+
 # List of Versions and Changes # {#changes}
 
 ## Version 1.0 ## {#version-1-0}
 
 This initial version was published in April 2020.
+Interface 1 and Interface 2 were defined.
 
 ## Version 1.1 ## {#version-1-1}
 
