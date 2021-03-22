@@ -940,7 +940,7 @@ An example of adding an ID3 tag in a DASHEventMessageBox can be found in
       </tr>
       <tr>
          <td>urn:mpeg:dash:event:2012</td>
-         <td>[[!MPEGDASH]], 5.9.9.1 </td>
+         <td>[[!MPEGDASH]] </td>
       </tr>
       <tr>
          <td>urn:dvb:iptv:cpm:2014</td>
@@ -948,7 +948,7 @@ An example of adding an ID3 tag in a DASHEventMessageBox can be found in
       </tr>
       <tr>
          <td>urn:scte:scte35:2013:bin </td>
-         <td>[[!SCTE214-3]] SCTE-214-3  </td>
+         <td>[[!SCTE214-3]]  </td>
       </tr>
       <tr>
          <td>www.nielsen.com:id3:v1  </td>
