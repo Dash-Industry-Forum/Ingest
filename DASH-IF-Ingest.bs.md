@@ -909,7 +909,7 @@ is different from regular audio/video information because of its sparse nature.
 In this case, the signaling data usually does not happen continuously and the
 intervals may be hard to predict. Other examples of timed metadata are ID3 tags
 [[!ID3v2]], SCTE-35 markers [[!SCTE35]] and DASHEventMessageBox'es defined in
-Section 5.10.3.3 of [[!MPEGDASH]].
+Section 5.9.8.3.3 of [[!MPEGDASH]].
 
 Table 4 provides some example urn schemes to be signaled. Table 5 illustrates an
 example of a SCTE-35 marker stored in a DASHEventMessageBox that is in turn
@@ -940,11 +940,11 @@ An example of adding an ID3 tag in a DASHEventMessageBox can be found in
       </tr>
       <tr>
          <td>urn:mpeg:dash:event:2012</td>
-         <td>[[!MPEGDASH]], 5.10.4 subtitle</td>
+         <td>[[!MPEGDASH]], 5.9.9.1 </td>
       </tr>
       <tr>
          <td>urn:dvb:iptv:cpm:2014</td>
-         <td>[[!DVB-DASH]], 9.1.2.1</td>
+         <td>[[!DVB-DASH]] </td>
       </tr>
       <tr>
          <td>urn:scte:scte35:2013:bin </td>
