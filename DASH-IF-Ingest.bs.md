@@ -480,8 +480,8 @@ https://github.com/Dash-Industry-Forum/Ingest/issues/146.
       Unsupported Media Type error.
 
       5c. If the receiving entity cannot process a fragment in the POST request
-      body due to missing or incorrect init fragment, it may return an HTTP 412
-      Precondition Failed error.
+      body due to missing or incorrect initialization fragment, it may return an
+      HTTP 412 Precondition Failed error.
 
       5d. If there is an error at the receiving entity not particularly relating to
       the POST command from the [=ingest source=], it may return an appropriate
@@ -643,11 +643,11 @@ conformance to a specific CMAF media profile is REQUIRED.
    10. The [=baseMediaDecodeTime=] timestamps in "tfdt" of fragments in the
        [=CMAFstream=] SHOULD arrive in increasing order for each of the fragments
        in the different tracks/streams that are ingested.
-   11. The fragment sequence numbers in the [=CMAFstream=] signaled in the mfhd
-       SHOULD arrive in increasing order for each of the different tracks/streams
-       that are ingested. Using both [=baseMediaDecodeTime=] and sequence number
-       based indexing helps the receiving entities identify discontinuities. In
-       this case sequence numbers SHOULD increase by one.  
+   11. The fragment sequence numbers in the [=CMAFstream=] signaled in the
+       "mfhd" box SHOULD arrive in increasing order for each of the different
+       tracks/streams that are ingested. Using both [=baseMediaDecodeTime=] and
+       sequence number based indexing helps the receiving entities identify
+       discontinuities. In this case sequence numbers SHOULD increase by one.  
    12. The average and maximum bitrate of each track SHOULD be signaled in the
        "btrt" box in the sample entry of the CMAF header. These can be used to
        signal the bitrate later on, such as in the manifest.
@@ -697,7 +697,7 @@ conformance to a specific CMAF media profile is REQUIRED.
        ISSUE: Encoder vendors are particularly requested to review clause 20.
 
    21. In case the input to the ingest source is MPEG-2 TS based, the ingest source
-       is responsible for converting the presentation timestamps and progam clock
+       is responsible for converting the presentation timestamps and program clock
        reference (PCR) to a timeline suitable for [[!MPEGDASH]] and [[!ISOBMFF]]
        with the correct anchor and timescales. The RECOMMENDED timescales and
        anchors are provided in next sections for each track type. For dual-encoder
@@ -773,11 +773,12 @@ defined in [[!MPEGCMAF]] clause 7.3.4.
 In addition, optional explicit signaling is defined in this clause. This would
 mean the following steps could be implemented by the live ingest source.
   
-   1. A live ingest source MAY generate a [=switching set ID=] that is unique for
-      each switching set in a live stream session. Tracks with the same
-      [=switching set ID=] belong to the same switching set. The switching set ID
-      can be a string or (small) integer number. Characters in switching set SHALL
-      be unreserved, i.e., A-Za-z0-9_.-~ in order to avoid introducing delimiters.
+   1. A live ingest source MAY generate a [=switching set ID=] that is unique
+      for each switching set in a live stream session. Tracks with the same
+      [=switching set ID=] belong to the same switching set. The switching set
+      ID can be a string or (small) integer number. Characters in
+      [=switching set ID=] SHALL be unreserved, i.e., A-Za-z0-9_.-~ in order to
+      avoid introducing delimiters.
    2. The [=switching set ID=] can be added in a relative path to the [=POST_URL=]
       using the Switching() keyword. In this case, a CMAF chunk is sent from the
       live ingest source as POST chunk.cmfv
@@ -914,7 +915,7 @@ intervals may be hard to predict. Other examples of timed metadata are ID3 tags
 Section 5.10.3.3 of [[!MPEGDASH]].
 
 Table 4 provides some example urn schemes to be signaled. Table 5 illustrates an
-example of a SCTE-35 marker stored in a DASHEventMessageBox, that is in turn
+example of a SCTE-35 marker stored in a DASHEventMessageBox that is in turn
 stored as a metadata sample in a metadata track. The presented approach enables
 ingest of timed metadata from different sources, because data is not interleaved
 with the media.
@@ -1072,10 +1073,10 @@ information and others:
 
    8. In case the timed metadata track is also signaled in the manifest, the
       @codecs string should be set to the 4cc code of the sample entry, e.g.,
-      "urim" for URIMetaSampleEntry. The contentType field should be set to "meta"
-      and mimeType field to "application/mp4". Additonal supplemental or essential
-      property descriptors may be used to further describe the content of the
-      metadata track in the manifest.
+      "urim" for URIMetaSampleEntry. The contentType field should be set to
+      "meta" and mimeType field to "application/mp4". Additional supplemental or
+      essential property descriptors may be used to further describe the content
+      of the metadata track in the manifest.
 
 ## Requirements for Signaling and Conditioning Splice Points  ## {#interface-1-splicing}
 
