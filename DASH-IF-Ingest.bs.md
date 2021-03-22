@@ -572,7 +572,7 @@ source needs to be synchronized and time-aligned with other streams.
    <figure> <img src="Diagrams/Late-Binding.png" /></figure>
 
 Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
-(if needed) and an authentication step (using Authy, TLS certificates or HTTP
+(if needed) and an authentication step (using two factor authentication, TLS certificates or HTTP
 Digest Authentication) to establish a secure [=TCP=] connection.
 
 In private datacenter deployments where nodes are not reachable from outside, a
@@ -616,9 +616,7 @@ conformance to a specific CMAF media profile is REQUIRED.
    3. The ingest source SHALL transmit one or more CMAF segments composing the
       track to the receiving entity once they become available. In this case, a
       single POST request message body MUST contain one CMAF segment in the body of
-      that request. This specification assumes equivalence between a CMAF segment
-      and fragment, i.e., a single CMAF fragment per CMAF segment. A CMAF
-      segment/fragment may nevertheless be composed by one or more CMAF chunks.
+      that request. 
    4. The ingest source MAY use the chunked transfer encoding option of the HTTP
       POST command [[!RFC7230]] when the content length is unknown at the start of
       transmission or to support use cases that require low latency.
@@ -780,7 +778,7 @@ mean the following steps could be implemented by the live ingest source.
       [=switching set ID=] SHALL be unreserved, i.e., A-Za-z0-9_.-~ in order to
       avoid introducing delimiters.
    2. The [=switching set ID=] can be added in a relative path to the [=POST_URL=]
-      using the Switching() keyword. In this case, a CMAF chunk is sent from the
+      using the Switching() keyword. In this case, a CMAF segment is sent from the
       live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id).
 
@@ -1015,8 +1013,8 @@ information and others:
       or of zero duration, such semantics MUST be defined by the scheme signaled in
       the URIMetaSampleEntry. The timed metadata track MUST still conform to
       [[!MPEGCMAF]] clause 7.3.
-   5. CMAF timed metadata tracks MAY carry EventMessageBox'es as defined in
-      [[!MPEGDASH]] clause 5.10.3.3. in the metadata samples. The best way to
+   5. CMAF timed metadata tracks MAY carry DASHEventMessageBox'es as defined in
+      [[!MPEGDASH]] clause 5.9.8.3.3. in the metadata samples. The best way to
       create such a track is based on ISO/IEC 23001-18 (under development). Some
       deprecated implementations may use DASHEventMessageBox'es as defined in
       ISO/IEC 23009-1. Using DASHEventMessageBox'es directly in samples may be
