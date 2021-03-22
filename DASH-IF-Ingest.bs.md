@@ -833,17 +833,17 @@ and subtitle tracks.
       signaled by the *im1t* brand are preferred. [[!MPEG4-30]] defines the track
       format selected in [[!MPEGCMAF]].  
    2. Based on this [[!ISOBMFF]], the trackhandler "hdlr" SHALL be set to "text"
-      for WebVTT and "subt" for TTML following [[!MPEG4-30]].
+      for WebVTT and "subt" for TTML.
    3. The "[=ftyp=]" box in the CMAF header for the track containing timed text,
       images, captions and subtitles MAY use signaling using CMAF profiles based on
       [[!MPEGCMAF]]:
 
-      3a. WebVTT specified in Section 11.2 of ISO/IEC 14496-30 [[!MPEG4-30]] *cwvt*
+      3a. WebVTT specified in Section 11.2 of ISO/IEC 14496-30 [[!MPEGCMAF]] *cwvt*
 
-      3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEG4-30]] IMSC1 Text
+      3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEGCMAF]] IMSC1 Text
       profile *im1t*
 
-      3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEG4-30]] IMSC1 Image
+      3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEGCMAF]] IMSC1 Image
       profile *im1i*
 
    4. The BitRateBox ("btrt") SHOULD be used to signal the average and maximum
