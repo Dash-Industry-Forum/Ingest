@@ -948,7 +948,7 @@ An example of adding an ID3 tag in a DASHEventMessageBox can be found in
       </tr>
       <tr>
          <td>urn:scte:scte35:2013:bin </td>
-         <td>[[!SCTE214-1]] SCTE-35  </td>
+         <td>[[!SCTE214-3]] SCTE-214-3  </td>
       </tr>
       <tr>
          <td>www.nielsen.com:id3:v1  </td>
@@ -1084,7 +1084,7 @@ respective splice points are as follows.
    1. The preferred method for signaling splice point uses the timed metadata track
       sample with a presentation time corresponding to the splice point. The timed
       metadata track sample is carrying events carrying binary SCTE-35 based on the
-      scheme urn:scte:scte35:2013:bin. The command carried in the binary SCTE-35
+      scheme urn:scte:scte35:2013:bin as defined in [!scte214-3]. The command carried in the binary SCTE-35
       shall carry a splice info section with spliceInsert command with out of
       network indicator set to 1 and a break_duration matching the actual break
       duration.
