@@ -754,7 +754,7 @@ imposed to the formatting of CMAF media tracks.
        "[=mdhd=]" and/or "[=elng=]" SHOULD be sent. The CMAF header MUST be
        identical, except the "elng" tag.
    11. Track roles SHOULD be signaled in the ingest by using a "kind" box in
-       UserDataBox ("udta"). The "kind" box MUST contain a schemeIdUri
+       UserDataBox ("udta"). The "kind" box MUST contain a schemeURI
        urn:mpeg:dash:role:2011 and a value containing a Role as defined in
        [[!MPEGDASH]]. In case this signaling does not occur, the processing entity
        can define the role for the track independently.
@@ -786,7 +786,7 @@ mean the following steps could be implemented by the live ingest source.
       https://github.com/Dash-Industry-Forum/Ingest/issues/125.
 
    3. The live ingest source MAY add a "kind" box in the "udta" box in each track
-      to signal the switching set it belongs to. The schemeIdUri of this "kind" box
+      to signal the switching set it belongs to. The schemeURI of this "kind" box
       SHALL be urn:dashif:ingest:switchingset_id and the value field of the "kind"
       box SHALL be the [=switching set ID=].
    4. The switching sets are grouped as adaptation sets present in the DASH
@@ -814,7 +814,7 @@ mean the following steps could be implemented by the live ingest source.
          <td>Optional</td>
       </tr>
       <tr>
-         <td>Signaling using [=switching set ID=] in the track using "kind" box with schemeIdUri urn:dashif:ingest:switchingset_id and value set to [=switching set ID=]</td>
+         <td>Signaling using [=switching set ID=] in the track using "kind" box with schemeURI urn:dashif:ingest:switchingset_id and value set to [=switching set ID=]</td>
          <td>Optional</td>
       </tr>
    </table>
@@ -854,16 +854,15 @@ and subtitle tracks.
       "[=mdhd=]" and/or "[=elng=]" SHOULD be sent from the ingest source to the
       receiving entity.
    6. Track roles can be signaled in the ingest, by using a "kind" box in the
-      "udta" box. The "kind" box MUST contain a schemeIdUri urn:mpeg:dash:role:2011
+      "udta" box. The "kind" box MUST contain a schemeURI urn:mpeg:dash:role:2011
       and a value containing a role as defined in [[!MPEGDASH]].
 
 NOTE: [[!MPEGCMAF]] allows multiple "kind" boxes, hence, multiple roles can be
 signaled. By default, one should signal the DASH role urn:mpeg:dash:role:2011. A
 receiver may derive corresponding configuration for other streaming protocols
 such as HLS. In case this is not desired, additional "kind" boxes with
-corresponding schemeIdUri and values can be used to explicitly signal this
-information for other protocol schemes. Subschemes can be signaled in the
-schemeIdURI as schemeIdURI@value.
+corresponding schemeURI and values can be used to explicitly signal this
+information for other protocol schemes.
 
 An informative scheme of defined roles in DASH and respective corresponding
 roles in HLS can be found below, additionally the forced subtitle in HLS might
@@ -897,7 +896,7 @@ DASH roles are defined in urn:mpeg:dash:role:2011 [[!MPEGDASH]]. Another example
 for explicitly signaling roles could be DVB DASH [[!DVB-DASH]]:
 
    <div class="example">
-   kind.schemeIdUri="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
+   kind.schemeURI="urn:tva:metadata:cs:AudioPurposeCS:2007@1"
    kind.value="Alternate"
    </div>
 
@@ -936,7 +935,7 @@ An example of adding an ID3 tag in a DASHEventMessageBox can be found in
    Table 4: Example URN schemes for timed metadata tracks.
    <table class="def">
       <tr>
-         <th>SchemeIdURI</th>
+         <th>URI</th>
          <th>Reference</th>
       </tr>
       <tr>
@@ -1038,11 +1037,11 @@ information and others:
       time or if an earlier event is still active in a sample containing a newly
       started and overlapping event.
 
-      5f. The schemeIdUri in the DASHEventMessageBox can be used to signal the
+      5f. The scheme_id_uri in the DASHEventMessageBox can be used to signal the
       scheme of the data carried in the message data field. This enables carriage
       of multiple metadata schemes in a track.
 
-      5g. For SCTE-35 ingest, the schemeIdURI in the DASHEventMessageBox MUST be
+      5g. For SCTE-35 ingest, the scheme_id_uri in the DASHEventMessageBox MUST be
       "urn:scte:scte35:2013:bin" as defined in [[!SCTE214-3]]. A binary SCTE-35
       payload is carried in the message_data field of a DASHEventMessageBox. If a
       splice point is signaled, media tracks MUST insert an IDR frame at the time
