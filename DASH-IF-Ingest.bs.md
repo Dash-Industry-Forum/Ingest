@@ -1747,8 +1747,7 @@ ${FF} \
 -color_primaries ${COLOR} -color_trc ${COLOR} -colorspace ${COLOR} \
 -f dash \
 ${HTTP_OPTS} \
-${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd \
-${TS_OUT_CMD}
+${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd 
 
 </code> </pre>
 
@@ -1772,7 +1771,7 @@ Usage: fmp4ingest [options] <input_files>
  [--sslcert]                    TLS 1.2 client certificate
  [--sslkey]                     TLS private Key
  [--sslkeypass]                 passphrase
- <input_files>                  CMAF files to ingest (.cmf[atvm])
+ input_files                  CMAF files to ingest (.cmf[atvm])
 </code></pre>
 
 Example command line using fmp4 tools
@@ -1782,7 +1781,7 @@ Example command line using fmp4 tools
 fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
 </code></pre>
 
-Example creating a timed metadata track from an mpd with events
+Example creating a timed metadata track from an MPEG-DASH manifest
 <pre><code>
 ## Example converting an mpd with dash events to a timed metadatatrack with fmp4tools
 dashEventfmp4 scte-35.mpd scte-35.cmfm
