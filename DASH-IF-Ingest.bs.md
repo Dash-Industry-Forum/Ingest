@@ -1644,24 +1644,127 @@ Ingest specification.
 
 # Implementations (Informative) # {#implementations}
 
-## Implementation 1: FFMpeg support for interface 1 and interface 2  ## {##implementation1}
+## Implementation 1: FFmpeg support for interface 1 and interface 2  ## {##implementation1}
 
-Example of ingesting CMAF live content using ffmpeg (placeholder)
+A simple interface one ingest of a single track can be achieved in ffmpeg with the mp4 and cmaf muxer
+<pre><code class="inlinecode">
+ffmpeg -re <normal input/transcoding options> -movflags "empty_moov+separate_moof+default_base_moof+cmaf" -f mp4 http://server/publishingpoint.isml/Streams(Encoder1)
+</code></pre>
 
-- smpte error bars generation 
-- dual encoder synchronisation
-- epoch locking
-- CMAF ingest 
-- CMAF + DASH and HLS ingest
+A more extensive example with epoch locking, dual encoder synchronisation is available from [=PythonFFmpegIngest=]. 
+In this case a patch is used to add correct audio timescale and epoch time offset to FFmpeg.
 
-## Example 4: Ingesting CMAF Track Files example reference implementation based on fmp4 tools ## {##implementatoin2}
+An example of interface 1+2 ingest can be achieved in FFMpeg using DASH muxer. An example script is shown below. 
 
-Example of ingesting CMAF track files using fmp4tools (placeholder)
+<pre><code class="inlinecode"> 
+#!/bin/bash
 
-- interface 1
-- timed metadata tracks 
-- timed text tracks based on webvtt 
-- conversion to epoch based timing
+## example provided by fflabs of low latency CMAF+DASH+HLS ingest 
+## period starts from current time
+
+# publishing point uri is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
+SERVER="${1}"
+PORT="${2}"
+FF="${3}"
+
+# set your tls files here 
+#TLS_KEY="/home/borgmann/dash/certs/ingest_client_thilo.key"
+#TLS_CRT="/home/borgmann/dash/certs/ingest_client_thilo.crt"
+#TLS_CA="/home/borgmann/dash/certs/ca.crt"
+#TS_OUT="/home/borgmann/dash/ts"
+
+# linux camera input may be used as input
+INPUT="/dev/video0"
+INPUT_FPS="10"
+ID=live
+ACODEC=aac
+VCODEC=h264_vaapi
+VCODEC=libx264
+COLOR=bt709
+TARGET_LATENCY="3.5"
+
+if [ "$SERVER" == "" -o "$PORT" == "" ]
+then
+    echo "Usage: $0 <SERVER> <PORT> [<FFMPEG>]"
+    exit
+else
+    if [ "$FF" == "" ]
+    then
+        FF=ffmpeg
+    fi
+
+    if [ "${TLS_KEY}" != "" -a "${TLS_CRT}" != "" -a "${TLS_CA}" != "" ]
+    then
+        PROTO=https
+        HTTP_OPTS="-http_opts key_file=${TLS_KEY},cert_file=${TLS_CRT},ca_file=${TLS_CA},tls_verify=1"
+    else
+        PROTO=http
+        HTTP_OPTS=""
+    fi
+
+    echo "Ingesting to: ${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd"
+
+fi
+
+# DASH HLS CMAF
+${FF} \
+-framerate ${INPUT_FPS} \
+-i ${INPUT}  \
+-f lavfi -i sine \
+-pix_fmt yuv420p \
+-c:v ${VCODEC} -b:v:0 500K -b:v:1 200K -s:v:0 960x400 -s:v:1 720x300 \
+-map 0:v:0 -map 0:v:0 \
+-c:a ${ACODEC} -b:a 96K -ac 2 \
+-map 1:a:0 \
+-use_timeline 1 \
+-media_seg_name "chunk-stream\$RepresentationID\$-\$Time\$.\$ext\$" \
+-mpd_profile dvb_dash \
+-utc_timing_url "http://time.akamai.com" \
+-format_options "movflags=cmaf" \
+-frag_type duration \
+-adaptation_sets "id=0,seg_duration=7.68,frag_duration=1.92,streams=0,1 id=1,seg_duration=1,frag_type=none,streams=2" \
+-g:v 20 -keyint_min:v 20 -sc_threshold:v 0 -streaming 1 -ldash 1 -tune zerolatency \
+-export_side_data prft \
+-write_prft 1 \
+-target_latency ${TARGET_LATENCY} \
+-color_primaries ${COLOR} -color_trc ${COLOR} -colorspace ${COLOR} \
+-f dash \
+${HTTP_OPTS} \
+${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd \
+${TS_OUT_CMD}
+
+</code> </pre>
+
+## Example 2: Ingesting CMAF Track Files example reference implementation based on fmp4 tools ## {##implementation2}
+
+Another example of ingesting CMAF track files is provided by [=fmp4tools=] as described in [=LiveCMAF=] , in this case
+stored track files are used. The tools also allow timed text tracks and timed metadata tracks and conversion of mpd events 
+to timed metadata tracks. 
+
+An example commandline running with audio, video, timed text and timed metadata with periodically inserted avails: 
+<pre><code>
+Usage: fmp4ingest [options] <input_files>
+ [-u url]                       Publishing Point URL
+ [-r, --realtime]               Enable realtime mode
+ [--wc_offset]                  (boolean )Add a wallclock time offset for converting VoD (0) asset to Live
+ [--ism_offset]                 insert a fixed value for hte wallclock time offset instead of using a remote time source uri [--wc_uri]                     uri for fetching wall clock time default time.akamai.com
+ [--close_pp]                   Close the publishing point at the end of stream or termination
+ [--avail]                      signal an advertisment slot every arg1 ms with duration of arg2 ms
+ [--dry_run]                    Do a dry run and write the output files to disk directly for checking file and box integrity [--announce]                   specify the number of seconds in advance to presenation time to send an avail [--auth]                       Basic Auth Password
+ [--aname]                      Basic Auth User Name
+ [--sslcert]                    TLS 1.2 client certificate
+ [--sslkey]                     TLS private Key
+ [--sslkeypass]                 passphrase
+ <input_files>                  CMAF files to ingest (.cmf[atvm])
+
+## Example with inserting 9600 ms breaks every 57,6 seconds with 3 track files for audio, video and timed text
+## Also a wallclock time is added 
+fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
+
+## Example converting an mpd with dash events to a timed metadatatrack 
+dashEventfmp4 scte-35.mpd scte-35.cmfm
+
+</code></pre>
 
 # List of Versions and Changes # {#changes}
 
@@ -1698,6 +1801,7 @@ Editorial updates completed:
    4. Cleaned up the informative sections
    5. Updated the diagrams including the fixes
    6. Updated/simplified the text for the examples
+   7. fixed references pointing to specs
 
 # Acknowledgements # {#contributors}
 
@@ -1720,8 +1824,17 @@ https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28
 <dfn dfn>MS-SSTR</dfn>: Smooth Streaming Protocol:
 https://msdn.microsoft.com/en-us/library/ff469518.aspx
 
+<dfn dfn>fmp4tools</dfn>: fmp4 ingest tools:
+https://github.com/unifiedstreaming/fmp4-ingest/tree/master/ingest-tools
+
+<dfn dfn>LiveCMAF</dfn>: Tools for live CMAF ingest
+https://dl.acm.org/doi/abs/10.1145/3339825.3394933
+
 <dfn dfn>DASH-IFad</dfn>: Advanced Ad Insertion in DASH (under community
 review): https://dashif.org/docs/CR-Ad-Insertion-r4.pdf
+
+<dfn dfn>PythonFFmpegIngest</dfn>  Python script for generating interface 1 with ffmpeg: 
+https://github.com/unifiedstreaming/live-demo-cmaf/blob/master/ffmpeg/entrypoint.py
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 <pre class="metadata">
