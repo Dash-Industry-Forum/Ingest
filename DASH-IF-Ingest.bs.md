@@ -1671,7 +1671,7 @@ track with FFmpeg.
 
 <pre><code class="inlinecode">
 #!/bin/bash
-# publishing point uri is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
+# Publishing point url is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
 SERVER="${1}"
 PORT="${2}"
 FF="${3}"
@@ -1683,7 +1683,7 @@ ffmpeg -nostats -i smptehdbars=size=1280x720:rate=25 -fflags genpts
 -f mp4 {PROTO}://${SERVER}:${PORT}/${ID}//Streams(video-1280x720-700k.cmfv)
 </code></pre>
 
-A more extensive example with epoch locking, dual-encoder synchronization is
+A more extensive example with epoch locking (dual-encoder synchronization) is
 available from [=PythonFFmpegIngest=]. In this case, a patch is used to add
 correct audio timescale and epoch time offset to FFmpeg.
 
@@ -1692,22 +1692,20 @@ example script is shown below as provided by FFlabs.
 
 <pre><code class="inlinecode"> 
 #!/bin/bash
-
-## example provided by FFlabs of low latency CMAF+DASH+HLS ingest 
-## period starts from current time
-
-# publishing point uri is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
+## Example provided by FFlabs of low latency CMAF+DASH+HLS ingest 
+## Period starts from current time
+# publishing point url is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
 SERVER="${1}"
 PORT="${2}"
 FF="${3}"
 
-# set your tls files here 
+# Set your tls files here 
 #TLS_KEY="/home/borgmann/dash/certs/ingest_client_thilo.key"
 #TLS_CRT="/home/borgmann/dash/certs/ingest_client_thilo.crt"
 #TLS_CA="/home/borgmann/dash/certs/ca.crt"
 #TS_OUT="/home/borgmann/dash/ts"
 
-# linux camera input may be used as input
+# Linux camera input may be used as input
 INPUT="/dev/video0"
 INPUT_FPS="10"
 ID=live
@@ -1771,27 +1769,29 @@ ${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd
 ## Implementation 2: Ingesting CMAF Track Files Based on fmp4 Tools ## {##implementation2}
 
 Another example of ingesting CMAF track files is provided by [=fmp4tools=] as
-described in [=LiveCMAF=] . In this case stored track files are used. The tool
+described in [=LiveCMAF=]. In this case, stored track files are used. The tool
 can patch the timestamp of the input tracks to a real time and upload the
-segments in real-time. The tool can upload timed text and timed metadata tracks.
-Also the tools support conversion and creation of timed metadata tracks, and
+segments in real time. The tool can upload timed text and timed metadata tracks.
+Also, the tools support conversion and creation of timed metadata tracks, and
 on-the-fly generation of avail cues based on SCTE-35.
 
 Options available when using fmp4 tools:
 <pre><code>
 Usage: fmp4ingest [options] <input_files>
- [-u url]                       Publishing Point URL
- [-r, --realtime]               Enable realtime mode
- [--wc_offset]                  (boolean )Add a wallclock time offset for converting VoD (0) asset to Live
- [--ism_offset]                 insert a fixed value for hte wallclock time offset instead of using a remote time source uri [--wc_uri]                     uri for fetching wall clock time default time.akamai.com
+ [-u url]                       Publishing point URL
+ [-r, --realtime]               Enable real-time mode
+ [--wc_offset]                  (boolean) Add a wallclock time offset for converting VoD (0) asset to live
+ [--ism_offset]                 Insert a fixed value for the wallclock time offset instead of using a remote time source URI 
+ [--wc_uri]                     URI for fetching wallclock time (default is time.akamai.com)
  [--close_pp]                   Close the publishing point at the end of stream or termination
- [--avail]                      signal an advertisment slot every arg1 ms with duration of arg2 ms
- [--dry_run]                    Do a dry run and write the output files to disk directly for checking file and box integrity [--announce]                   specify the number of seconds in advance to presenation time to send an avail [--auth]                       Basic Auth Password
- [--aname]                      Basic Auth User Name
+ [--avail]                      Signal an advertisment slot every arg1 ms with duration of arg2 ms
+ [--dry_run]                    Do a dry run and write the output files to disk directly for checking file and box integrity [--announce]                   specify the number of seconds in advance to presenation time to send an avail 
+ [--auth]                       Basic auth password
+ [--aname]                      Basic auth username
  [--sslcert]                    TLS 1.2 client certificate
  [--sslkey]                     TLS private Key
- [--sslkeypass]                 passphrase
- input_files                  CMAF files to ingest (.cmf[atvm])
+ [--sslkeypass]                 Passphrase
+ input_files                    CMAF files to ingest (.cmf[atvm])
 </code></pre>
 
 Example command line using fmp4 tools:
@@ -1799,7 +1799,7 @@ Example command line using fmp4 tools:
 ## Example with inserting 9600 ms breaks every 57.6 seconds with three track
 files for audio, video and timed text
 ## Also a wallclock time is added
-fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
+fmp4ingest -r -u publishing_point_url --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
 </code></pre>
 
 Example creating a timed metadata track from a DASH manifest:
@@ -1812,8 +1812,7 @@ dashEventfmp4 scte-35.mpd scte-35.cmfm
 
 ## Version 1.0 ## {#version-1-0}
 
-This initial version with Interface-1 and Interface-2 was published in April
-2020.
+This initial version with Interface-1 and Interface-2 was published in April 2020.
 
 ## Version 1.1 ## {#version-1-1}
 
@@ -1840,7 +1839,7 @@ Editorial updates completed:
 
    1. Fixed capitalization errors, cross reference errors and some terms
    2. Updated the references
-   3. Clarified POST_URL vs publishing_point_URL
+   3. Clarified POST_URL vs. publishing_point_URL
    4. Cleaned up the informative sections
    5. Updated the diagrams including the fixes
    6. Updated/simplified the text for the examples
