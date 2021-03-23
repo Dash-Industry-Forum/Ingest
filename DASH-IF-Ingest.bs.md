@@ -1644,16 +1644,23 @@ Ingest specification.
 
 # Implementations (Informative) # {#implementations}
 
+ISSUE: More extensive examples can be provided such as the demo 
+using dual encoder synchronisation please comments on the implementation
+examples on 
+https://github.com/Dash-Industry-Forum/Ingest/issues/108.
+
 ## Implementation 1: FFmpeg support for interface 1 and interface 2  ## {##implementation1}
 
-A simple interface one ingest of a single track can be achieved in ffmpeg with the mp4 and cmaf muxer.
-This example shows the ingest of a single smpte header bar.
+Ingest of  of a single (or multiple) tracks can be achieved in ffmpeg with the mp4 and cmaf muxer.
+This example shows the ingest of a single smpte header bar video track with ffmpeg.
 <pre><code class="inlinecode">
 #!/bin/bash
 # publishing point uri is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
 SERVER="${1}"
 PORT="${2}"
 FF="${3}"
+ID=live 
+PROTO=http
 
 ffmpeg -nostats -i smptehdbars=size=1280x720:rate=25 -fflags genpts 
 -write_prft pts -movflags empty_moov+separate_moof+default_base_moof+cmaf 
@@ -1663,7 +1670,8 @@ ffmpeg -nostats -i smptehdbars=size=1280x720:rate=25 -fflags genpts
 A more extensive example with epoch locking, dual encoder synchronisation is available from [=PythonFFmpegIngest=]. 
 In this case a patch is used to add correct audio timescale and epoch time offset to FFmpeg.
 
-An example of interface 1+2 ingest can be achieved in FFMpeg using DASH muxer. An example script is shown below. 
+An example of CAMF and DASH/HLS ingest can be achieved in FFMpeg using DASH muxer. An example script is shown below
+as provided by fflabs. 
 
 <pre><code class="inlinecode"> 
 #!/bin/bash
@@ -1747,8 +1755,8 @@ ${TS_OUT_CMD}
 ## Example 2: Ingesting CMAF Track Files example reference implementation based on fmp4 tools ## {##implementation2}
 
 Another example of ingesting CMAF track files is provided by [=fmp4tools=] as described in [=LiveCMAF=] . In this case
-stored track files are used. The tools also allow timed text tracks and timed metadata tracks and conversion of mpd events 
-to timed metadata tracks. The tool can patch the timestamp of the input tracks to a real time and upload the segments in real-time.
+stored track files are used. The tool can patch the timestamp of the input tracks to a real time and upload the segments in real-time.
+The tool can upload timed text and timed metadata tracks. Also the tools support conversion and creation of timed metadata tracks.
 
 options avaialble when using fmp4 tools:
 <pre><code>
@@ -1774,7 +1782,7 @@ Example command line using fmp4 tools
 fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
 </code></pre>
 
-Example creating a timed metadata track
+Example creating a timed metadata track from an mpd with events
 <pre><code>
 ## Example converting an mpd with dash events to a timed metadatatrack with fmp4tools
 dashEventfmp4 scte-35.mpd scte-35.cmfm
@@ -1806,6 +1814,7 @@ Technical updates completed:
    13. Added text for the prft box and made it a requirement (issue #116)
    14. Added guidelines for constant segment duration for timed metadata (issue #145)
    15. Added text on conversion of MPEG-2 TS to DASH timeline (issue #131)
+   16. Added a section with example implementations (informative)
 
 Editorial updates completed:
 
