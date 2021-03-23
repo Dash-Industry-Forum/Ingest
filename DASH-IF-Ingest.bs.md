@@ -1646,9 +1646,18 @@ Ingest specification.
 
 ## Implementation 1: FFmpeg support for interface 1 and interface 2  ## {##implementation1}
 
-A simple interface one ingest of a single track can be achieved in ffmpeg with the mp4 and cmaf muxer
+A simple interface one ingest of a single track can be achieved in ffmpeg with the mp4 and cmaf muxer.
+This example shows the ingest of a single smpte header bar.
 <pre><code class="inlinecode">
-ffmpeg -re <normal input/transcoding options> -movflags "empty_moov+separate_moof+default_base_moof+cmaf" -f mp4 http://server/publishingpoint.isml/Streams(Encoder1)
+#!/bin/bash
+# publishing point uri is ${PROTO}://${SERVER}:${PORT}/${ID}/ with default ID=live
+SERVER="${1}"
+PORT="${2}"
+FF="${3}"
+
+ffmpeg -nostats -i smptehdbars=size=1280x720:rate=25 -fflags genpts 
+-write_prft pts -movflags empty_moov+separate_moof+default_base_moof+cmaf 
+-f mp4 {PROTO}://${SERVER}:${PORT}/${ID}//Streams(video-1280x720-700k.cmfv)
 </code></pre>
 
 A more extensive example with epoch locking, dual encoder synchronisation is available from [=PythonFFmpegIngest=]. 
@@ -1737,11 +1746,11 @@ ${TS_OUT_CMD}
 
 ## Example 2: Ingesting CMAF Track Files example reference implementation based on fmp4 tools ## {##implementation2}
 
-Another example of ingesting CMAF track files is provided by [=fmp4tools=] as described in [=LiveCMAF=] , in this case
+Another example of ingesting CMAF track files is provided by [=fmp4tools=] as described in [=LiveCMAF=] . In this case
 stored track files are used. The tools also allow timed text tracks and timed metadata tracks and conversion of mpd events 
-to timed metadata tracks. 
+to timed metadata tracks. The tool can patch the timestamp of the input tracks to a real time and upload the segments in real-time.
 
-An example commandline running with audio, video, timed text and timed metadata with periodically inserted avails: 
+options avaialble when using fmp4 tools:
 <pre><code>
 Usage: fmp4ingest [options] <input_files>
  [-u url]                       Publishing Point URL
@@ -1756,14 +1765,19 @@ Usage: fmp4ingest [options] <input_files>
  [--sslkey]                     TLS private Key
  [--sslkeypass]                 passphrase
  <input_files>                  CMAF files to ingest (.cmf[atvm])
+</code></pre>
 
+Example command line using fmp4 tools
+<code><pre>
 ## Example with inserting 9600 ms breaks every 57,6 seconds with 3 track files for audio, video and timed text
 ## Also a wallclock time is added 
 fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
+</code></pre>
 
-## Example converting an mpd with dash events to a timed metadatatrack 
+Example creating a timed metadata track
+<pre><code>
+## Example converting an mpd with dash events to a timed metadatatrack with fmp4tools
 dashEventfmp4 scte-35.mpd scte-35.cmfm
-
 </code></pre>
 
 # List of Versions and Changes # {#changes}
