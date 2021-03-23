@@ -1645,8 +1645,7 @@ Ingest specification.
 # Implementations (Informative) # {#implementations}
 
 ISSUE: More extensive examples can be provided such as the demo 
-using dual encoder synchronisation please comments on the implementation
-examples on 
+using dual encoder synchronisation please comment on:
 https://github.com/Dash-Industry-Forum/Ingest/issues/108.
 
 ## Implementation 1: FFmpeg support for interface 1 and interface 2  ## {##implementation1}
@@ -1670,7 +1669,7 @@ ffmpeg -nostats -i smptehdbars=size=1280x720:rate=25 -fflags genpts
 A more extensive example with epoch locking, dual encoder synchronisation is available from [=PythonFFmpegIngest=]. 
 In this case a patch is used to add correct audio timescale and epoch time offset to FFmpeg.
 
-An example of CAMF and DASH/HLS ingest can be achieved in FFMpeg using DASH muxer. An example script is shown below
+An example of CMAF and DASH/HLS ingest can be achieved using the DASH muxer. An example script is shown below
 as provided by fflabs. 
 
 <pre><code class="inlinecode"> 
@@ -1755,7 +1754,8 @@ ${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd
 
 Another example of ingesting CMAF track files is provided by [=fmp4tools=] as described in [=LiveCMAF=] . In this case
 stored track files are used. The tool can patch the timestamp of the input tracks to a real time and upload the segments in real-time.
-The tool can upload timed text and timed metadata tracks. Also the tools support conversion and creation of timed metadata tracks.
+The tool can upload timed text and timed metadata tracks. Also the tools support conversion and creation of timed metadata tracks,
+and on-the-fly generation of avail cues based on SCTE-35.
 
 options avaialble when using fmp4 tools:
 <pre><code>
