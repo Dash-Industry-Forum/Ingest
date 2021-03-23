@@ -1776,7 +1776,7 @@ Usage: fmp4ingest [options] <input_files>
 </code></pre>
 
 Example command line using fmp4 tools
-<code><pre>
+<pre><code>
 ## Example with inserting 9600 ms breaks every 57,6 seconds with 3 track files for audio, video and timed text
 ## Also a wallclock time is added 
 fmp4ingest -r -u publishing_point_uri --wc_offset --avail 57600 9600  tos-096-750k.cmfv tos-096s-128k.cmfa tears-of-steel-nl.cmft
