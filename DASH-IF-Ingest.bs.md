@@ -1906,5 +1906,5 @@ Abstract: None
 <pre boilerplate="conformance"></pre>
 
 <pre boilerplate="logo">
-<a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png" /></a>
+ <a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png" /></a>
 </pre>
