@@ -656,19 +656,19 @@ conformance to a specific CMAF media profile is REQUIRED.
    16. The MPEG-DASH manifest shall use SegmentTemplate in an AdaptationSet or Represention, 
        with SegmentTimeline with $Time$ based naming that can be automatically extended.
        Otherwise based on $Number$ based naming that can be automatically extended. 
-   a.  The SegmentTemplate@initiatization in the MPEG-DASH manifest 
-       shall begin with the substring $RepresentationID$ and the
-       SegmentTempate@media shall contain substrings $RepresentationID$ and
-       a following substring either $Number$ or $Time$. The BaseURL element shall be absent.
-   b.  The period AvailabilityStartTime should be set to 1-1-1970 (Unix epoch) 
-       and the period start to PT0S, if this is not the case it may be more difficult to 
-       synchronize more than one ingest source. 
-   c.  Each Representation in the MPEG-DASH manifest represents a CMAF track, 
-       each AdaptationSet in the MPD represents a CMAF SwitchingSet.
-   d.  In case an ingest source issues a POST Request with an updated MPEG-DASH 
-       manifest, identical naming conventions apply. A receiver may ignore such updated MPD 
-       send by an ingest source. (note this needs more discussion, main reasons 
-       to update are adding periods or Representations)
+       a.  The SegmentTemplate@initiatization in the MPEG-DASH manifest 
+           shall begin with the substring $RepresentationID$ and the
+           SegmentTempate@media shall contain substrings $RepresentationID$ and
+           a following substring either $Number$ or $Time$. The BaseURL element shall be absent.
+       b.  The period AvailabilityStartTime should be set to 1-1-1970 (Unix epoch) 
+           and the period start to PT0S, if this is not the case it may be more difficult to 
+           synchronize more than one ingest source. 
+       c.  Each Representation in the MPEG-DASH manifest represents a CMAF track, 
+           each AdaptationSet in the MPD represents a CMAF SwitchingSet.
+       d.  In case an ingest source issues a POST Request with an updated MPEG-DASH 
+           manifest, identical naming conventions apply. A receiver may ignore such updated MPD 
+           send by an ingest source. (note this needs more discussion, main reasons 
+           to update are adding periods or Representations)
    17. In case the ingest source loses its own input or input is absent, it
        SHALL insert filler or replacement content, and output these as valid
        CMAF segments. Examples may be black frames, silent audio, or empty timed
