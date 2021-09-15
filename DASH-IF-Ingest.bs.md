@@ -282,8 +282,8 @@ is defined in a way that it will be possible to generate DASH or HLS
 presentations based on information in the ingested stream. Figure 1 shows an
 example for Interface-1. In many cases a common implementation is possible.
 
-   Figure 1: Example with [=CMAF Ingest=]. <figure>
-   <img src="Diagrams/CMAF-Ingest.png" /> </figure>
+   Figure 1: Example with [=CMAF Ingest=]. 
+   ## <figure> <img src="Diagrams/CMAF-Ingest.png" /> </figure>
 
 The second workflow constitutes ingest to a passive delivery system such as a
 cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
@@ -291,8 +291,7 @@ cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
 delivery to an end client. Figure 2 shows an example for Interface-2.
 
    Figure 2: Example with [=DASH Ingest=].
-   <figure> <img
-   src="Diagrams/DASH-Ingest.png" /> </figure>
+   <!-- <figure> <img src="Diagrams/DASH-Ingest.png" /> </figure> -->
 
 A legacy example of a media ingest protocol for the first workflow is the ingest
 part of the Microsoft Smooth Streaming protocol [[=MS-SSTR=]]. This protocol
@@ -353,7 +352,7 @@ other factors.
    </table>
 
    Figure 3: Workflow with redundant ingest sources and receiving entities.
-   <figure> <img src="Diagrams/Redundant-Sources.png" /> </figure>
+   <!--<figure> <img src="Diagrams/Redundant-Sources.png" /> </figure>-->
 
 Finally, Figure 3 highlights another aspect that was taken into consideration
 for large-scale systems with many users. Often content owners would like to run
@@ -518,7 +517,7 @@ multi-vendor interop project, some discussions on the early development of the
 specification have been documented in [[=fmp4git=]].
 
    Figure 4: CMAF Ingest with multiple ingest sources.
-   <figure> <img src="Diagrams/Multiple-Sources.png" /> </figure>
+   <!--<figure> <img src="Diagrams/Multiple-Sources.png" /> </figure>-->
 
 Figures 5-7 detail some of the concepts and structures defined in
 [[!MPEGCMAF]]. Figure 5 shows the data format structure of the [=CMAF track=].
@@ -532,7 +531,7 @@ referred to as a [=CMAF header=] in [[!MPEGCMAF]]. The combination of
 pairs in the addressable object.
 
    Figure 5: CMAF track stream.
-   <figure> <img src="Diagrams/CMAF-Track.png" /></figure>
+   <!--<figure> <img src="Diagrams/CMAF-Track.png" /></figure>-->
 
 Figure 6 illustrates the presentation timing model, defined in [[!MPEGCMAF]]
 clause 6.6. Different bitrate tracks and/or media streams are conveyed in
@@ -557,10 +556,10 @@ time sharing an implicit timeline. A stream becoming available from a different
 source needs to be synchronized and time-aligned with other streams.
 
    Figure 6: CMAF track synchronization.
-   <figure> <img src="Diagrams/CMAF-Track-Sync.png" /></figure>
+   <!--<figure> <img src="Diagrams/CMAF-Track-Sync.png" /></figure>-->
 
    Figure 7: CMAF late binding.
-   <figure> <img src="Diagrams/Late-Binding.png" /></figure>
+   <!--<figure> <img src="Diagrams/Late-Binding.png" /></figure>-->
 
 Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
 (if needed) and an authentication step (using two-factor authentication, TLS
@@ -583,7 +582,7 @@ sending the *lmsg* brand letting the [=receiving entity=] know that the POST
 command has been concluded.
 
    Figure 8: CMAF Ingest flow.
-   <figure> <img src="Diagrams/Ingest-Flow.png" /></figure>
+   <!--<figure> <img src="Diagrams/Ingest-Flow.png" /></figure>-->
 
 ## General Protocol and Track Format Requirements ## {#interface-1-requirements}
 
@@ -1123,7 +1122,7 @@ respective splice points are as follows.
 The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
    Figure 9: Splice point conditioning.
-   <figure> <img src="Diagrams/Splice-Ingest.png" /> </figure>
+   <!-- <figure> <img src="Diagrams/Splice-Ingest.png" /> </figure> -->
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
 
@@ -1494,7 +1493,7 @@ DASH CMAF profile.
 Figure 10 shows an example where a separate packager and origin server are used.
 
    Figure 10: Example setup with CMAF Ingest and DASH/HLS Ingest.
-   <figure><img src="Diagrams/Example-1.png" /> </figure>
+   <!-- <figure><img src="Diagrams/Example-1.png" /> </figure> -->
 
 The broadcast source is used as input to the [=live encoder=]. The broadcast
 sources can be the SDI signals from a broadcast facility or MPEG-2 TS streams
@@ -1653,7 +1652,7 @@ initialization segment in case of connection failures to conform to the CMAF
 Ingest specification.
 
    Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
-   <figure> <img src="Diagrams/Example-2.png" /> </figure>
+   <!-- <figure> <img src="Diagrams/Example-2.png" /> </figure> -->
   
 # Implementations (Informative) # {#implementations}
 
@@ -1906,5 +1905,5 @@ Abstract: None
 <pre boilerplate="conformance"></pre>
 
 <pre boilerplate="logo">
- <a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png" /></a>
+ <!-- <a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png" /></a> -->
 </pre>
