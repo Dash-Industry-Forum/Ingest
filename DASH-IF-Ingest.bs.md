@@ -283,7 +283,7 @@ presentations based on information in the ingested stream. Figure 1 shows an
 example for Interface-1. In many cases a common implementation is possible.
 
    Figure 1: Example with [=CMAF Ingest=]. 
-   ## <figure> <img src="Diagrams/CMAF-Ingest.png" /> </figure>
+  <!-- <figure> <img src="Diagrams/CMAF-Ingest.png" /> </figure> -->
 
 The second workflow constitutes ingest to a passive delivery system such as a
 cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
