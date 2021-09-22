@@ -115,7 +115,7 @@ practice this would be a preferred implementation option.
 We further motivate the specification in this document supporting HTTP/1.1
 [[!RFC7230]] and [[!ISOBMFF]]. We believe that Smooth Streaming [[=MS-SSTR=]]
 and HLS have shown that HTTP usage can survive the Internet ecosystem for media
-delivery. The HTTP POST provides a push-based method for delivering the live
+delivery. The [=HTTP POST=] or [=HTTP PUT=] provides a push-based method for delivering the live
 content when it becomes available. Regarding the transport protocol, in future
 versions, alternative transport protocols could be considered advancing over
 HTTP/1.1 or TCP. We believe the proposed media format and protocol interfaces
@@ -374,7 +374,7 @@ The media ingest follows the following common requirements for both interfaces.
 
 ## General Requirements ## {#interface-1-2-general}
 
-   1. The [=ingest source=] SHALL communicate using the HTTP POST or PUT request as
+   1. The [=ingest source=] SHALL communicate using the []=HTTP POST=] or []=HTTP PUT=] as
       defined in the HTTP protocol, version 1.1 [[!RFC7230]].
 
       NOTE: This specification does not imply any functional differentiation
@@ -410,9 +410,9 @@ The media ingest follows the following common requirements for both interfaces.
       results in error, the [=ingest source=] can retry N times, after which the
       [=ingest source=] SHOULD stop and log an error. The number of retries N
       can be configurable in the [=ingest source=].
-   9. The [=ingest source=] SHOULD terminate the [=HTTP POST=] request if data
+   9. The [=ingest source=] SHOULD terminate the [=HTTP POST=] or [=HTTP PUT=] request if data
       is not being sent at a rate commensurate with the MP4 fragment duration.
-      An HTTP POST command that does not send data can prevent the
+      An [=HTTP POST=] or [=HTTP PUT=] command that does not send data can prevent the
       [=receiving entity=] from quickly disconnecting from the
       [=ingest source=] in the event of a service update.
    10. The HTTP request for sparse data SHOULD be short-lived, terminating as soon
@@ -450,7 +450,7 @@ The media ingest follows the following common requirements for both interfaces.
        (e.g., CMAF track) in a media presentation over a different TCP
        connection.
    21. The ingest source SHOULD use the chunked transfer encoding option for the
-       HTTP POST command when the content length of the request is unknown at the
+       HTTP requests when the content length of the request is unknown at the
        start of transmission or to support the low-latency use cases.
 
 ## Failure Behaviors ## {#interface-1-2-failure}
@@ -467,7 +467,7 @@ The media ingest follows the following common requirements for both interfaces.
    3. After a TCP error, the [=ingest source=] performs the following:
 
       3a. The current connection MUST be closed and a new connection MUST be
-      created for a new HTTP POST request.
+      created for a new [=HTTP POST=] or [=HTTP PUT=] request.
 
       3b. The new HTTP [=POST_URL=] MUST be the same as the initial
       [=POST_URL=] for the object to be ingested.
@@ -577,8 +577,8 @@ connection.
 
 In private datacenter deployments where nodes are not reachable from outside, a
 non-authenticated connection may also be used. The ingest source then issues an
-HTTP POST request to test that the [=receiving entity=] is listening. This POST
-may include the [=CMAF header=] or could be empty. In case the test is successful,
+[=HTTP POST=] or [=HTTP PUT=] request to test that the [=receiving entity=] is listening. 
+This request include the [=CMAF header=] or could be empty. In case the test is successful,
 it is followed by the CMAF header and fragments composing the [=CMAFstream=]. At
 the end of the session, the source may send an empty [=mfra (deprecated)=] box
 or a segment with the *lmsg* brand. Then, the
@@ -606,7 +606,7 @@ In Interface-1, the container format is based on CMAF, conforming to the track
 constraints specified in [[!MPEGCMAF]] clause 7. Unless stated otherwise, no
 conformance to a specific CMAF media profile is REQUIRED.
 
-   1. The ingest source SHALL start by an HTTP POST or PUT request with the CMAF
+   1. The ingest source SHALL start by an [=HTTP POST=] or =[HTTP PUT=] request with the CMAF
       header, or an empty request, to the POST_URL. This can help the ingest
       source quickly detect whether the [=publishing_point_URL=] is valid, and
       if there are any authentication or other conditions required.
@@ -621,7 +621,7 @@ conformance to a specific CMAF media profile is REQUIRED.
    4. The ingest source MAY use the chunked transfer encoding option of the HTTP
       POST command [[!RFC7230]] when the content length is unknown at the start
       of transmission or to support use cases that require low latency.
-   5. If the HTTP POST request terminates or times out with a TCP error, the
+   5. If the HTTP request terminates or times out with a TCP error, the
       ingest source MUST establish a new connection and follow the preceding
       requirements. Additionally, the ingest source MAY resend the segment in
       which the timeout or TCP error occurred.
@@ -740,7 +740,8 @@ correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
 [[!MPEGCMAF]] has the notion of [=CMAF track=], which are composed of
 [=CMAF fragment=] and [=CMAF chunk=]s. A fragment can be composed of one or more
 chunks. The [=media fragment=] defined in ISOBMFF predates the definition in
-CMAF. It is assumed that the ingest source uses HTTP POST to transmit CMAF
+CMAF. It is assumed that the ingest source uses [=HTTP POST=] or 
+[=HTTP PUT=] requests to transmit CMAF
 fragment(s) to the receiving entity. The following are additional requirements
 imposed to the formatting of CMAF media tracks.
 
@@ -1179,7 +1180,7 @@ When the [=ingest source=] fails:
 
    1. A new instance SHOULD be instantiated to continue the ingest for the live
       streaming session.
-   2. The new instance MUST use the same URL's for HTTP POST requests as the
+   2. The new instance MUST use the same URL's for HTTP requests as the
       failed instance for segments.
    3. The new instance's POST request MUST include the same [=CMAF header=] or
       CMAF header as the failed instance.
