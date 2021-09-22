@@ -663,31 +663,31 @@ conformance to a specific CMAF media profile is REQUIRED.
        receiving entity. 
    16. The MPEG-DASH manifest shall use SegmentTemplate in each AdaptationSet 
        (or in each contained Represention). 
-       a.  The SegmentTemplate@initiatization in the MPEG-DASH manifest 
-           shall contain a single substring $RepresentationID$ and the
-           SegmentTempate@media shall contain a single substrings $RepresentationID$ and
-           a substring either $Number$ or $Time$ (not both). 
-       b.  SegmentTemplate@media and @initialization shall be identical for each 
-           SegmentTemplate Element in the manifest.
-       c.  The BaseURL element shall be absent.
-       d.  The AvailabilityStartTime SHOULD be set to 1-1-1970 (Unix epoch) 
-           and the period @start to PT0S (if this is not the case it may be more difficult to 
-           synchronize more than one ingest source). 
-       e.  Each Representation in the MPEG-DASH manifest represents a CMAF track, 
-           each AdaptationSet in the MPD represents a CMAF SwitchingSet.
-       f.  In case an ingest source issues a POST Request with an updated MPEG-DASH 
-           manifest, identical naming conventions apply. A receiver may ignore such updated MPD 
-           send by an ingest source. 
-       g.  The MPEG-DASH manifest shall contain only a single Period Element.
+         a. The SegmentTemplate@initiatization in the MPEG-DASH manifest 
+            shall contain the single substring $RepresentationID$ and the
+            SegmentTempate@media shall contain the single substring $RepresentationID$ and
+            the substring $Number$ or $Time$ (not both). 
+         b. SegmentTemplate@media and @initialization shall be identical for each 
+            SegmentTemplate Element in the MPEG-DASH manifest.
+         c. The BaseURL element shall be absent.
+         d. The AvailabilityStartTime SHOULD be set to 1-1-1970 (Unix epoch) 
+            and the period @start to PT0S (if this is not the case it may be more difficult to 
+            synchronize more than one ingest source). 
+         e. Each Representation in the MPEG-DASH manifest represents a CMAF track, 
+            each AdaptationSet in the MPD represents a CMAF SwitchingSet.
+         f. In case an ingest source issues an HTTP Request with an updated MPEG-DASH 
+            manifest, identical naming conventions apply. A receiver may ignore such updated MPD 
+            send by an ingest source. 
+         g. The MPEG-DASH manifest shall contain only a single Period Element.
    17. The Ingest source may send an HTTP Live Streaming manifest, but its structure
-       shall be derived from the MPEG-DASH manifest described in clause 16 above. 
-
+       and naming shall be derived from or matching the MPEG-DASH manifest 
+       described in clause 16 above. In particular: 
        a.  In a master playlist, the groupings identified represent CMAF Switching sets 
-           For media playlist named X.m3u8, X shall match the name of the Representation@id.
-       b.  The segment naming in media playlists shall follow a structure that can be derived using 
-           SegmentTemplate@media as described in 16.
+           For media playlist named X.m3u8, X shall match the name of the corresponding Representation@id.
+       b.  The segment URI announced  in media playlists shall follow a structure that can be derived using 
+           the SegmentTemplate@media from the MPEG-DASH manifest.
        c.  The EXT-X-MAP URI attribute in media playlists shall follow a naming structure 
-           that can be derived using SegmentTemplate@initialization as described in 16. 
+           that can be derived using a SegmentTemplate@initialization from the MPEG-DASH manifest. 
        d.  A receiver may ignore EXT-X-DATE-RANGE tags in the manifest, 
            timed metadata shall be caried as described in the section on timed metadata
            [[#interface-1-timed-metadata]].
