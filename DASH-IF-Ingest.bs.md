@@ -169,9 +169,6 @@ The following terminology is used in the rest of this document:
 
    <dfn dfn>**connection**</dfn>: A connection setup between two hosts,
    typically the media [=ingest source=] and [=receiving entity=].
-    
-   <dfn dfn>**CMAF Ingest**</dfn>: Ingest interface defined in this
-   specification for push-based CMAF (may also include a DASH or HLS manifest).
 
    <dfn dfn>**DASH Ingest**</dfn>: Ingest interface defined in this
    specification for push-based DASH.
