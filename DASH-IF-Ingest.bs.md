@@ -1148,7 +1148,7 @@ respective splice points are as follows.
 The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
    Figure 9: Splice point conditioning.
-   <!-- <figure> <img src="Diagrams/Splice-Ingest.png" /> </figure> -->
+   <figure> <img src="Diagrams/Splice-Ingest.png" /> </figure>
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
 
