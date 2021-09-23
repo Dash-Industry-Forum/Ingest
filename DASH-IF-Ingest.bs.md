@@ -606,7 +606,7 @@ In Interface-1, the container format is based on CMAF, conforming to the track
 constraints specified in [[!MPEGCMAF]] clause 7. Unless stated otherwise, no
 conformance to a specific CMAF media profile is REQUIRED.
 
-   1. The ingest source SHALL start by an [=HTTP POST=] or =[HTTP PUT=] request with the CMAF
+   1. The ingest source SHALL start by an [=HTTP POST=] or [=HTTP PUT=] request with the CMAF
       header, or an empty request, to the POST_URL. This can help the ingest
       source quickly detect whether the [=publishing_point_URL=] is valid, and
       if there are any authentication or other conditions required.
@@ -617,7 +617,7 @@ conformance to a specific CMAF media profile is REQUIRED.
       is trivial and the Streams() keyword is used to identify CMAF tracks.
    3. The ingest source SHALL transmit one or more CMAF segments composing the
       track to the receiving entity once they become available. In this case, a
-      single POST request message body MUST contain one CMAF segment.
+      single HTTP POST or PUT request message body MUST contain one CMAF segment.
    4. The ingest source MAY use the chunked transfer encoding option of the HTTP
       POST command [[!RFC7230]] when the content length is unknown at the start
       of transmission or to support use cases that require low latency.
@@ -639,7 +639,7 @@ conformance to a specific CMAF media profile is REQUIRED.
       [=POST_URL=]. This makes it easy to detect redundant streams from
       different ingest sources. Specific naming convention of the segments and 
       paths can be derived from the MPEG-DASH manifest, SegmentTemplate@media and 
-      initialization. If not, the Streams(stream_name) keyword (deprecated) 
+      @initialization. If not, the Streams(stream_name) keyword (deprecated) 
       shall be used to signal the name of the cmaf track representation.
    10. The [=baseMediaDecodeTime=] timestamps in "tfdt" of fragments in the
        [=CMAFstream=] SHOULD arrive in increasing order for each of the
@@ -683,7 +683,7 @@ conformance to a specific CMAF media profile is REQUIRED.
        and naming shall be derived from or matching the MPEG-DASH manifest 
        described in clause 16 above. In particular: 
        a.  In a master playlist, the groupings identified represent CMAF Switching sets 
-           For media playlist named X.m3u8, X shall match the name of the corresponding Representation@id.
+           For media playlists named X.m3u8, X shall match the name of the corresponding Representation@id.
        b.  The segment URI announced  in media playlists shall follow a structure that can be derived using 
            the SegmentTemplate@media from the MPEG-DASH manifest.
        c.  The EXT-X-MAP URI attribute in media playlists shall follow a naming structure 
@@ -710,10 +710,10 @@ conformance to a specific CMAF media profile is REQUIRED.
        NOTE: According to [[!MPEGDASH]], all DASHEventMessageBox'es ("emsg")
        must have a presentation_time later as compared to the segment's earliest
        presentation time. This can make re-signaling of continuation events
-       (events that are still active) troublesome.
+       (events that are still active) troublesome (this is fixed in MPEG-DASH 5th edition).
 
        NOTE: Including DASHEventMessageBox'es ("emsg") boxes in media segments
-       may result in a loss of performance for just-in-time packaging. In this
+       may result in a loss of performance for just-in-time (re-)packaging. In this
        case, timed metadata [[#interface-1-timed-metadata]] should be
        considered.
 
@@ -729,11 +729,11 @@ conformance to a specific CMAF media profile is REQUIRED.
        and [[!ISOBMFF]] with the correct anchor and timescales. The RECOMMENDED
        timescales and anchors are provided in next sections for each track type.
        For dual-encoder synchronization, it is also RECOMMENDED to use the Unix
-       epoch or another well-known anchor point to map the DASH presentation.
+       epoch or another similar well known time anchor.
 
-In case a receiving entity cannot process a request from an ingest source
-correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
-[[#interface-1-2]] for details.
+   22. In case a receiving entity cannot process a request from an ingest source
+       correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
+       [[#interface-1-2]] for details.
 
 ## Requirements for Formatting Media Tracks ## {#interface-1-media-tracks}
 
@@ -754,7 +754,8 @@ imposed to the formatting of CMAF media tracks.
    2. The [=CMAF fragment=] durations SHOULD be constant; the duration MAY
       fluctuate to compensate for non-integer frame rates. By choosing an
       appropriate timescale (a multiple of the frame rate is recommended) this
-      issue should be avoided. Or a last fragment of a presentation.
+      issue should be avoided. A last fragment of a track may have a 
+      different duration.
    3. The [=CMAF fragment=] durations SHOULD be between approximately one and
       six seconds.
    4. Media tracks SHOULD use a timescale for video streams based on the
@@ -794,7 +795,7 @@ imposed to the formatting of CMAF media tracks.
 In live streaming, a [=CMAF presentation=] of streams corresponding to a channel
 is ingested by posting to a [=publishing_point_URL=] at the receiving entity.
 CMAF has the notion of switching sets [[!MPEGCMAF]] that map to similar
-streaming protocol concepts like adaptation set in DASH. To signal a switching
+streaming protocol concepts like Adaptation Set in DASH. To signal a switching
 set in a CMAF presentation, CMAF media tracks MUST correspond to the constraints
 defined in [[!MPEGCMAF]] clause 7.3.4.
 
@@ -871,12 +872,6 @@ and subtitle tracks.
    3. The "[=ftyp=]" box in the CMAF header for the track containing timed text,
       images, captions and subtitles MAY use signaling using CMAF profiles based
       on [[!MPEGCMAF]]:
-
-      3a. WebVTT specified in Section 11.2 of [[!MPEGCMAF]] *cwvt*
-
-      3b. TTML IMSC1 Text specified in Section 11.3.3 of [[!MPEGCMAF]] *im1t*
-
-      3c. TTML IMSC1 Image specified in Section 11.3.4 of [[!MPEGCMAF]] *im1i*
 
    4. The BitRateBox ("btrt") SHOULD be used to signal the average and maximum
       bitrate in the sample entry box, this is most relevant for bitmap or XML
@@ -1029,7 +1024,7 @@ The following are requirements and recommendations that apply to the timed
 metadata ingest of information related to events, tags, ad markers and program
 information and others:
 
-   1. Metadata SHALL be conveyed in a CMAF track, where the media handler (hdlr)
+   1. Timed Metadata SHALL be conveyed in a CMAF track, where the media handler (hdlr)
       is "meta", the track handler box is a NullMediaHeaderBox ("[=nmhd=]") as
       defined for timed metadata tracks in [[!ISOBMFF]] clause 12.3.
    2. The CMAF timed metadata track applies to the [=CMAF presentation=]
@@ -1085,7 +1080,7 @@ information and others:
 
       5h. It may be necessary to add filler samples to avoid gaps in the CMAF
       track timeline. This may be done using EventMessageEmptyBox (8 bytes) with
-      4cc code of "emeb" or "embe" defined in ISO/IEC 23001-18.
+      4cc code of "emeb" defined in ISO/IEC 23001-18.
 
       5i. If ID3 tags are carried, the DASHEventMessageBox MUST be formatted as
       defined in [[=aomid3=]].
@@ -1099,12 +1094,15 @@ information and others:
    7. Timed metadata tracks, similar to other CMAF tracks, SHOULD use a constant
       segment duration. As actual timed metadata durations may vary in practice,
       timed metadata schemes should support schemes for re-signaling all active
-      timed metadata in each segment. This way, constant duration segments
+      timed metadata in each sample. This way, constant duration segments
       (e.g., two-second segments) can still be used and metadata that is still
       active can be repeated in later segments. ISO/IEC 23001-18 has explicit 
-      support for this feature by repeating the event message instance boxes.
+      support for this feature by repeating the event message instance boxes 
+      in subsequent samples.
+   8. A change in the set of active events shall trigger a sample boundary in 
+      the timed medata track.
 
-   8. In case the timed metadata track is also signaled in the manifest, the
+   9. In case the timed metadata track is also signaled in the manifest, the
       @codecs string should be set to the 4cc code of the sample entry, e.g.,
       "urim" for URIMetaSampleEntry or "evte" for ISO/IEC 23001-18. 
       The contentType field should be set to "meta" and mimeType field to "application/mp4".
@@ -1207,24 +1205,27 @@ When the [=ingest source=] fails:
 
 In the case of more than one redundant ingest sources, synchronization between
 them can be achieved as follows. A fixed segment duration is chosen such as
-based on the fixed GoP duration, e.g., two seconds that is used by all media
-sources. So the segment duration is fixed for all tracks (not only the video
-tracks). The media sources use a fixed anchor T as a timeline origin, this
+based on the fixed GoP duration, e.g., two seconds that is used by all ingest
+sources and CMF tracks. 
+So the CMAF segment duration is fixed for all CMAF tracks (not only the video
+tracks). The CMAF tracks use a fixed anchor T as a timeline origin, this
 should be 1-1-1970 (Unix epoch) or another well-known defined time anchor. The
 segment boundaries in this case are K * segment duration (since anchor T) for an
 integer K > 0. Any media source joining or starting can compute the fragment
 boundary and produce segments with equivalent segment boundaries corresponding
 to approximately the current time by choosing K sufficiently large.
 
-It is assumed that media sources generate signals from a synchronized source and
+It is assumed that media sources generate signals from a synchronized input source and
 can use timing information from this source, e.g., MPEG-2 TS presentation time
 stamp or SDI signals to compute such timestamps for each segment. For example,
 in the case of MPEG-2 TS program clock reference (PCR) and presentation
 timestamps can be used. Based on this conversion, different media sources will
-produce segments with identical durations, timestamps and enclosing frames. By
-this conversion to a common timeline based on a common anchor (in this case the
+produce segments with identical durations, per frame timestamps and enclosing frames. 
+By this conversion to a common timeline based on a common anchor (in this case the
 Unix epoch) and fixed segment durations, ingest sources can join and leave the
-synchronized operation, enabling both synchronization and redundancy.
+synchronized operation, enabling both synchronization and redundancy. Each 
+time a source join it can compute based on the anchor, fixed segment duration
+and current Time a suitable value for K and the CMAF base media decode times.
 
 In this setup, a first ingest source can be seamlessly replaced by a redundant
 second ingest source. In case of splicing, it is important that the ingest
@@ -1302,7 +1303,11 @@ formatting will be similar as defined in Interface-1.
       a number, which is monotonically increasing with each new media object at
       the end of media object's name, separated by a non-numeric character. This
       way it is possible to retrieve this numeric suffix via a regular
-      expression.
+      expression. 
+      
+NOTE: Using DASH SegmentTemplate with @media and @intitialization and a single period 
+      can achieve this.
+   
    6. The ingest source MUST identify media objects containing initialization
       fragments by using the .init file extension.
    7. The ingest source MUST include a file extension and a MIME type for all
@@ -1532,7 +1537,7 @@ broadcast feed into the CMAF tracks. The packager receives the ingested streams
 and performs the following tasks.
 
    - It receives the CMAF tracks, grouping switching sets based on switching set
-     constraints, based on the "kind" box or hints in the URI.
+     constraints, based on the "kind" box or information in the URI or MPD.
 
    - When packaging to DASH, an adaptation set is created for each switching set
      ingested.
