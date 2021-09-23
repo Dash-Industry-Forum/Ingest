@@ -593,7 +593,7 @@ command has been concluded.
    Figure 8: CMAF Ingest flow.
    <!--<figure> <img src="Diagrams/Ingest-Flow.png" /></figure>-->
 
-## General Protocol and Track Format Requirements ## {#interface-1-requirements}
+## General Protocol, Manifest and Track Format Requirements ## {#interface-1-requirements}
 
 The ingest source transmits media content to the receiving entity using HTTP
 POST or PUT. The receiving entity listens for content at the [=publishing_point_URL=]
