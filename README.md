@@ -12,8 +12,4 @@ Most recent output from the **master** branch:
 
 ![Build status of master branch](https://dev.azure.com/dashif/Automation/_apis/build/status/Ingest?branchName=master) [Build history](https://dev.azure.com/dashif/Automation/_build?definitionId=7)
 
-Warning: there is an issue since bikeshed 1.3.3 with warnings/imgest, the compiled versions are included in this folder, 
-we expect the issue with the images to be fixed soon.
-
-
 https://github.com/RufaelDev/Ingest/blob/master/README.md 
