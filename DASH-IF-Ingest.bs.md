@@ -429,8 +429,9 @@ The media ingest follows the following common requirements for both interfaces.
        return information in the response body, such as relating to the transfer time, 
        size etc. of the last HTTP request, especially in case this request was in HTTP chunked 
        transfer mode. But no specific response format is defined at this time, but this
-       may be considered in future revisions.
-NOTE: More specific response body formatting may be defined in future revisions, input from implementors is welcome.
+       may be considered in future revisions.       
+       NOTE: More specific response body formatting may be defined in future revisions, 
+       input from implementors is welcome.
    15. The ingest source MUST support the configuration and use of Fully
        Qualified Domain Names (per RFC 8499) to identify the receiving entity.
    16. The ingest source MUST support the configuration of the path, which it
