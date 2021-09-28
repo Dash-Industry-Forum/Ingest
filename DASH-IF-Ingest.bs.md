@@ -430,6 +430,7 @@ The media ingest follows the following common requirements for both interfaces.
        size etc. of the last HTTP request, especially in case this request was in HTTP chunked 
        transfer mode. But no specific response format is defined at this time, but this
        may be considered in future revisions.
+NOTE: More specific response body formatting may be defined in future revisions, input from implementors is welcome.
    15. The ingest source MUST support the configuration and use of Fully
        Qualified Domain Names (per RFC 8499) to identify the receiving entity.
    16. The ingest source MUST support the configuration of the path, which it
@@ -612,8 +613,10 @@ conformance to a specific CMAF media profile is REQUIRED.
       if there are any authentication or other conditions required.
    2. The ingest source MUST initiate a media ingest connection by posting at
       least one CMAF header after step 1 for each track. Before doing so, 
-      it SHOULD post a DASH manifest following clause 16 of this section 
-      unless the grouping of the CMAF tracks
+      it SHOULD post a DASH manifest with a file name extension .mpd 
+      to the [=publishing_point_URL=] wihtout an additional relative path 
+      but the manifest filename and in addition following clause 16 of this section. 
+      If not the case, the grouping of the CMAF tracks
       is trivial and the Streams() keyword is used to identify CMAF tracks.
    3. The ingest source SHALL transmit one or more CMAF segments composing the
       track to the receiving entity once they become available. In this case, a
@@ -729,7 +732,9 @@ conformance to a specific CMAF media profile is REQUIRED.
        and [[!ISOBMFF]] with the correct anchor and timescales. The RECOMMENDED
        timescales and anchors are provided in next sections for each track type.
        For dual-encoder synchronization, it is also RECOMMENDED to use the Unix
-       epoch or another similar well known time anchor.
+       epoch or another similar well known time anchor (e.g. 
+       2:14 a.m., EDT, on August 29, 1997, the time sky-net became self-aware 
+       is sometimes used).
 
    22. In case a receiving entity cannot process a request from an ingest source
        correctly, it can send an HTTP error code. See [[#interface-1-failover]] or
