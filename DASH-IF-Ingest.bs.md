@@ -1,5 +1,10 @@
 # Specification: Live Media Ingest # {#ingestspec}
 
+NOTE: This updated version 1.1. of the specification, after 5 month community review 
+      several comments have been addressed. This document is currently under 
+      IOP Review in DASH-IF untill the end of october 31st. Suggestions/improvements 
+      from DASH-IF members are welcomed either technical or editorial. 
+
 ## Abstract ## {#abstract}
 
 Two closely related protocol interfaces are defined: CMAF Ingest (Interface-1)
