@@ -1,9 +1,4 @@
-# Specification: Live Media Ingest # {#ingestspec}
-
-NOTE: This updated version 1.1. of the specification, after 5 month community review 
-      several comments have been addressed. This document is currently under 
-      IOP Review in DASH-IF untill the end of october 31st. Suggestions/improvements 
-      from DASH-IF members are welcomed either technical or editorial. 
+# Specification: Live Media Ingest # {#ingestspec} 
 
 ## Abstract ## {#abstract}
 
@@ -14,7 +9,8 @@ an ingest source to a receiving entity. Smart implementations can implement
 and support both at the same time. These interfaces support carriage of
 audiovisual media, timed metadata and timed text. Examples of workflows using
 these interfaces are provided. In addition, guidelines for synchronization of
-multiple ingest sources, redundancy and failover are presented.
+multiple ingest sources, redundancy and failover are presented. The current 
+version of the protocol is 1.1.
 
 ## Copyright Notice and Disclaimer ## {#copyrights}
 
@@ -118,15 +114,7 @@ practice this would be a preferred implementation option.
 
 [[#workflows]] provides more background and motivation for the two interfaces.
 We further motivate the specification in this document supporting HTTP/1.1
-[[!RFC7230]] and [[!ISOBMFF]]. We believe that Smooth Streaming [[=MS-SSTR=]]
-and HLS have shown that HTTP usage can survive the Internet ecosystem for media
-delivery. The [=HTTP POST=] or [=HTTP PUT=] provides a push-based method for delivering the live
-content when it becomes available. Regarding the transport protocol, in future
-versions, alternative transport protocols could be considered advancing over
-HTTP/1.1 or TCP. We believe the proposed media format and protocol interfaces
-will provide the same benefits with other transport protocols. Our view is that
-for current and near future deployments, using [[!RFC7230]] is still a good
-approach.
+[[!RFC7230]] and [[!ISOBMFF]]. 
 
 The document is structured as follows: Section 3 presents the conventions and
 terminology used throughout this document. Section 4 presents the use cases and
@@ -167,7 +155,7 @@ The following terminology is used in the rest of this document:
    receiving entity. Due to error control behavior such as retransmission of
    CMAF fragments and headers, a CMAFstream may not fully conform to a CMAF
    track file. The receiving entity can filter out retransmitted fragments and
-   headers and restore a valid CMAF track file from the CMAFstream.
+   headers and restore a valid CMAF track from the CMAFstream.
 
    <dfn dfn>**CMAF track**</dfn>: [=CMAF media object=] defined in
    [[!MPEGCMAF]] clause 7.3.2.2.
@@ -246,7 +234,7 @@ The following terminology is used in the rest of this document:
    <dfn dfn>**TCP**</dfn>: Transmission Control Protocol (TCP) as specified in  
    [[!RFC793]].
 
-   <dfn dfn>**baseMediaDecodeTime**</dfn>: Decode time of the first sample as
+   <dfn dfn>**baseMediaDecodeTime**</dfn>: Decode time of the first sample in a movie fragment as
    signaled in the "[=tfdt=]" box.
 
    <dfn dfn>**elng**</dfn>: The ExtendedLanguageTag box ("elng") as defined in
@@ -266,7 +254,7 @@ The following terminology is used in the rest of this document:
    (these are samples that require no prior or other samples for decoding).  
  
    <dfn dfn>**moof**</dfn>: The MovieFragmentBox ("moof") as defined in
-   [[!ISOBMFF]] defines the index information of samples in a fragment.
+   [[!ISOBMFF]].
 
    <dfn dfn>**nmhd**</dfn>: The NullMediaHeaderBox ("nmhd") as defined in
    [[!ISOBMFF]] signals a track for which no specific media header is defined.
@@ -277,8 +265,8 @@ The following terminology is used in the rest of this document:
    movie fragments.
 
    <dfn dfn>**tfdt**</dfn>: The TrackFragmentBaseMediaDecodeTimeBox ("tfdt")  
-   defined in [[!ISOBMFF]] signals the decode time of the media  
-   fragment signaled in the "moof" box.
+   defined in [[!ISOBMFF]] signals the decode time of the first sample in the 
+   movie fragment.
 
 # Media Ingest Workflows and Interfaces (Informative) # {#workflows}
 
@@ -379,7 +367,7 @@ The media ingest follows the following common requirements for both interfaces.
 
 ## General Requirements ## {#interface-1-2-general}
 
-   1. The [=ingest source=] SHALL communicate using the []=HTTP POST=] or []=HTTP PUT=] as
+   1. The [=ingest source=] SHALL communicate using the [=HTTP POST=] or [=HTTP PUT=] as
       defined in the HTTP protocol, version 1.1 [[!RFC7230]].
 
       NOTE: This specification does not imply any functional differentiation
@@ -523,7 +511,7 @@ media to an archive, as the combination of CMAF header and CMAF fragments will
 result in a valid archived CMAF track file when an ingest is stored on disk by
 the receiving entity.
 
-[=CMAF Ingest=] advances over the ingest part of the Smooth Streaming's ingest
+[=CMAF Ingest=] improves over Smooth Streaming's ingest
 protocol [[=MS-SSTR=]] by only using standardized media container formats and
 boxes based on [[!ISOBMFF]] and [[!MPEGCMAF]] instead of specific UUID boxes.
 
@@ -620,7 +608,7 @@ conformance to a specific CMAF media profile is REQUIRED.
    2. The ingest source MUST initiate a media ingest connection by posting at
       least one CMAF header after step 1 for each track. Before doing so, 
       it SHOULD post a DASH manifest with a file name extension .mpd 
-      to the [=publishing_point_URL=] wihtout an additional relative path 
+      to the [=publishing_point_URL=] without an additional relative path 
       but the manifest filename and in addition following clause 16 of this section. 
       If not the case, the grouping of the CMAF tracks
       is trivial and the Streams() keyword is used to identify CMAF tracks.
@@ -676,18 +664,20 @@ conformance to a specific CMAF media profile is REQUIRED.
             shall contain the single substring $RepresentationID$ and the
             SegmentTempate@media shall contain the single substring $RepresentationID$ and
             the substring $Number$ or $Time$ (not both). 
-         b. SegmentTemplate@media and @initialization shall be identical for each 
+         b. SegmentTemplate@media shall be identical for each 
             SegmentTemplate Element in the MPEG-DASH manifest.
-         c. The BaseURL element shall be absent.
-         d. The AvailabilityStartTime SHOULD be set to 1-1-1970 (Unix epoch) 
+         c. SegmentTemplate@initialization shall be identical for each 
+            SegmentTemplate Element in the MPEG-DASH manifest.
+         d. The BaseURL element shall be absent.
+         e. The AvailabilityStartTime SHOULD be set to 1-1-1970 (Unix epoch) 
             and the period @start to PT0S (if this is not the case it may be more difficult to 
             synchronize more than one ingest source). 
-         e. Each Representation in the MPEG-DASH manifest represents a CMAF track, 
+         f. Each Representation in the MPEG-DASH manifest represents a CMAF track, 
             each AdaptationSet in the MPD represents a CMAF SwitchingSet.
-         f. In case an ingest source issues an HTTP Request with an updated MPEG-DASH 
+         g. In case an ingest source issues an HTTP Request with an updated MPEG-DASH 
             manifest, identical naming conventions apply. A receiver may ignore such updated MPD 
             send by an ingest source. 
-         g. The MPEG-DASH manifest shall contain only a single Period Element.
+         h. The MPEG-DASH manifest shall contain a single Period Element.
    17. The Ingest source may send an HTTP Live Streaming manifest, but its structure
        and naming shall be derived from or matching the MPEG-DASH manifest 
        described in clause 16 above. In particular: 
@@ -823,7 +813,8 @@ mean the following steps could be implemented by the live ingest source.
       [=POST_URL=] using the Switching() keyword. In this case, a CMAF segment
       is sent from the live ingest source as POST chunk.cmfv
       POST_URL/Switching([=switching set ID=])/Streams(stream_id) (deprecated not 
-      commonly supported).
+      commonly supported). This option is only recommended when Streams() keyword
+      is used and the option to signal switchingsets in the MPD is not used.
 
    3. The live ingest source MAY add a "kind" box in the "udta" box in each
       track to signal the switching set it belongs to. The schemeURI of this
@@ -848,7 +839,7 @@ mean the following steps could be implemented by the live ingest source.
          <td>Mandatory</td>
       </tr>
       <tr>
-         <td>Signaling using [=switching set ID=] in the [=POST_URL=] using Switching() keyword</td>
+         <td>Signaling using [=switching set ID=] in the [=POST_URL=] using Switching() keyword (only when not MPD and Streams() is used)</td>
          <td>Optional</td>
       </tr>
       <tr>
@@ -1166,7 +1157,7 @@ The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
       SAP 1 or SAP 2 (stream access point) at the splice point.
    2. Option 2 (splice conditioned encoding): A SAP 1 or SAP 2 stream access
       point at the frame at the boundary.
-   3. Option 3 (splice point signaling): Specific content conditioning at the
+   3. Option 3 (splice point signaling): No specific content conditioning at the
       splice point.
 
 This specification requires option 1 or 2 to be applied. Option 2 is required
@@ -1241,6 +1232,9 @@ and current Time a suitable value for K and the CMAF base media decode times.
 In this setup, a first ingest source can be seamlessly replaced by a redundant
 second ingest source. In case of splicing, it is important that the ingest
 source inserts an IDR frame but not a segment or fragment boundary.
+
+NOTE: In a next revisoin more specific examples of the constraint manifest/m3u8 
+      for CMAF ingest will be included in a new section.
 
 # Interface-2: DASH and HLS Ingest # {#interface-2}
 
@@ -1382,7 +1376,7 @@ container format structure.
          <td>video/mp4</td>
       </tr>
       <tr>
-         <td>.header[[!ISOBMFF]]</td>
+         <td>.header [[!ISOBMFF]]</td>
          <td>video/mp4</td>
       </tr>
       <tr>
