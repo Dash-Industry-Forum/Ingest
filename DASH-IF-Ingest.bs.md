@@ -663,7 +663,10 @@ conformance to a specific CMAF media profile is REQUIRED.
          a. The SegmentTemplate@initiatization in the MPEG-DASH manifest 
             shall contain the single substring $RepresentationID$ and the
             SegmentTempate@media shall contain the single substring $RepresentationID$ and
-            the substring $Number$ or $Time$ (not both). 
+            the substring $Number$ or $Time$ (not both). For best interoperability, a separator 
+            character should be between representation substrings that is not an integer, 
+            this is especially important in case the $RepresentationID$ substitution 
+            ends with a number character. 
          b. SegmentTemplate@media shall be identical for each 
             SegmentTemplate Element in the MPEG-DASH manifest.
          c. SegmentTemplate@initialization shall be identical for each 
