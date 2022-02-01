@@ -1236,9 +1236,6 @@ In this setup, a first ingest source can be seamlessly replaced by a redundant
 second ingest source. In case of splicing, it is important that the ingest
 source inserts an IDR frame but not a segment or fragment boundary.
 
-NOTE: In a next revisoin more specific examples of the constraint manifest/m3u8 
-      for CMAF ingest will be included in a new section.
-
 # Interface-2: DASH and HLS Ingest # {#interface-2}
 
 Interface-2 defines the protocol specific behavior required to ingest a
