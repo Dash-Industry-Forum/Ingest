@@ -659,7 +659,7 @@ conformance to a specific CMAF media profile is REQUIRED.
        or segment. Such signaling may also be inserted in a later stage by the
        receiving entity. 
    16. The MPEG-DASH manifest shall use SegmentTemplate in each AdaptationSet 
-       (or in each contained Represention). 
+       (or in each contained Representation). 
          a. The SegmentTemplate@initiatization in the MPEG-DASH manifest 
             shall contain the single substring $RepresentationID$ and the
             SegmentTempate@media shall contain the single substring $RepresentationID$ and
