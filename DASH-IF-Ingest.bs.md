@@ -672,7 +672,7 @@ conformance to a specific CMAF media profile is REQUIRED.
          -  c. SegmentTemplate@initialization shall be identical for each 
             SegmentTemplate Element in the MPEG-DASH manifest.
          -  d. The BaseURL element shall be absent.
-         -  e. The AvailabilityStartTime SHOULD be set to 1-1-1970 (Unix epoch) 
+         -  e. The AvailabilityStartTime SHOULD be set to 1970-01-01T00:00:00Z (Unix epoch) 
             and the period @start to PT0S (if this is not the case it may be more difficult to 
             synchronize more than one ingest source). 
          -  f. Each Representation in the MPEG-DASH manifest represents a CMAF track, 
