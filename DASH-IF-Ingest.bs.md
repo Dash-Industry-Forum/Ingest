@@ -9,8 +9,9 @@ an ingest source to a receiving entity. Smart implementations can implement
 and support both at the same time. These interfaces support carriage of
 audiovisual media, timed metadata and timed text. Examples of workflows using
 these interfaces are provided. In addition, guidelines for synchronization of
-multiple ingest sources, redundancy and failover are presented. The current 
-version of the protocol is 1.1.
+multiple ingest sources, redundancy and failover are presented. 
+
+The current version of the protocol is 1.2.
 
 ## Copyright Notice and Disclaimer ## {#copyrights}
 
@@ -114,7 +115,7 @@ practice this would be a preferred implementation option.
 
 [[#workflows]] provides more background and motivation for the two interfaces.
 We further motivate the specification in this document supporting HTTP/1.1
-[[!RFC7230]] and [[!ISOBMFF]]. 
+[[!rfc9112]] and [[!ISOBMFF]]. 
 
 The document is structured as follows: Section 3 presents the conventions and
 terminology used throughout this document. Section 4 presents the use cases and
@@ -280,7 +281,7 @@ presentations based on information in the ingested stream. Figure 1 shows an
 example for Interface-1. In many cases a common implementation is possible.
 
    Figure 1: Example with [=CMAF Ingest=]. 
-   <figure> <img src="Diagrams/CMAF-Ingest.png" /> </figure> 
+   <figure> <img src="Diagrams/CMAF-Ingest.png"> </figure> 
 
 The second workflow constitutes ingest to a passive delivery system such as a
 cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
@@ -288,7 +289,7 @@ cloud storage or a CDN. In this case, Interface-2 ([=DASH Ingest=] or
 delivery to an end client. Figure 2 shows an example for Interface-2.
 
    Figure 2: Example with [=DASH Ingest=].
-   <figure> <img src="Diagrams/DASH-Ingest.png" /> </figure> 
+   <figure> <img src="Diagrams/DASH-Ingest.png"> </figure> 
 
 A legacy example of a media ingest protocol for the first workflow is the ingest
 part of the Microsoft Smooth Streaming protocol [[=MS-SSTR=]]. Interface-1 ([=CMAF Ingest=], 
@@ -336,7 +337,7 @@ other factors.
    </table>
 
    Figure 3: Workflow with redundant ingest sources and receiving entities.
-   <figure> <img src="Diagrams/Redundant-Sources.png" /> </figure>
+   <figure> <img src="Diagrams/Redundant-Sources.png"> </figure>
 
 Finally, Figure 3 highlights another aspect that was taken into consideration
 for large-scale systems with many users. Often content owners would like to run
@@ -368,7 +369,7 @@ The media ingest follows the following common requirements for both interfaces.
 ## General Requirements ## {#interface-1-2-general}
 
    1. The [=ingest source=] SHALL communicate using the [=HTTP POST=] or [=HTTP PUT=] as
-      defined in the HTTP protocol, version 1.1 [[!RFC7230]].
+      defined in the HTTP protocol, version 1.1 [[!rfc9112]].
 
       NOTE: This specification does not imply any functional differentiation
       between a POST and PUT command. Either may be used to transfer content to
@@ -377,7 +378,7 @@ The media ingest follows the following common requirements for both interfaces.
 
    2. The [=ingest source=] SHOULD use HTTP over TLS, if TLS is used it SHALL
       support at least TLS version 1.2, a higher version may also be supported
-      additionally [[!RFC2818]].
+      additionally [[!rfc9110]].
    3. The [=ingest source=] SHOULD use a domain name system for resolving
       hostnames to IP addresses such as DNS [[!RFC1035]] or any other system
       that is in place. If this is not the case, the domain name<->IP address
@@ -387,7 +388,7 @@ The media ingest follows the following common requirements for both interfaces.
       This enables better resilience to IP address changes in large-scale
       deployments where the IP address of the media processing entities may
       change frequently.
-   5. In case HTTP over TLS [[!RFC2818]] is used, at least one of the basic
+   5. In case HTTP over TLS [[!rfc9110]] is used, at least one of the basic
       authentication HTTP AUTH [[!RFC7617]], TLS client certificates or HTTP
       Digest authentication [[!RFC7616]] MUST be supported.
    6. Mutual authentication SHALL be supported. TLS client certificates SHALL
@@ -494,6 +495,28 @@ The media ingest follows the following common requirements for both interfaces.
    6. The [=ingest source=] SHOULD support the handling of HTTP 30x redirect
       responses from the receiving entity.
 
+## Identifier ## {#interface-1-2-identifier}
+
+The interfaces described in this document (clauses [[#interface-1]] and [[#interface-2]]) are identified with the following identifier:
+
+   <table class="def">
+      <tr>
+         <th>Identifer</th>
+         <th>Reference</th>
+         <th>Sections</th>
+         <th>Comments</th>
+      </tr>
+      <tr>
+         <td>http://dashif.org/ingest/v1.2</td>
+         <td>http://dashif.org/ingest/v1.2</td>
+         <td>Clause [[#interface-1]] and [[#interface-2]]</td>
+         <td>Conforming to the requirements of this document</td>
+      </tr>
+   </table>
+
+The above identifier may be used by an entity to signal the support of interfaces defined in clause [[#interface-1]] and [[#interface-2]].
+
+
 # Interface-1: CMAF Ingest # {#interface-1}
 
 This section describes the protocol behavior specific to Interface-1. Operation
@@ -521,7 +544,7 @@ will make it easier to adopt such technologies.
 Some discussions on the early development of the specification have been documented in [[=fmp4git=]].
 
    Figure 4: CMAF Ingest with multiple ingest sources.
-   <figure> <img src="Diagrams/Multiple-Sources.png" /> </figure>
+   <figure> <img src="Diagrams/Multiple-Sources.png"> </figure>
 
 Figures 5-7 detail some of the concepts and structures defined in
 [[!MPEGCMAF]]. Figure 5 shows the data format structure of the [=CMAF track=].
@@ -535,7 +558,7 @@ referred to as a [=CMAF header=] in [[!MPEGCMAF]]. The combination of
 pairs in the addressable object.
 
    Figure 5: CMAF track stream.
-   <figure> <img src="Diagrams/CMAF-Track.png" /></figure>
+   <figure> <img src="Diagrams/CMAF-Track.png"></figure>
 
 Figure 6 illustrates the presentation timing model, defined in [[!MPEGCMAF]]
 clause 6.6. Different bit-rate tracks and/or media streams are conveyed in
@@ -560,10 +583,10 @@ time sharing an implicit timeline. A stream becoming available from a different
 source needs to be synchronized and time-aligned with other streams.
 
    Figure 6: CMAF track synchronization.
-   <figure> <img src="Diagrams/CMAF-Track-Sync.png" /></figure>
+   <figure> <img src="Diagrams/CMAF-Track-Sync.png"></figure>
 
    Figure 7: CMAF late binding.
-   <figure> <img src="Diagrams/Late-Binding.png" /></figure>
+   <figure> <img src="Diagrams/Late-Binding.png"></figure>
 
 Figure 8 shows the flow diagram of the protocol. It starts with a DNS resolution
 (if needed) and an authentication step (using two-factor authentication, TLS
@@ -581,12 +604,12 @@ or a segment with the *lmsg* brand. Then, the
 packet.
 
 NOTE: If the HTTP POST is using the chunked transfer encoding option, the
-[=ingest source=] sends a zero-length terminating chunk per [[!RFC7230]] after
+[=ingest source=] sends a zero-length terminating chunk per [[!rfc9112]] after
 sending the *lmsg* brand letting the [=receiving entity=] know that the POST
 command has been concluded.
 
    Figure 8: CMAF Ingest flow.
-   <figure> <img src="Diagrams/Ingest-Flow.png" /></figure>
+   <figure> <img src="Diagrams/Ingest-Flow.png"></figure>
 
 ## General Protocol, Manifest and Track Format Requirements ## {#interface-1-requirements}
 
@@ -616,7 +639,7 @@ conformance to a specific CMAF media profile is REQUIRED.
       track to the receiving entity once they become available. In this case, a
       single HTTP POST or PUT request message body MUST contain one CMAF segment.
    4. The ingest source MAY use the chunked transfer encoding option of the HTTP
-      POST command [[!RFC7230]] when the content length is unknown at the start
+      POST command [[!rfc9112]] when the content length is unknown at the start
       of transmission or to support use cases that require low latency.
    5. If the HTTP request terminates or times out with a TCP error, the
       ingest source MUST establish a new connection and follow the preceding
@@ -1151,7 +1174,7 @@ respective splice points are as follows.
 The conditioning follows [[=DASH-IFad=]] shown in Figure 9:
 
    Figure 9: Splice point conditioning
-   <figure> <img src="Images/Splice-Ingest.png" /> </figure>
+   <figure> <img src="Images/Splice-Ingest.png"> </figure>
 
 
 The splice point conditioning in [[=DASH-IFad=]] are defined as follows:
@@ -1235,6 +1258,27 @@ and current Time a suitable value for K and the CMAF base media decode times.
 In this setup, a first ingest source can be seamlessly replaced by a redundant
 second ingest source. In case of splicing, it is important that the ingest
 source inserts an IDR frame but not a segment or fragment boundary.
+
+## Identifier ## {#interface-1-identifier}
+
+The interface described in this clause is identified with the following identifier:
+
+   <table class="def">
+      <tr>
+         <th>Identifer</th>
+         <th>Reference</th>
+         <th>Sections</th>
+         <th>Comments</th>
+      </tr>
+      <tr>
+         <td>http://dashif.org/ingest/v1.2/interface-1</td>
+         <td>http://dashif.org/ingest/v1.2</td>
+         <td>Clause [[#interface-1]]</td>
+         <td>Conforming to the requirements of clause [[#interface-1]]</td>
+      </tr>
+   </table>
+
+The above identifier may be used by an entity to signal the support of the interface defined in clause [[#interface-1]].
 
 # Interface-2: DASH and HLS Ingest # {#interface-2}
 
@@ -1493,7 +1537,7 @@ In this section, we provide some example deployments for live streaming.
 Figure 10 shows an example where a separate packager and origin server are used.
 
    Figure 10: Example setup with CMAF Ingest and DASH/HLS Ingest.
-    <figure><img src="Diagrams/Example-1.png" /> </figure> 
+    <figure><img src="Diagrams/Example-1.png"> </figure> 
 
 The broadcast source is used as input to the [=live encoder=]. The broadcast
 sources can be the SDI signals from a broadcast facility or MPEG-2 TS streams
@@ -1652,7 +1696,28 @@ initialization segment in case of connection failures to conform to the CMAF
 Ingest specification.
 
    Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
-   <figure> <img src="Diagrams/Example-2.png" /> </figure> 
+   <figure> <img src="Diagrams/Example-2.png"> </figure>
+
+## Identifier ## {#interface-2-identifier}
+
+The interface described in this clause is identified with the following identifier:
+
+   <table class="def">
+      <tr>
+         <th>Identifer</th>
+         <th>Reference</th>
+         <th>Sections</th>
+         <th>Comments</th>
+      </tr>
+      <tr>
+         <td>http://dashif.org/ingest/v1.2/interface-2</td>
+         <td>http://dashif.org/ingest/v1.2</td>
+         <td>Clause [[#interface-2]]</td>
+         <td>Conforming to the requirements of clause [[#interface-2]]</td>
+      </tr>
+   </table>
+
+The above identifier may be used by an entity to signal the support of the interface defined in clause [[#interface-2]].
   
 # Implementations (Informative) # {#implementations}
 
@@ -1846,10 +1911,18 @@ Editorial updates completed:
    8. Made text referring to CMAF less verbose
    9. Moved some of the common requirements of Interface 2 to general 1-2 requirements
 
+## Version 1.2 ## {#version-1-2}
+
+Technical updates completed:
+
+   1. Added an identifier for the protocols
+   2. Added an interface identifier for both interfaces
+ 
+
 # Acknowledgements # {#contributors}
 
 We thank the contributors from the following companies for their comments and
-support: Huawei, Akamai, BBC R&D, CenturyLink, Microsoft, Unified Streaming,
+support: Huawei, Akamai, BBC, CenturyLink, Microsoft, Unified Streaming,
 Facebook, Hulu, Comcast, ITV, Qualcomm, Tencent, Samsung, MediaExcel, Harmonic,
 Sony, Arris, Bitmovin, ATEME, EZDRM, DSR, Broadpeak and AWS Elemental.
 
@@ -1895,7 +1968,6 @@ Repository: https://github.com/Dash-Industry-Forum/Ingest GitHub
 Editor: DASH-IF Ingest TF
 
 Default Highlight: text
-<!-- Enabling line numbers breaks code blocks in PDF! (2018-10-02) -->
 Line Numbers: off
 Markup Shorthands: markdown yes
 Boilerplate: copyright off, abstract off
@@ -1910,5 +1982,5 @@ Image Auto Size: false
 <pre boilerplate="conformance"></pre>
 
 <pre boilerplate="logo">
- <!-- <a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png" /></a> -->
+ <!-- <a href="https://dashif.org/"><img src="Diagrams/DASH-IF.png"></a> -->
 </pre>
