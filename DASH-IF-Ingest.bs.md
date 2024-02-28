@@ -1528,6 +1528,27 @@ result in a stream manifest discontinuity per [[!RFC8216]].
       transport error. A common approach is to use (epoch time)/(segment
       duration) as the object name.
 
+## Identifier ## {#interface-2-identifier}
+
+The interface described in this clause is identified with the following identifier:
+
+   <table class="def">
+      <tr>
+         <th>Identifer</th>
+         <th>Reference</th>
+         <th>Sections</th>
+         <th>Comments</th>
+      </tr>
+      <tr>
+         <td>http://dashif.org/ingest/v1.2/interface-2</td>
+         <td>http://dashif.org/ingest/v1.2</td>
+         <td>Clause [[#interface-2]]</td>
+         <td>Conforming to the requirements of clause [[#interface-2]]</td>
+      </tr>
+   </table>
+
+The above identifier may be used by an entity to signal the support of the interface defined in clause [[#interface-2]].
+
 # Examples (Informative) # {#examples}
 
 In this section, we provide some example deployments for live streaming.
@@ -1698,26 +1719,6 @@ Ingest specification.
    Figure 11: DASH-IF/DVB reference live chunked CMAF workflow.
    <figure> <img src="Diagrams/Example-2.png"> </figure>
 
-## Identifier ## {#interface-2-identifier}
-
-The interface described in this clause is identified with the following identifier:
-
-   <table class="def">
-      <tr>
-         <th>Identifer</th>
-         <th>Reference</th>
-         <th>Sections</th>
-         <th>Comments</th>
-      </tr>
-      <tr>
-         <td>http://dashif.org/ingest/v1.2/interface-2</td>
-         <td>http://dashif.org/ingest/v1.2</td>
-         <td>Clause [[#interface-2]]</td>
-         <td>Conforming to the requirements of clause [[#interface-2]]</td>
-      </tr>
-   </table>
-
-The above identifier may be used by an entity to signal the support of the interface defined in clause [[#interface-2]].
   
 # Implementations (Informative) # {#implementations}
 
