@@ -1973,7 +1973,8 @@ Line Numbers: off
 Markup Shorthands: markdown yes
 Boilerplate: copyright off, abstract off
 Abstract: None
-Image Auto Size: false 
+Image Auto Size: false
+Date: 2024-02-28
 </pre>
 
 <!-- Example of custom bibliography entries. Prefer adding your document to SpecRef over maintaining a custom definition. -->
