@@ -816,6 +816,21 @@ imposed to the formatting of CMAF media tracks.
        urn:mpeg:dash:role:2011 and a value containing a Role as defined in
        [[!MPEGDASH]]. In case this signaling does not occur, the processing
        entity can define the role for the track independently.
+   12. Track labels SHOULD be signaled in the ingest by using a "labl" box in
+       UserDataBox ("udta"). Labels provide the ability to annotate data
+       structures in an [[!ISOBMFF]] file to provide a description of the context
+       of the entity to which the label is assigned. Such labels may, for
+       example, be used by playback clients to provide a selection choice to
+       the user. Multiple "labl" boxes MAY be present on a single track to
+       annotate the entity to a multilingual audience. In case no "labl" box
+       is signaled, the receiving entity MAY derive a label from other
+       available track metadata, or the output label field remains unset.
+
+NOTE: A receiving entity generating an HLS presentation MAY derive the "NAME"
+attribute of an "EXT-X-MEDIA" tag from the "labl" box content. For localized
+names (e.g. labels in different languages) multiple "labl" boxes need to be used as well as a single group label.
+In this case the group label will be set as the "NAME" attribute in HLS, and
+the other labels will be included in a localization dictionary.
 
 ## Requirements for Signaling Switching Sets ## {#interface-1-switchingsets}
 
@@ -1776,7 +1791,7 @@ TARGET_LATENCY="3.5"
 
 if [ "$SERVER" == "" -o "$PORT" == "" ]
 then
-    echo "Usage: $0 <SERVER> <PORT> [<FFMPEG>]"
+    echo "Usage: $0 &lt;SERVER&gt; &lt;PORT&gt; [&lt;FFMPEG&gt;]"
     exit
 else
     if [ "$FF" == "" ]
@@ -1821,7 +1836,7 @@ ${FF} \
 -color_primaries ${COLOR} -color_trc ${COLOR} -colorspace ${COLOR} \
 -f dash \
 ${HTTP_OPTS} \
-${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd 
+${PROTO}://${SERVER}:${PORT}/${ID}/${ID}.mpd
 
 </code> </pre>
 
@@ -1836,7 +1851,7 @@ on-the-fly generation of avail cues based on SCTE-35.
 
 Options available when using fmp4 tools:
 <pre><code>
-Usage: fmp4ingest [options] <input_files>
+Usage: fmp4ingest [options] &lt;input_files&gt;
  [-u url]                       Publishing Point URL
  [-r, --realtime]               Enable realtime mode
  [-l, --loop]                   Enable looping arg1 + 1 times
@@ -1853,7 +1868,7 @@ Usage: fmp4ingest [options] <input_files>
  [--sslcert]                    TLS 1.2 client certificate
  [--sslkey]                     TLS private Key
  [--sslkeypass]                 passphrase
- <input_files>                  CMAF files to ingest (.cmf[atvm])
+ &lt;input_files&gt;                  CMAF files to ingest (.cmf[atvm])
 </code></pre>
 
 Example command line using fmp4 tools:
