@@ -1971,7 +1971,7 @@ https://github.com/unifiedstreaming/live-demo-cmaf/blob/master/ffmpeg/entrypoint
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 <pre class="metadata">
-Revision: 1.0
+Revision: 1.1
 
 Title: DASH-IF Live Media Ingest Protocol
 Status: iso/TS
@@ -1989,7 +1989,7 @@ Markup Shorthands: markdown yes
 Boilerplate: copyright off, abstract off
 Abstract: None
 Image Auto Size: false
-Date: 2024-02-28
+Date: 2026-09-01
 </pre>
 
 <!-- Example of custom bibliography entries. Prefer adding your document to SpecRef over maintaining a custom definition. -->
