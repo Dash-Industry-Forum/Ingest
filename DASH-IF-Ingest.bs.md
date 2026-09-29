@@ -1933,7 +1933,12 @@ Technical updates completed:
 
    1. Added an identifier for the protocols
    2. Added an interface identifier for both interfaces
- 
+
+ ## Version 1.3 ## {#version-1-3}
+
+Technical updates completed:
+
+   1. Added recommended use of label box 
 
 # Acknowledgements # {#contributors}
 
@@ -1971,7 +1976,7 @@ https://github.com/unifiedstreaming/live-demo-cmaf/blob/master/ffmpeg/entrypoint
 
 <!-- Document metadata follows. The below sections are used by the document compiler and are not directly visible. -->
 <pre class="metadata">
-Revision: 1.1
+Revision: 1.3
 
 Title: DASH-IF Live Media Ingest Protocol
 Status: iso/TS
